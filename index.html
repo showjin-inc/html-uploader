@@ -552,7 +552,7 @@ function renderList(list) {
     return `<div class="hi${isXp?' xp':''}">
       <div class="hi-top">
         <span class="bpill ${r.brand}">${bn}</span>
-        <span class="hi-title" title="${esc(r.title)}">${esc(r.title)}</span>
+        <span class="hi-title" data-raw-title="${r.title.replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"></span>
         ${xb}
       </div>
       <div class="hi-meta">
