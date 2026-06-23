@@ -1,0 +1,60 @@
+name: Delete HTML File
+
+on:
+  repository_dispatch:
+    types: [delete-file]
+
+permissions:
+  contents: write
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Delete file and update metadata
+        run: |
+          python3 - <<'PYEOF'
+          import json, os
+
+          record_id = os.environ["RECORD_ID"]
+          meta_path = "_metadata/history.json"
+
+          if not os.path.exists(meta_path):
+              print("No metadata found")
+              exit(0)
+
+          with open(meta_path) as f:
+              data = json.load(f)
+
+          target = next((r for r in data if r["id"] == record_id), None)
+          if target:
+              fp = target.get("filePath", "")
+              if fp and os.path.exists(fp):
+                  os.remove(fp)
+                  print(f"Deleted file: {fp}")
+              else:
+                  print(f"File not found: {fp}")
+          else:
+              print(f"Record not found: {record_id}")
+
+          data = [r for r in data if r["id"] != record_id]
+
+          with open(meta_path, "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+
+          print(f"Remaining records: {len(data)}")
+          PYEOF
+        env:
+          RECORD_ID: ${{ github.event.client_payload.record_id }}
+
+      - name: Commit and push
+        run: |
+          git config user.name "uploader-bot"
+          git config user.email "bot@showjin.jp"
+          git add -A
+          git diff --staged --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "Delete: ${{ github.event.client_payload.record_id }}"
+          git push
