@@ -1,0 +1,71 @@
+name: Upload HTML File
+
+on:
+  repository_dispatch:
+    types: [upload-file]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Write HTML file
+        run: |
+          FILEPATH="${{ github.event.client_payload.filepath }}"
+          mkdir -p "$(dirname "$FILEPATH")"
+          echo "${{ github.event.client_payload.content }}" | base64 -d > "$FILEPATH"
+
+      - name: Update metadata
+        run: |
+          python3 - <<'PYEOF'
+          import json, os
+          from datetime import date
+
+          meta_path = "_metadata/history.json"
+          os.makedirs("_metadata", exist_ok=True)
+
+          if os.path.exists(meta_path):
+              with open(meta_path) as f:
+                  data = json.load(f)
+          else:
+              data = []
+
+          today = date.today().isoformat()
+
+          # 期限切れファイルを削除
+          for r in data:
+              if r.get("expiresAt") and r["expiresAt"] < today:
+                  fp = r.get("filePath", "")
+                  if fp and os.path.exists(fp):
+                      os.remove(fp)
+
+          # 期限切れレコードを除外
+          data = [r for r in data if not r.get("expiresAt") or r["expiresAt"] >= today]
+
+          # 新しいレコードを追加
+          new_record = json.loads(os.environ["NEW_RECORD"])
+          data.append(new_record)
+
+          with open(meta_path, "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+
+          print(f"Total records: {len(data)}")
+          PYEOF
+        env:
+          NEW_RECORD: ${{ toJson(github.event.client_payload.record) }}
+
+      - name: Commit and push
+        run: |
+          git config user.name "uploader-bot"
+          git config user.email "bot@showjin.jp"
+          git add -A
+          git diff --staged --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "Upload: ${{ github.event.client_payload.record.title }} by ${{ github.event.client_payload.record.author }}"
+          git push
