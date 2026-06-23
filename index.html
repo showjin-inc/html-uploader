@@ -175,21 +175,14 @@ select:focus{border-color:var(--green)}
 <!-- ── SETUP OVERLAY ── -->
 <div id="overlay">
   <div class="ov-box">
-    <h2>🔑 初期設定</h2>
-    <p>初回のみPATの登録が必要です。<br>名前はいつでも変更できます。</p>
+    <h2>👋 はじめに</h2>
+    <p>アップロード履歴にあなたの名前が記録されます。<br>このブラウザに保存されます。</p>
     <div class="ov-field">
       <div class="ov-label">あなたの名前</div>
       <input type="text" id="ov-name" placeholder="例：山田 花子" maxlength="20" />
     </div>
-    <div class="ov-field">
-      <div class="ov-label">GitHub PAT（管理者から受け取ったもの）</div>
-      <div class="pat-wrap">
-        <input type="password" id="ov-pat" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
-        <button class="eye" onclick="togglePat('ov-pat','ov-eye')" id="ov-eye">表示</button>
-      </div>
-    </div>
     <button class="ov-btn" onclick="saveSetup()">保存して始める</button>
-    <div class="ov-note">PATはこのブラウザにのみ保存されます。<br>他の人には見えません。</div>
+    <div class="ov-note">名前はいつでも右上から変更できます。</div>
   </div>
 </div>
 
@@ -326,10 +319,8 @@ select:focus{border-color:var(--green)}
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
-const OWNER = 'showjin-inc';
-const REPO  = 'html-uploader';
-const PAGES = 'https://share.showjin.co.jp';
-const META_URL = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/main/_metadata/history.json';
+const WORKER = 'https://html-uploader-api.hiroshi-557.workers.dev';
+const PAGES  = 'https://share.showjin.co.jp';
 
 // ── STATE ─────────────────────────────────────────────
 let brand = 'sj', expiry = 7, selFile = null;
@@ -338,23 +329,19 @@ let allHist = [], filtered = [];
 // ── INIT ──────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   const name = localStorage.getItem('u_name');
-  const pat  = localStorage.getItem('u_pat');
-  if (!name || !pat) {
-    document.getElementById('overlay').classList.remove('hidden');
-  } else {
+  if (name) {
     document.getElementById('overlay').classList.add('hidden');
     document.getElementById('inp-name').value = name;
     document.getElementById('chip-name').textContent = name;
+  } else {
+    document.getElementById('overlay').classList.remove('hidden');
   }
 });
 
 function saveSetup() {
   const name = document.getElementById('ov-name').value.trim();
-  const pat  = document.getElementById('ov-pat').value.trim();
   if (!name) return alert('名前を入力してください。');
-  if (!pat || !pat.startsWith('ghp_')) return alert('有効なPAT（ghp_で始まる）を入力してください。');
   localStorage.setItem('u_name', name);
-  localStorage.setItem('u_pat',  pat);
   document.getElementById('inp-name').value = name;
   document.getElementById('chip-name').textContent = name;
   document.getElementById('overlay').classList.add('hidden');
@@ -362,15 +349,7 @@ function saveSetup() {
 
 function openSetup() {
   document.getElementById('ov-name').value = localStorage.getItem('u_name') || '';
-  document.getElementById('ov-pat').value  = localStorage.getItem('u_pat')  || '';
   document.getElementById('overlay').classList.remove('hidden');
-}
-
-function togglePat(inputId, btnId) {
-  const inp = document.getElementById(inputId);
-  const btn = document.getElementById(btnId);
-  if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '隠す'; }
-  else                         { inp.type = 'password'; btn.textContent = '表示'; }
 }
 
 function onNameInput() {
@@ -430,17 +409,15 @@ function onFile(f) {
 async function doUpload() {
   const author = document.getElementById('inp-name').value.trim();
   const title  = document.getElementById('inp-title').value.trim();
-  const pat    = localStorage.getItem('u_pat') || '';
 
   if (!author) return showErr('作成者名を入力してください。');
   if (!title)  return showErr('資料タイトルを入力してください。');
   if (!selFile) return showErr('HTMLファイルを選択してください。');
-  if (!pat)    return showErr('PATが設定されていません。右上の「設定」からPATを入力してください。');
 
   const btn = document.getElementById('up-btn');
   btn.disabled = true;
   hideAll();
-  showWait('GitHub Actionsを起動中...');
+  showWait('アップロード中...');
   prog(20);
 
   try {
@@ -461,25 +438,17 @@ async function doUpload() {
     const record = { id:ts, brand, title, author, fileName, filePath, createdAt:today, expiresAt, pageUrl: PAGES+'/'+filePath };
 
     prog(50);
-    showWait('ファイルをアップロード中...');
+    showWait('GitHubに保存中...');
 
-    const res = await fetch(
-      'https://api.github.com/repos/' + OWNER + '/' + REPO + '/dispatches',
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'token ' + pat,
-          Accept: 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          event_type: 'upload-file',
-          client_payload: { filepath: filePath, content: b64, record }
-        })
-      }
-    );
+    const res = await fetch(WORKER + '/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filepath: filePath, content: b64, record })
+    });
 
-    if (res.status === 204) {
+    const json = await res.json();
+
+    if (res.ok && json.success) {
       prog(100);
       document.getElementById('res-url').textContent = record.pageUrl;
       document.getElementById('res-note').textContent =
@@ -488,10 +457,7 @@ async function doUpload() {
       setTimeout(()=>prog(null), 700);
       resetForm();
     } else {
-      const j = await res.json().catch(()=>({}));
-      if (res.status===401) throw new Error('認証エラー: PATが無効か権限が不足しています。「設定」からPATを確認してください。');
-      if (res.status===404) throw new Error('リポジトリが見つかりません。設定を確認してください。');
-      throw new Error(j.message || 'GitHub APIエラー (HTTP ' + res.status + ')');
+      throw new Error(json.error || 'アップロードに失敗しました。');
     }
   } catch(e) {
     hideAll(); showErr(e.message); prog(null);
@@ -514,10 +480,9 @@ async function loadHistory() {
   document.getElementById('h-cnt').textContent = '読み込み中...';
   document.getElementById('h-list').innerHTML = '<div class="empty"><span class="spin"></span> 読み込み中...</div>';
   try {
-    const res = await fetch(META_URL + '?t=' + Date.now());
-    if (res.status === 404) { allHist = []; }
-    else if (!res.ok) throw new Error('履歴の取得に失敗しました。');
-    else allHist = (await res.json()).slice().reverse();
+    const res = await fetch(WORKER + '/history');
+    if (!res.ok) throw new Error('履歴の取得に失敗しました。');
+    allHist = (await res.json()).slice().reverse();
     filtered = allHist;
     renderList(filtered);
   } catch(e) {
@@ -591,23 +556,19 @@ function renderList(list) {
 
 async function delItem(id, btn) {
   if (!confirm('この履歴とファイルを削除しますか？')) return;
-  const pat = localStorage.getItem('u_pat') || '';
-  if (!pat) return alert('削除にはPATが必要です。「設定」から入力してください。');
   btn.textContent='削除中...'; btn.disabled=true;
   try {
-    const res = await fetch(
-      'https://api.github.com/repos/' + OWNER + '/' + REPO + '/dispatches',
-      {
-        method:'POST',
-        headers:{ Authorization:'token '+pat, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' },
-        body: JSON.stringify({ event_type:'delete-file', client_payload:{ record_id:id } })
-      }
-    );
-    if (res.status===204) {
+    const res = await fetch(WORKER + '/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ record_id: id })
+    });
+    const json = await res.json();
+    if (res.ok && json.success) {
       allHist  = allHist.filter(r=>r.id!==id);
       filtered = filtered.filter(r=>r.id!==id);
       renderList(filtered);
-    } else throw new Error('削除に失敗しました。');
+    } else throw new Error(json.error || '削除に失敗しました。');
   } catch(e) {
     alert(e.message); btn.textContent='削除'; btn.disabled=false;
   }
@@ -640,5 +601,6 @@ function cpTxt(t,btn){
 }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
+
 </body>
 </html>
