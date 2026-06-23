@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>資料アップローダー｜笑人</title>
+<title>sherって！｜笑人</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -42,8 +42,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic UI'
 
 /* ── TOPBAR ── */
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.logo{font-size:14px;font-weight:700;color:var(--text)}
-.logo em{color:var(--green);font-style:normal}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:34px;height:34px;background:var(--green);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(29,155,99,.25)}
+.logo-texts{display:flex;flex-direction:column;gap:1px}
+.logo-wordmark{font-size:21px;font-weight:800;letter-spacing:-0.05em;color:var(--text);line-height:1;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif}
+.logo-wordmark em{color:var(--green);font-style:normal;font-size:13px;letter-spacing:0;font-weight:700}
+.logo-sub{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase}
 .user-chip{display:flex;align-items:center;gap:6px;font-size:12px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;color:var(--text2)}
 .user-chip:hover{border-color:var(--border2);color:var(--text)}
 .user-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
@@ -190,7 +194,18 @@ select:focus{border-color:var(--green)}
 
   <!-- TOPBAR -->
   <div class="topbar">
-    <div class="logo">📤 資料アップローダー｜<em>笑人</em></div>
+    <div class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 6C3 4.34315 4.34315 3 6 3H12C13.6569 3 15 4.34315 15 6V9H9.5C8.11929 9 7 10.1193 7 11.5V15H6C4.34315 15 3 13.6569 3 12V6Z" fill="white" fill-opacity="0.95"/>
+          <path d="M9 15V11.5C9 11.2239 9.22386 11 9.5 11H15V12C15 13.6569 13.6569 15 12 15H9Z" fill="white" fill-opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="logo-texts">
+        <div class="logo-wordmark">sher<em>って！</em></div>
+        <div class="logo-sub">by 笑人</div>
+      </div>
+    </div>
     <div class="user-chip" onclick="openSetup()">
       <span class="dot"></span>
       <span id="chip-name">—</span>
