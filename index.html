@@ -445,8 +445,8 @@ async function doUpload() {
 
   try {
     const ts       = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
-    const safe     = selFile.name.replace(/[^a-zA-Z0-9._-]/g,'_').replace(/\.html?$/i,'');
-    const fileName = safe + '_' + ts + '.html';
+    const randId   = Math.random().toString(36).slice(2,8);
+    const fileName = randId + '.html';
     const folder   = brand === 'sj' ? 'showjin' : 'copain';
     const filePath = folder + '/' + fileName;
     const b64      = await toBase64(selFile);
