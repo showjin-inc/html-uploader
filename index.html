@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>資料アップローダー｜笑人</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fff;--bg2:#f7f7f5;--bg3:#efefeb;
+  --text:#1a1a1a;--text2:#666;--text3:#aaa;
+  --border:#e2e2da;--border2:#c8c8c0;
+  --green:#1d9b63;--green-bg:#e8f7f0;--green-dk:#0d6b43;--green-lt:#c8eedd;
+  --copain:#2563eb;--copain-bg:#eff6ff;--copain-dk:#1e40af;
+  --red:#dc2626;--red-bg:#fef2f2;--red-dk:#991b1b;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-dk:#92400e;
+  --r:8px;--rl:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic UI','Segoe UI',sans-serif;background:var(--bg2);color:var(--text);font-size:14px;min-height:100vh}
+
+/* ── SETUP OVERLAY ── */
+#overlay{position:fixed;inset:0;background:rgba(15,15,15,.6);display:flex;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(2px)}
+#overlay.hidden{display:none}
+.ov-box{background:var(--bg);border-radius:var(--rl);padding:28px 24px;width:360px;box-shadow:0 8px 32px rgba(0,0,0,.14)}
+.ov-box h2{font-size:16px;font-weight:700;margin-bottom:6px}
+.ov-box p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+.ov-field{margin-bottom:14px}
+.ov-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.ov-box input{width:100%;padding:10px 12px;border:1px solid var(--border2);border-radius:var(--r);font-size:14px;outline:none;color:var(--text)}
+.ov-box input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(29,155,99,.08)}
+.pat-wrap{display:flex;gap:6px}
+.pat-wrap input{flex:1}
+.eye{padding:10px 11px;border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;background:var(--bg);color:var(--text3);font-size:13px;white-space:nowrap}
+.eye:hover{color:var(--text);background:var(--bg3)}
+.ov-btn{width:100%;padding:11px;background:var(--green);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+.ov-btn:hover{background:var(--green-dk)}
+.ov-note{font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6;text-align:center}
+
+/* ── SHELL ── */
+.shell{max-width:660px;margin:0 auto;padding:20px 16px 60px}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.logo{font-size:14px;font-weight:700;color:var(--text)}
+.logo em{color:var(--green);font-style:normal}
+.user-chip{display:flex;align-items:center;gap:6px;font-size:12px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;color:var(--text2)}
+.user-chip:hover{border-color:var(--border2);color:var(--text)}
+.user-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+
+/* ── NAME BAR ── */
+.name-bar{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+.name-bar .nl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.name-bar input{flex:1;border:none;border-bottom:1.5px solid var(--border);padding:3px 0;font-size:14px;outline:none;background:transparent;color:var(--text)}
+.name-bar input:focus{border-bottom-color:var(--green)}
+.name-bar input::placeholder{color:var(--text3)}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:3px;margin-bottom:14px}
+.tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:500;border-radius:6px;cursor:pointer;color:var(--text2);border:none;background:transparent}
+.tab.on{background:var(--bg);color:var(--text);box-shadow:var(--shadow)}
+
+/* ── CARD ── */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px}
+
+/* ── BRAND ── */
+.brands{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.bc{border:1.5px solid var(--border);border-radius:var(--rl);padding:13px 15px;cursor:pointer;background:var(--bg);transition:all .12s;user-select:none}
+.bc:hover{border-color:var(--border2)}
+.bc.on.sj{border-color:var(--green);background:var(--green-bg)}
+.bc.on.cp{border-color:var(--copain);background:var(--copain-bg)}
+.bc-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);margin-bottom:8px}
+.bc.on.sj .bc-dot{background:var(--green)}
+.bc.on.cp .bc-dot{background:var(--copain)}
+.bc-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.bc.on.sj .bc-name{color:var(--green-dk)}
+.bc.on.cp .bc-name{color:var(--copain-dk)}
+.bc-path{font-size:10px;color:var(--text3);font-family:monospace}
+.bc.on.sj .bc-path{color:var(--green)}
+.bc.on.cp .bc-path{color:var(--copain)}
+
+/* ── INPUT ── */
+input[type=text]{width:100%;padding:9px 11px;border:1px solid var(--border2);border-radius:var(--r);font-size:14px;outline:none;background:var(--bg);color:var(--text)}
+input[type=text]:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(29,155,99,.07)}
+select{width:100%;padding:9px 11px;border:1px solid var(--border2);border-radius:var(--r);font-size:14px;outline:none;background:var(--bg);color:var(--text)}
+select:focus{border-color:var(--green)}
+
+/* ── EXPIRY ── */
+.exps{display:flex;gap:8px}
+.exp{flex:1;padding:8px 4px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;cursor:pointer;background:var(--bg);color:var(--text2);text-align:center;transition:all .1s;user-select:none}
+.exp.on{border-color:var(--green);background:var(--green-bg);color:var(--green-dk);font-weight:600}
+.exp:hover:not(.on){background:var(--bg3)}
+
+/* ── DROP ZONE ── */
+.dz{border:1.5px dashed var(--border2);border-radius:var(--rl);padding:28px 16px;text-align:center;cursor:pointer;transition:all .15s}
+.dz:hover,.dz.drag{background:var(--bg3);border-color:var(--green)}
+.dz.got{border-style:solid;border-color:var(--green);background:var(--green-bg)}
+.dz-ico{font-size:30px;margin-bottom:8px;color:var(--text3)}
+.dz.got .dz-ico{color:var(--green)}
+.dz-ttl{font-size:14px;font-weight:500;margin-bottom:3px}
+.dz-sub{font-size:12px;color:var(--text3)}
+.dz.got .dz-sub{color:var(--green-dk)}
+
+/* ── PROGRESS ── */
+.prog-wrap{height:3px;background:var(--bg3);border-radius:2px;margin:10px 0;display:none}
+.prog-bar{height:100%;border-radius:2px;background:var(--green);transition:width .3s}
+
+/* ── MSG ── */
+.msg{border:1px solid;border-radius:var(--rl);padding:14px 16px;margin-bottom:12px;display:none}
+.msg.err{border-color:var(--red);background:var(--red-bg)}
+.msg.ok{border-color:var(--green);background:var(--green-bg)}
+.msg.wait{border-color:#d4b700;background:#fffdf0}
+.msg-hd{font-size:13px;font-weight:700;margin-bottom:6px}
+.msg.err .msg-hd{color:var(--red-dk)}
+.msg.ok  .msg-hd{color:var(--green-dk)}
+.msg.wait .msg-hd{color:#7a6500}
+.msg-body{font-size:13px;line-height:1.6}
+.msg.err  .msg-body{color:var(--red-dk)}
+.msg.ok   .msg-body{color:var(--green-dk)}
+.msg.wait .msg-body{color:#7a6500}
+.url-row{display:flex;gap:8px;margin-top:8px}
+.url-box{flex:1;font-family:monospace;font-size:11px;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);word-break:break-all;line-height:1.5;color:var(--text)}
+.cp-btn{flex-shrink:0;padding:8px 14px;border:1px solid var(--border2);border-radius:var(--r);font-size:12px;cursor:pointer;background:var(--bg);color:var(--text);white-space:nowrap}
+.cp-btn:hover{background:var(--bg3)}
+
+/* ── UP BTN ── */
+.up-btn{width:100%;padding:12px;font-size:14px;font-weight:600;border-radius:var(--r);border:none;background:var(--green);color:#fff;cursor:pointer;transition:background .12s}
+.up-btn:hover:not(:disabled){background:var(--green-dk)}
+.up-btn:disabled{opacity:.38;cursor:not-allowed}
+.up-btn.cp{background:var(--copain)}
+.up-btn.cp:hover:not(:disabled){background:var(--copain-dk)}
+
+/* ── HISTORY ── */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.sg-full{grid-column:1/-1}
+.date-row{display:flex;gap:8px;align-items:center}
+.date-row input[type=date]{flex:1;padding:8px 10px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;outline:none;background:var(--bg);color:var(--text)}
+.date-row input[type=date]:focus{border-color:var(--green)}
+.date-sep{color:var(--text3);flex-shrink:0}
+.s-row{display:flex;gap:8px}
+.s-btn{padding:9px 18px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;cursor:pointer;background:var(--bg);color:var(--text);font-weight:500}
+.s-btn:hover{background:var(--bg3)}
+.clr{padding:9px;border:none;border-radius:var(--r);font-size:13px;cursor:pointer;background:transparent;color:var(--text3)}
+.clr:hover{color:var(--text)}
+.h-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.h-cnt{font-size:12px;color:var(--text3)}
+.hi{border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;background:var(--bg);transition:border-color .1s}
+.hi:hover{border-color:var(--border2)}
+.hi.xp{opacity:.5}
+.hi-top{display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap}
+.bpill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+.bpill.sj{background:var(--green-lt);color:var(--green-dk)}
+.bpill.cp{background:var(--copain-bg);color:var(--copain-dk)}
+.hi-title{font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xb{font-size:10px;padding:2px 7px;border-radius:20px;flex-shrink:0}
+.xb.ok{background:var(--green-lt);color:var(--green-dk)}
+.xb.warn{background:var(--amber-bg);color:var(--amber-dk)}
+.xb.exp{background:var(--red-bg);color:var(--red-dk)}
+.xb.perm{background:var(--bg3);color:var(--text3)}
+.hi-meta{font-size:11px;color:var(--text3);display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.hi-url{font-size:11px;font-family:monospace;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hi-acts{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.ha{padding:4px 10px;border:1px solid var(--border2);border-radius:6px;font-size:11px;cursor:pointer;background:var(--bg);color:var(--text);text-decoration:none;white-space:nowrap}
+.ha:hover{background:var(--bg3)}
+.ha.del{color:var(--red-dk);border-color:transparent}
+.ha.del:hover{background:var(--red-bg);border-color:var(--red)}
+.empty{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:13px;line-height:1.7}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--border2);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
+</style>
+</head>
+<body>
+
+<!-- ── SETUP OVERLAY ── -->
+<div id="overlay">
+  <div class="ov-box">
+    <h2>🔑 初期設定</h2>
+    <p>初回のみPATの登録が必要です。<br>名前はいつでも変更できます。</p>
+    <div class="ov-field">
+      <div class="ov-label">あなたの名前</div>
+      <input type="text" id="ov-name" placeholder="例：山田 花子" maxlength="20" />
+    </div>
+    <div class="ov-field">
+      <div class="ov-label">GitHub PAT（管理者から受け取ったもの）</div>
+      <div class="pat-wrap">
+        <input type="password" id="ov-pat" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
+        <button class="eye" onclick="togglePat('ov-pat','ov-eye')" id="ov-eye">表示</button>
+      </div>
+    </div>
+    <button class="ov-btn" onclick="saveSetup()">保存して始める</button>
+    <div class="ov-note">PATはこのブラウザにのみ保存されます。<br>他の人には見えません。</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="logo">📤 資料アップローダー｜<em>笑人</em></div>
+    <div class="user-chip" onclick="openSetup()">
+      <span class="dot"></span>
+      <span id="chip-name">—</span>
+      <span style="color:var(--text3);font-size:11px">設定</span>
+    </div>
+  </div>
+
+  <!-- NAME BAR -->
+  <div class="name-bar">
+    <span class="nl">作成者</span>
+    <input type="text" id="inp-name" placeholder="名前を入力してください" maxlength="20" oninput="onNameInput()" />
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab on" onclick="toTab('up')" id="t-up">アップロード</button>
+    <button class="tab"    onclick="toTab('hi')" id="t-hi">履歴・検索</button>
+  </div>
+
+  <!-- ═══ UPLOAD PANE ═══ -->
+  <div id="pane-up">
+    <div class="card">
+      <div class="lbl">ブランド</div>
+      <div class="brands">
+        <div class="bc sj on" id="bc-sj" onclick="setBrand('sj')">
+          <div class="bc-dot"></div>
+          <div class="bc-name">笑人（しょうじん）</div>
+          <div class="bc-path">…/showjin/</div>
+        </div>
+        <div class="bc cp" id="bc-cp" onclick="setBrand('cp')">
+          <div class="bc-dot"></div>
+          <div class="bc-name">Copain（コパン）</div>
+          <div class="bc-path">…/copain/</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <div class="lbl">資料タイトル <span style="color:var(--red);font-size:12px">必須</span></div>
+        <input type="text" id="inp-title" placeholder="例：Copain サービス提案書 2025年版" maxlength="60" />
+      </div>
+
+      <div style="margin-bottom:16px">
+        <div class="lbl">公開期間</div>
+        <div class="exps">
+          <div class="exp on" id="e7"  onclick="setExp(7)">7日間</div>
+          <div class="exp"    id="e30" onclick="setExp(30)">30日間</div>
+          <div class="exp"    id="e0"  onclick="setExp(0)">無期限</div>
+        </div>
+      </div>
+
+      <div class="dz" id="dz" onclick="document.getElementById('fi').click()">
+        <div class="dz-ico">📄</div>
+        <div class="dz-ttl" id="dz-ttl">クリックまたはドラッグ＆ドロップ</div>
+        <div class="dz-sub" id="dz-sub">HTMLファイルを選択（.html）</div>
+      </div>
+      <input type="file" id="fi" accept=".html,.htm" style="display:none" onchange="onFile(this.files[0])">
+
+      <div class="prog-wrap" id="prog-wrap">
+        <div class="prog-bar" id="prog-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="msg err"  id="m-err"><div class="msg-hd">⚠ エラー</div><div class="msg-body" id="m-err-txt"></div></div>
+    <div class="msg wait" id="m-wait">
+      <div class="msg-hd"><span class="spin"></span>処理中...</div>
+      <div class="msg-body" id="m-wait-txt"></div>
+    </div>
+    <div class="msg ok" id="m-ok">
+      <div class="msg-hd">✓ アップロード完了</div>
+      <div class="msg-body">
+        共有URLが生成されました。GitHub Pagesへの反映まで1〜2分かかります。
+        <div class="url-row">
+          <div class="url-box" id="res-url"></div>
+          <button class="cp-btn" onclick="cpUrl()" id="cp-btn">コピー</button>
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:var(--green-dk)" id="res-note"></div>
+      </div>
+    </div>
+
+    <button class="up-btn" id="up-btn" onclick="doUpload()" disabled>アップロードしてURL生成</button>
+  </div>
+
+  <!-- ═══ HISTORY PANE ═══ -->
+  <div id="pane-hi" style="display:none">
+    <div class="card">
+      <div class="lbl" style="margin-bottom:10px">絞り込み検索</div>
+      <div class="sg">
+        <div>
+          <div class="lbl">ブランド</div>
+          <select id="s-brand">
+            <option value="">すべて</option>
+            <option value="sj">笑人</option>
+            <option value="cp">Copain</option>
+          </select>
+        </div>
+        <div>
+          <div class="lbl">作成者</div>
+          <input type="text" id="s-author" placeholder="名前で検索" />
+        </div>
+        <div class="sg-full">
+          <div class="lbl">タイトル</div>
+          <input type="text" id="s-title" placeholder="タイトルで検索" />
+        </div>
+        <div class="sg-full">
+          <div class="lbl">作成日</div>
+          <div class="date-row">
+            <input type="date" id="s-from" />
+            <span class="date-sep">〜</span>
+            <input type="date" id="s-to" />
+          </div>
+        </div>
+      </div>
+      <div class="s-row">
+        <button class="s-btn" onclick="doSearch()">🔍 検索</button>
+        <button class="clr" onclick="clearSearch()">クリア</button>
+      </div>
+    </div>
+    <div class="h-header">
+      <div class="lbl" style="margin:0">検索結果</div>
+      <div class="h-cnt" id="h-cnt">—</div>
+    </div>
+    <div id="h-list"></div>
+  </div>
+
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+const OWNER = 'showjin-inc';
+const REPO  = 'html-uploader';
+const PAGES = 'https://' + OWNER + '.github.io/' + REPO;
+const META_URL = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/main/_metadata/history.json';
+
+// ── STATE ─────────────────────────────────────────────
+let brand = 'sj', expiry = 7, selFile = null;
+let allHist = [], filtered = [];
+
+// ── INIT ──────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const name = localStorage.getItem('u_name');
+  const pat  = localStorage.getItem('u_pat');
+  if (!name || !pat) {
+    document.getElementById('overlay').classList.remove('hidden');
+  } else {
+    document.getElementById('overlay').classList.add('hidden');
+    document.getElementById('inp-name').value = name;
+    document.getElementById('chip-name').textContent = name;
+  }
+});
+
+function saveSetup() {
+  const name = document.getElementById('ov-name').value.trim();
+  const pat  = document.getElementById('ov-pat').value.trim();
+  if (!name) return alert('名前を入力してください。');
+  if (!pat || !pat.startsWith('ghp_')) return alert('有効なPAT（ghp_で始まる）を入力してください。');
+  localStorage.setItem('u_name', name);
+  localStorage.setItem('u_pat',  pat);
+  document.getElementById('inp-name').value = name;
+  document.getElementById('chip-name').textContent = name;
+  document.getElementById('overlay').classList.add('hidden');
+}
+
+function openSetup() {
+  document.getElementById('ov-name').value = localStorage.getItem('u_name') || '';
+  document.getElementById('ov-pat').value  = localStorage.getItem('u_pat')  || '';
+  document.getElementById('overlay').classList.remove('hidden');
+}
+
+function togglePat(inputId, btnId) {
+  const inp = document.getElementById(inputId);
+  const btn = document.getElementById(btnId);
+  if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '隠す'; }
+  else                         { inp.type = 'password'; btn.textContent = '表示'; }
+}
+
+function onNameInput() {
+  const v = document.getElementById('inp-name').value.trim();
+  document.getElementById('chip-name').textContent = v || '—';
+  if (v) localStorage.setItem('u_name', v);
+  else   localStorage.removeItem('u_name');
+}
+
+// ── TABS ──────────────────────────────────────────────
+function toTab(t) {
+  document.getElementById('pane-up').style.display = t==='up' ? '' : 'none';
+  document.getElementById('pane-hi').style.display = t==='hi' ? '' : 'none';
+  document.getElementById('t-up').className = 'tab' + (t==='up'?' on':'');
+  document.getElementById('t-hi').className = 'tab' + (t==='hi'?' on':'');
+  if (t==='hi') loadHistory();
+}
+
+// ── BRAND ─────────────────────────────────────────────
+function setBrand(b) {
+  brand = b;
+  document.getElementById('bc-sj').className = 'bc sj' + (b==='sj'?' on':'');
+  document.getElementById('bc-cp').className = 'bc cp' + (b==='cp'?' on':'');
+  document.getElementById('up-btn').className = 'up-btn' + (b==='cp'?' cp':'') + (selFile?'':' disabled');
+}
+
+// ── EXPIRY ────────────────────────────────────────────
+function setExp(d) {
+  expiry = d;
+  ['7','30','0'].forEach(v =>
+    document.getElementById('e'+v).className = 'exp' + (String(d)===v?' on':'')
+  );
+}
+
+// ── FILE DROP ─────────────────────────────────────────
+const dz = document.getElementById('dz');
+dz.addEventListener('dragover',  e=>{ e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', ()=> dz.classList.remove('drag'));
+dz.addEventListener('drop', e=>{
+  e.preventDefault(); dz.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && /\.html?$/i.test(f.name)) onFile(f);
+  else showErr('HTMLファイル（.html）のみアップロードできます。');
+});
+
+function onFile(f) {
+  if (!f) return;
+  selFile = f;
+  dz.classList.add('got');
+  document.getElementById('dz-ttl').textContent = f.name;
+  document.getElementById('dz-sub').textContent = (f.size/1024).toFixed(1) + ' KB';
+  document.getElementById('up-btn').disabled = false;
+  hideAll();
+}
+
+// ── UPLOAD ────────────────────────────────────────────
+async function doUpload() {
+  const author = document.getElementById('inp-name').value.trim();
+  const title  = document.getElementById('inp-title').value.trim();
+  const pat    = localStorage.getItem('u_pat') || '';
+
+  if (!author) return showErr('作成者名を入力してください。');
+  if (!title)  return showErr('資料タイトルを入力してください。');
+  if (!selFile) return showErr('HTMLファイルを選択してください。');
+  if (!pat)    return showErr('PATが設定されていません。右上の「設定」からPATを入力してください。');
+
+  const btn = document.getElementById('up-btn');
+  btn.disabled = true;
+  hideAll();
+  showWait('GitHub Actionsを起動中...');
+  prog(20);
+
+  try {
+    const ts       = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+    const safe     = selFile.name.replace(/[^a-zA-Z0-9._-]/g,'_').replace(/\.html?$/i,'');
+    const fileName = safe + '_' + ts + '.html';
+    const folder   = brand === 'sj' ? 'showjin' : 'copain';
+    const filePath = folder + '/' + fileName;
+    const b64      = await toBase64(selFile);
+
+    const today = new Date().toISOString().slice(0,10);
+    let expiresAt = null;
+    if (expiry > 0) {
+      const d = new Date(); d.setDate(d.getDate() + expiry);
+      expiresAt = d.toISOString().slice(0,10);
+    }
+
+    const record = { id:ts, brand, title, author, fileName, filePath, createdAt:today, expiresAt, pageUrl: PAGES+'/'+filePath };
+
+    prog(50);
+    showWait('ファイルをアップロード中...');
+
+    const res = await fetch(
+      'https://api.github.com/repos/' + OWNER + '/' + REPO + '/dispatches',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'token ' + pat,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          event_type: 'upload-file',
+          client_payload: { filepath: filePath, content: b64, record }
+        })
+      }
+    );
+
+    if (res.status === 204) {
+      prog(100);
+      document.getElementById('res-url').textContent = record.pageUrl;
+      document.getElementById('res-note').textContent =
+        '公開期間: ' + (expiresAt ? expiresAt + ' まで' : '無期限');
+      hideAll(); showOk();
+      setTimeout(()=>prog(null), 700);
+      resetForm();
+    } else {
+      const j = await res.json().catch(()=>({}));
+      if (res.status===401) throw new Error('認証エラー: PATが無効か権限が不足しています。「設定」からPATを確認してください。');
+      if (res.status===404) throw new Error('リポジトリが見つかりません。設定を確認してください。');
+      throw new Error(j.message || 'GitHub APIエラー (HTTP ' + res.status + ')');
+    }
+  } catch(e) {
+    hideAll(); showErr(e.message); prog(null);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function resetForm() {
+  selFile = null;
+  dz.classList.remove('got');
+  document.getElementById('dz-ttl').textContent = 'クリックまたはドラッグ＆ドロップ';
+  document.getElementById('dz-sub').textContent = 'HTMLファイルを選択（.html）';
+  document.getElementById('inp-title').value = '';
+  document.getElementById('up-btn').disabled = true;
+}
+
+// ── HISTORY ───────────────────────────────────────────
+async function loadHistory() {
+  document.getElementById('h-cnt').textContent = '読み込み中...';
+  document.getElementById('h-list').innerHTML = '<div class="empty"><span class="spin"></span> 読み込み中...</div>';
+  try {
+    const res = await fetch(META_URL + '?t=' + Date.now());
+    if (res.status === 404) { allHist = []; }
+    else if (!res.ok) throw new Error('履歴の取得に失敗しました。');
+    else allHist = (await res.json()).slice().reverse();
+    filtered = allHist;
+    renderList(filtered);
+  } catch(e) {
+    document.getElementById('h-cnt').textContent = 'エラー';
+    document.getElementById('h-list').innerHTML = '<div class="empty">' + esc(e.message) + '</div>';
+  }
+}
+
+function doSearch() {
+  const b  = document.getElementById('s-brand').value;
+  const a  = document.getElementById('s-author').value.trim().toLowerCase();
+  const ti = document.getElementById('s-title').value.trim().toLowerCase();
+  const fr = document.getElementById('s-from').value;
+  const to = document.getElementById('s-to').value;
+  filtered = allHist.filter(r => {
+    if (b  && r.brand !== b)                        return false;
+    if (a  && !r.author.toLowerCase().includes(a))  return false;
+    if (ti && !r.title.toLowerCase().includes(ti))  return false;
+    if (fr && r.createdAt < fr)                     return false;
+    if (to && r.createdAt > to)                     return false;
+    return true;
+  });
+  renderList(filtered);
+}
+
+function clearSearch() {
+  ['s-author','s-title','s-from','s-to'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('s-brand').value='';
+  filtered = allHist;
+  renderList(filtered);
+}
+
+function renderList(list) {
+  document.getElementById('h-cnt').textContent = list.length + '件';
+  if (!list.length) {
+    document.getElementById('h-list').innerHTML = '<div class="empty">該当する履歴がありません。</div>';
+    return;
+  }
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('h-list').innerHTML = list.map(r => {
+    const isXp = r.expiresAt && r.expiresAt < today;
+    const bn   = r.brand==='sj' ? '笑人' : 'Copain';
+    let xb = '';
+    if (!r.expiresAt)    xb = '<span class="xb perm">無期限</span>';
+    else if (isXp)       xb = '<span class="xb exp">期限切れ</span>';
+    else {
+      const diff = Math.ceil((new Date(r.expiresAt)-new Date(today))/86400000);
+      xb = diff<=3
+        ? '<span class="xb warn">残り'+diff+'日</span>'
+        : '<span class="xb ok">〜'+r.expiresAt+'</span>';
+    }
+    return `<div class="hi${isXp?' xp':''}">
+      <div class="hi-top">
+        <span class="bpill ${r.brand}">${bn}</span>
+        <span class="hi-title" title="${esc(r.title)}">${esc(r.title)}</span>
+        ${xb}
+      </div>
+      <div class="hi-meta">
+        <span>👤 ${esc(r.author)}</span>
+        <span>📅 ${r.createdAt}</span>
+      </div>
+      <div class="hi-url">${esc(r.pageUrl)}</div>
+      <div class="hi-acts">
+        ${!isXp?`<a href="${r.pageUrl}" target="_blank" rel="noopener" class="ha">開く ↗</a>`:''}
+        <button class="ha" onclick="cpTxt('${r.pageUrl}',this)">URLコピー</button>
+        <button class="ha del" onclick="delItem('${r.id}',this)">削除</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function delItem(id, btn) {
+  if (!confirm('この履歴とファイルを削除しますか？')) return;
+  const pat = localStorage.getItem('u_pat') || '';
+  if (!pat) return alert('削除にはPATが必要です。「設定」から入力してください。');
+  btn.textContent='削除中...'; btn.disabled=true;
+  try {
+    const res = await fetch(
+      'https://api.github.com/repos/' + OWNER + '/' + REPO + '/dispatches',
+      {
+        method:'POST',
+        headers:{ Authorization:'token '+pat, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' },
+        body: JSON.stringify({ event_type:'delete-file', client_payload:{ record_id:id } })
+      }
+    );
+    if (res.status===204) {
+      allHist  = allHist.filter(r=>r.id!==id);
+      filtered = filtered.filter(r=>r.id!==id);
+      renderList(filtered);
+    } else throw new Error('削除に失敗しました。');
+  } catch(e) {
+    alert(e.message); btn.textContent='削除'; btn.disabled=false;
+  }
+}
+
+// ── UTILS ─────────────────────────────────────────────
+function toBase64(f) {
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=()=>rej(new Error('ファイル読み込みエラー'));
+    r.readAsDataURL(f);
+  });
+}
+function prog(p) {
+  const w=document.getElementById('prog-wrap'), b=document.getElementById('prog-bar');
+  if(p===null){w.style.display='none';return;}
+  w.style.display='block'; b.style.width=p+'%';
+}
+function hideAll(){ ['m-err','m-wait','m-ok'].forEach(id=>document.getElementById(id).style.display='none'); }
+function showErr(t){ document.getElementById('m-err-txt').textContent=t; document.getElementById('m-err').style.display='block'; }
+function showWait(t){ document.getElementById('m-wait-txt').textContent=t; document.getElementById('m-wait').style.display='block'; }
+function showOk(){ document.getElementById('m-ok').style.display='block'; }
+function cpUrl(){ cpTxt(document.getElementById('res-url').textContent, document.getElementById('cp-btn')); }
+function cpTxt(t,btn){
+  navigator.clipboard.writeText(t).then(()=>{
+    const o=btn.textContent; btn.textContent='コピー済み ✓';
+    setTimeout(()=>btn.textContent=o,1800);
+  });
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>
