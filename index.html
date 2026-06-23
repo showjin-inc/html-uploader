@@ -563,10 +563,29 @@ function renderList(list) {
       <div class="hi-acts">
         ${!isXp?`<a href="${r.pageUrl}" target="_blank" rel="noopener" class="ha">開く ↗</a>`:''}
         <button class="ha" onclick="cpTxt('${r.pageUrl}',this)">URLコピー</button>
+        <button class="ha" onclick="cpSummary(this)">概要をコピー</button>
         <button class="ha del" onclick="delItem('${r.id}',this)">削除</button>
       </div>
     </div>`;
   }).join('');
+  // タイトルをtextContentで設定（文字化け防止）
+  document.querySelectorAll('.hi-title[data-raw-title]').forEach(el => {
+    el.textContent = el.getAttribute('data-raw-title');
+    el.title = el.textContent;
+  });
+}
+
+function cpSummary(btn) {
+  const card = btn.closest('.hi');
+  const title = card.querySelector('.hi-title').textContent;
+  const url   = card.querySelector('.hi-url').textContent;
+  const xb    = card.querySelector('.xb');
+  const expiry = xb ? xb.textContent : '無期限';
+  const text = `【タイトル】${title}\n【URL】${url}\n【有効期限】${expiry}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const o = btn.textContent; btn.textContent = 'コピー済み ✓';
+    setTimeout(() => btn.textContent = o, 1800);
+  });
 }
 
 async function delItem(id, btn) {
