@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>花屋特化 勤怠SaaS 要件・仕様提案書</title>
+<style>
+:root{--p:#1f7a4d;--p2:#2e9c66;--bg:#f6f8f7;--ink:#1d2b24;--mut:#5b6b63;--bd:#d8e2dc;--must:#c0392b;--idea:#2471a3;--imp:#b9770e;--card:#fff;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--ink);background:var(--bg);line-height:1.85;font-size:15px}
+header.hero{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:48px 32px}
+header.hero h1{margin:0 0 10px;font-size:28px}
+header.hero p{margin:4px 0;opacity:.95}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+nav.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px 28px;margin:28px auto;max-width:1080px}
+nav.toc h2{margin:0 0 12px;font-size:18px;color:var(--p)}
+nav.toc ol{margin:0;padding-left:22px}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--p);text-decoration:underline}
+section{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:28px 32px;margin:22px auto;max-width:1080px}
+h2.sec{font-size:22px;color:var(--p);border-bottom:3px solid var(--p2);padding-bottom:8px;margin-top:0}
+h3{font-size:17px;color:var(--ink);margin-top:26px;border-left:5px solid var(--p2);padding-left:10px}
+h4{font-size:15px;color:var(--mut);margin:18px 0 6px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eaf3ee}
+tr:nth-child(even) td{background:#fafdfb}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:20px;color:#fff;margin-right:6px}
+.t-must{background:var(--must)} .t-idea{background:var(--idea)} .t-imp{background:var(--imp)} .t-base{background:#566}
+.callout{border-radius:10px;padding:14px 18px;margin:16px 0;font-size:14px}
+.c-warn{background:#fdecea;border-left:5px solid var(--must)}
+.c-info{background:#eaf2fb;border-left:5px solid var(--idea)}
+.c-tip{background:#fff6e6;border-left:5px solid var(--imp)}
+.c-gap{background:#f3e9fb;border-left:5px solid #7d3c98}
+ul.clean{margin:8px 0;padding-left:20px}ul.clean li{margin:5px 0}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0}.legend span{font-size:13px}
+.kpi{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0}
+.kpi div{flex:1;min-width:150px;background:#eaf3ee;border-radius:10px;padding:14px;text-align:center}
+.kpi b{display:block;font-size:22px;color:var(--p)}
+code{background:#eef3f0;padding:1px 6px;border-radius:5px;font-size:13px}
+footer{max-width:1080px;margin:30px auto 60px;padding:0 24px;color:var(--mut);font-size:13px}
+.small{font-size:13px;color:var(--mut)}
+@media print{body{background:#fff}section,nav.toc{break-inside:avoid;border:1px solid #ccc}}
+</style></head><body>
+<header class="hero">
+  <div class="wrap">
+    <h1>花屋特化 勤怠管理SaaS — 要件・仕様提案書</h1>
+    <p>マネーフォワード クラウド勤怠（株式会社 笑人 / giraflower 環境）の調査に基づく仕様骨子</p>
+    <p class="small" style="opacity:.9">対象読者：開発エンジニア ＋ システム構築AI　／　作成基準日：2026-06-25</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>目次</h2>
+  <ol>
+    <li><a href="#s0">0. 本書の目的と読み方</a></li>
+    <li><a href="#s1">1. システム全体像・対象業態の前提</a></li>
+    <li><a href="#s2">2. データモデル（中核エンティティ）</a></li>
+    <li><a href="#s3">3. 就業ルール（雇用区分）モジュール</a></li>
+    <li><a href="#s4">4. 変形労働時間制モジュール</a></li>
+    <li><a href="#s5">5. シフト管理モジュール</a></li>
+    <li><a href="#s6">6. 打刻・日次勤怠モジュール</a></li>
+    <li><a href="#s7">7. 休暇モジュール（有給・特別・振替・代休・休職休業）</a></li>
+    <li><a href="#s8">8. 従業員自己操作画面（申請ワークフロー）</a></li>
+    <li><a href="#s9">9. 組織・拠点・異動モジュール</a></li>
+    <li><a href="#s10">10. 集計・判定ロジック仕様（重要）</a></li>
+    <li><a href="#s11">11. 権限・アラート・外部連携</a></li>
+    <li><a href="#s12">12. 花屋特化機能：必須／機能案／改善</a></li>
+    <li><a href="#s13">13. MFクラウド勤怠の仕様ギャップ（差別化余地）</a></li>
+    <li><a href="#s14">14. 開発フェーズ提案（MVP→拡張）</a></li>
+    <li><a href="#s15">15. AI構築用：実装指示サマリ</a></li>
+  </ol>
+</nav>
+<section id="s0">
+<h2 class="sec">0. 本書の目的と読み方</h2>
+<p>本書は、現行で利用中の「マネーフォワード クラウド勤怠」を全面的に調査し、<b>花屋（生花店）に特化した勤怠管理SaaS</b>を新規構築するための要件・仕様の骨子をまとめたものである。エンジニアが実装に落とし込めること、およびシステム構築AIがそのまま入力として扱えることの両立を狙っている。</p>
+<div class="legend">
+  <span><span class="tag t-base">基準</span> 一般的な勤怠SaaSとして当然備えるべき土台機能（MF同等）</span>
+  <span><span class="tag t-must">必須</span> 花屋特化として最初から外せない機能</span>
+  <span><span class="tag t-idea">機能案</span> 花屋特化の差別化アイデア（採否は要検討）</span>
+  <span><span class="tag t-imp">改善</span> MFの弱点を補う改善ポイント</span>
+</div>
+<div class="callout c-warn"><b>調査上の制約に関する注記：</b> 調査は本番稼働アカウント上で行ったため、データの新規登録・削除は原則行っていない。仕様は「既存設定の閲覧」と「公式サポートサイトの記載」に基づく。法令（労基法の有給付与・36協定等）に関わる部分は実装前に社労士確認を推奨する。</p></div>
+</section>
+
+<section id="s1">
+<h2 class="sec">1. システム全体像・対象業態の前提</h2>
+<h3>1-1. 現行環境のプロファイル（giraflower）</h3>
+<table>
+<tr><th>項目</th><th>内容</th><th>SaaS設計への示唆</th></tr>
+<tr><td>事業者</td><td>株式会社 笑人（giraflowerブランド）</td><td>マルチテナント前提（1事業者=1テナント）</td></tr>
+<tr><td>規模</td><td>従業員 約36名</td><td>数名〜数十名規模の中小花店がメインターゲット</td></tr>
+<tr><td>拠点</td><td>東京・大宮・福岡・山口の各LAB＋【現場】（ホテル/結婚式場）で計34拠点</td><td>「固定店舗」＋「流動的な現場（イベント装花）」の二層構造が花屋の特徴</td></tr>
+<tr><td>働き方</td><td>シフト制中心。直行直帰あり、現場作業あり</td><td>シフト＋GPS/モバイル打刻＋直行直帰対応が必須</td></tr>
+</table>
+<h3>1-2. 花屋業態の勤務特性（設計の出発点）</h3>
+<ul class="clean">
+<li>繁忙の季節変動が極端（母の日・お彼岸・クリスマス・年末年始・卒入学・バレンタイン）。→ <b>変形労働時間制</b>と相性が良い。</li>
+<li>早朝の市場仕入れ（早出）と、イベント当日の長時間・深夜作業が混在。</li>
+<li>店舗スタッフ・配達・装花現場スタッフで勤務地が日々変わる。→ <b>拠点をまたぐシフト</b>と<b>位置情報打刻</b>。</li>
+<li>パート・アルバイト比率が高く、雇用区分が多様。→ 雇用区分（就業ルール）ごとの細かな設定が必要。</li>
+</ul>
+</section>
+<section id="s2">
+<h2 class="sec">2. データモデル（中核エンティティ）</h2>
+<p>MF勤怠の構造から逆算した、最小構成の中核エンティティ。花屋特化フィールドは <span class="tag t-must">必須</span> で示す。</p>
+<table>
+<tr><th>エンティティ</th><th>主な属性</th><th>関連</th></tr>
+<tr><td>事業者(Tenant)</td><td>事業者ID, 名称, 事業者番号</td><td>1:N 従業員 / 拠点 / 就業ルール</td></tr>
+<tr><td>従業員(Employee)</td><td>氏名, 社員番号, 入社日, 所属拠点, 役職, 適用就業ルール, 権限ロール</td><td>N:1 拠点 / 就業ルール</td></tr>
+<tr><td>拠点(OfficeLocation)</td><td>拠点名, 種別（店舗/LAB/<b>現場</b>）, 住所, GPS座標 <span class="tag t-must">必須</span></td><td>1:N シフト割当</td></tr>
+<tr><td>就業ルール(EmploymentRule)</td><td>区分種別, 所定時間, 休憩, 丸め, 残業集計方式, 打刻みなし</td><td>1:N 従業員</td></tr>
+<tr><td>勤務パターン(WorkPattern)</td><td>始業/終業, 休憩, 直行/直帰みなし</td><td>シフトで割当</td></tr>
+<tr><td>シフト(Shift)</td><td>従業員, 日付, 勤務パターン, 拠点, 勤怠区分</td><td>N:1 従業員/拠点</td></tr>
+<tr><td>打刻(TimeRecord)</td><td>従業員, 時刻, 種別(出/退/外出/戻), 位置情報, 端末</td><td>N:1 従業員</td></tr>
+<tr><td>日次勤怠(DailyAttendance)</td><td>実績時間, 残業, 遅刻早退, 休暇区分, 承認状態</td><td>N:1 従業員</td></tr>
+<tr><td>休暇付与(LeaveGrant)</td><td>種別, 付与日数, 付与日, 失効日, 残数</td><td>N:1 従業員</td></tr>
+<tr><td>申請(WorkflowRequest)</td><td>種別, 申請者, 内容, 承認経路, 状態</td><td>N:1 従業員</td></tr>
+</table>
+<div class="callout c-tip"><b>花屋特化の追加属性：</b> 拠点に「現場（イベント装花）」種別とGPS座標を持たせ、シフトに「装花案件ID」「市場仕入れフラグ」を付与できる拡張余地を最初から確保する。</div>
+</section>
+
+<section id="s3">
+<h2 class="sec">3. 就業ルール（雇用区分）モジュール</h2>
+<p>MFでは「就業ルール＝雇用区分」が勤怠計算の核。giraflower環境では7種が存在した。</p>
+<table>
+<tr><th>就業ルール種別</th><th>用途</th><th>花屋SaaSでの優先度</th></tr>
+<tr><td>基本勤務制</td><td>固定時間勤務</td><td><span class="tag t-base">基準</span> 正社員事務系</td></tr>
+<tr><td>シフト制</td><td>勤務パターンを日々割当</td><td><span class="tag t-must">必須</span> 店舗の主力</td></tr>
+<tr><td>1ヶ月単位変形労働</td><td>月内で繁閑調整</td><td><span class="tag t-must">必須</span> 月次イベント対応</td></tr>
+<tr><td>1年単位変形労働</td><td>年間で繁閑調整</td><td><span class="tag t-must">必須</span> 季節変動の核</td></tr>
+<tr><td>管理監督者</td><td>残業概念なし・深夜のみ</td><td><span class="tag t-base">基準</span> 店長クラス</td></tr>
+<tr><td>裁量労働制</td><td>みなし時間</td><td><span class="tag t-imp">改善</span> 花屋では使用頻度低</td></tr>
+<tr><td>フレックスタイム制</td><td>清算期間内で自由</td><td><span class="tag t-imp">改善</span> 優先度低（本社のみ）</td></tr>
+</table>
+<h3>3-1. 就業ルールが保持すべき設定項目</h3>
+<ul class="clean">
+<li>所定労働時間・休憩時間・休憩自動付与ルール</li>
+<li>打刻丸め（始業切り上げ/終業切り捨て 等、単位分）</li>
+<li><b>打刻みなし</b>：直行（出勤打刻不要）／直帰（退勤打刻不要）— <span class="tag t-must">必須</span>（市場直行・現場直帰）</li>
+<li>残業集計方式（所定外/法定外を分離 or 残業に法定外を含める。後述§10で詳細・<b>不可逆</b>に注意）</li>
+<li>遅刻・早退・欠勤の判定基準</li>
+</ul>
+<div class="callout c-info">公式FAQでは、丸め設定やアラート設定を適切にしないと集計エラーになりやすい旨が示されていた。SaaS側では<b>設定ウィザード＋プリセット（花屋テンプレート）</b>でミスを防ぐべき。</div>
+</section>
+<section id="s4">
+<h2 class="sec">4. 変形労働時間制モジュール</h2>
+<p>花屋の季節繁閑に最も適合する制度。MFは「1ヶ月単位」「1年単位」を備える。</p>
+<h3>4-1. 1ヶ月単位変形労働時間制</h3>
+<ul class="clean">
+<li>起算日を設定し、対象期間（1ヶ月）の総枠（週平均40h換算）内で日ごとの所定を変動。</li>
+<li>日・週の所定を事前にカレンダーで定め、それを超えた分が時間外。</li>
+<li>giraflower環境では「技術・総合社員」区分で運用されていた。</li>
+</ul>
+<h3>4-2. 1年単位変形労働時間制</h3>
+<ul class="clean">
+<li>最長1年の対象期間。年間カレンダーで繁忙月（母の日5月・年末12月等）を多め、閑散月を少なめに設定。</li>
+<li>労使協定・年間休日数の下限など法的制約があるため、<b>設定時バリデーション</b>を実装すべき。</li>
+</ul>
+<div class="callout c-warn"><b>必須要件：</b> 花屋SaaSでは「年間繁閑テンプレート」をプリセット提供する。<span class="tag t-must">必須</span> 母の日・お盆・彼岸・クリスマス・年末を繁忙日として自動マークし、年間所定時間の自動配分を支援する。</div>
+<div class="callout c-info">空リストで「追加」を押すと空レコードが生成される挙動があった（MFの設計）。SaaS側は<b>「追加＝下書き、保存して初めて確定」</b>とし、誤生成を防ぐUXにする。<span class="tag t-imp">改善</span></div>
+</section>
+
+<section id="s5">
+<h2 class="sec">5. シフト管理モジュール</h2>
+<h3>5-1. MFのシフト機能（2方式）</h3>
+<table>
+<tr><th>方式</th><th>内容</th></tr>
+<tr><td>パターンシフト</td><td>登録済み勤務パターン（例 09:00-17:00）をセルに割当</td></tr>
+<tr><td>時間帯シフト</td><td>セルに任意の時間帯を直接入力</td></tr>
+</table>
+<p>セルクリックで「スケジュール／勤怠区分」のポップアップ。「選択範囲を編集」で複数セルを一括設定（スケジュール詳細設定）。</p>
+<h3>5-2. 重大な仕様ギャップ（差別化の核）</h3>
+<div class="callout c-gap"><b>ギャップ①：シフト提出・収集機能が無い。</b> MFには「従業員がシフト希望を提出し、管理者が収集・調整する」機能が無く、外部サービス（oplus）連携に依存していた。</div>
+<div class="callout c-gap"><b>ギャップ②：従業員はシフト管理画面を閲覧できない。</b> 公式FAQで明記。従業員は自分のシフトを「日次勤怠」経由でしか見られない。</div>
+<h3>5-3. 花屋SaaSのシフト要件</h3>
+<ul class="clean">
+<li><span class="tag t-must">必須</span> 従業員がスマホからシフト希望を提出 → 管理者が収集・自動下書き作成（MFの最大の弱点を内製で解決）。</li>
+<li><span class="tag t-must">必須</span> 従業員が自分のシフトをカレンダーで明確に閲覧・通知受信。</li>
+<li><span class="tag t-must">必須</span> 拠点をまたぐシフト割当（店舗→現場ヘルプ）。ヘルプ要員の可視化。</li>
+<li><span class="tag t-idea">機能案</span> 「装花案件」と紐づくシフト（案件に必要人数を設定→不足を警告）。</li>
+<li><span class="tag t-idea">機能案</span> 繁忙日アラート：母の日等に必要人数が満たないとダッシュボードで警告。</li>
+<li><span class="tag t-imp">改善</span> シフト未確定者・希望未提出者の一覧と督促通知。</li>
+</ul>
+</section>
+<section id="s6">
+<h2 class="sec">6. 打刻・日次勤怠モジュール</h2>
+<h3>6-1. 打刻方式（MF）</h3>
+<ul class="clean">
+<li>Web打刻、GPS打刻、打刻モード、PaSoRi（ICカード）に対応。</li>
+<li>外出/戻りの打刻にも対応（休憩・中抜け管理）。</li>
+</ul>
+<h3>6-2. 日次勤怠（従業員画面）</h3>
+<p>日毎に「詳細／編集／申請」が可能。編集はモーダル。申請ドロップダウンには <b>実績スケジュール・遅刻・早退・残業・早出・欠勤・休暇・休日出勤</b> がある。</p>
+<h3>6-3. 花屋SaaSの打刻要件</h3>
+<ul class="clean">
+<li><span class="tag t-must">必須</span> GPS打刻＋拠点ジオフェンス（現場でも正しい拠点で打刻）。</li>
+<li><span class="tag t-must">必須</span> 直行直帰みなし（市場仕入れ・現場直行）。打刻みなしと早出を整合。</li>
+<li><span class="tag t-idea">機能案</span> 写真付き打刻（現場到着の納品・装花完了記録）。<span class="small">※顔画像の収集は行わない設計とする。</span></li>
+<li><span class="tag t-imp">改善</span> 早出（市場）を打刻区分として明確化し、所定外と区別。</li>
+</ul>
+</section>
+
+<section id="s7">
+<h2 class="sec">7. 休暇モジュール</h2>
+<h3>7-1. 年次有給休暇（法令対応・最重要）</h3>
+<table>
+<tr><th>仕様</th><th>内容</th><th>区分</th></tr>
+<tr><td>自動付与</td><td>入社起算で付与日に自動付与。出勤率8割未満は付与なし。</td><td><span class="tag t-base">基準</span></td></tr>
+<tr><td>比例付与</td><td>週所定日数の少ないパートは比例付与表に従う。</td><td><span class="tag t-must">必須</span>（花屋はパート多数）</td></tr>
+<tr><td>出勤率計算</td><td>出勤日数 ÷ 全労働日。</td><td><span class="tag t-base">基準</span></td></tr>
+<tr><td>失効</td><td>付与から24ヶ月で失効。</td><td><span class="tag t-base">基準</span></td></tr>
+<tr><td>取得単位</td><td>全休／半休。時間単位有給の検討余地。</td><td><span class="tag t-imp">改善</span></td></tr>
+</table>
+<div class="callout c-warn"><b>法令注意：</b> 遡及付与は不可、年5日取得義務の管理が必要。SaaSは<b>「年5日未取得者アラート」</b>を必須実装する。<span class="tag t-must">必須</span> 実装前に社労士確認を推奨。</div>
+<h3>7-2. その他の休暇種別（MFが個別パターンで管理）</h3>
+<table>
+<tr><th>種別</th><th>内容</th><th>花屋での想定</th></tr>
+<tr><td>振替休日</td><td>事前に休日と労働日を入替（割増なし）</td><td>繁忙日出勤の事前振替</td></tr>
+<tr><td>代休</td><td>休日労働後に事後取得（割増あり）</td><td>イベント当日出勤後の代休</td></tr>
+<tr><td>その他休日/休暇</td><td>慶弔・特別休暇等。日付固定型／従業員指定型</td><td>会社規定の特別休暇</td></tr>
+<tr><td>休職・休業</td><td>従業員単位で期間設定（産休育休・私傷病等）</td><td>長期離脱者の管理</td></tr>
+</table>
+<div class="callout c-info">振替休日と代休は割増賃金の扱いが異なるため、<b>制度を明確に分離</b>して計算する必要がある。花屋は繁忙日出勤が多く、両者の運用頻度が高い。</div>
+</section>
+<section id="s8">
+<h2 class="sec">8. 従業員自己操作画面（申請ワークフロー）</h2>
+<p>※ユーザー指示により、ワークフローは「軽め」に設計する方針。</p>
+<h3>8-1. MFの申請種別（従業員ワークフロー：9種）</h3>
+<p>実績スケジュール／遅刻／早退／残業／早出／欠勤／休暇／休日出勤 などを従業員が申請し、承認経路で承認。</p>
+<h3>8-2. 花屋SaaSの方針</h3>
+<ul class="clean">
+<li><span class="tag t-imp">改善</span> 承認経路は<b>1〜2段階に簡素化</b>（店長承認のみ等）。中小花店に多段承認は過剰。</li>
+<li><span class="tag t-must">必須</span> 休暇申請（残数表示・全休/半休・期間・コメント）はスマホで完結。</li>
+<li><span class="tag t-idea">機能案</span> シフト希望提出を申請ワークフローと統合（提出→確定通知）。</li>
+<li><span class="tag t-imp">改善</span> 申請の通知はLINE/プッシュで（紙・口頭文化からの移行を支援）。</li>
+</ul>
+</section>
+
+<section id="s9">
+<h2 class="sec">9. 組織・拠点・異動モジュール</h2>
+<h3>9-1. 拠点</h3>
+<p>giraflowerは34拠点。LAB（東京/大宮/福岡/山口）と【現場】（ホテル/結婚式場）を区別して管理していた。</p>
+<ul class="clean">
+<li><span class="tag t-must">必須</span> 拠点に「店舗／LAB／現場」の種別を持たせる。</li>
+<li><span class="tag t-must">必須</span> 現場（イベント装花）は短期・流動的に増減 → 拠点の<b>即時追加・アーカイブ</b>を容易に。</li>
+</ul>
+<h3>9-2. 異動予約</h3>
+<p>MFは役職／就業ルール／拠点の異動を「予約作成」で将来日付指定できる。</p>
+<ul class="clean">
+<li><span class="tag t-base">基準</span> 将来日付の異動予約（適用開始日に自動切替）。</li>
+<li><span class="tag t-idea">機能案</span> 季節限定スタッフの「期間限定所属」を予約で自動入退店処理。</li>
+</ul>
+</section>
+<section id="s10">
+<h2 class="sec">10. 集計・判定ロジック仕様（重要）</h2>
+<p>公式サポートサイトで確認した、実装時に最も注意すべきロジック。花屋は深夜・長時間・日跨ぎが多いため特に重要。</p>
+<h3>10-1. 勤務日の判定（2方式）</h3>
+<table>
+<tr><th>方式</th><th>適用</th></tr>
+<tr><td>48時間判定</td><td>日跨ぎ・徹夜勤務（イベント設営〜翌朝撤収）を1勤務とみなす</td></tr>
+<tr><td>日付変更時間方式</td><td>24時間以内の勤務。指定した日付変更時刻で勤務日を区切る</td></tr>
+</table>
+<div class="callout c-tip">花屋のイベント装花は深夜設営・早朝納品が発生するため、<b>48時間判定</b>を選べることが実務上重要。<span class="tag t-must">必須</span></div>
+<h3>10-2. 残業集計（2モード・不可逆）</h3>
+<table>
+<tr><th>モード</th><th>内容</th></tr>
+<tr><td>所定外/法定外を分離</td><td>所定外残業と法定外残業を別集計</td></tr>
+<tr><td>残業に法定外を含める</td><td>残業として一括。<b>適用には申請が必要で、かつ変更は不可逆</b></td></tr>
+</table>
+<div class="callout c-warn"><b>不可逆な設定の存在に注意。</b> SaaSでは不可逆設定の前に<b>強い確認ダイアログ＋影響範囲のプレビュー</b>を出す。<span class="tag t-imp">改善</span></div>
+<h3>10-3. 欠勤判定</h3>
+<p>「平日（所定労働日）＋打刻なし＋休暇申請なし」＝欠勤、というロジック。シフト制では「シフトが入っている日に打刻・休暇がない」を欠勤とする実装が妥当。</p>
+</section>
+
+<section id="s11">
+<h2 class="sec">11. 権限・アラート・外部連携</h2>
+<h3>11-1. 権限ロール</h3>
+<p>MFは権限マトリクス（全権管理者／一般従業員等）で画面・操作を制御。シフト管理画面は管理者・上長のみ閲覧可。</p>
+<ul class="clean">
+<li><span class="tag t-must">必須</span> 「店長（拠点管理者）」ロール：自店舗のシフト・勤怠のみ管理。</li>
+<li><span class="tag t-imp">改善</span> 従業員も<b>自分のシフトは常時閲覧可</b>に（MFのギャップ②を解消）。</li>
+</ul>
+<h3>11-2. アラート</h3>
+<p>MFは勤怠アラートルール（打刻漏れ等）を設定可。giraflowerでは47件のアラートが出ていた。</p>
+<ul class="clean">
+<li><span class="tag t-must">必須</span> 打刻漏れ・残業超過・年5日有給未取得・36協定上限接近のアラート。</li>
+<li><span class="tag t-idea">機能案</span> 繁忙日の人員不足アラート（花屋特化）。</li>
+</ul>
+<h3>11-3. 外部連携</h3>
+<p>MFは MF給与・oplus（シフト）・個別原価・Slack 等と連携し、APIキーを保持していた。</p>
+<div class="callout c-info">花屋SaaSは<b>給与計算連携（CSV/API）</b>を標準装備しつつ、シフト収集は外部依存せず内製する方針（差別化）。<span class="tag t-imp">改善</span> <span class="small">※APIキー等の機密情報は本書には記載しない。</span></div>
+</section>
+<section id="s12">
+<h2 class="sec">12. 花屋特化機能：必須／機能案／改善 一覧</h2>
+<p>エンジニアが優先度判断に使えるよう、花屋特化の観点で全機能を3分類で集約。</p>
+
+<h3>12-1. <span class="tag t-must">必須機能</span>（MVPに含める）</h3>
+<table>
+<tr><th>#</th><th>機能</th><th>花屋でなぜ必須か</th></tr>
+<tr><td>M1</td><td>シフト希望提出＆収集</td><td>MF最大の弱点。花屋はシフト調整が日常で外部依存は不可</td></tr>
+<tr><td>M2</td><td>従業員のシフト常時閲覧（カレンダー＋通知）</td><td>パート中心、勤務地が変わるため自分の予定確認が必須</td></tr>
+<tr><td>M3</td><td>拠点種別（店舗/LAB/現場）＋GPS座標</td><td>固定店舗と流動現場の二層構造に対応</td></tr>
+<tr><td>M4</td><td>GPS／ジオフェンス打刻＋直行直帰みなし</td><td>市場仕入れ・現場直行直帰が日常</td></tr>
+<tr><td>M5</td><td>1年単位変形労働＋繁閑テンプレート</td><td>季節変動が極端な業態</td></tr>
+<tr><td>M6</td><td>比例付与対応の有給管理＋年5日アラート</td><td>パート多数・法令遵守</td></tr>
+<tr><td>M7</td><td>振替休日／代休の分離管理</td><td>繁忙日出勤の振替・代休運用が頻発</td></tr>
+<tr><td>M8</td><td>店長（拠点管理者）ロール</td><td>多拠点の権限分離</td></tr>
+<tr><td>M9</td><td>48時間判定（日跨ぎ勤務）</td><td>イベント設営〜翌朝撤収を1勤務に</td></tr>
+</table>
+
+<h3>12-2. <span class="tag t-idea">機能案</span>（差別化アイデア・採否要検討）</h3>
+<table>
+<tr><th>#</th><th>機能</th><th>狙い</th></tr>
+<tr><td>I1</td><td>装花案件と連動するシフト（必要人数管理）</td><td>案件単位で人員手配を可視化</td></tr>
+<tr><td>I2</td><td>繁忙日（母の日等）人員不足アラート</td><td>需要ピークの取りこぼし防止</td></tr>
+<tr><td>I3</td><td>写真付き打刻（納品・装花完了記録）</td><td>現場品質と勤務の同時記録（顔画像は扱わない）</td></tr>
+<tr><td>I4</td><td>季節限定スタッフの期間限定所属（異動予約活用）</td><td>繁忙期スポット採用の自動管理</td></tr>
+<tr><td>I5</td><td>LINE通知連携</td><td>紙・口頭文化からの移行支援</td></tr>
+<tr><td>I6</td><td>市場仕入れ「早出」テンプレ＆ルート記録</td><td>早朝労働の正確な集計</td></tr>
+</table>
+
+<h3>12-3. <span class="tag t-imp">改善機能</span>（MFの弱点補強）</h3>
+<table>
+<tr><th>#</th><th>改善点</th><th>MFの課題</th></tr>
+<tr><td>P1</td><td>設定ウィザード＋花屋プリセット</td><td>就業ルール設定が複雑でエラーになりやすい</td></tr>
+<tr><td>P2</td><td>「追加＝下書き、保存で確定」UX</td><td>空レコード誤生成の挙動</td></tr>
+<tr><td>P3</td><td>不可逆設定の確認＋プレビュー</td><td>残業集計方式の不可逆変更</td></tr>
+<tr><td>P4</td><td>承認経路の簡素化（1〜2段階）</td><td>多段ワークフローは中小に過剰</td></tr>
+<tr><td>P5</td><td>未提出・未確定シフトの督促</td><td>収集機能自体が無い</td></tr>
+</table>
+</section>
+<section id="s13">
+<h2 class="sec">13. MFクラウド勤怠の仕様ギャップ（差別化余地）</h2>
+<table>
+<tr><th>ギャップ</th><th>内容</th><th>新SaaSの打ち手</th></tr>
+<tr><td>シフト収集なし</td><td>希望提出・収集機能が無く外部(oplus)依存</td><td>内製のシフト希望→自動下書き生成</td></tr>
+<tr><td>従業員シフト非表示</td><td>従業員はシフト管理画面を見られない</td><td>従業員カレンダー＋通知を標準化</td></tr>
+<tr><td>設定の複雑さ</td><td>就業ルール・丸め・集計の設定難易度が高い</td><td>業態テンプレート＋ウィザード</td></tr>
+<tr><td>現場（流動拠点）非特化</td><td>汎用拠点管理のみ</td><td>現場種別・案件連動・GPSを標準化</td></tr>
+<tr><td>繁閑特化なし</td><td>変形労働は汎用設定</td><td>花屋向け年間繁閑プリセット</td></tr>
+</table>
+</section>
+
+<section id="s14">
+<h2 class="sec">14. 開発フェーズ提案（MVP→拡張）</h2>
+<h3>フェーズ1（MVP）</h3>
+<p>従業員/拠点/就業ルール/シフト（提出・収集・閲覧）/GPS打刻/日次勤怠/有給（比例付与・年5日）/振替代休/店長ロール/基本アラート。＝ §12 必須 M1〜M9。</p>
+<h3>フェーズ2</h3>
+<p>1年単位変形の繁閑テンプレート高度化、装花案件連動シフト、繁忙日人員アラート、LINE通知、給与CSV/API連携。</p>
+<h3>フェーズ3</h3>
+<p>写真付き打刻、需要予測に基づく人員推奨、複数事業者横断レポート、36協定高度管理。</p>
+<div class="callout c-warn">法令に関わるM5・M6・36協定は、実装前に<b>社労士レビュー</b>を必ず通すこと。</div>
+</section>
+
+<section id="s15">
+<h2 class="sec">15. AI構築用：実装指示サマリ</h2>
+<p>システム構築AIへの入力として、要点を機械可読に近い形で再掲する。</p>
+<h4>ターゲット</h4>
+<ul class="clean"><li>マルチテナントSaaS。1事業者=1テナント。中小花店（数名〜数十名）。</li></ul>
+<h4>中核エンティティ</h4>
+<ul class="clean"><li>Tenant, Employee, OfficeLocation(type: store/lab/site, geo), EmploymentRule, WorkPattern, Shift(date, pattern, location, project_id?), TimeRecord(type, geo, device), DailyAttendance, LeaveGrant, WorkflowRequest。</li></ul>
+<h4>必須ロジック</h4>
+<ul class="clean">
+<li>勤務日判定：48h判定 / 日付変更時間方式（切替可）。</li>
+<li>残業集計：所定外/法定外分離 or 法定外含む（不可逆設定は確認必須）。</li>
+<li>欠勤：所定労働日 ∧ 打刻なし ∧ 休暇申請なし。</li>
+<li>有給：8割出勤判定、比例付与表、24ヶ月失効、遡及付与禁止、年5日取得監視。</li>
+<li>打刻みなし：直行/直帰。GPSジオフェンス検証。</li>
+</ul>
+<h4>必須機能（MVP）</h4>
+<ul class="clean"><li>M1 シフト希望提出・収集 / M2 従業員シフト閲覧 / M3 拠点種別+GPS / M4 GPS打刻+直行直帰 / M5 1年変形+繁閑テンプレ / M6 比例付与有給+年5日アラート / M7 振替/代休分離 / M8 店長ロール / M9 48h判定。</li></ul>
+<h4>差別化原則</h4>
+<ul class="clean"><li>シフト収集を内製（外部依存しない）。従業員シフト常時閲覧。花屋プリセット。現場（流動拠点）特化。</li></ul>
+<h4>制約・非機能</h4>
+<ul class="clean"><li>機密情報（APIキー・個人特定情報）は保存時暗号化。顔画像は収集しない。法令部分は社労士確認前提。承認経路は1〜2段階で軽量に。</li></ul>
+</section>
+
+<footer>
+<p>本書はマネーフォワード クラウド勤怠（giraflower環境）の閲覧調査と公式サポートサイト記載に基づく要件骨子です。法令・制度の最終判断は社労士等の専門家確認を前提とします。データの新規登録・削除は行っていません。</p>
+<p>© 株式会社 笑人 — 花屋特化 勤怠SaaS 要件・仕様提案書（ドラフト）</p>
+</footer>
+</body></html>
