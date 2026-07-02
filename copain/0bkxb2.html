@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コパン。変わります。— 2026年 業務方針共有</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap');
+
+  :root {
+    --ink: #1a1a1a;
+    --white: #ffffff;
+    --copain-green: #2d6a4f;
+    --copain-green-light: #40916c;
+    --copain-green-pale: #d8f3dc;
+    --accent-orange: #e76f51;
+    --accent-yellow: #f4a261;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-400: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-800: #343a40;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* ===== COVER ===== */
+  .cover {
+    min-height: 100vh;
+    background: var(--copain-green);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .cover-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+
+  .cover-title span {
+    color: var(--accent-yellow);
+  }
+
+  .cover-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 64px;
+    font-weight: 300;
+  }
+
+  .cover-meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+  }
+
+  .cover-scroll {
+    position: absolute;
+    bottom: 40px;
+    right: 80px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+  }
+
+  .cover-scroll::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+  }
+
+  /* ===== SECTION BASE ===== */
+  section {
+    padding: 100px 80px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--copain-green);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+
+  .section-message {
+    font-size: 15px;
+    color: var(--gray-600);
+    margin-bottom: 56px;
+    max-width: 560px;
+  }
+
+  /* ===== SECTION 1: 現状 ===== */
+  .section-reality {
+    background: var(--gray-100);
+  }
+
+  .reality-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .reality-card {
+    background: var(--white);
+    padding: 48px 40px;
+    position: relative;
+  }
+
+  .reality-card.highlight {
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .reality-card-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gray-400);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .reality-card.highlight .reality-card-label {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .reality-big {
+    font-size: clamp(56px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--copain-green);
+    margin-bottom: 8px;
+  }
+
+  .reality-card.highlight .reality-big {
+    color: var(--accent-yellow);
+  }
+
+  .reality-unit {
+    font-size: 18px;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  .reality-desc {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-top: 12px;
+  }
+
+  .reality-card.highlight .reality-desc {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .reality-arrow {
+    text-align: center;
+    padding: 32px 0;
+    font-size: 13px;
+    color: var(--gray-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .reality-arrow::before,
+  .reality-arrow::after {
+    content: '';
+    height: 1px;
+    background: var(--gray-200);
+    flex: 1;
+  }
+
+  /* ===== SECTION 2: Showcase ===== */
+  .change-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 48px;
+  }
+
+  .change-table th {
+    padding: 14px 24px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .change-table th:first-child {
+    background: var(--gray-200);
+    color: var(--gray-600);
+  }
+
+  .change-table th:last-child {
+    background: var(--copain-green);
+    color: var(--white);
+  }
+
+  .change-table td {
+    padding: 20px 24px;
+    font-size: 14px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .change-table td:first-child {
+    color: var(--gray-600);
+    background: var(--gray-100);
+  }
+
+  .change-table td:last-child {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .tag-old {
+    display: inline-block;
+    background: var(--gray-200);
+    color: var(--gray-600);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+
+  .tag-new {
+    display: inline-block;
+    background: var(--copain-green-pale);
+    color: var(--copain-green);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+
+  /* ===== SECTION 3: 待機中スタッフ分析 ===== */
+  .section-staff {
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .section-staff .section-label {
+    color: var(--accent-yellow);
+  }
+
+  .section-staff .section-title {
+    color: var(--white);
+  }
+
+  .section-staff .section-message {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .staff-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .staff-hero-card {
+    background: rgba(255,255,255,0.05);
+    padding: 40px 32px;
+    border-top: 2px solid rgba(255,255,255,0.1);
+  }
+
+  .staff-hero-card.accent {
+    background: var(--accent-orange);
+    border-top-color: transparent;
+  }
+
+  .staff-hero-num {
+    font-size: clamp(40px, 4vw, 64px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .staff-hero-card:not(.accent) .staff-hero-num {
+    color: var(--accent-yellow);
+  }
+
+  .staff-hero-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+  }
+
+  .staff-hero-card.accent .staff-hero-label {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .staff-analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .analysis-block {
+    background: rgba(255,255,255,0.04);
+    padding: 36px 32px;
+  }
+
+  .analysis-title {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-yellow);
+    margin-bottom: 24px;
+  }
+
+  .bar-item {
+    margin-bottom: 16px;
+  }
+
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
+  }
+
+  .bar-label span:last-child {
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .bar-track {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+  }
+
+  .bar-fill {
+    height: 4px;
+    background: var(--copain-green-light);
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .bar-fill.orange { background: var(--accent-orange); }
+  .bar-fill.yellow { background: var(--accent-yellow); }
+
+  .match-check {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .match-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .match-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .match-icon.ok { background: var(--copain-green); }
+  .match-icon.ng { background: var(--accent-orange); }
+
+  .match-row strong { color: var(--white); }
+
+  .bottleneck-box {
+    background: var(--accent-orange);
+    padding: 40px;
+    margin-top: 2px;
+  }
+
+  .bottleneck-box p {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  .bottleneck-box p span {
+    background: rgba(0,0,0,0.2);
+    padding: 0 8px;
+  }
+
+  /* ===== SECTION 4: 発信戦略 ===== */
+  .section-strategy {
+    background: var(--white);
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .strategy-card {
+    background: var(--gray-100);
+    padding: 44px 40px;
+    border-top: 3px solid var(--gray-200);
+  }
+
+  .strategy-card.green {
+    border-top-color: var(--copain-green);
+  }
+
+  .strategy-card.orange {
+    border-top-color: var(--accent-orange);
+  }
+
+  .strategy-card-head {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 20px;
+  }
+
+  .strategy-card-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .channel-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .channel-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--gray-800);
+  }
+
+  .channel-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--copain-green);
+    flex-shrink: 0;
+  }
+
+  .channel-dot.orange { background: var(--accent-orange); }
+
+  .freq-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--copain-green);
+    background: var(--copain-green-pale);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .freq-badge.orange {
+    color: var(--accent-orange);
+    background: #fdecea;
+  }
+
+  /* ===== SECTION 5: フェーズ ===== */
+  .section-phase {
+    background: var(--gray-100);
+  }
+
+  .phase-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .phase-card {
+    background: var(--white);
+    padding: 36px 28px;
+    position: relative;
+  }
+
+  .phase-card.active {
+    background: var(--copain-green);
+    color: var(--white);
+  }
+
+  .phase-num {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gray-400);
+    margin-bottom: 16px;
+  }
+
+  .phase-card.active .phase-num {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .phase-period {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--copain-green);
+    margin-bottom: 8px;
+  }
+
+  .phase-card.active .phase-period {
+    color: var(--accent-yellow);
+  }
+
+  .phase-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .phase-card.active .phase-name {
+    color: var(--white);
+  }
+
+  .phase-desc {
+    font-size: 12px;
+    color: var(--gray-600);
+    line-height: 1.8;
+  }
+
+  .phase-card.active .phase-desc {
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ===== SECTION 6: KPI ===== */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .kpi-card {
+    background: var(--gray-100);
+    padding: 40px 32px;
+    border-bottom: 3px solid var(--gray-200);
+  }
+
+  .kpi-card.primary {
+    background: var(--copain-green);
+    border-bottom-color: var(--copain-green-light);
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 24px;
+  }
+
+  .kpi-card.primary .kpi-label {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .kpi-now {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-bottom: 4px;
+  }
+
+  .kpi-card.primary .kpi-now {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .kpi-now-val {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-600);
+    margin-bottom: 20px;
+  }
+
+  .kpi-card.primary .kpi-now-val {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .kpi-arrow-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: var(--gray-400);
+    font-size: 12px;
+  }
+
+  .kpi-arrow-line::after {
+    content: '→';
+    font-size: 18px;
+  }
+
+  .kpi-target {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-bottom: 4px;
+  }
+
+  .kpi-card.primary .kpi-target {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .kpi-target-val {
+    font-size: clamp(30px, 2.4vw, 40px);
+    font-weight: 900;
+    color: var(--copain-green);
+    line-height: 1;
+  }
+
+  .kpi-card.primary .kpi-target-val {
+    color: var(--accent-yellow);
+  }
+
+  .kpi-compare {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .kpi-now-box, .kpi-target-box {
+    flex: 1;
+    min-width: 0;
+    padding: 18px 12px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .kpi-now-box {
+    background: rgba(0,0,0,0.05);
+  }
+
+  .kpi-card.primary .kpi-now-box {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .kpi-target-box {
+    background: rgba(29,155,99,0.1);
+    border: 1px solid rgba(29,155,99,0.25);
+  }
+
+  .kpi-card.primary .kpi-target-box {
+    background: rgba(255,209,102,0.12);
+    border: 1px solid rgba(255,209,102,0.35);
+  }
+
+  .kpi-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .kpi-tag.now { color: var(--gray-500); }
+  .kpi-tag.target { color: var(--copain-green); }
+  .kpi-card.primary .kpi-tag.now { color: rgba(255,255,255,0.6); }
+  .kpi-card.primary .kpi-tag.target { color: var(--accent-yellow); }
+
+  .kpi-compare .kpi-now-val {
+    font-size: 22px;
+    margin-bottom: 0;
+    color: var(--gray-600);
+  }
+
+  .kpi-card.primary .kpi-compare .kpi-now-val {
+    color: rgba(255,255,255,0.85);
+  }
+
+  .kpi-compare .kpi-target-val {
+    font-size: clamp(24px, 2vw, 32px);
+  }
+
+  .kpi-arrow-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--gray-300);
+  }
+
+  .kpi-card.primary .kpi-arrow-icon {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .kpi-period {
+    font-size: 12px;
+    color: var(--gray-400);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .kpi-card.primary .kpi-period {
+    color: rgba(255,255,255,0.5);
+  }
+
+  .kpi-mid-box {
+    flex: 1;
+    min-width: 0;
+    padding: 18px 12px;
+    border-radius: 8px;
+    text-align: center;
+    background: rgba(255,255,255,0.12);
+    border: 1px dashed rgba(255,255,255,0.35);
+  }
+
+  .kpi-mid-box .kpi-tag {
+    color: rgba(255,255,255,0.65);
+  }
+
+  .kpi-mid-box .kpi-target-val {
+    font-size: clamp(22px, 1.8vw, 28px);
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* ===== SECTION 7: 期待すること ===== */
+  .section-expect {
+    background: var(--white);
+  }
+
+  .expect-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .expect-card {
+    background: var(--gray-100);
+    padding: 48px 40px;
+  }
+
+  .expect-role {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    font-weight: 700;
+  }
+
+  .expect-role.sales {
+    background: #e3f0ff;
+    color: #1a6bb5;
+  }
+
+  .expect-role.ops {
+    background: var(--copain-green-pale);
+    color: var(--copain-green);
+  }
+
+  .expect-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .expect-items li {
+    display: flex;
+    gap: 18px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .expect-items li:first-child {
+    padding-top: 0;
+  }
+
+  .expect-items li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .expect-num {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 900;
+    flex-shrink: 0;
+    margin-top: 1px;
+    width: 30px;
+    color: var(--gray-300);
+  }
+
+  .expect-card.sales-card .expect-num { color: #a8cdf0; }
+  .expect-card.ops-card .expect-num { color: var(--copain-green-light); }
+
+  .expect-item-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .expect-item-desc {
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.75;
+  }
+
+  /* ===== CLOSING ===== */
+  .closing {
+    background: var(--copain-green);
+    padding: 100px 80px;
+    text-align: center;
+  }
+
+  .closing-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(24px, 3vw, 42px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .closing-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    z-index: 100;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .nav.visible { transform: translateY(0); }
+
+  .nav-brand {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--copain-green);
+    letter-spacing: 0.1em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    color: var(--gray-600);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+  }
+
+  .nav-links a:hover { color: var(--copain-green); }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    height: 2px;
+    background: var(--gray-200);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    #kpi .kpi-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 900px) {
+    section { padding: 64px 32px; }
+    .cover { padding: 48px 32px; }
+    .reality-grid, .staff-hero, .staff-analysis-grid,
+    .strategy-grid, .phase-timeline, .kpi-grid, .expect-grid {
+      grid-template-columns: 1fr;
+    }
+    .nav { padding: 0 32px; }
+    .nav-links { display: none; }
+    .closing { padding: 64px 32px; }
+    #reality div[style*="grid-template-columns:1fr 1fr 1fr"],
+    #sales-detail div[style*="grid-template-columns:1fr 1fr 1fr"],
+    #sales-detail div[style*="grid-template-columns:1fr 1fr"],
+    #op-detail div[style*="grid-template-columns:1fr 1fr 1fr"],
+    #op-detail div[style*="grid-template-columns:1fr 1fr"],
+    #staff div[style*="grid-template-columns:1fr 1fr"],
+    #operation div[style*="grid-template-columns:1fr 1fr"],
+    #discuss div[style*="grid-template-columns:1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-brand">COPAIN 2026</div>
+  <ul class="nav-links">
+    <li><a href="#reality">現状</a></li>
+    <li><a href="#sales-detail">営業</a></li>
+    <li><a href="#op-detail">社内OP</a></li>
+    <li><a href="#showcase">Showcase</a></li>
+    <li><a href="#staff">スタッフ分析</a></li>
+    <li><a href="#sales-actions">必要なアクション</a></li>
+    <li><a href="#strategy">発信戦略</a></li>
+    <li><a href="#phase">フェーズ</a></li>
+    <li><a href="#operation">運用方法</a></li>
+    <li><a href="#kpi">KPI</a></li>
+    <li><a href="#expect">期待すること</a></li>
+    <li><a href="#discuss">話し合うこと</a></li>
+  </ul>
+</nav>
+
+<!-- COVER -->
+<section class="cover" id="top">
+  <div class="cover-label">Copain — 2026 Team Briefing</div>
+  <h1 class="cover-title">コパン。<br><span>変わります。</span></h1>
+  <p class="cover-sub">業務方針・体制共有資料　／　2026年7月</p>
+  <div class="cover-meta">対象：営業・社内オペレーション　全員</div>
+  <div class="cover-scroll">SCROLL</div>
+</section>
+
+<!-- SECTION 1: 現状 -->
+<section class="section-reality" id="reality">
+  <div class="section-label">01 — Why now</div>
+  <h2 class="section-title">動いている数字を、<br>正しく見る。</h2>
+  <p class="section-message">アクティブクライアント20社・受注84名という数字は、良いのか？悪いのか？今後増やせるのか？営業活動の実態データから正直に評価します。</p>
+
+  <div class="reality-grid">
+    <div class="reality-card highlight">
+      <div class="reality-card-label">アクティブクライアント（現在）</div>
+      <div class="reality-big">20<span class="reality-unit">社</span></div>
+      <div class="reality-desc">直近3ヶ月で135社にアプローチした結果の20社。転換率は12.6%。</div>
+    </div>
+    <div class="reality-card">
+      <div class="reality-card-label">受注済み案件（稼働予定）</div>
+      <div class="reality-big">84<span class="reality-unit">名</span></div>
+      <div class="reality-desc">20社からの受注分。ここから実稼働13名へどう繋げるかが鍵。</div>
+    </div>
+    <div class="reality-card">
+      <div class="reality-card-label">現在の実稼働（本日時点）</div>
+      <div class="reality-big">13<span class="reality-unit">名</span></div>
+      <div class="reality-desc">月額請求 約372万円　／　粗利 約139万円（利益率 37.4%）</div>
+    </div>
+    <div class="reality-card highlight">
+      <div class="reality-card-label">月間 新規アクティブ化人数</div>
+      <div class="reality-big">39<span class="reality-unit">名/月</span></div>
+      <div class="reality-desc">直近3ヶ月平均（4〜6月）。半年前の約29名／月から加速中。</div>
+    </div>
+  </div>
+
+  <div class="reality-arrow">受注済み案件 20社・84名分。本日実際に稼働しているのは 13名・11社。</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;">
+    <div style="background:var(--white);padding:32px 28px;">
+      <div style="font-size:11px;letter-spacing:0.2em;color:var(--gray-400);margin-bottom:16px;text-transform:uppercase;">① この数字は良いか？</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.5;">転換率12.6%は、<br>決して高くない。</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8;">135社にアプローチして20社が成約。新規獲得の反応を見ると「見送り」が28社（54%）、「前向き」17社、「検討中」14社。前向き・検討中の31社をどう成約に持ち込むかが次の課題。</div>
+    </div>
+    <div style="background:var(--gray-100);padding:32px 28px;">
+      <div style="font-size:11px;letter-spacing:0.2em;color:var(--gray-400);margin-bottom:16px;text-transform:uppercase;">② もっと増やせるか？</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.5;">増やせる余地はある。<br>工数の構造が問題。</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8;">直近3ヶ月の対応177件のうち<strong>44%（77件）が「進行案件調整」</strong>（既存案件の維持）で、新規獲得は47%（83件）。接触回数は既存4.8回に対し新規1.9回と、既存維持に約2.5倍の工数が集中しています。営業と社内OPの分担を明確にし、営業が新規開拓に集中できる体制にすれば、活動の質は上がります。</div>
+    </div>
+    <div style="background:var(--white);padding:32px 28px;border-left:3px solid var(--copain-green);">
+      <div style="font-size:11px;letter-spacing:0.2em;color:var(--copain-green);margin-bottom:16px;text-transform:uppercase;">③ どう増やすか？</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.5;">Showcaseで「進行調整」を<br>削減し、新規開拓へ。</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8;">クライアントが自分で受注入力・進行確認できる体制になれば、進行調整77件分の工数が社内OPに移管できます。現状の新規47%：進行調整44%はほぼ拮抗している状態であり、これは新規と既存が対立しているわけではなく、進行調整に工数が取られすぎているということです。進行調整を削減し、<strong>営業の活動比率を新規開拓8割・既存対応2割程度</strong>まで移行させます。前向き17社・検討中14社のフォローを深める時間も生まれます。</div>
+    </div>
+  </div>
+
+  <div style="background:var(--ink);padding:36px 40px;">
+    <p style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;color:var(--white);line-height:1.7;margin-bottom:0;">
+      営業は新規開拓に集中する。既存維持は社内OPと分担する。<br>
+      <span style="color:var(--accent-yellow);">この分担を明確にすることが、Showcase導入と同じくらい重要です。</span>
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 1-B: 営業の課題と今後の活動方針 -->
+<section id="sales-detail" style="background:var(--white);">
+  <div class="section-label">01-B — Sales Activity</div>
+  <h2 class="section-title">営業の課題と、<br>今後の活動方針。</h2>
+  <p class="section-message">直近3ヶ月のクライアント対応履歴（177件）から、課題と改善の方向性を整理します。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;">
+    <div style="background:var(--gray-100);padding:32px 28px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--gray-400);margin-bottom:12px;text-transform:uppercase;">接触企業数（直近3ヶ月）</div>
+      <div style="font-size:52px;font-weight:900;color:var(--copain-green);line-height:1;">66<span style="font-size:20px;">社</span></div>
+      <div style="font-size:12px;color:var(--gray-600);margin-top:8px;">うち新規開拓：48社</div>
+    </div>
+    <div style="background:var(--gray-100);padding:32px 28px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--gray-400);margin-bottom:12px;text-transform:uppercase;">対応件数（直近3ヶ月）</div>
+      <div style="font-size:52px;font-weight:900;color:var(--copain-green);line-height:1;">177<span style="font-size:20px;">件</span></div>
+      <div style="font-size:12px;color:var(--gray-600);margin-top:8px;">1日あたり約2.7件</div>
+    </div>
+    <div style="background:var(--accent-orange);padding:32px 28px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.7);margin-bottom:12px;text-transform:uppercase;">新規獲得の転換率</div>
+      <div style="font-size:52px;font-weight:900;color:var(--white);line-height:1;">12.6<span style="font-size:20px;">%</span></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:8px;">135社中17社が成約</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;">
+    <div style="background:var(--gray-100);padding:32px;">
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:16px;">工数の内訳（直近3ヶ月・177件）</div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>進行案件調整（既存維持）</span><span style="font-weight:700;">77件（44%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--accent-orange);border-radius:4px;width:44%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>新規獲得</span><span style="font-weight:700;">83件（47%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--copain-green);border-radius:4px;width:47%"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>既存：案件創出・その他</span><span style="font-weight:700;">17件（9%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--gray-400);border-radius:4px;width:9%"></div></div>
+      </div>
+    </div>
+    <div style="background:var(--gray-100);padding:32px;">
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:16px;">新規獲得先の反応（直近3ヶ月・52社）</div>
+      <div style="margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>見送り</span><span style="font-weight:700;color:var(--accent-orange);">28社（54%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--accent-orange);border-radius:4px;width:54%"></div></div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span style="color:var(--copain-green);font-weight:600;">前向き ← 優先フォロー</span><span style="font-weight:700;color:var(--copain-green);">17社（33%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--copain-green);border-radius:4px;width:33%"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>検討中 ← 継続フォロー</span><span style="font-weight:700;">14社（27%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--gray-400);border-radius:4px;width:27%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:2px;margin-bottom:2px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:200px;background:var(--accent-orange);padding:28px;text-align:center;">
+      <div style="font-size:40px;font-weight:900;color:var(--white);line-height:1;">4.8<span style="font-size:16px;">回</span></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:8px;">既存18社への平均接触回数</div>
+    </div>
+    <div style="flex:1;min-width:200px;background:var(--gray-100);padding:28px;text-align:center;">
+      <div style="font-size:40px;font-weight:900;color:var(--accent-orange);line-height:1;">1.9<span style="font-size:16px;">回</span></div>
+      <div style="font-size:12px;color:var(--gray-600);margin-top:8px;">新規開拓先の平均接触回数</div>
+    </div>
+  </div>
+
+  <div style="background:var(--ink);padding:40px;">
+    <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:20px;text-transform:uppercase;">今後の活動方針</div>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:22px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:32px;">01</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">進行調整を削減し、新規開拓比率8割へ。</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">現状は新規47%：進行調整44%とほぼ拮抗しており、新規と既存が対立しているわけではなく、進行調整に工数が偏っている状態です。Showcaseでクライアントが自分で入力・確認できる体制を整え、進行調整の大部分を社内OPへ移管することで、営業は新規開拓8割・既存対応2割程度を目指せる体制になります。前向き17社・検討中14社のフォローを深める時間も生まれます。</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:22px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:32px;">02</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">ショップ・フューネラル領域を優先開拓する</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">待機スタッフの需給ギャップ（ショップ希望20名に対し案件2名分）を解消するために、不足職種のクライアント開拓を意識的に増やす。量より方向性。</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:22px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:32px;">03</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">受注時にエリア・スキルをShowcaseに必須入力する</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">今はこの情報が存在せず、精度の高いマッチングが物理的に不可能。受注の段階でデータを作ることが、社内OPの打診精度向上に直接つながる。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 1-C: 社内OPの課題と今後の活動方針 -->
+<section id="op-detail" style="background:var(--white);">
+  <div class="section-label">01-C — Operations Activity</div>
+  <h2 class="section-title">社内OPの課題と、<br>今後の活動方針。</h2>
+  <p class="section-message">直近3ヶ月のスタッフ対応履歴（204件）から、課題と改善の方向性を整理します。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;">
+    <div style="background:var(--gray-100);padding:32px 28px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--gray-400);margin-bottom:12px;text-transform:uppercase;">スタッフ対応件数（直近3ヶ月）</div>
+      <div style="font-size:52px;font-weight:900;color:var(--copain-green);line-height:1;">204<span style="font-size:20px;">件</span></div>
+      <div style="font-size:12px;color:var(--gray-600);margin-top:8px;">1日あたり約3.1件</div>
+    </div>
+    <div style="background:var(--gray-100);padding:32px 28px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--gray-400);margin-bottom:12px;text-transform:uppercase;">対応したスタッフ数</div>
+      <div style="font-size:52px;font-weight:900;color:var(--copain-green);line-height:1;">69<span style="font-size:20px;">名</span></div>
+      <div style="font-size:12px;color:var(--gray-600);margin-top:8px;">1スタッフあたり平均1.6回</div>
+    </div>
+    <div style="background:var(--accent-orange);padding:32px 28px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.7);margin-bottom:12px;text-transform:uppercase;">待機中への対応率</div>
+      <div style="font-size:52px;font-weight:900;color:var(--white);line-height:1;">20<span style="font-size:20px;">%</span></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:8px;">41名中8名のみ対応（33名は0回）</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;">
+    <div style="background:var(--gray-100);padding:32px;">
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:16px;">対応区分の内訳（直近3ヶ月・204件）</div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>新規面談</span><span style="font-weight:700;">120件（59%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--accent-orange);border-radius:4px;width:59%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>就業相談</span><span style="font-weight:700;">53件（26%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--gray-600);border-radius:4px;width:26%"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>フォロー対応</span><span style="font-weight:700;">30件（15%）</span></div>
+        <div style="height:8px;background:var(--gray-200);border-radius:4px;"><div style="height:8px;background:var(--gray-400);border-radius:4px;width:15%"></div></div>
+      </div>
+      <div style="margin-top:16px;font-size:12px;color:var(--gray-600);padding-top:12px;border-top:1px solid var(--gray-200);">
+        対応の6割が新規面談（月40件）に集中。待機中スタッフへのフォローに工数が回りにくい構造。
+      </div>
+    </div>
+    <div style="background:var(--gray-100);padding:32px;">
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:16px;">担当者別の役割分担（直近3ヶ月）</div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;color:var(--gray-600);margin-bottom:8px;">浅古さん（133件）</div>
+        <div style="margin-bottom:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>新規面談中心</span><span style="font-weight:700;">108件（81%）</span></div>
+          <div style="height:6px;background:var(--gray-200);border-radius:3px;"><div style="height:6px;background:var(--copain-green);border-radius:3px;width:81%"></div></div>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;color:var(--gray-600);margin-bottom:8px;">本間さん（62件）</div>
+        <div style="margin-bottom:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>就業相談中心</span><span style="font-weight:700;">39件（63%）</span></div>
+          <div style="height:6px;background:var(--gray-200);border-radius:3px;"><div style="height:6px;background:var(--copain-green-light);border-radius:3px;width:63%"></div></div>
+        </div>
+      </div>
+      <div style="margin-top:8px;padding:14px;background:rgba(231,111,81,0.08);border-left:3px solid var(--accent-orange);">
+        <div style="font-size:12px;color:var(--gray-600);line-height:1.7;">役割は分かれているが、待機中41名への打診は両者合わせて8名（20%）のみ。新規面談対応が優先され、既存待機スタッフへのアクションが後回しになっている。</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--gray-100);padding:32px 40px;margin-bottom:2px;">
+    <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:16px;">待機中41名への対応実態</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+      <div style="text-align:center;padding:20px;background:var(--white);border-top:3px solid var(--accent-orange);">
+        <div style="font-size:36px;font-weight:900;color:var(--accent-orange);">33名</div>
+        <div style="font-size:12px;color:var(--gray-600);margin-top:6px;">直近3ヶ月で対応0回<br>（待機中の80%）</div>
+      </div>
+      <div style="text-align:center;padding:20px;background:var(--white);border-top:3px solid var(--gray-400);">
+        <div style="font-size:36px;font-weight:900;color:var(--gray-600);">8名</div>
+        <div style="font-size:12px;color:var(--gray-600);margin-top:6px;">1回以上の対応あり<br>（待機中の20%）</div>
+      </div>
+      <div style="text-align:center;padding:20px;background:var(--white);border-top:3px solid var(--accent-orange);">
+        <div style="font-size:36px;font-weight:900;color:var(--accent-orange);">6名</div>
+        <div style="font-size:12px;color:var(--gray-600);margin-top:6px;">打診・紹介の実行記録あり<br>（待機中の15%）</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--ink);padding:40px;">
+    <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:20px;text-transform:uppercase;">今後の活動方針</div>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:22px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:32px;">01</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">打診フローを固定化する</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">待機中33名の80%に対応0回という結果は、個人の努力不足だけでは説明できない。現時点でわかる範囲では、誰が・いつ打診するかの担当者が不在、または決まっていないことも要因の一つと考えられる。Showcase導入に合わせて、打診フローそのものを固定化する。</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:22px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:32px;">02</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">待機中33名（対応0回）への打診を最優先にする</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">特にウエディング希望者は案件が十分にある。「新規面談に追われて既存スタッフが後回し」という構造を意識的に変える。週1回、待機中リストを必ず見返す時間を確保する。打診は汎用的な求人情報の転送ではなく、一人ひとりの希望・経験に合わせた紹介文による個別配信を徹底する。</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:22px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:32px;">03</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">打診の記録をShowcaseに必ず残す</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">「誰に何を打診したか」が今は個人の記憶に依存している。Showcaseに記録することで、担当不在時でも他のメンバーが続きを対応できる。チームで動く前提の情報管理に切り替える。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: Showcase -->
+<section id="showcase">
+  <div class="section-label">02 — What changes</div>
+  <h2 class="section-title">情報を探す仕事を、<br>情報を使う仕事に変える。</h2>
+  <p class="section-message">kintone・チャットワーク・電話に分散していた情報をShowcase＋Slackに一元化します。電話は原則禁止。リアルタイムの連絡はリモートMeetsで行い、文字起こし・要約を自動共有します。</p>
+
+  <table class="change-table">
+    <thead>
+      <tr>
+        <th>今まで</th>
+        <th>これから</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag-old">分散</span><br>kintone・チャットワーク・電話で情報がバラバラ</td>
+        <td><span class="tag-new">一元化</span><br>Showcase＋Slackに集約。誰でもすぐ確認できる</td>
+      </tr>
+      <tr>
+        <td><span class="tag-old">手入力</span><br>社内スタッフが毎回受注内容を入力</td>
+        <td><span class="tag-new">自動化</span><br>クライアントが自分で入力。2回目以降は過去履歴から参照</td>
+      </tr>
+      <tr>
+        <td><span class="tag-old">口頭・電話</span><br>確認するたびに電話・チャット。情報が残らない</td>
+        <td><span class="tag-new">リモートMeets</span><br>文字起こし・要約が自動生成。抜け漏れゼロ</td>
+      </tr>
+      <tr>
+        <td><span class="tag-old">その場だけ</span><br>情報共有はその場かぎり。蓄積されない</td>
+        <td><span class="tag-new">データ活用</span><br>過去データを将来の施策に活かす</td>
+      </tr>
+      <tr>
+        <td><span class="tag-old">探す時間</span><br>探す・確認する・聞くに時間を消費</td>
+        <td><span class="tag-new">発信の時間</span><br>空いた時間を発信の頻度・質に充てる</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: スタッフ分析 -->
+<section class="section-staff" id="staff">
+  <div class="section-label">03 — Staff Data</div>
+  <h2 class="section-title">待機中41名の実態。<br>動いていないのは、打診していないから。</h2>
+  <p class="section-message">アクティブ管理データとスタッフ対応履歴を照合しました。エントリー（応募）と打診（コパンからの接触）を分けて見ると、課題の所在がより明確になります。</p>
+
+  <div class="staff-hero">
+    <div class="staff-hero-card">
+      <div class="staff-hero-num">41</div>
+      <div class="staff-hero-label">名　待機中スタッフ（現在）</div>
+    </div>
+    <div class="staff-hero-card accent">
+      <div class="staff-hero-num">35</div>
+      <div class="staff-hero-label">名　打診・紹介の実行記録なし（待機中の85%）</div>
+    </div>
+    <div class="staff-hero-card">
+      <div class="staff-hero-num">6</div>
+      <div class="staff-hero-label">名　打診・紹介の実行記録あり（待機中の15%）</div>
+    </div>
+  </div>
+
+  <div class="staff-analysis-grid">
+    <div class="analysis-block">
+      <div class="analysis-title">エリア分布（待機中41名）</div>
+      <div class="bar-item">
+        <div class="bar-label"><span>東京都</span><span>12名</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>神奈川県</span><span>12名</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>千葉県</span><span>10名</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:83%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>その他</span><span>7名</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:58%"></div></div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;color:rgba(255,255,255,0.5);">
+        首都圏（東京・神奈川・千葉）に <strong style="color:var(--accent-yellow)">34名（83%）</strong> が集中
+      </div>
+    </div>
+
+    <div class="analysis-block">
+      <div class="analysis-title">希望職種（待機中41名・複数可）</div>
+      <div class="bar-item">
+        <div class="bar-label"><span>ウエディング</span><span>28名</span></div>
+        <div class="bar-track"><div class="bar-fill yellow" style="width:100%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>ショップ</span><span>24名</span></div>
+        <div class="bar-track"><div class="bar-fill yellow" style="width:86%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>フューネラル</span><span>8名</span></div>
+        <div class="bar-track"><div class="bar-fill yellow" style="width:29%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>市場／流通</span><span>4名</span></div>
+        <div class="bar-track"><div class="bar-fill yellow" style="width:14%"></div></div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;color:rgba(255,255,255,0.5);">
+        希望職種は受注案件の現場と <strong style="color:var(--accent-yellow)">一致している</strong>
+      </div>
+    </div>
+
+    <div class="analysis-block" style="grid-column:1/-1;">
+      <div class="analysis-title">マッチング精度の限界：本来必要な軸が、データにない</div>
+      <div style="display:flex;gap:24px;margin-bottom:24px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:160px;background:rgba(255,255,255,0.05);padding:24px;border-radius:4px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;">職種×時期のみ（2軸・簡易）</div>
+          <div style="font-size:36px;font-weight:900;color:var(--accent-yellow);">16<span style="font-size:16px;">組（57%）</span></div>
+        </div>
+        <div style="flex:1;min-width:160px;background:var(--accent-orange);padding:24px;border-radius:4px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:8px;">本来必要な4軸（職種×時期×エリア×スキル）</div>
+          <div style="font-size:30px;font-weight:900;color:var(--white);">算出不可</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.9;margin-bottom:20px;">
+        本来のマッチングは「就業希望×職種×エリア（居住地）×スキル」の4軸で見るべきものです。職種×時期だけで出した57%という数字は、実態より高く出てしまっている精度の粗いシミュレーションです。
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+        <div style="background:rgba(255,255,255,0.05);padding:24px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:12px;">スタッフ側（待機中41名）に存在する情報</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:2;">
+            ✓ 都道府県・市区町村<br>
+            ✓ 希望職種<br>
+            ✓ 業界経験年数<br>
+            ✓ 希望雇用形態・希望給与
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);padding:24px;border-left:2px solid var(--accent-orange);">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:12px;">受注案件側（74件）に存在する情報</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:2;">
+            ✓ 募集職種<br>
+            ✓ 案件希望開始日<br>
+            ✗ 都道府県（店舗名からの推定のみ）<br>
+            ✗ 必要スキル・経験条件（未記入）
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);font-size:11px;color:rgba(255,255,255,0.45);line-height:1.8;">
+        ※「職種×時期16組（57%）」は、案件希望開始日が2026年7月かつ雇用形態が正社員以外の受注28名分と、就業希望感が即就業希望かつ派遣社員希望の待機中スタッフ26名を、募集職種のカテゴリ一致のみで突き合わせた簡易値です。エリア・スキルを加味すれば、この数字はさらに下がる可能性があります。
+      </div>
+    </div>
+
+    <div class="analysis-block" style="grid-column:1/-1;">
+      <div class="analysis-title">なぜ算出できないのか</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;color:var(--white);line-height:1.7;margin-bottom:16px;">
+        マッチングできないのではない。<br>
+        マッチングに必要な情報が、そもそも記録されていない。
+      </div>
+      <div style="display:inline-block;background:var(--accent-orange);padding:10px 20px;border-radius:4px;font-size:14px;font-weight:700;color:var(--white);margin-bottom:20px;">
+        情報は資産である。資産を築くシステムは、チームで育てていく。
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.9;">
+        条件はkintone・電話・口頭のやり取りに留まり、データとして残っていません。だから一件ごとに探し、聞き、確認する手間が生まれます。既存のkintoneのデータ構造が不完全であることも一因ですが、これは開発担当者（kintoneは萩原が担当）だけの責任ではありません。開発者が現場の運用実態すべてを把握することは難しく、現場からの自発的なシステム関与があってこそシステムは育っていきます。Showcaseで受注時にエリア・スキルを必須記録にすることに加え、現場とシステム側がチームとして向上し続ける体制をつくることが大切です。
+      </div>
+    </div>
+
+    <div class="analysis-block" style="grid-column:1/-1;">
+      <div class="analysis-title">エントリー（応募）と打診（コパンから接触）の対比</div>
+      <div style="display:flex;gap:24px;margin-bottom:24px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:160px;background:rgba(255,255,255,0.05);padding:24px;border-radius:4px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;">スタッフからのエントリー起点</div>
+          <div style="font-size:36px;font-weight:900;color:var(--accent-yellow);">41<span style="font-size:16px;">名中41名</span></div>
+        </div>
+        <div style="flex:1;min-width:160px;background:rgba(255,255,255,0.05);padding:24px;border-radius:4px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;">一斉配信（アンケート等）の効果</div>
+          <div style="font-size:30px;font-weight:900;color:rgba(255,255,255,0.4);">測定不能</div>
+        </div>
+        <div style="flex:1;min-width:160px;background:var(--accent-orange);padding:24px;border-radius:4px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:8px;">個人への打診・紹介の実行記録</div>
+          <div style="font-size:36px;font-weight:900;color:var(--white);">6<span style="font-size:16px;">名（15%）</span></div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8;">
+        待機中41名は全員「スタッフ側からの応募」がきっかけで登録に至っています。メルマガ・LINEの一斉配信は実施されていますが、反応の記録が薄く効果は検証できません。一方、待機中スタッフ個人への打診・紹介は41名中6名（15%）にしか行われておらず、ここは確実に改善余地があります。
+      </div>
+    </div>
+
+    <div class="analysis-block" style="grid-column:1/-1;">
+      <div class="analysis-title">打診を強化した場合の向上シミュレーション</div>
+      <div class="bar-item">
+        <div class="bar-label"><span>現状（打診実行率15%）</span><span>6名に対応</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:15%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>打診率50%</span><span>20名に対応（+14名）</span></div>
+        <div class="bar-track"><div class="bar-fill yellow" style="width:50%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>打診率80%</span><span>33名に対応（+27名）</span></div>
+        <div class="bar-track"><div class="bar-fill yellow" style="width:80%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>打診率100%</span><span>41名全員に対応（+35名）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);font-size:11px;color:rgba(255,255,255,0.45);line-height:1.8;">
+        ※待機中41名に対し、打診実行率を引き上げた場合に「実際に打診・声かけが行われる人数」がどう増えるかを示した推計です。打診実行率6名（15%）は確定数値。なお現状の6名についても、案件紹介の先は「案件検討中」で停滞しており、就業決定に至った記録は確認できていません。打診を増やすことは前提条件であり、その先の成立率向上には別の運用改善（フォロー体制の強化等）が必要です。
+      </div>
+    </div>
+
+    <div class="analysis-block" style="grid-column:1/-1;">
+      <div class="analysis-title">なぜ打診率15%なのか — 仮説の検証</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:24px;">
+        「打診していない」ことが、必ずしも「打診を怠っている」ことを意味するとは限りません。打診できる案件自体が足りない、という供給側の制約も考えられます。職種別の需給ギャップで検証します。
+      </div>
+
+      <div class="bar-item">
+        <div class="bar-label"><span>ウエディング　派遣希望22名 / 案件30名分</span><span>案件は十分（+8）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>ショップ　派遣希望20名 / 案件2名分</span><span>案件が大幅に不足（-18）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--accent-orange);"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>フューネラル　派遣希望8名 / 案件5名分</span><span>案件が不足（-3）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--accent-orange);"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>事務職・市場流通　派遣希望6名 / 案件0名分</span><span>案件なし（-6）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:2%;background:var(--accent-orange);"></div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:24px;">
+        <div style="background:rgba(255,255,255,0.05);padding:28px;border-left:3px solid var(--accent-orange);">
+          <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-orange);margin-bottom:14px;text-transform:uppercase;">仮説A — 案件不足</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;">打診できる案件が、そもそもない</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">待機中41名のうち<strong style="color:var(--accent-yellow);">29名（71%）</strong>は、案件が不足している職種（ショップ・フューネラル・事務職等）を希望している。打診先がないまま待機が続いている可能性がある。</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);padding:28px;border-left:3px solid var(--accent-yellow);">
+          <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:14px;text-transform:uppercase;">仮説B — 広域求人への依存</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;">案件が足りない分野は、外部の広域求人で埋めている</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">ショップ・フューネラル等の案件が少ないため、待機中スタッフへの打診よりAirWORK・Indeed等の外部媒体での新規募集に頼る構造になっている可能性がある。</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);padding:28px;border-left:3px solid var(--accent-orange);">
+          <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-orange);margin-bottom:14px;text-transform:uppercase;">仮説C — 案件があっても打診されていない</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;">ウエディングは案件が十分なのに、打診は進んでいない</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">打診実行6名のうち、ウエディング希望は1名のみ。案件不足が理由にならないケースでも打診が進んでいないため、案件不足だけでは説明がつかない部分もある。</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);padding:28px;border-left:3px solid var(--accent-yellow);">
+          <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:14px;text-transform:uppercase;">仮説D — 不足職種への無理な打診</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;">数少ない案件不足職種の打診すら、無理に当てている可能性</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">打診実行6名のうち4名はショップ・事務職・市場流通など、まさに案件が不足している職種だった。少ない案件を無理に割り当てている可能性があり、案件検討中で停滞している一因かもしれない。</div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);font-size:11px;color:rgba(255,255,255,0.45);line-height:1.8;">
+        ※職種ギャップは「希望雇用形態に派遣社員を含む待機中スタッフ」と「雇用形態が正社員以外の受注案件（74件）」を、募集職種／希望職種のカテゴリで突き合わせた人数です。エリア・スキル条件は含んでいません。仮説B（広域求人への依存）は応募媒体データからの推測であり、直接の因果関係を示すデータではありません。
+      </div>
+    </div>
+  </div>
+
+  <div class="bottleneck-box">
+    <p>
+      施策が打てないわけではない。<br>
+      <span>情報を探す・聞く・確認する無駄の積み重ねが、業務を逼迫させている。</span>
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3.5: Showcase導入の必然性 -->
+<section style="background:var(--copain-green);">
+  <div class="section-label" style="color:rgba(255,255,255,0.6);">— Why Showcase</div>
+  <h2 class="section-title" style="color:var(--white);">だから、抜本的な構造改革が必要。</h2>
+  <p class="section-message" style="color:rgba(255,255,255,0.75);">職種×時期だけの簡易シミュレーションでも57%が成立可能とされる一方、打診実行率はわずか15%です。それでも、エリアやスキルまで含めた精度の高いマッチングは今のデータでは組めません。情報がその場限りで消えていくか、探さなければ出てこない状態だからです。</p>
+  <div style="background:rgba(255,255,255,0.1);padding:40px;font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;color:var(--white);line-height:1.8;">
+    その場で共有して終わるのではなく、<br>
+    情報を構造化して残し、誰でも使える状態にする。<br>
+    それがShowcase導入の本質です。
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: 営業としての必要なアクション -->
+<section id="sales-actions">
+  <div class="section-label">04 — Action</div>
+  <h2 class="section-title">営業としての、<br>必要なアクション。</h2>
+  <p class="section-message">工数の内訳と接触実態から見えてきた課題に対し、営業として取るべきアクションを整理します。</p>
+
+  <div style="background:var(--ink);padding:48px 40px;">
+    <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:24px;text-transform:uppercase;">必要なアクション</div>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:24px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:36px;">01</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px;">データに基づいた営業活動を</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:10px;">待機中スタッフの状況、接触頻度が低い企業・エリア・業種は、自分の感覚だけでは気づきにくい。Showcaseに蓄積されるデータから気づきを得ることを、営業活動の前提にする。</div>
+          <ul style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8;padding-left:18px;margin:0;">
+            <li style="margin-bottom:4px;">待機中スタッフの希望職種・対応履歴を定期的にデータで見返す（現状、80%が対応0回）</li>
+            <li style="margin-bottom:4px;">接触頻度が低い企業・エリア・業種を感覚ではなくデータから特定する</li>
+            <li>「知っているつもり」を前提にせず、動く前にデータで確認する習慣をつける</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:24px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:36px;">02</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px;">新規獲得の比重を8：2にする</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:10px;">現状は新規47%：進行調整44%とほぼ拮抗している。進行調整をできる限り社内OPへ移管し、新規：既存＝8：2の体制に切り替え、アクティブ（受注中）企業数45社への向上を目指す。</div>
+          <ul style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8;padding-left:18px;margin:0;">
+            <li style="margin-bottom:4px;">進行案件調整（既存維持）は社内OPへ移管し、営業は新規開拓に集中する</li>
+            <li style="margin-bottom:4px;">前向き17社・検討中14社への継続フォローを優先する</li>
+            <li>特にショップ・フューネラル領域を中心に、アクティブクライアント45社を目指す</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="font-size:24px;font-weight:900;color:var(--accent-yellow);flex-shrink:0;width:36px;">03</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px;">週次で営業⇔社内オペの状況をすり合わせる</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:10px;">状況確認のためのMTGではなく、「次に何をするか」を決めるMTGにする。</div>
+          <ul style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8;padding-left:18px;margin:0;">
+            <li style="margin-bottom:4px;">お互いの状況を把握し、どう動いていくのかを明確にする</li>
+            <li>チームとして同じ方向感を持って動ける状態を作る</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: 発信戦略 -->
+<section class="section-strategy" id="strategy">
+  <div class="section-label">05 — Strategy</div>
+  <h2 class="section-title">待ちの仕事から、<br>攻めの仕事へ。</h2>
+  <p class="section-message">空いた時間を発信に充てます。クライアントにもスタッフにも、週2回以上のペースでアクティブにアプローチします。</p>
+
+  <div class="strategy-grid">
+    <div class="strategy-card green">
+      <div class="strategy-card-head">Client</div>
+      <div class="strategy-card-title">クライアントへの発信</div>
+      <ul class="channel-list">
+        <li>
+          <div class="channel-dot"></div>
+          配配メール（メルマガ）
+          <span class="freq-badge">週2回以上</span>
+        </li>
+        <li>
+          <div class="channel-dot"></div>
+          過去データを活用したピンポイント提案
+        </li>
+        <li>
+          <div class="channel-dot"></div>
+          休眠クライアント280社への再アプローチ
+        </li>
+        <li>
+          <div class="channel-dot"></div>
+          Instagram（今後強化・アカウント保有済み）
+        </li>
+      </ul>
+    </div>
+
+    <div class="strategy-card orange">
+      <div class="strategy-card-head">Staff</div>
+      <div class="strategy-card-title">スタッフへの発信</div>
+      <ul class="channel-list">
+        <li>
+          <div class="channel-dot orange"></div>
+          メール配信
+          <span class="freq-badge orange">週2回以上</span>
+        </li>
+        <li>
+          <div class="channel-dot orange"></div>
+          LINE配信
+          <span class="freq-badge orange">週2回以上</span>
+        </li>
+        <li>
+          <div class="channel-dot orange"></div>
+          待機中41名への優先的な打診・案件紹介（個別配信・個人に合わせた提案文）
+        </li>
+        <li>
+          <div class="channel-dot orange"></div>
+          応募待ちから、こちらから動く体制へ
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--copain-green-pale);padding:36px 40px;border-left:4px solid var(--copain-green);">
+    <p style="font-size:14px;color:var(--copain-green);font-weight:500;line-height:1.8;">
+      週2回の発信を続けるには、コンテンツの量産が必要です。<br>
+      Showcaseで生まれた「探す・確認する時間」を、そのまま「発信する時間」に充ててください。
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: フェーズ -->
+<section class="section-phase" id="phase">
+  <div class="section-label">06 — Roadmap</div>
+  <h2 class="section-title">6ヶ月のフェーズ計画。</h2>
+  <p class="section-message">段階的に体制を整えていきます。まず定着、次に効率化、そして発信強化、最後にKPI管理へ。</p>
+
+  <div class="phase-timeline">
+    <div class="phase-card active">
+      <div class="phase-num">Phase 01</div>
+      <div class="phase-period">1ヶ月目</div>
+      <div class="phase-name">定着期</div>
+      <div class="phase-desc">Showcaseの使い方を揃える。チーム全員が同じ情報を見られる状態を作る。</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">Phase 02</div>
+      <div class="phase-period">2ヶ月目</div>
+      <div class="phase-name">効率化期</div>
+      <div class="phase-desc">入力・確認の時間が減り始める。空いた時間で配信を開始。配配メール・LINE運用スタート。</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">Phase 03</div>
+      <div class="phase-period">3〜4ヶ月目</div>
+      <div class="phase-name">発信強化期</div>
+      <div class="phase-desc">発信の頻度・質を上げる。運用ルールを整備し、チームとして発信できる体制を作る。</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">Phase 04</div>
+      <div class="phase-period">5〜6ヶ月目〜</div>
+      <div class="phase-name">KPI運用期</div>
+      <div class="phase-desc">数字で管理する。毎週KPIを確認し、改善サイクルを回す。稼働50名を目指す。</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5.5: 運用方法 -->
+<section id="operation">
+  <div class="section-label">07 — How we operate</div>
+  <h2 class="section-title">移行期間の運用方法。</h2>
+  <p class="section-message">Showcaseへの完全移行までの3ヶ月は、kintoneと並行して運用します。担当を明確にし、両システムをまたいだ対応漏れを防ぎます。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;">
+
+    <div style="background:var(--gray-100);padding:40px;">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--copain-green);margin-bottom:20px;">移行方針</div>
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="display:flex;gap:16px;">
+          <div style="font-size:18px;font-weight:900;color:var(--copain-green);flex-shrink:0;width:28px;">01</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">kintoneと並行して運用する</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.7;">移行期間（約3ヶ月）はkintoneの既存データを維持しながら、新規受注・登録はShowcaseに集約していきます。</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;">
+          <div style="font-size:18px;font-weight:900;color:var(--copain-green);flex-shrink:0;width:28px;">02</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">新規の依頼は全てShowcaseで受注する</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.7;">新規クライアントからの依頼はShowcaseのみで受け付けます。アクティブスタッフの新規登録もShowcaseに行います。新規登録・依頼登録の案内・説明は営業担当者が対応します。</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;">
+          <div style="font-size:18px;font-weight:900;color:var(--copain-green);flex-shrink:0;width:28px;">03</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">移行期間は約3ヶ月を想定</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.7;">3ヶ月を目安にShowcaseへの完全移行を目指します。状況に応じて調整します。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--ink);padding:40px;">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent-yellow);margin-bottom:20px;">担当分担</div>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div style="background:rgba(255,255,255,0.06);padding:24px;border-left:3px solid var(--copain-green-light);">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;">Showcase担当</div>
+          <div style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px;">本間さん</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">新サイト（Showcase）のアクティブスタッフ管理・受注対応を担当します。</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);padding:24px;border-left:3px solid var(--accent-yellow);">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;">kintone担当</div>
+          <div style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px;">浅古さん</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">既存kintoneのアクティブスタッフ管理・受注対応を担当します。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="background:var(--copain-green-pale);padding:36px 40px;border-left:4px solid var(--copain-green);margin-bottom:2px;">
+    <div style="font-size:14px;font-weight:700;color:var(--copain-green);margin-bottom:16px;">両システムをまたいだマッチングの注意点</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:12px;font-size:13px;color:var(--gray-800);line-height:1.7;">
+        <div style="color:var(--copain-green);font-weight:700;flex-shrink:0;">→</div>
+        <div>Showcaseに登録されたスタッフへの打診・マッチング時は、<strong>kintone側の受注案件にも目を向ける</strong></div>
+      </div>
+      <div style="display:flex;gap:12px;font-size:13px;color:var(--gray-800);line-height:1.7;">
+        <div style="color:var(--copain-green);font-weight:700;flex-shrink:0;">→</div>
+        <div>kintoneのアクティブスタッフへの打診・マッチング時は、<strong>Showcaseに入った新規受注案件にも目を向ける</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--gray-100);padding:32px 40px;font-size:13px;color:var(--gray-600);line-height:1.8;border-left:4px solid var(--gray-400);">
+    ※ 担当の振り分けや運用方法について、現場での意見がある場合は話し合いの上で決定しましょう。
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: KPI -->
+<section id="kpi">
+  <div class="section-label">08 — KPI</div>
+  <h2 class="section-title">追いかける数字。</h2>
+  <p class="section-message">登録母数の大きさに頼らず、今動いている数字を地道に伸ばします。ただし打診を増やすだけでは足りません。打診できる案件があるかどうかが前提条件です。</p>
+
+  <div class="kpi-grid" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="kpi-card primary">
+      <div class="kpi-label">KGI — 最終目標</div>
+      <div class="kpi-compare">
+        <div class="kpi-now-box">
+          <div class="kpi-tag now">現状アベレージ</div>
+          <div class="kpi-now-val">15〜18名</div>
+        </div>
+        <div class="kpi-arrow-icon">→</div>
+        <div class="kpi-mid-box">
+          <div class="kpi-tag">6ヶ月後</div>
+          <div class="kpi-target-val">30名</div>
+        </div>
+        <div class="kpi-arrow-icon">→</div>
+        <div class="kpi-target-box">
+          <div class="kpi-tag target">1年後</div>
+          <div class="kpi-target-val">50名</div>
+        </div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">KPI — クライアント数</div>
+      <div class="kpi-compare">
+        <div class="kpi-now-box">
+          <div class="kpi-tag now">現状</div>
+          <div class="kpi-now-val">20社</div>
+        </div>
+        <div class="kpi-arrow-icon">→</div>
+        <div class="kpi-target-box">
+          <div class="kpi-tag target">目標</div>
+          <div class="kpi-target-val">45社</div>
+        </div>
+      </div>
+      <div class="kpi-period">6ヶ月以内に</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">KPI — 案件別の1ヶ月以内紹介率</div>
+      <div class="kpi-compare">
+        <div class="kpi-now-box">
+          <div class="kpi-tag now">現状</div>
+          <div class="kpi-now-val">要測定</div>
+        </div>
+        <div class="kpi-arrow-icon">→</div>
+        <div class="kpi-target-box">
+          <div class="kpi-tag target">目標</div>
+          <div class="kpi-target-val">70%</div>
+        </div>
+      </div>
+      <div class="kpi-period">6ヶ月以内に</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">KPI — 個人打診実行率</div>
+      <div class="kpi-compare">
+        <div class="kpi-now-box">
+          <div class="kpi-tag now">現状（待機中スタッフ）</div>
+          <div class="kpi-now-val">約15%</div>
+        </div>
+        <div class="kpi-arrow-icon">→</div>
+        <div class="kpi-target-box">
+          <div class="kpi-tag target">目標</div>
+          <div class="kpi-target-val">80%以上</div>
+        </div>
+      </div>
+      <div class="kpi-period">案件がある対象に</div>
+    </div>
+  </div>
+
+  <div style="background:var(--gray-100);padding:32px 40px;font-size:13px;color:var(--gray-600);line-height:1.9;margin-bottom:2px;">
+    <strong style="color:var(--ink);">なぜ「クライアント数」と「打診率」を両方追うのか</strong><br><br>
+    打診実行率15%という数字だけを見ると「打診を怠っている」ように見えますが、検証の結果、待機中41名のうち29名（71%）はショップ・フューネラル・事務職など、そもそも案件が不足している職種を希望していました。ショップは希望20名に対し案件が2名分しかありません。<br><br>
+    打診率を80%に上げるには、まず打診先となる案件、特にショップ・フューネラル領域のクライアントを増やす必要があります。クライアント数45社という目標は「数を増やす」だけでなく「不足している職種のクライアントを優先的に開拓する」という質の伴った目標である必要があります。<br><br>
+    一方、ウエディングは案件が十分にあるにも関わらず打診実行6名中1名しか対象になっていませんでした。案件がある領域については、案件不足を理由にできないため、打診率80%は妥当な目標です。
+  </div>
+
+  <div style="background:var(--ink);padding:32px 40px;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8;">
+    クライアント45社（特にショップ・フューネラル領域を優先開拓） → 不足職種の案件が増える → 打診できる対象が広がり、打診実行率80%が現実的になる → 稼働アベレージ50名、という順番で繋がっています。
+  </div>
+</section>
+
+
+<div class="divider"></div>
+
+<!-- SECTION 7: 期待すること -->
+<section class="section-expect" id="expect">
+  <div class="section-label">09 — Your Role</div>
+  <h2 class="section-title">システムや仕組み（ルール）は<br>視覚化し整えるツールです。<br>どう利用するかは、あなたたち次第です。</h2>
+  <p class="section-message">営業とオペレーション、それぞれに期待することを明確にします。</p>
+
+  <div class="expect-grid">
+    <div class="expect-card sales-card">
+      <div class="expect-role sales">営業</div>
+      <ul class="expect-items">
+        <li>
+          <div class="expect-num">01</div>
+          <div>
+            <div class="expect-item-title">アクティブクライアント45社を目指す。新規開拓8割の体制へ。</div>
+            <div class="expect-item-desc">現状は新規47%：既存維持44%とほぼ拮抗しており、新規と既存が対立しているわけではなく進行調整に工数が偏っている状態。進行調整を社内OPへ移管し、営業は新規開拓に集中する。前向き17社・検討中14社へのフォローを深めることが直近の優先事項。</div>
+          </div>
+        </li>
+        <li>
+          <div class="expect-num">02</div>
+          <div>
+            <div class="expect-item-title">ショップ・フューネラル領域を優先的に開拓する</div>
+            <div class="expect-item-desc">案件不足の職種を解消することが、打診率向上の前提条件になる。</div>
+          </div>
+        </li>
+        <li>
+          <div class="expect-num">03</div>
+          <div>
+            <div class="expect-item-title">新規提案の「見送り」の原因を分析し、提案の質を上げる</div>
+            <div class="expect-item-desc">現状39%が見送りとなっている。配配メール・LINEの週2回配信で接触頻度を補う。</div>
+          </div>
+        </li>
+        <li>
+          <div class="expect-num">04</div>
+          <div>
+            <div class="expect-item-title">受注時にエリア・必要スキルをShowcaseに必須入力する</div>
+            <div class="expect-item-desc">これがマッチング精度を上げるための最初の一歩。</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="expect-card ops-card">
+      <div class="expect-role ops">社内オペレーション</div>
+      <ul class="expect-items">
+        <li>
+          <div class="expect-num">01</div>
+          <div>
+            <div class="expect-item-title">待機中41名への優先的な打診を実行する</div>
+            <div class="expect-item-desc">うち打診・紹介の実行記録なし35名。特にウエディング希望者へは案件が十分にあるため、まずここから動く。個別配信を徹底し、一人ひとりの希望・経験に合わせた「紹介文」を作る。汎用的な求人情報の転送ではなく、「あなたに合いそうな話がある」という提案として届ける。</div>
+          </div>
+        </li>
+        <li>
+          <div class="expect-num">02</div>
+          <div>
+            <div class="expect-item-title">スタッフへのメール・LINE配信を週2回実行する</div>
+            <div class="expect-item-desc">応募を待つのではなく、こちらから動く。</div>
+          </div>
+        </li>
+        <li>
+          <div class="expect-num">03</div>
+          <div>
+            <div class="expect-item-title">稼働数・打診数・応募数を週次で確認し、チームに共有する</div>
+            <div class="expect-item-desc">数字を見る習慣をつける。</div>
+          </div>
+        </li>
+        <li>
+          <div class="expect-num">04</div>
+          <div>
+            <div class="expect-item-title">Showcaseへの情報入力をリアルタイムで行う</div>
+            <div class="expect-item-desc">「あとで入力」をなくす。</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 10: ここから話し合うこと -->
+<section id="discuss" style="background:var(--gray-100);">
+  <div class="section-label">10 — Let's Discuss</div>
+  <h2 class="section-title">ここからは、<br>話し合う時間です。</h2>
+  <p class="section-message">資料の説明はここまでです。ここからは、役割・分担・ルールをチームで決めていきます。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+    <div style="background:var(--white);padding:32px;border-left:3px solid var(--accent-yellow);">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:16px;text-transform:uppercase;">話し合うこと 01</div>
+      <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;">担当者をどう固定するか</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8;">待機中スタッフ・受注クライアントそれぞれに、誰が担当するかを決める。</div>
+    </div>
+    <div style="background:var(--white);padding:32px;border-left:3px solid var(--accent-yellow);">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:16px;text-transform:uppercase;">話し合うこと 02</div>
+      <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;">担当者が不在・休暇中の対応ルール</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8;">誰が代わりに動くか、そのために何を記録しておくべきかを決める。</div>
+    </div>
+    <div style="background:var(--white);padding:32px;border-left:3px solid var(--accent-yellow);">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:16px;text-transform:uppercase;">話し合うこと 03</div>
+      <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;">営業⇔社内オペレーションの分担ライン</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8;">進行調整・打診・受注入力を、どちらがどこまで担うかを線引きする。</div>
+    </div>
+    <div style="background:var(--white);padding:32px;border-left:3px solid var(--accent-yellow);">
+      <div style="font-size:11px;letter-spacing:0.15em;color:var(--accent-yellow);margin-bottom:16px;text-transform:uppercase;">話し合うこと 04</div>
+      <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;">週次MTGの運用ルール</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8;">何を確認し、何を決める場にするか。アジェンダと頻度を決める。</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Nav show/hide
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.5) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+  });
+
+  // Bar animation on scroll
+  const bars = document.querySelectorAll('.bar-fill');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.width = entry.target.style.width;
+      }
+    });
+  }, { threshold: 0.1 });
+
+  bars.forEach(bar => observer.observe(bar));
+</script>
+</body>
+</html>
