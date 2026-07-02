@@ -1,82 +1,5 @@
 [
   {
-    "author": "萩原",
-    "brand": "sj",
-    "createdAt": "2026-06-23",
-    "expiresAt": "2026-06-30",
-    "fileName": "matching_discussion_2026-06-23T01-21-43.html",
-    "filePath": "showjin/matching_discussion_2026-06-23T01-21-43.html",
-    "id": "2026-06-23T01-21-43",
-    "pageUrl": "https://showjin-inc.github.io/html-uploader/showjin/matching_discussion_2026-06-23T01-21-43.html",
-    "title": "テストUP"
-  },
-  {
-    "author": "萩原",
-    "brand": "sj",
-    "createdAt": "2026-06-23",
-    "expiresAt": "2026-06-30",
-    "fileName": "matching_discussion_2026-06-23T01-27-14.html",
-    "filePath": "showjin/matching_discussion_2026-06-23T01-27-14.html",
-    "id": "2026-06-23T01-27-14",
-    "pageUrl": "https://showjin-inc.github.io/html-uploader/showjin/matching_discussion_2026-06-23T01-27-14.html",
-    "title": "テストUP2"
-  },
-  {
-    "author": "萩原",
-    "brand": "sj",
-    "createdAt": "2026-06-23",
-    "expiresAt": "2026-06-30",
-    "fileName": "matching_discussion_1_2026-06-23T02-00-29.html",
-    "filePath": "showjin/matching_discussion_1_2026-06-23T02-00-29.html",
-    "id": "2026-06-23T02-00-29",
-    "pageUrl": "https://showjin-inc.github.io/html-uploader/showjin/matching_discussion_1_2026-06-23T02-00-29.html",
-    "title": "ファイルUP03"
-  },
-  {
-    "author": "萩原",
-    "brand": "sj",
-    "createdAt": "2026-06-23",
-    "expiresAt": "2026-06-30",
-    "fileName": "matching_discussion_1_2026-06-23T02-03-36.html",
-    "filePath": "showjin/matching_discussion_1_2026-06-23T02-03-36.html",
-    "id": "2026-06-23T02-03-36",
-    "pageUrl": "https://share.showjin.co.jp/showjin/matching_discussion_1_2026-06-23T02-03-36.html",
-    "title": "ファイルUP04"
-  },
-  {
-    "author": "萩原",
-    "brand": "sj",
-    "createdAt": "2026-06-23",
-    "expiresAt": "2026-06-30",
-    "fileName": "matching_discussion_2026-06-23T02-06-12.html",
-    "filePath": "showjin/matching_discussion_2026-06-23T02-06-12.html",
-    "id": "2026-06-23T02-06-12",
-    "pageUrl": "https://share.showjin.co.jp/showjin/matching_discussion_2026-06-23T02-06-12.html",
-    "title": "ファイルUp05"
-  },
-  {
-    "author": "萩原",
-    "brand": "sj",
-    "createdAt": "2026-06-23",
-    "expiresAt": "2026-06-30",
-    "fileName": "8lwn3x.html",
-    "filePath": "showjin/8lwn3x.html",
-    "id": "2026-06-23T02-06-32",
-    "pageUrl": "https://share.showjin.co.jp/showjin/8lwn3x.html",
-    "title": "ファイルUp06"
-  },
-  {
-    "author": "萩原",
-    "brand": "cp",
-    "createdAt": "2026-06-23",
-    "expiresAt": "2026-06-30",
-    "fileName": "jukuyc.html",
-    "filePath": "copain/jukuyc.html",
-    "id": "2026-06-23T05-11-55",
-    "pageUrl": "https://share.showjin.co.jp/copain/jukuyc.html",
-    "title": "コパン資料01"
-  },
-  {
     "id": "2026-06-24T11-37-19",
     "brand": "sj",
     "title": "ハナワク_リストタイプ_ボタン比較",
@@ -97,5 +20,16 @@
     "createdAt": "2026-06-25",
     "expiresAt": "2026-07-25",
     "pageUrl": "https://share.showjin.co.jp/showjin/5cek8z.html"
+  },
+  {
+    "id": "2026-07-02T05-02-29",
+    "brand": "cp",
+    "title": "2026/07/02MTG投影資料",
+    "author": "萩原",
+    "fileName": "0bkxb2.html",
+    "filePath": "copain/0bkxb2.html",
+    "createdAt": "2026-07-02",
+    "expiresAt": "2026-08-01",
+    "pageUrl": "https://share.showjin.co.jp/copain/0bkxb2.html"
   }
 ]
