@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>求人媒体運用・システム設計資料</title>
+<style>
+  :root {
+    --ink: #2b2b28;
+    --sub: #5c5b55;
+    --line: #ddd9cf;
+    --bg: #fbfaf7;
+    --card: #ffffff;
+    --accent: #0f6e56;
+    --accent-bg: #e1f5ee;
+    --warn-bg: #faeeda;
+    --warn-ink: #633806;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    line-height: 1.75;
+    font-size: 16px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 32px 100px; }
+  header.doc-head {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  header.doc-head .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--sub);
+    margin-bottom: 8px;
+  }
+  header.doc-head h1 {
+    font-size: 28px;
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  header.doc-head .meta {
+    font-size: 13px;
+    color: var(--sub);
+  }
+  h2 {
+    font-size: 20px;
+    margin: 56px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num {
+    color: var(--accent);
+    font-size: 15px;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 16px;
+    margin: 28px 0 10px;
+    font-weight: 700;
+  }
+  p { margin: 0 0 12px; color: var(--ink); }
+  .lead { color: var(--sub); font-size: 15px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14.5px;
+    background: var(--card);
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #f2efe6;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .note {
+    background: var(--accent-bg);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14.5px;
+    margin: 16px 0;
+  }
+  .todo {
+    background: var(--warn-bg);
+    border-left: 3px solid #ba7517;
+    color: var(--warn-ink);
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14.5px;
+    margin: 16px 0;
+  }
+  .todo strong { color: var(--warn-ink); }
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #f2efe6;
+    color: var(--sub);
+    margin-right: 6px;
+  }
+  .status-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  .status-flow .box {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 14px;
+    background: var(--card);
+  }
+  .status-flow .arrow { color: var(--sub); }
+  code {
+    background: #f2efe6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13.5px;
+  }
+  footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--sub);
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 32px 18px 80px; }
+    table, thead, tbody, th, td, tr { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="doc-head">
+    <div class="eyebrow">派遣・紹介予定派遣 求人管理 / 媒体連携</div>
+    <h1>求人媒体運用・システム設計資料</h1>
+    <div class="meta">対象媒体：CO（自社媒体）／Airワーク／花ジョブ／フラワージョブ／indeed（外部委託）</div>
+  </header>
+
+  <p class="lead">
+    本資料は、各求人媒体への掲載運用ルールと、求人案件管理システムに組み込む際のデータ設計方針を整理したものです。
+    後半はシステム開発者との相談を前提とした内容を含みます。
+  </p>
+
+  <h2><span class="num">1</span>媒体一覧と役割</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>媒体</th>
+        <th>掲載対象</th>
+        <th>掲載上限</th>
+        <th>位置づけ・特徴</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>CO</strong>（自社媒体）</td>
+        <td>派遣・紹介予定派遣、基本的に全求人</td>
+        <td>なし</td>
+        <td>全求人データの中で最も情報量が多い「情報の一次ソース（マスターデータ）」</td>
+      </tr>
+      <tr>
+        <td><strong>Airワーク</strong></td>
+        <td>派遣・紹介予定派遣、基本的に全求人</td>
+        <td>なし</td>
+        <td>COの掲載内容を元に作成</td>
+      </tr>
+      <tr>
+        <td><strong>indeed</strong>（外部委託）</td>
+        <td>経験者のみの募集（未経験募集は掲載しない）</td>
+        <td>なし</td>
+        <td>Airワークの求人内容を元に、外部業者が掲載作業を実施（自社では入稿しない）</td>
+      </tr>
+      <tr>
+        <td><strong>花ジョブ</strong></td>
+        <td>上限内で選定</td>
+        <td>10件（変動あり）</td>
+        <td>1企業で複数勤務地・複数雇用形態の求人がある場合、まとめて1求人として掲載することがある</td>
+      </tr>
+      <tr>
+        <td><strong>フラワージョブ</strong></td>
+        <td>上限内で選定</td>
+        <td>10件</td>
+        <td>花ジョブと同様の運用</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>媒体の優先順位：</strong>CO ＞ Airワーク ＞ indeed ＞ 花ジョブ ＞ フラワージョブ
+  </div>
+
+  <div class="todo">
+    <strong>今後の拡張について：</strong>媒体は今後増減する可能性がある。そのため、媒体名をシステム側にハードコードせず、媒体マスターとして管理し、増減してもテーブル構造を変えずに対応できる設計にする（後述「4. データ設計方針」参照）。
+  </div>
+
+  <h2><span class="num">2</span>コンテンツ管理の原則</h2>
+  <ul>
+    <li>COが情報の一次ソース（マスターデータ）であり、全求人データの中で最も情報量が多い</li>
+    <li>他媒体（Airワーク・indeed・花ジョブ・フラワージョブ）は、COの情報を元に、各媒体の項目仕様に応じて必要最低限の情報を掲載する</li>
+    <li><strong>整合性の原則：</strong>CO以外の媒体に掲載されている内容が、COに掲載されていないということがあってはならない（タイトル・キャッチコピーは例外で、媒体ごとに変えてよい）</li>
+    <li>媒体ごとに項目仕様が異なるため、媒体別に求人原稿を作成するためのプロンプトを用意する</li>
+  </ul>
+
+  <h2><span class="num">3</span>ステータス管理</h2>
+
+  <h3>ステータス一覧</h3>
+  <table>
+    <thead>
+      <tr><th>ステータス</th><th>説明</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>掲載前</td><td>—</td></tr>
+      <tr><td>掲載準備中</td><td>下書き状態、または（indeedの場合）外部業者へ発注済みで掲載待ちの状態</td></tr>
+      <tr><td>掲載中</td><td>—</td></tr>
+      <tr><td>掲載停止</td><td>「掲載中」の後にのみ発生するステータス（掲載中 → 掲載停止 の順のみ）</td></tr>
+      <tr><td>掲載しない</td><td>上限がある媒体などで、掲載対象から外れた場合</td></tr>
+    </tbody>
+  </table>
+
+  <div class="status-flow">
+    <div class="box">掲載前</div><div class="arrow">→</div>
+    <div class="box">掲載準備中</div><div class="arrow">→</div>
+    <div class="box">掲載中</div><div class="arrow">→</div>
+    <div class="box">掲載停止</div>
+  </div>
+
+  <h3>媒体別のステータス制限</h3>
+  <table>
+    <thead>
+      <tr><th>媒体</th><th>「掲載しない」の選択可否</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>CO</td><td>不可（選べない）— 基本的に全求人を掲載するため</td></tr>
+      <tr><td>Airワーク</td><td>不可（選べない）— 基本的に全求人を掲載するため</td></tr>
+      <tr><td>indeed</td><td>可</td></tr>
+      <tr><td>花ジョブ</td><td>可（上限のため発生しやすい）</td></tr>
+      <tr><td>フラワージョブ</td><td>可（上限のため発生しやすい）</td></tr>
+    </tbody>
+  </table>
+
+  <h3>失注時の掲載停止に関する運用ルール</h3>
+  <p>案件が失注になった場合、掲載を停止する必要があるが、システムが自動でステータスを変更すると、実際の媒体側での停止作業とシステム上のステータスがずれるリスク（停止し忘れが可視化されない）がある。そのため、以下の方針とする。</p>
+  <ul>
+    <li>案件が失注になっても、システムは掲載ステータスを自動的に「掲載停止」に変更<strong>しない</strong></li>
+    <li>「失注済みだが、まだ掲載中の媒体が残っている」案件を検知し、一覧・アラートで可視化する仕組みを設ける</li>
+    <li>担当者は一覧を確認しながら媒体ごとに実際の停止作業を行い、完了後に<strong>手動</strong>でステータスを「掲載停止」に更新する</li>
+  </ul>
+  <div class="note">
+    上記から、「掲載（媒体ごとの掲載枠）」のステータスとは別に、案件そのものの募集状況（募集中／成約／失注など）を管理するステータスが必要になる。この2種類のステータスは目的が異なるため、混在させない。
+  </div>
+
+  <h2><span class="num">4</span>データ設計方針（システム相談事項）</h2>
+
+  <p>
+    案件は1レコードに対し、花ジョブ・フラワージョブでは複数案件を1つの掲載としてまとめることがある。
+    この「1対1」と「多対1」が媒体によって混在する構造を表現するため、以下のようなテーブル構成を提案する。
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>テーブル</th><th>役割</th><th>主な項目</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>案件（ANKEN）</td>
+        <td>COを起点とするマスターデータ。<strong>勤務地・雇用形態ごとに別レコード</strong>（最小単位）</td>
+        <td>案件ID、企業ID、職種、勤務地、雇用形態 など</td>
+      </tr>
+      <tr>
+        <td>掲載（KEISAI）</td>
+        <td>媒体ごとの「1つの掲載枠」。ステータスはこのテーブルで管理する</td>
+        <td>掲載ID、媒体ID、ステータス、掲載開始日、掲載停止日 など</td>
+      </tr>
+      <tr>
+        <td>案件_掲載（中間テーブル）</td>
+        <td>案件と掲載を紐づける。<strong>多対多</strong>にすることで、花ジョブ・フラワージョブの「まとめ掲載」を表現できる</td>
+        <td>案件ID、掲載ID</td>
+      </tr>
+      <tr>
+        <td>媒体（BAITAI）</td>
+        <td>媒体マスター。媒体の増減にはレコード追加・削除のみで対応でき、テーブル構造の変更は不要</td>
+        <td>媒体ID、媒体名、掲載上限</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>設計の狙い：</strong>CO・Airワーク・indeedは実質「1案件↔1掲載」だが、構造上は花ジョブ・フラワージョブと同じ「多対多」の仕組みに統一する。これにより、まとめ掲載の案件も、まとめられた案件のうちどれかのステータスが変われば掲載レコード側で一括管理でき、個別に不整合が起きない。
+  </div>
+
+  <div class="todo">
+    <strong>開発者に確認したい点：</strong>
+    <ul style="margin-top:8px;">
+      <li>ステータス変更の履歴（いつ・誰が・どのステータスに変更したか）を監査ログとして残したい</li>
+      <li>「案件の募集状況（募集中／成約／失注など）」と「媒体ごとの掲載ステータス」を分けて管理する設計で問題ないか</li>
+      <li>「失注済みだが掲載中の媒体が残っている」状態を検知・アラートする仕組みの実装方法</li>
+      <li>媒体マスターへのレコード追加・削除だけで、媒体の増減に対応できる設計になっているかのレビュー</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">5</span>未確定・継続ヒアリング事項</h2>
+  <ul>
+    <li>各媒体の入稿担当者（自社／外部）の詳細</li>
+    <li>掲載期間の目安・更新タイミング</li>
+    <li>花ジョブ・フラワージョブで「掲載しない」対象を選ぶ際の優先順位・具体的な基準</li>
+    <li>媒体の優先順位（CO＞Airワーク＞indeed＞花ジョブ＞フラワージョブ）の具体的な使いどころ</li>
+    <li>媒体ごとの求人作成プロンプトを資料に含めるか</li>
+  </ul>
+
+  <footer>
+    社内共有・システム開発者との相談用資料
+  </footer>
+
+</div>
+</body>
+</html>
