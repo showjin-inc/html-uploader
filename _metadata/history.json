@@ -75,5 +75,16 @@
     "createdAt": "2026-07-10",
     "expiresAt": "2026-08-09",
     "pageUrl": "https://share.showjin.co.jp/showjin/965bon.html"
+  },
+  {
+    "id": "2026-07-10T07-52-57",
+    "brand": "sj",
+    "title": "求人を作成ボタン押下時の求人内容の表示デザイン",
+    "author": "萩原",
+    "fileName": "bxsdnt.html",
+    "filePath": "showjin/bxsdnt.html",
+    "createdAt": "2026-07-10",
+    "expiresAt": "2026-08-09",
+    "pageUrl": "https://share.showjin.co.jp/showjin/bxsdnt.html"
   }
 ]
