@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>配送料金表 — 株式会社笑人</title>
+<style>
+  :root { --line:#b9c4d6; --head:#e9eef7; --cell:#f4f7fc; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+    color:#1a1a1a; margin:0; padding:20px; background:#fff;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .wrap { max-width:480px; margin:0 auto; }
+  .company { font-size:20px; font-weight:700; letter-spacing:2px; text-align:right; }
+  .taxnote { text-align:right; font-size:12px; font-weight:700; margin:8px 0 14px; }
+  table { border-collapse:collapse; width:100%; table-layout:fixed; }
+  th, td { border:1px solid var(--line); padding:12px 10px; font-size:15px; }
+  th { background:var(--head); font-weight:600; text-align:center; }
+  th.c1, td.c1 { width:52%; }
+  td.km { background:#fff; text-align:center; }
+  td.amt { background:var(--cell); text-align:right; font-style:italic; font-weight:600; white-space:nowrap; }
+  td.note {
+    background:#fff; text-align:left; font-size:12px; line-height:1.8; padding:12px 10px;
+  }
+  td.note b { font-weight:700; }
+  .notes { margin-top:22px; font-size:12.5px; line-height:1.9; }
+  .notes .row { display:flex; gap:8px; margin-bottom:6px; }
+  .notes .mk { flex:0 0 auto; }
+  @media print { body { padding:12mm; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="company">株式会社笑人</div>
+
+  <table>
+    <thead>
+      <tr><th class="c1">km</th><th>金額</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="note c1">20kmまでは <b>ドライ一律8,000円</b></td>
+        <td class="amt">8,000-</td>
+      </tr>
+      <tr><td class="km c1">21〜30Km</td><td class="amt">9,500-</td></tr>
+      <tr><td class="km c1">31〜40Km</td><td class="amt">11,000-</td></tr>
+      <tr><td class="km c1">41〜50Km</td><td class="amt">12,500-</td></tr>
+      <tr><td class="km c1">51〜60Km</td><td class="amt">15,000-</td></tr>
+      <tr><td class="km c1">61〜70Km</td><td class="amt">16,500-</td></tr>
+      <tr><td class="km c1">71〜80Km</td><td class="amt">18,000-</td></tr>
+      <tr><td class="km c1">81〜90Km</td><td class="amt">19,500-</td></tr>
+      <tr><td class="km c1">91〜100Km</td><td class="amt">21,000-</td></tr>
+      <tr><td class="km c1">101〜110Km</td><td class="amt">22,500-</td></tr>
+      <tr><td class="km c1">111〜120km</td><td class="amt">24,000-</td></tr>
+      <tr><td class="km c1">121〜130km</td><td class="amt">25,500-</td></tr>
+      <tr><td class="km c1">131〜140km</td><td class="amt">27,000-</td></tr>
+      <tr><td class="km c1">141〜150km</td><td class="amt">28,500-</td></tr>
+      <tr><td class="km c1">151〜160km</td><td class="amt">30,000-</td></tr>
+      <tr><td class="km c1">161〜170km</td><td class="amt">31,500-</td></tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
