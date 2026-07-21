@@ -130,5 +130,16 @@
     "createdAt": "2026-07-14",
     "expiresAt": null,
     "pageUrl": "https://share.showjin.co.jp/copain/2g68uu.html"
+  },
+  {
+    "id": "2026-07-21T00-31-17",
+    "brand": "sj",
+    "title": "ShowCase稼働条件サンプル",
+    "author": "高原浩生",
+    "fileName": "9nahxk.html",
+    "filePath": "showjin/9nahxk.html",
+    "createdAt": "2026-07-21",
+    "expiresAt": "2026-07-28",
+    "pageUrl": "https://share.showjin.co.jp/showjin/9nahxk.html"
   }
 ]
