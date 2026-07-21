@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>showrap 社内エンジニア相談用ブリーフ</title>
+<style>
+  :root{
+    --ink:#1e2a30; --soft:#4a5960; --faint:#7a8890; --line:#e2e7e5;
+    --brand:#0E7C66; --brand-deep:#0A5C4C; --tint:#eaf5f1; --paper:#fff; --bg:#f5f7f6;
+    --amber:#B08828; --amber-tint:#f7f0dd; --red:#C0392B;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;
+    line-height:1.8;font-size:15px}
+  .wrap{max-width:840px;margin:0 auto;padding:32px 22px 72px}
+  header{background:linear-gradient(135deg,var(--brand-deep),var(--brand));color:#fff;
+    border-radius:16px;padding:26px 28px;margin-bottom:26px}
+  header .kicker{font-size:12px;letter-spacing:.14em;opacity:.85;font-weight:700}
+  header h1{margin:6px 0 8px;font-size:23px;font-weight:800;line-height:1.4}
+  header p{margin:0;opacity:.92;font-size:13.5px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:20px 24px;margin-bottom:16px}
+  h2{font-size:16px;font-weight:800;color:var(--brand-deep);margin:0 0 12px;
+    padding-bottom:9px;border-bottom:2px solid var(--tint);display:flex;align-items:center;gap:9px}
+  h2 .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;
+    background:var(--tint);color:var(--brand-deep);font-size:13px;font-weight:800;flex:none}
+  ul{margin:0;padding-left:1.2em}
+  li{margin:5px 0}
+  li b,strong{color:var(--ink)}
+  code{font-family:"SFMono-Regular",Consolas,"Courier New",monospace;font-size:12.5px;
+    background:#eef2f0;color:#2b4a41;padding:1px 6px;border-radius:5px;word-break:break-all}
+  .goal li,.q li{margin:8px 0}
+  .q{counter-reset:q}
+  .q > ol{margin:0;padding-left:0;list-style:none}
+  .q > ol > li{position:relative;padding-left:34px;margin:10px 0}
+  .q > ol > li::before{counter-increment:q;content:counter(q);position:absolute;left:0;top:1px;
+    width:23px;height:23px;display:grid;place-items:center;border-radius:6px;
+    background:var(--brand);color:#fff;font-size:12px;font-weight:800}
+  .note{background:var(--amber-tint);border:1px solid #e8dcae;border-radius:10px;
+    padding:12px 15px;font-size:13.5px;color:#6b5615}
+  .note b{color:#6b5615}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f3f6f5;color:var(--soft);font-weight:700;font-size:12px}
+  td:first-child{font-weight:700;white-space:nowrap;color:var(--brand-deep)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:6px;
+    background:#eef2f0;color:var(--soft)}
+  .tag.warn{background:var(--amber-tint);color:var(--amber)}
+  .foot{color:var(--faint);font-size:12.5px;text-align:center;margin-top:24px}
+  a{color:var(--brand-deep)}
+  @media print{ body{background:#fff} .wrap{padding:0} header{border-radius:0}
+    section{break-inside:avoid;border-color:#ccc} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">社内エンジニア相談用ブリーフ</div>
+    <h1>showrap — 笑人 予実・資金繰りシステム</h1>
+    <p>現状（動くプロトタイプ）と、社内テスト展開に向けて相談したいことのまとめ</p>
+  </header>
+
+  <section>
+    <h2><span class="n">1</span>これは何か</h2>
+    <ul>
+      <li>笑人グループ向けの経営管理Webアプリ「showrap」。目的は<b>「Excel卒業」</b>。</li>
+      <li>機能：<b>予実管理</b>（勘定科目 × 組織 × 月）＋ <b>資金繰り</b>（現金残高の推移管理）。</li>
+      <li>現状は<b>動くプロトタイプ（デモ）</b>。まだ実業務データは扱っていない。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>現在の技術構成（プロトタイプ）</h2>
+    <ul>
+      <li><b>完全な静的サイト</b>：<code>index.html</code> + <code>app.js</code>（約5,000行）+ <code>style.css</code> の3ファイルのみ。フレームワーク・ビルド工程なしの <b>Vanilla JS</b>。</li>
+      <li><b>データ保存はブラウザの localStorage のみ</b>（サーバー・DB・API は一切なし）。</li>
+      <li>ローカル起動：<code>python -m http.server 4900</code>（フォルダを配信するだけ）。</li>
+      <li><b>ログイン・権限は“デモ”</b>：画面上でユーザー／役割を切り替えるだけで、本物の認証ではない。</li>
+      <li>MoneyForward 会計の CSV をブラウザ内でパースして取り込むデモは実装済み。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>現状できていること（機能面）</h2>
+    <ul>
+      <li>画面：予実ダッシュボード／計画・実績グリッド／現場ワークシート／資金繰り／マスタ（会社・組織・勘定科目・会計期間・口座）／権限設定／MF連携（CSV取込）。</li>
+      <li>会社2社（笑人・コパン）、組織階層（事業部→拠点→チーム）、会計期間、勘定科目の予実、資金繰り（口座別残高・日付アンカーの「修正残高」・BS/財務科目の資金移動）まで画面上で動く。</li>
+    </ul>
+  </section>
+
+  <section class="goal">
+    <h2><span class="n">4</span>やりたいこと（ゴール）</h2>
+    <ul>
+      <li><b>社内テスト展開</b>したい（すぐではなく、次の段階として）。</li>
+      <li><b>環境を2つ</b>持ちたい：<b>テスト(DEV)環境</b> と <b>本番環境</b>（それぞれに DB・サーバー設定）。</li>
+      <li>まず<b>テスト環境を社員に配って触ってもらい</b>、フィードバックを得る。問題なければ本番へ。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>なぜ今のままでは社内展開できないか（課題）</h2>
+    <ul>
+      <li>localStorage は各自のブラウザ内なので、<b>データ共有・永続・複数人同時利用ができない</b>（別PCでは見えない／キャッシュ削除で消える）。</li>
+      <li><b>本物の認証・アクセス制御がない</b>。</li>
+      <li><b>サーバー・DB がない</b>。</li>
+    </ul>
+    <p style="margin:12px 0 0">→ テスト環境として成立させるには、<b>バックエンド（API＋DB）＋認証</b>が必要。</p>
+  </section>
+
+  <section class="q">
+    <h2><span class="n">6</span>相談・判断してほしいこと</h2>
+    <ol>
+      <li><b>技術スタック</b>：フロントは今の Vanilla JS を活かすか、React 等へ載せ替えるか。バックエンド言語（Node.js / Python 等）。DB（PostgreSQL / MySQL 等）。</li>
+      <li><b>インフラ／ホスティング</b>：AWS 想定で問題ないか。テスト／本番の<b>環境分離</b>の方法（アカウント分割 or 環境変数＋別DB 等）。</li>
+      <li><b>認証方式 ＝ メールアドレス＋パスワードで確定</b>（依頼者決定）。社内アカウントを発行して運用。実装方式（自前実装 or Cognito 等のマネージド認証）はエンジニア判断でOK。</li>
+      <li><b>テスト環境の運用</b>：テスト用 DB を本番と分離。<b>シードデータ投入・リセット</b>ができる形にしたい（社員が壊しても平気なように）。</li>
+      <li><b>移行方針</b>：プロトの UI／ロジックをどこまで再利用できるか。<b>データ層（localStorage）→ API/DB への載せ替え</b>の工数感。</li>
+      <li><b>概算</b>：工数・期間・コスト感。</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="n">7</span>参考情報</h2>
+    <table>
+      <tr><th>項目</th><th>内容</th></tr>
+      <tr><td>詳細仕様書</td><td><b>別添 <code>SPEC.html</code></b>（このブリーフと一緒に添付して共有します）。ドメイン・画面要件のリファレンス。</td></tr>
+      <tr><td>プロトタイプ</td><td>3ファイル（<code>index.html</code> / <code>app.js</code> / <code>style.css</code>）。必要なら一式を共有します。</td></tr>
+      <tr><td>会計データ連携</td><td><b>MoneyForward 会計</b>から CSV/API 取込（勘定科目のマッピングを介す）。<b>給与だけは MF 給与 API が一般非公開</b>のため CSV/手入力。</td></tr>
+      <tr><td>データ設計</td><td>値の<b>出所（provenance）</b>を保持：確定＝会計／速報＝各ソース／手入力。DB 化時はこれをスキーマへ反映したい。</td></tr>
+      <tr><td>金額単位</td><td>内部は千円、資金繰りの実残高だけ円。</td></tr>
+    </table>
+  </section>
+
+  <div class="note">
+    <b>補足：</b>このブリーフは現時点の状況整理です。スタックやインフラ構成が決まれば、<b>DBスキーマ案／データ移行マッピング（localStorage→DB）／環境構築手順</b>などの詳細に落とし込めます。
+  </div>
+
+  <p class="foot">showrap 社内エンジニア相談用ブリーフ ／ 笑人 予実・資金繰りシステム</p>
+
+</div>
+</body>
+</html>
