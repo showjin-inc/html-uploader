@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>showrap 相談回答 — 技術方針まとめ</title>
+<style>
+  :root{
+    --bg:#f4f5f7;
+    --card:#ffffff;
+    --ink:#1f2733;
+    --muted:#5b6675;
+    --line:#e3e7ee;
+    --accent:#2f6f8f;
+    --accent-soft:#eaf2f6;
+    --ok:#2e7d54;
+    --ok-soft:#e7f4ec;
+    --warn:#b06a00;
+    --warn-soft:#fbf1de;
+    --code-bg:#f2f4f7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+    line-height:1.85;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:48px 20px 96px;}
+  .doc{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:56px 56px 64px;
+    box-shadow:0 1px 3px rgba(20,30,50,.04),0 12px 32px rgba(20,30,50,.05);
+  }
+  .eyebrow{
+    display:inline-block;
+    font-size:12.5px;
+    letter-spacing:.14em;
+    font-weight:700;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:5px 12px;
+    border-radius:999px;
+    margin-bottom:20px;
+  }
+  h1{
+    font-size:30px;
+    line-height:1.35;
+    margin:0 0 10px;
+    letter-spacing:.01em;
+  }
+  .lead{
+    color:var(--muted);
+    font-size:15px;
+    margin:0 0 8px;
+  }
+  .meta{
+    color:var(--muted);
+    font-size:13px;
+    margin:18px 0 0;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+  }
+  h2{
+    font-size:20px;
+    margin:52px 0 16px;
+    padding-bottom:10px;
+    border-bottom:2px solid var(--line);
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+  }
+  h2 .num{
+    color:var(--accent);
+    font-size:15px;
+    font-weight:800;
+    background:var(--accent-soft);
+    min-width:30px;
+    height:30px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    flex:0 0 auto;
+  }
+  h3{font-size:16px;margin:26px 0 8px;color:var(--ink);}
+  p{margin:12px 0;}
+  strong{font-weight:700;}
+  ul{margin:12px 0;padding-left:22px;}
+  li{margin:7px 0;}
+  code{
+    background:var(--code-bg);
+    padding:2px 6px;
+    border-radius:5px;
+    font-family:"SF Mono",Consolas,"Courier New",monospace;
+    font-size:13.5px;
+  }
+  .verdict{
+    background:var(--accent-soft);
+    border:1px solid #cfe0e8;
+    border-left:4px solid var(--accent);
+    border-radius:10px;
+    padding:16px 20px;
+    margin:18px 0;
+  }
+  .verdict .tag{
+    font-size:12px;font-weight:800;letter-spacing:.08em;
+    color:var(--accent);display:block;margin-bottom:4px;
+  }
+  .note{
+    background:var(--warn-soft);
+    border:1px solid #f0dcb4;
+    border-left:4px solid var(--warn);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:18px 0;
+    font-size:14.5px;
+  }
+  .note b{color:var(--warn);}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+    font-size:14.5px;
+  }
+  th,td{
+    text-align:left;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  thead th{
+    background:#f7f9fb;
+    color:var(--muted);
+    font-size:12.5px;
+    letter-spacing:.04em;
+    border-bottom:2px solid var(--line);
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  .status-ok{color:var(--ok);font-weight:700;}
+  .status-open{color:var(--warn);font-weight:700;}
+  .total-row td{background:var(--accent-soft);font-weight:700;}
+  .arch{
+    background:#1c2530;
+    color:#d7e3ea;
+    border-radius:10px;
+    padding:22px 24px;
+    font-family:"SF Mono",Consolas,"Courier New",monospace;
+    font-size:13px;
+    line-height:1.7;
+    overflow-x:auto;
+    margin:20px 0;
+    white-space:pre;
+  }
+  .arch .c-accent{color:#7fc4e0;}
+  .arch .c-muted{color:#8b98a6;}
+  .pill-list{list-style:none;padding:0;margin:14px 0;}
+  .pill-list li{
+    padding:12px 16px;border:1px solid var(--line);border-radius:9px;margin:9px 0;background:#fbfcfd;
+  }
+  .pill-list li b{color:var(--accent);}
+  .footer{
+    text-align:center;color:var(--muted);font-size:12.5px;margin-top:40px;
+  }
+  @media(max-width:640px){
+    .doc{padding:32px 22px 44px;}
+    h1{font-size:24px;}
+    .wrap{padding:24px 12px 60px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="doc">
+
+  <span class="eyebrow">エンジニア相談 回答 / 技術方針まとめ</span>
+  <h1>showrap — 本番展開に向けた技術方針</h1>
+  <p class="lead">相談用ブリーフ §6「相談・判断してほしいこと」への回答。スタック／インフラ／DB／認証／テスト運用／工数の現時点の結論を整理する。</p>
+  <p class="meta">対象：笑人 予実・資金繰りシステム「showrap」（Excel卒業）／ 現状：動くプロトタイプ（Vanilla JS ＋ localStorage）→ 社内テスト展開</p>
+
+  <h2><span class="num">0</span>結論サマリー</h2>
+  <p>プロトタイプの資産を活かし、<strong>フロントは Vanilla JS を維持</strong>したまま、<strong>データ層（localStorage）だけを API＋DB へ載せ替える</strong>方針。技術的な難所はフロントではなく、履歴・権限・provenance を持つ<strong>バックエンドとデータモデル</strong>にある。インフラは AWS 上で <code>Fargate ＋ RDS ＋ S3</code>、認証は既存 Cognito を流用する。</p>
+
+  <div class="verdict">
+    <span class="tag">全体像</span>
+    フロント維持（Vanilla JS） ／ バックエンド Node.js(TypeScript) ／ DB は MySQL(RDS) ／ インフラは Fargate＋RDS＋S3 ／ 認証は既存 Cognito ／ DEV・本番は完全分離。
+  </div>
+
+  <h2><span class="num">1</span>フロントエンド：Vanilla JS を維持</h2>
+  <p>Vanilla JS を維持し、React 化は行わない（開発規模が大きく育った段階で将来検討）。既存の <code>app.js</code>（約5,000行）には「動く仕様」＝暗黙の要件定義と、検証済みの入力UI（特に現場ワークシート）が詰まっている。全面書き換えは、この資産と検証結果を捨てることになり、費用対効果・リスクの両面で見合わない。</p>
+  <p>移行は「フロントは再利用、<strong>データアクセス層だけを localStorage → API 呼び出しに差し替える</strong>」形で進める。</p>
+
+  <h2><span class="num">2</span>バックエンド言語：Node.js（TypeScript）</h2>
+  <p>AI 主体の開発のため言語自由度は高いが、<strong>Node.js（TypeScript）を推奨</strong>。理由は、既存 app.js の計算ロジック（単価×数量、率×他行、原価率判定、集計・連結など）が<strong>同一言語なので移植の翻訳コストが最小</strong>で、フロントと言語統一により人・ツールを共有できるため。金額を扱うため TypeScript で型を効かせ、事故を減らす。</p>
+
+  <h2><span class="num">3</span>データベース：MySQL（RDS）</h2>
+  <p>主データストアは<strong>リレーショナルDBが正解</strong>（S3 に JSON を置く案は主データには不適 —— ロック・トランザクション・結合クエリがなく、複数人が同月を触ると破綻する）。</p>
+  <p>エンジンは技術的には Postgres・MySQL どちらでも成立する（再帰CTE・JSON型・ウィンドウ関数はどちらも対応）。<strong>決定打がないため、社の標準に合わせて MySQL 8 を採用</strong>。ShowCase・Copain・花ワクが MySQL であり、バックアップ・監視・運用ノウハウを共有でき属人化を避けられる運用メリットが上回る。データ量は小さく、最小インスタンス（<code>db.t4g.micro〜small</code>）で十分。</p>
+  <div class="note"><b>補足：</b>個人の好みは Postgres だが「困らないなら周りに合わせる」を優先。将来 showrap 専任運用・Postgres固有機能の積極活用が必要になれば再考する。</div>
+
+  <h2><span class="num">4</span>インフラ：Fargate ＋ RDS ＋ S3</h2>
+  <p>コンピュートは <strong>ECS Fargate</strong>（OS・パッチ管理不要で少人数運用向き）。DB は <strong>RDS（MySQL）</strong>。基本は「Fargate＋RDS」で成立するが、<strong>S3 も設計に含める</strong>。</p>
+  <ul>
+    <li><strong>MoneyForward CSV 取込の一時置き場</strong>（アップロード → パース → 取込）</li>
+    <li><strong>DBバックアップ／エクスポート（Excel・PDF）の出力先</strong></li>
+    <li>（任意）フロントの静的配信。Fargate コンテナから直接配信してもよい</li>
+  </ul>
+  <p>DEV と本番は<strong>別スタックで完全分離</strong>（可能なら別アカウント、最低でも別DB＋環境変数）。認証・認可は §5、コストは §7 を参照。</p>
+
+  <div class="arch"><span class="c-muted">[利用者]</span>
+   └─▶ ALB ─▶ <span class="c-accent">ECS Fargate</span>（API: Node.js / TypeScript ＋ Vanilla JS 配信）
+                 ├─ <span class="c-accent">RDS (MySQL)</span>            … 本体データ（計画・実績・資金繰り・履歴）
+                 ├─ <span class="c-accent">S3</span>                     … MF CSV取込 / エクスポート / バックアップ
+                 ├─ <span class="c-accent">Cognito</span>（既存プール流用）  … 認証
+                 └─ Secrets Manager / CloudWatch Logs
+
+   <span class="c-muted">※ DEV 環境と 本番環境 は別スタック（可能なら別アカウント）で完全分離</span></div>
+
+  <h2><span class="num">5</span>認証：既存 Cognito を流用</h2>
+  <p>認証方式はメール＋パスワードで確定。既存（ShowCase / Copain）の Cognito を流用する方針で妥当。実装上の要点：</p>
+  <ul>
+    <li><strong>既存 User Pool を再利用し、showrap 専用の App Client を新規発行</strong>する（対象ユーザーが既存プールに揃っていれば SSO になり体験も良い）。</li>
+    <li><strong>認証＝Cognito、認可＝アプリ側</strong>に寄せる。役割（全権管理者／経理／管理／閲覧）とスコープ（表示可能な会社・拠点）は仕様が細かいため、アプリ側DBで管理するのが素直。</li>
+    <li>テスト環境は<strong>別 User Pool（または別 App Client）</strong>を用意し、本番アカウントを社員のテスト操作で汚さない。</li>
+  </ul>
+
+  <h2><span class="num">6</span>テスト環境の運用：リセット＆シード</h2>
+  <p>「社員が壊してもOK」は、画面上の機能として3段階で用意する。DEV 専用の別 RDS（本番と完全分離）とあわせて、ボタン一発で初期状態へ戻せる状態にする。</p>
+  <ul class="pill-list">
+    <li><b>① データリセットボタン（最優先）</b>　管理者・DEV限定。マスタ系（ユーザー・会社・組織・勘定科目・権限）は残し、トランザクション系（計画・実績・資金繰り明細・ワークシート・変更履歴）を初期シードへ戻す。<em>リセット範囲＝何を残すかは要相談</em>。</li>
+    <li><b>② シーダー（テストデータ投入）</b>　想定データをスクリプト化し、ボタンで投入。デモに近い初期状態を毎回再現できる。</li>
+    <li><b>③ スナップショット保存＆復帰（後追い可）</b>　データ量が小さいため、時点の全データを名前付きで保存 → 後で復元、が現実的に作れる。優先度は①②より下。</li>
+  </ul>
+
+  <h2><span class="num">7</span>コスト概算（東京リージョン）</h2>
+  <p>知識ベースの概算。確定は AWS Pricing Calculator で。単位は USD/月、円換算は 1ドル≒150〜160円。</p>
+  <table>
+    <thead><tr><th>構成</th><th>内容</th><th>本番/月</th></tr></thead>
+    <tbody>
+      <tr><td>リーン案</td><td>EC2 t4g.small 1台 ＋ RDS t4g.micro ＋ S3（ALB/NATなし）</td><td>約 $40〜55</td></tr>
+      <tr><td><strong>標準案（推奨）</strong></td><td>Fargate小 ＋ ALB ＋ RDS t4g.micro(Single-AZ) ＋ S3</td><td>約 $70〜90</td></tr>
+      <tr><td>本番堅牢案</td><td>上記 ＋ RDS Multi-AZ ＋ NAT Gateway</td><td>約 $140〜170</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><b>コストの罠：</b>①<b>ALB</b>（トラフィック0でも基本料 ≈ $18/月）②<b>NAT Gateway</b>（≈ $45/月＋通信）。Fargate をパブリックサブネット＋SG で運用するか VPCエンドポイントで NAT を回避すれば節約できる。<b>DEV 環境</b>は夜間・休日に RDS 停止＋スケール0で 月$20〜40 程度に抑えられる。</div>
+
+  <h2><span class="num">8</span>工数・期間の概算</h2>
+  <p>スキーマ・API設計・リセット範囲などが未確定のため<strong>粗い当たり</strong>。1名（経験者・AI補助あり）想定の人日レンジ。</p>
+  <table>
+    <thead><tr><th>フェーズ</th><th>内容</th><th>人日</th></tr></thead>
+    <tbody>
+      <tr><td>0 設計</td><td>DBスキーマ・API設計・環境設計</td><td>5〜10</td></tr>
+      <tr><td>1 インフラ/IaC</td><td>Fargate＋RDS＋Cognito、DEV/本番、CI/CD</td><td>5〜10</td></tr>
+      <tr><td>2 バックエンドAPI</td><td>CRUD＋集計＋provenance＋速報/確定履歴＋月ロック</td><td>15〜30</td></tr>
+      <tr><td>3 フロント接続</td><td>localStorage → API 差し替え</td><td>10〜20</td></tr>
+      <tr><td>4 認証・権限</td><td>Cognito連携＋役割×スコープの認可</td><td>5〜10</td></tr>
+      <tr><td>5 付帯機能</td><td>MF CSV取込・リセット/シーダー・エクスポート</td><td>5〜10</td></tr>
+      <tr><td>6 テスト・展開</td><td>結合テスト・調整・社内配布</td><td>5〜10</td></tr>
+      <tr class="total-row"><td>合計</td><td>—</td><td>約 50〜100人日（≒2.5〜5人月）</td></tr>
+    </tbody>
+  </table>
+  <p>暦の目安は <strong>1名で約3〜5ヶ月、2名で約2〜3ヶ月</strong>。AI主体で定型部分を圧縮すれば2〜3割短縮も見込めるが、金額・権限まわりのレビューと検証は削らない。最も重いのは<strong>フェーズ2（全体の3〜4割）</strong>で、provenance・速報履歴・ロック・変更履歴といった「履歴と状態」の設計が要因。</p>
+
+  <h2><span class="num">9</span>実装前に握るべき論点</h2>
+  <ul>
+    <li><strong>MoneyForward 連携</strong>：会計は CSV/API 取込。給与だけは MF給与API が非公開のため CSV/手入力。</li>
+    <li><strong>provenance（出所）</strong>：確定＝会計／速報＝各ソース／手入力、をスキーマにどう落とすか。</li>
+    <li><strong>金額単位</strong>：内部は千円、資金繰りの実残高だけ円。</li>
+    <li><strong>リセット範囲</strong>：残すマスタ／消すトランザクションの線引きの最終確定。</li>
+  </ul>
+
+  <h2><span class="num">10</span>次のステップ</h2>
+  <p>方針はほぼ確定。次は <strong>DBスキーマ案</strong>（provenance・速報履歴・権限・ロックを反映）の作成に進むのが自然。スキーマが固まれば、フェーズ2以降の工数見積の精度も上がる。</p>
+
+  <p class="footer">showrap 技術方針まとめ ／ 笑人 予実・資金繰りシステム</p>
+
+</div>
+</div>
+</body>
+</html>
