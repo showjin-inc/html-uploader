@@ -174,5 +174,16 @@
     "createdAt": "2026-07-21",
     "expiresAt": "2026-08-20",
     "pageUrl": "https://share.showjin.co.jp/showjin/fntrzv.html"
+  },
+  {
+    "id": "2026-07-22T05-44-55",
+    "brand": "sj",
+    "title": "showrap_相談回答",
+    "author": "高原浩生",
+    "fileName": "btszw2.html",
+    "filePath": "showjin/btszw2.html",
+    "createdAt": "2026-07-22",
+    "expiresAt": "2026-07-29",
+    "pageUrl": "https://share.showjin.co.jp/showjin/btszw2.html"
   }
 ]
