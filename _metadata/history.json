@@ -196,5 +196,16 @@
     "createdAt": "2026-07-24",
     "expiresAt": "2026-07-31",
     "pageUrl": "https://share.showjin.co.jp/showjin/9yk0x2.html"
+  },
+  {
+    "id": "2026-07-24T04-43-54",
+    "brand": "sj",
+    "title": "リリースノートサンプル",
+    "author": "高原浩生",
+    "fileName": "v0t7pa.html",
+    "filePath": "showjin/v0t7pa.html",
+    "createdAt": "2026-07-24",
+    "expiresAt": "2026-07-31",
+    "pageUrl": "https://share.showjin.co.jp/showjin/v0t7pa.html"
   }
 ]
