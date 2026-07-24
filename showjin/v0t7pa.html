@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>コパン / ShowCase リリース内容（2026/07/28 テスト環境予定）</title>
+<style>
+  :root{
+    --bg:#f4f6f5; --card:#ffffff; --ink:#1a2b24; --muted:#5c6b64;
+    --line:#e3e9e6; --accent:#1f9d63; --accent-soft:#e6f5ed; --accent-ink:#137a4b;
+    --chip:#eef2f0; --shadow:0 1px 2px rgba(20,40,30,.05),0 6px 20px rgba(20,40,30,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1512; --card:#161d1a; --ink:#e8efeb; --muted:#9db0a8;
+      --line:#26302b; --accent:#37c07e; --accent-soft:#123122; --accent-ink:#5fd398;
+      --chip:#1d2723; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+    line-height:1.75; font-size:15px; letter-spacing:.01em;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:40px 20px 80px}
+  header.head{margin-bottom:28px}
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700;
+    color:var(--accent-ink); background:var(--accent-soft); padding:5px 12px; border-radius:999px; letter-spacing:.04em}
+  .eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--accent)}
+  h1{font-size:26px; line-height:1.4; margin:16px 0 6px; font-weight:800}
+  .sub{color:var(--muted); font-size:14px; margin:0}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+  .tag{font-size:12px; color:var(--muted); background:var(--chip); border:1px solid var(--line);
+    padding:3px 10px; border-radius:8px}
+  .note{margin:22px 0 30px; padding:12px 16px; border-radius:12px; background:var(--accent-soft);
+    border:1px solid color-mix(in srgb,var(--accent) 25%,transparent); color:var(--accent-ink); font-size:13.5px}
+  .toc{display:grid; gap:0; margin:0 0 30px; padding:0; list-style:none; counter-reset:toc;
+    background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
+  .toc li a{display:flex; gap:12px; align-items:baseline; padding:12px 18px; text-decoration:none;
+    color:var(--ink); border-bottom:1px solid var(--line)}
+  .toc li:last-child a{border-bottom:0}
+  .toc li a:hover{background:var(--accent-soft)}
+  .toc .n{color:var(--accent-ink); font-weight:800; font-variant-numeric:tabular-nums; min-width:20px}
+  .toc .t{font-weight:600}
+  section.item{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:24px 26px; margin:0 0 18px; box-shadow:var(--shadow)}
+  section.item h2{display:flex; gap:12px; align-items:flex-start; margin:0 0 12px; font-size:18px; font-weight:800; line-height:1.5}
+  section.item h2 .num{flex:0 0 auto; width:28px; height:28px; border-radius:9px; background:var(--accent);
+    color:#fff; font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:1px}
+  section.item p{margin:0 0 10px; color:var(--ink)}
+  section.item p:last-child{margin-bottom:0}
+  .kind{display:inline-block; font-size:11px; font-weight:700; padding:2px 9px; border-radius:7px; margin-left:2px; vertical-align:middle}
+  .kind.copain{background:var(--accent-soft); color:var(--accent-ink)}
+  .kind.showcase{background:#eef1fb; color:#3b47a0}
+  @media (prefers-color-scheme: dark){ .kind.showcase{background:#1a2140; color:#9aa6ee} }
+  .kind.fix{background:#fdeecf; color:#8a5b09}
+  @media (prefers-color-scheme: dark){ .kind.fix{background:#33280c; color:#e6b24d} }
+  ul.detail{margin:8px 0 0; padding-left:1.15em; color:var(--muted); font-size:14px}
+  ul.detail li{margin:3px 0}
+  code{font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace; font-size:12.5px;
+    background:var(--chip); padding:1px 6px; border-radius:6px; color:var(--ink)}
+  footer{margin-top:34px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:12.5px}
+  @media print{
+    body{background:#fff; font-size:12px}
+    section.item,.toc{box-shadow:none}
+    .wrap{padding:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <span class="eyebrow">テスト環境（DEV）リリース予定</span>
+    <h1>コパン / ShowCase リリース内容</h1>
+    <p class="sub">2026年7月28日（火）テスト環境（DEV）へ反映予定</p>
+    <div class="meta">
+      <span class="tag">対象：テスト環境（DEV）</span>
+      <span class="tag">項目：5件</span>
+      <span class="tag">本番への影響：なし（DEV反映時点）</span>
+    </div>
+  </header>
+
+  <div class="note">
+    本内容は <strong>テスト環境（DEV）</strong> への反映予定です。本番環境への適用は別途、内容確認後に実施します。
+  </div>
+
+  <ol class="toc">
+    <li><a href="#i1"><span class="n">1</span><span class="t">コパンのヒントマーク（iマーク）を大きく</span></a></li>
+    <li><a href="#i2"><span class="n">2</span><span class="t">ShowCase ヒアリング日時に前後30分の準備／後処理を追加</span></a></li>
+    <li><a href="#i3"><span class="n">3</span><span class="t">コパンのパスワード画面の改修（見た目のみ）</span></a></li>
+    <li><a href="#i4"><span class="n">4</span><span class="t">通知履歴の修正</span></a></li>
+    <li><a href="#i5"><span class="n">5</span><span class="t">見積もりの派遣期間 表示バグの修正</span></a></li>
+  </ol>
+
+  <section class="item" id="i1">
+    <h2><span class="num">1</span><span>コパンのヒントマーク（iマーク）を大きく <span class="kind copain">コパン</span></span></h2>
+    <p>コパンの各画面にある、ツールチップ（説明）を表示する <strong>ヒントマーク（iマーク）</strong> を、視認性のよい大きさに拡大しました。</p>
+    <p>あわせて、ツールチップの <strong>上部に余分な空行</strong> が入っていた表示を修正し、説明が上詰めで表示されるようにしました。</p>
+  </section>
+
+  <section class="item" id="i2">
+    <h2><span class="num">2</span><span>ShowCase ヒアリング日時に前後30分の準備／後処理を追加 <span class="kind showcase">ShowCase</span></span></h2>
+    <p>ShowCase のコパン依頼管理で <strong>企業ヒアリングの日時を確定</strong> した際、Google カレンダーに本予定だけでなく、開始前30分の <strong>「準備」</strong>・終了後30分の <strong>「後処理」</strong> の予定も自動で登録するようにしました。日時を再確定した場合は、古い予定を削除したうえで登録し直します。</p>
+    <p>あわせて、確定しようとする時間帯（<strong>前後30分を含む</strong>）にすでに別の予定が入っている場合は、<strong>重複を検知して注意を表示</strong> するようにしました。</p>
+    <ul class="detail">
+      <li>表側の画面操作は従来どおりで、カレンダー登録の処理のみを拡張しています。</li>
+    </ul>
+  </section>
+
+  <section class="item" id="i3">
+    <h2><span class="num">3</span><span>コパンのパスワード画面の改修（見た目のみ） <span class="kind copain">コパン</span></span></h2>
+    <p>パスワードの <strong>設定・再設定・変更・「パスワードをお忘れの場合」</strong> の各画面が、ログイン画面と見分けづらかったため、フォームを <strong>中央配置</strong> のレイアウトに変更しました。どのサイトかが分かるよう、左上にコパンのロゴを表示しています。</p>
+    <ul class="detail">
+      <li>見た目（レイアウト）のみの変更で、入力項目や動作の仕様に変更はありません。</li>
+    </ul>
+  </section>
+
+  <section class="item" id="i4">
+    <h2><span class="num">4</span><span>通知履歴の修正 <span class="kind fix">不具合修正</span></span></h2>
+    <p>コパンの <strong>通知履歴</strong> に「【コパン】ヒアリング日時のお知らせ」など <strong>一部のメールが表示されない</strong> 不具合を修正し、コパンから依頼者へ送信したメールが <strong>すべて履歴に表示</strong> されるようにしました。</p>
+    <p>過去に送信済みのメール履歴についても、表示対象として反映しています。</p>
+    <ul class="detail">
+      <li>会員登録の認証メールや招待メールなど、依頼に紐づかない系統メールは対象外（従来どおり非表示）です。</li>
+    </ul>
+  </section>
+
+  <section class="item" id="i5">
+    <h2><span class="num">5</span><span>見積もりの派遣期間 表示バグの修正 <span class="kind fix">不具合修正</span></span></h2>
+    <p>ShowCase の <strong>見積もりパターン一覧</strong> および <strong>条件変更見積もり</strong> の「派遣期間」欄で、内部の記述がそのまま文字列として表示されてしまう不具合（例：<code>if($p-&gt;isMonthBasedDispatch())3 か月…@else- 〜 -</code>）を修正しました。</p>
+    <p>正しく <strong>「◯か月（開始/終了日 未定）」</strong> や <strong>「開始日 〜 終了日」</strong> と表示されるようにしています。</p>
+  </section>
+
+  <footer>
+    作成日：2026/07/24 ／ 反映予定：2026/07/28（テスト環境 DEV） ／ 全5項目
+  </footer>
+
+</div>
+</body>
+</html>
