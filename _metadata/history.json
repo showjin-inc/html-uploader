@@ -1,27 +1,5 @@
 [
   {
-    "id": "2026-06-24T11-37-19",
-    "brand": "sj",
-    "title": "ハナワク_リストタイプ_ボタン比較",
-    "author": "萩原",
-    "fileName": "efntc0.html",
-    "filePath": "showjin/efntc0.html",
-    "createdAt": "2026-06-24",
-    "expiresAt": "2026-07-24",
-    "pageUrl": "https://share.showjin.co.jp/showjin/efntc0.html"
-  },
-  {
-    "id": "2026-06-25T13-46-26",
-    "brand": "sj",
-    "title": "勤怠システム構想",
-    "author": "萩原",
-    "fileName": "5cek8z.html",
-    "filePath": "showjin/5cek8z.html",
-    "createdAt": "2026-06-25",
-    "expiresAt": "2026-07-25",
-    "pageUrl": "https://share.showjin.co.jp/showjin/5cek8z.html"
-  },
-  {
     "id": "2026-07-02T05-02-29",
     "brand": "cp",
     "title": "2026/07/02MTG投影資料",
@@ -229,5 +207,16 @@
     "createdAt": "2026-07-24",
     "expiresAt": "2026-07-31",
     "pageUrl": "https://share.showjin.co.jp/showjin/wf70vw.html"
+  },
+  {
+    "id": "2026-07-28T09-26-49",
+    "brand": "sj",
+    "title": "アピスさん用のJira運用マニュアル",
+    "author": "高原浩生",
+    "fileName": "ynvz4q.html",
+    "filePath": "showjin/ynvz4q.html",
+    "createdAt": "2026-07-28",
+    "expiresAt": "2026-08-27",
+    "pageUrl": "https://share.showjin.co.jp/showjin/ynvz4q.html"
   }
 ]
