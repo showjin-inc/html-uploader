@@ -110,17 +110,6 @@
     "pageUrl": "https://share.showjin.co.jp/copain/2g68uu.html"
   },
   {
-    "id": "2026-07-21T00-31-17",
-    "brand": "sj",
-    "title": "ShowCase稼働条件サンプル",
-    "author": "高原浩生",
-    "fileName": "9nahxk.html",
-    "filePath": "showjin/9nahxk.html",
-    "createdAt": "2026-07-21",
-    "expiresAt": "2026-07-28",
-    "pageUrl": "https://share.showjin.co.jp/showjin/9nahxk.html"
-  },
-  {
     "id": "2026-07-21T08-11-50",
     "brand": "sj",
     "title": "ジラフラワー東京LAB配送料金",
@@ -218,5 +207,16 @@
     "createdAt": "2026-07-28",
     "expiresAt": "2026-08-27",
     "pageUrl": "https://share.showjin.co.jp/showjin/ynvz4q.html"
+  },
+  {
+    "id": "2026-07-29T00-36-39",
+    "brand": "sj",
+    "title": "ShowCase リリースノート20260804（予定）",
+    "author": "高原浩生",
+    "fileName": "mhsp6m.html",
+    "filePath": "showjin/mhsp6m.html",
+    "createdAt": "2026-07-29",
+    "expiresAt": "2026-08-05",
+    "pageUrl": "https://share.showjin.co.jp/showjin/mhsp6m.html"
   }
 ]
