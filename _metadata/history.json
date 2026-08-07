@@ -185,5 +185,16 @@
     "createdAt": "2026-08-07",
     "expiresAt": "2026-09-06",
     "pageUrl": "https://share.showjin.co.jp/showjin/xacglm.html"
+  },
+  {
+    "id": "2026-08-07T02-42-10",
+    "brand": "sj",
+    "title": "hanabaccaビジネス化PJ",
+    "author": "萩原",
+    "fileName": "mwkiaf.html",
+    "filePath": "showjin/mwkiaf.html",
+    "createdAt": "2026-08-07",
+    "expiresAt": "2026-09-06",
+    "pageUrl": "https://share.showjin.co.jp/showjin/mwkiaf.html"
   }
 ]
