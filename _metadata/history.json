@@ -196,5 +196,16 @@
     "createdAt": "2026-08-07",
     "expiresAt": "2026-09-06",
     "pageUrl": "https://share.showjin.co.jp/showjin/mwkiaf.html"
+  },
+  {
+    "id": "2026-08-07T04-11-42",
+    "brand": "sj",
+    "title": "熊坂さん打ち合わせ資料",
+    "author": "萩原",
+    "fileName": "v49vpc.html",
+    "filePath": "showjin/v49vpc.html",
+    "createdAt": "2026-08-07",
+    "expiresAt": "2026-09-06",
+    "pageUrl": "https://share.showjin.co.jp/showjin/v49vpc.html"
   }
 ]
