@@ -22,50 +22,6 @@
     "pageUrl": "https://share.showjin.co.jp/copain/1pd62x.html"
   },
   {
-    "id": "2026-07-10T06-56-28",
-    "brand": "cp",
-    "title": "コパン分析ページイメージ",
-    "author": "萩原",
-    "fileName": "f67wow.html",
-    "filePath": "copain/f67wow.html",
-    "createdAt": "2026-07-10",
-    "expiresAt": "2026-08-09",
-    "pageUrl": "https://share.showjin.co.jp/copain/f67wow.html"
-  },
-  {
-    "id": "2026-07-10T07-52-19",
-    "brand": "sj",
-    "title": "カレンダー表示の人数チップ押下時のポップアップ",
-    "author": "萩原",
-    "fileName": "965bon.html",
-    "filePath": "showjin/965bon.html",
-    "createdAt": "2026-07-10",
-    "expiresAt": "2026-08-09",
-    "pageUrl": "https://share.showjin.co.jp/showjin/965bon.html"
-  },
-  {
-    "id": "2026-07-10T07-52-57",
-    "brand": "sj",
-    "title": "求人を作成ボタン押下時の求人内容の表示デザイン",
-    "author": "萩原",
-    "fileName": "bxsdnt.html",
-    "filePath": "showjin/bxsdnt.html",
-    "createdAt": "2026-07-10",
-    "expiresAt": "2026-08-09",
-    "pageUrl": "https://share.showjin.co.jp/showjin/bxsdnt.html"
-  },
-  {
-    "id": "2026-07-10T08-08-59",
-    "brand": "sj",
-    "title": "カレンダー表示の人数チップ押下時のポップアップ",
-    "author": "萩原",
-    "fileName": "90j8n6.html",
-    "filePath": "showjin/90j8n6.html",
-    "createdAt": "2026-07-10",
-    "expiresAt": "2026-08-09",
-    "pageUrl": "https://share.showjin.co.jp/showjin/90j8n6.html"
-  },
-  {
     "id": "2026-07-10T08-40-43",
     "brand": "cp",
     "title": "求人媒体運用体制（案）",
@@ -143,28 +99,6 @@
     "pageUrl": "https://share.showjin.co.jp/showjin/ynvz4q.html"
   },
   {
-    "id": "2026-07-31T09-50-38",
-    "brand": "sj",
-    "title": "emie 統合ID 設計まとめ",
-    "author": "高原浩生",
-    "fileName": "wswi6x.html",
-    "filePath": "showjin/wswi6x.html",
-    "createdAt": "2026-07-31",
-    "expiresAt": "2026-08-07",
-    "pageUrl": "https://share.showjin.co.jp/showjin/wswi6x.html"
-  },
-  {
-    "id": "2026-07-31T09-51-08",
-    "brand": "sj",
-    "title": "花Job・ハナワク 連携のお願い",
-    "author": "高原浩生",
-    "fileName": "ngohqr.html",
-    "filePath": "showjin/ngohqr.html",
-    "createdAt": "2026-07-31",
-    "expiresAt": "2026-08-07",
-    "pageUrl": "https://share.showjin.co.jp/showjin/ngohqr.html"
-  },
-  {
     "id": "2026-08-06T09-58-21",
     "brand": "sj",
     "title": "EMIE用３サービスの概要・比較",
@@ -218,5 +152,16 @@
     "createdAt": "2026-08-07",
     "expiresAt": "2026-08-14",
     "pageUrl": "https://share.showjin.co.jp/copain/rgda9t.html"
+  },
+  {
+    "id": "2026-08-12T07-47-23",
+    "brand": "cp",
+    "title": "ShowCaseリリースノート2026-08-18",
+    "author": "高原浩生",
+    "fileName": "fslhvs.html",
+    "filePath": "copain/fslhvs.html",
+    "createdAt": "2026-08-12",
+    "expiresAt": "2026-09-11",
+    "pageUrl": "https://share.showjin.co.jp/copain/fslhvs.html"
   }
 ]
