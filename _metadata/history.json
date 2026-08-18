@@ -33,17 +33,6 @@
     "pageUrl": "https://share.showjin.co.jp/copain/n1mtuo.html"
   },
   {
-    "id": "2026-07-13T12-24-53",
-    "brand": "cp",
-    "title": "株式会社リベルテ様＿紹介予定派遣求人",
-    "author": "石井　愛",
-    "fileName": "689t3u.html",
-    "filePath": "copain/689t3u.html",
-    "createdAt": "2026-07-13",
-    "expiresAt": "2026-08-12",
-    "pageUrl": "https://share.showjin.co.jp/copain/689t3u.html"
-  },
-  {
     "id": "2026-07-14T03-24-09",
     "brand": "cp",
     "title": "求人原稿ヒアリング用トークスクリプト 〜「今回の募集理由」ヒアリング編〜",
@@ -143,17 +132,6 @@
     "pageUrl": "https://share.showjin.co.jp/showjin/v49vpc.html"
   },
   {
-    "id": "2026-08-07T05-37-15",
-    "brand": "cp",
-    "title": "ShowCaseリリースノート8/12",
-    "author": "高原浩生",
-    "fileName": "rgda9t.html",
-    "filePath": "copain/rgda9t.html",
-    "createdAt": "2026-08-07",
-    "expiresAt": "2026-08-14",
-    "pageUrl": "https://share.showjin.co.jp/copain/rgda9t.html"
-  },
-  {
     "id": "2026-08-12T07-47-23",
     "brand": "cp",
     "title": "ShowCaseリリースノート2026-08-18",
@@ -163,5 +141,16 @@
     "createdAt": "2026-08-12",
     "expiresAt": "2026-09-11",
     "pageUrl": "https://share.showjin.co.jp/copain/fslhvs.html"
+  },
+  {
+    "id": "2026-08-18T08-42-01",
+    "brand": "sj",
+    "title": "2026/08/18MTG内容",
+    "author": "萩原",
+    "fileName": "0o4cqi.html",
+    "filePath": "showjin/0o4cqi.html",
+    "createdAt": "2026-08-18",
+    "expiresAt": "2026-08-25",
+    "pageUrl": "https://share.showjin.co.jp/showjin/0o4cqi.html"
   }
 ]
