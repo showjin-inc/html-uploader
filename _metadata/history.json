@@ -44,17 +44,6 @@
     "pageUrl": "https://share.showjin.co.jp/copain/2g68uu.html"
   },
   {
-    "id": "2026-07-28T09-26-49",
-    "brand": "sj",
-    "title": "アピスさん用のJira運用マニュアル",
-    "author": "高原浩生",
-    "fileName": "ynvz4q.html",
-    "filePath": "showjin/ynvz4q.html",
-    "createdAt": "2026-07-28",
-    "expiresAt": "2026-08-27",
-    "pageUrl": "https://share.showjin.co.jp/showjin/ynvz4q.html"
-  },
-  {
     "id": "2026-08-06T09-58-21",
     "brand": "sj",
     "title": "EMIE用３サービスの概要・比較",
@@ -119,5 +108,16 @@
     "createdAt": "2026-08-27",
     "expiresAt": "2026-09-03",
     "pageUrl": "https://share.showjin.co.jp/showjin/o5y75s.html"
+  },
+  {
+    "id": "2026-09-02T01-10-21",
+    "brand": "sj",
+    "title": "showcase2.0構想_萩原作成",
+    "author": "萩原",
+    "fileName": "3qsa6s.html",
+    "filePath": "showjin/3qsa6s.html",
+    "createdAt": "2026-09-02",
+    "expiresAt": "2026-10-02",
+    "pageUrl": "https://share.showjin.co.jp/showjin/3qsa6s.html"
   }
 ]
