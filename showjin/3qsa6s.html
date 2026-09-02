@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showcase v2 — AI-Native Operations OS 仕様概要 v0.2</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --text:#18202a; --muted:#667085;
+  --line:#e5e7eb; --accent:#0f62fe; --accent2:#7c3aed; --code:#111827;
+  --shadow:0 10px 30px rgba(15,23,42,.06);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;line-height:1.78}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px 22px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800;letter-spacing:.02em}
+.badge{font-size:12px;padding:5px 10px;border-radius:999px;background:#eef4ff;color:#174ea6;font-weight:700}
+.layout{max-width:1500px;margin:auto;display:grid;grid-template-columns:280px minmax(0,900px);gap:32px;padding:28px 24px 80px;justify-content:center}
+aside{position:sticky;top:74px;align-self:start;max-height:calc(100vh - 94px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+aside h3{margin:0 0 12px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+aside a{display:block;text-decoration:none;color:#344054;padding:5px 8px;border-radius:8px;font-size:13px}
+aside a:hover{background:#f2f4f7;color:#101828}
+aside .toc-l1{font-weight:700;margin-top:5px}
+aside .toc-l2{padding-left:18px;color:#667085}
+main{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:46px 54px;box-shadow:var(--shadow);min-width:0}
+h1{font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:-.03em}
+h2{font-size:24px;margin-top:48px;padding-top:10px;border-top:1px solid var(--line);letter-spacing:-.02em}
+h3{font-size:18px;margin-top:30px}
+h4{font-size:15px}
+p{margin:12px 0}
+blockquote{margin:18px 0;padding:15px 18px;border-left:4px solid var(--accent);background:#f7faff;border-radius:0 10px 10px 0;color:#344054}
+strong{color:#101828}
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;display:block;overflow:auto}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f8fafc;font-weight:750}
+pre{background:var(--code);color:#e5e7eb;padding:18px;border-radius:12px;overflow:auto;font-size:13px;line-height:1.6}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+p code,li code{background:#f2f4f7;padding:2px 5px;border-radius:5px;color:#344054}
+ul,ol{padding-left:24px}
+li{margin:4px 0}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+a{color:var(--accent)}
+main > h1:first-child + h2{border-top:0;margin-top:8px}
+@media(max-width:1050px){
+  .layout{grid-template-columns:1fr;padding:18px}
+  aside{position:relative;top:0;max-height:none}
+  main{padding:32px 24px}
+}
+@media print{
+  .topbar,aside{display:none}
+  .layout{display:block;padding:0}
+  main{border:0;box-shadow:none;padding:0}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">Showcase v2 — AI-Native Operations OS</div>
+  <div class="badge">v0.2 / Test Edition</div>
+</div>
+<div class="layout">
+  <aside>
+    <h3>Contents</h3>
+    <a class="toc-l1" href="#showcase-v2">Showcase v2</a><a class="toc-l2" href="#ai-native-operations-os-仕様概要-engineering-ai-build-brief">AI-Native Operations OS — 仕様概要 / Engineering &amp; AI Build Brief</a><a class="toc-l1" href="#0-この資料の結論">0. この資料の結論</a><a class="toc-l1" href="#1-現状認識">1. 現状認識</a><a class="toc-l2" href="#1-1-現行showcaseが持つべき業務領域">1.1 現行Showcaseが持つべき業務領域</a><a class="toc-l1" href="#2-コパンの現在の主要課題">2. コパンの現在の主要課題</a><a class="toc-l2" href="#2-1-営業活動の可視化が-報告依存">2.1 営業活動の可視化が「報告依存」</a><a class="toc-l2" href="#2-2-新規-既存-追客の優先順位が人間依存">2.2 新規・既存・追客の優先順位が人間依存</a><a class="toc-l2" href="#2-3-案件進行の監視が人間依存">2.3 案件進行の監視が人間依存</a><a class="toc-l2" href="#2-4-マッチング情報がまだai学習に十分な形になっていない">2.4 マッチング情報がまだAI学習に十分な形になっていない</a><a class="toc-l2" href="#2-5-スタッフ登録フォームが重くなりやすい">2.5 スタッフ登録フォームが重くなりやすい</a><a class="toc-l2" href="#2-6-業務ルール-知識が人の頭にある">2.6 業務ルール・知識が人の頭にある</a><a class="toc-l1" href="#3-showcase-v2-の設計思想">3. Showcase v2 の設計思想</a><a class="toc-l2" href="#3-1-event-first">3.1 Event First</a><a class="toc-l2" href="#3-2-rule-before-ai">3.2 Rule Before AI</a><a class="toc-l2" href="#3-3-api-tool-first">3.3 API / Tool First</a><a class="toc-l2" href="#3-4-human-authority">3.4 Human Authority</a><a class="toc-l2" href="#3-5-eval-driven-development">3.5 Eval Driven Development</a><a class="toc-l2" href="#3-6-progressive-autonomy">3.6 Progressive Autonomy</a><a class="toc-l1" href="#4-v2の全体アーキテクチャ">4. v2の全体アーキテクチャ</a><a class="toc-l1" href="#5-agent設計">5. Agent設計</a><a class="toc-l2" href="#5-1-agentを必要以上に分割しない">5.1 Agentを必要以上に分割しない</a><a class="toc-l2" href="#5-2-core-skills">5.2 Core Skills</a><a class="toc-l1" href="#6-event-store">6. Event Store</a><a class="toc-l2" href="#6-1-event共通schema案">6.1 Event共通Schema案</a><a class="toc-l2" href="#6-2-重要イベント">6.2 重要イベント</a><a class="toc-l1" href="#7-結果理由-を資産化する">7. 「結果理由」を資産化する</a><a class="toc-l2" href="#7-1-決まらなかった理由">7.1 決まらなかった理由</a><a class="toc-l2" href="#7-2-決まった理由">7.2 決まった理由</a><a class="toc-l1" href="#8-context-engine">8. Context Engine</a><a class="toc-l2" href="#8-1-context優先順位">8.1 Context優先順位</a><a class="toc-l2" href="#8-2-structured-first">8.2 Structured First</a><a class="toc-l2" href="#8-3-case-memory">8.3 Case Memory</a><a class="toc-l1" href="#9-ai-command-center">9. AI Command Center</a><a class="toc-l2" href="#9-1-dashboard">9.1 Dashboard</a><a class="toc-l2" href="#9-2-action-card">9.2 Action Card</a><a class="toc-l2" href="#9-3-explainability">9.3 Explainability</a><a class="toc-l1" href="#10-営業のv2フロー">10. 営業のv2フロー</a><a class="toc-l1" href="#11-企業受注のv2フロー">11. 企業受注のv2フロー</a><a class="toc-l1" href="#12-面談のv2フロー">12. 面談のv2フロー</a><a class="toc-l2" href="#面談前">面談前</a><a class="toc-l2" href="#面談中">面談中</a><a class="toc-l2" href="#面談後">面談後</a><a class="toc-l1" href="#13-matching-v2">13. Matching v2</a><a class="toc-l2" href="#13-1-hard-filter">13.1 Hard Filter</a><a class="toc-l2" href="#13-2-candidate-ranking">13.2 Candidate Ranking</a><a class="toc-l2" href="#13-3-matching-feedback">13.3 Matching Feedback</a><a class="toc-l1" href="#14-稼働後v2">14. 稼働後v2</a><a class="toc-l1" href="#15-voice-phone-v2">15. Voice / Phone v2</a><a class="toc-l1" href="#16-durable-execution">16. Durable Execution</a><a class="toc-l1" href="#17-mcp-a2a">17. MCP / A2A</a><a class="toc-l2" href="#17-1-mcp">17.1 MCP</a><a class="toc-l2" href="#17-2-a2a">17.2 A2A</a><a class="toc-l1" href="#18-ai-model-strategy">18. AI Model Strategy</a><a class="toc-l1" href="#19-self-improving-loop">19. Self-Improving Loop</a><a class="toc-l2" href="#19-1-correctionを捨てない">19.1 Correctionを捨てない</a><a class="toc-l2" href="#19-2-eval種類">19.2 Eval種類</a><a class="toc-l1" href="#20-historical-replay-digital-twin">20. Historical Replay / Digital Twin</a><a class="toc-l1" href="#21-shadow-mode">21. Shadow Mode</a><a class="toc-l1" href="#22-feature-flag-canary">22. Feature Flag / Canary</a><a class="toc-l1" href="#23-observability">23. Observability</a><a class="toc-l1" href="#24-security-containment">24. Security / Containment</a><a class="toc-l1" href="#25-ai-command-center-の画面候補">25. AI Command Center の画面候補</a><a class="toc-l2" href="#25-1-home">25.1 Home</a><a class="toc-l2" href="#25-2-today-actions">25.2 Today Actions</a><a class="toc-l2" href="#25-3-approval-inbox">25.3 Approval Inbox</a><a class="toc-l2" href="#25-4-ai-trace">25.4 AI Trace</a><a class="toc-l1" href="#26-kpi">26. KPI</a><a class="toc-l2" href="#26-1-business-kpi">26.1 Business KPI</a><a class="toc-l2" href="#26-2-operation-kpi">26.2 Operation KPI</a><a class="toc-l2" href="#26-3-ai-kpi">26.3 AI KPI</a><a class="toc-l2" href="#26-4-improvement-kpi">26.4 Improvement KPI</a><a class="toc-l1" href="#27-v2開発方式-aiに構築させるためのrepository-design">27. v2開発方式 — AIに構築させるためのRepository Design</a><a class="toc-l1" href="#28-ai-coding-harness">28. AI Coding Harness</a><a class="toc-l2" href="#planner">Planner</a><a class="toc-l2" href="#implementer">Implementer</a><a class="toc-l2" href="#reviewer-evaluator">Reviewer / Evaluator</a><a class="toc-l1" href="#29-ai開発の1-task単位">29. AI開発の1 Task単位</a><a class="toc-l1" href="#30-v2-environment">30. v2 Environment</a><a class="toc-l1" href="#31-showcase-v2-capability-scope">31. Showcase v2 Capability Scope</a><a class="toc-l2" href="#data-event-context">Data / Event / Context</a><a class="toc-l2" href="#ai-agent-runtime">AI / Agent Runtime</a><a class="toc-l2" href="#operation-automation">Operation Automation</a><a class="toc-l2" href="#learning-evaluation">Learning / Evaluation</a><a class="toc-l2" href="#platform-integration">Platform / Integration</a><a class="toc-l2" href="#development-automation">Development Automation</a><a class="toc-l1" href="#32-v2で-やらない-こと">32. v2で「やらない」こと</a><a class="toc-l1" href="#33-showcase-v2-acceptance-criteria">33. Showcase v2 Acceptance Criteria</a><a class="toc-l2" href="#architecture">Architecture</a><a class="toc-l2" href="#safety">Safety</a><a class="toc-l2" href="#learning">Learning</a><a class="toc-l2" href="#business">Business</a><a class="toc-l1" href="#34-エンジニア-aiに求める設計成果物">34. エンジニア / AIに求める設計成果物</a><a class="toc-l1" href="#35-技術選定でエンジニアとaiに比較してほしいもの">35. 技術選定でエンジニアとAIに比較してほしいもの</a><a class="toc-l2" href="#agent-runtime">Agent Runtime</a><a class="toc-l2" href="#durable-workflow">Durable Workflow</a><a class="toc-l2" href="#tool-protocol">Tool Protocol</a><a class="toc-l2" href="#agent-interop">Agent Interop</a><a class="toc-l2" href="#observability">Observability</a><a class="toc-l2" href="#retrieval">Retrieval</a><a class="toc-l1" href="#36-2026年時点の技術的根拠">36. 2026年時点の技術的根拠</a><a class="toc-l2" href="#agent-tool-use-trace-sandbox">Agent Tool Use / Trace / Sandbox</a><a class="toc-l2" href="#self-improving">Self Improving</a><a class="toc-l2" href="#eval">Eval</a><a class="toc-l2" href="#long-running-development">Long Running Development</a><a class="toc-l2" href="#context-engineering">Context Engineering</a><a class="toc-l2" href="#mcp">MCP</a><a class="toc-l2" href="#a2a">A2A</a><a class="toc-l2" href="#durable-ai">Durable AI</a><a class="toc-l2" href="#voice">Voice</a><a class="toc-l1" href="#37-ai-builderへの指示">37. AI BUILDERへの指示</a><a class="toc-l1" href="#38-最終到達イメージ">38. 最終到達イメージ</a><a class="toc-l1" href="#appendix-a-参考にした主要公開情報">Appendix A — 参考にした主要公開情報</a>
+  </aside>
+  <main>
+    <h1 id="showcase-v2">Showcase v2</h1>\n<h2 id="ai-native-operations-os-仕様概要-engineering-amp-ai-build-brief">AI-Native Operations OS — 仕様概要 / Engineering &amp; AI Build Brief</h2>\n<ul>
+<li>Version: 0.2</li>
+<li>Date: 2026-09-01</li>
+<li>Status: Showcase v2 / Test Edition</li>
+<li>対象: 株式会社コパン社内業務システム Showcase</li>
+<li>想定読者: 社内エンジニア、AI開発エージェント、業務設計担当者</li>
+<li>目的: 現行Showcaseを壊さず、別系統のv2テスト環境で「AIが業務を観測・判断・実行支援・評価・改善する」次世代業務OSを実証する</li>
+</ul>
+<hr />
+<h1 id="0-この資料の結論">0. この資料の結論</h1>\n<p>Showcase v2は「ShowcaseにAIチャットを付ける計画」ではない。</p>
+<p>目指すものは、</p>
+<blockquote>
+<p><strong>コパンで発生する業務イベントを常時観測し、AIが状況を理解し、次の行動を判断し、許可された範囲では実行し、その結果と人間の修正から継続的に改善する AI-Native Operations OS</strong></p>
+</blockquote>
+<p>である。</p>
+<p>v2で検証したい本質は以下の5点。</p>
+<ol>
+<li><strong>人が探して考える前に、Showcaseが「今やるべき仕事」を出せるか</strong></li>
+<li><strong>入力・報告・転記・検索・要約・追客・監視などの非付加価値業務を大幅に消せるか</strong></li>
+<li><strong>企業・スタッフ・案件・営業・面談・稼働のデータを一つの判断系としてAIが扱えるか</strong></li>
+<li><strong>AIの判断をTrace / Eval / Human Correctionで測定し、短いサイクルで改善できるか</strong></li>
+<li><strong>コパンで作った仕組みを、将来ほかの花業界業務にも展開可能なAI業務基盤にできるか</strong></li>
+</ol>
+<p>Showcase v2はテスト版であるが、機能構想自体をフェーズで制限しない。</p>
+<p><strong>最前線の技術を使い、コパンの業務をどこまでAIネイティブに再設計できるかを一つの統合仕様として検証する。</strong></p>
+<hr />
+<h1 id="1-現状認識">1. 現状認識</h1>\n<h2 id="1-1-現行showcaseが持つべき業務領域">1.1 現行Showcaseが持つべき業務領域</h2>\n<p>現行Showcaseは単純なCRMではなく、少なくとも以下を横断する業務基盤として考える。</p>
+<ul>
+<li>企業</li>
+<li>店舗</li>
+<li>企業担当者</li>
+<li>スタッフ</li>
+<li>スタッフ経験・スキル・希望条件</li>
+<li>リード</li>
+<li>営業活動</li>
+<li>案件 / 求人</li>
+<li>企業側の求める条件</li>
+<li>スタッフ側の条件</li>
+<li>応募</li>
+<li>候補者提案</li>
+<li>職場見学</li>
+<li>選考</li>
+<li>決定 / 不成立</li>
+<li>契約進捗</li>
+<li>稼働</li>
+<li>継続 / 更新 / 終了</li>
+<li>問い合わせ</li>
+<li>面談</li>
+<li>タスク</li>
+<li>コミュニケーション履歴</li>
+<li>タグ</li>
+<li>結果理由</li>
+<li>社内ルール / 業務知識</li>
+</ul>
+<p>将来的には花JOB、ハナワク、Zendesk、LINE、メール、電話等との連携も同じ業務コンテキストとして扱う。</p>
+<hr />
+<h1 id="2-コパンの現在の主要課題">2. コパンの現在の主要課題</h1>\n<p>Showcase v2は技術デモではなく、以下の課題を解決するために作る。</p>
+<h2 id="2-1-営業活動の可視化が-報告依存">2.1 営業活動の可視化が「報告依存」</h2>\n<p>現在は営業担当者が活動後に入力する営業報告の品質・タイミングに依存する。</p>
+<p>問題:</p>
+<ul>
+<li>入力が遅れる</li>
+<li>「営業活動」と「案件進捗・調整」が混在する</li>
+<li>次回アクションが不明確になる</li>
+<li>企業の反応が構造化されない</li>
+<li>後から集計はできてもリアルタイムな意思決定には弱い</li>
+<li>営業担当者の裁量で活動量を落としても発見しづらい</li>
+<li>新規営業と既存対応の時間配分が見えにくい</li>
+</ul>
+<p>v2では「営業報告」という独立作業を可能な限り消し、業務イベントから自動生成する。</p>
+<h2 id="2-2-新規-既存-追客の優先順位が人間依存">2.2 新規・既存・追客の優先順位が人間依存</h2>\n<p>人間が企業一覧や履歴を読んで、</p>
+<ul>
+<li>今日どこに連絡するか</li>
+<li>何を話すか</li>
+<li>いつ追客するか</li>
+<li>見切るか</li>
+<li>休眠させるか</li>
+<li>再活性化するか</li>
+</ul>
+<p>を考えている。</p>
+<p>v2ではAIが全リードを常時監視し、人間には「今日人間が触る価値が高い対象」を提示する。</p>
+<h2 id="2-3-案件進行の監視が人間依存">2.3 案件進行の監視が人間依存</h2>\n<p>案件の停滞理由が、</p>
+<ul>
+<li>候補者不足</li>
+<li>条件過多</li>
+<li>企業回答待ち</li>
+<li>スタッフ回答待ち</li>
+<li>契約待ち</li>
+<li>面談待ち</li>
+<li>社内処理待ち</li>
+</ul>
+<p>のどれなのかを人間が見に行く必要がある。</p>
+<p>v2では案件をイベントとして監視し、停滞・異常・次アクションを自動判定する。</p>
+<h2 id="2-4-マッチング情報がまだai学習に十分な形になっていない">2.4 マッチング情報がまだAI学習に十分な形になっていない</h2>\n<p>重要なのは「決まらなかった理由」だけではない。</p>
+<ul>
+<li>なぜ企業がそのスタッフを選んだか</li>
+<li>なぜスタッフがその企業を選んだか</li>
+<li>どの条件が決定打だったか</li>
+<li>就業後に継続したか</li>
+<li>早期終了したか</li>
+<li>類似案件では何が効いたか</li>
+</ul>
+<p>まで履歴化する。</p>
+<h2 id="2-5-スタッフ登録フォームが重くなりやすい">2.5 スタッフ登録フォームが重くなりやすい</h2>\n<p>業務効率化のために登録時入力を増やすと、スタッフ体験が悪化する。</p>
+<p>v2では、</p>
+<ul>
+<li>フォーム = 定量情報 / 事前取得</li>
+<li>人間面談 = 価値観、希望、ニュアンス、本質理解</li>
+<li>AI = 面談前準備、記録、要約、構造化、タグ候補、未確認事項抽出</li>
+</ul>
+<p>に役割分担する。</p>
+<h2 id="2-6-業務ルール-知識が人の頭にある">2.6 業務ルール・知識が人の頭にある</h2>\n<p>「良い提案」「良い面談」「条件緩和交渉」「見切り基準」などが暗黙知になりやすい。</p>
+<p>v2では知識を3種類に分離する。</p>
+<ol>
+<li><strong>Hard Policy</strong>: 法令、絶対条件、承認権限、禁止事項</li>
+<li><strong>Business Knowledge</strong>: 業務手順、判断基準、ノウハウ</li>
+<li><strong>Case Memory</strong>: 実際に成功・失敗した案件や会話</li>
+</ol>
+<hr />
+<h1 id="3-showcase-v2-の設計思想">3. Showcase v2 の設計思想</h1>\n<h2 id="3-1-event-first">3.1 Event First</h2>\n<p>「現在の状態」だけでなく、「何が起きたか」を残す。</p>
+<p>例:</p>
+<ul>
+<li>lead.created</li>
+<li>sales.call.completed</li>
+<li>sales.visit.completed</li>
+<li>requisition.created</li>
+<li>requisition.condition_changed</li>
+<li>staff.interview.completed</li>
+<li>candidate.proposed</li>
+<li>client.responded</li>
+<li>match.accepted</li>
+<li>match.rejected</li>
+<li>placement.started</li>
+<li>placement.renewed</li>
+<li>placement.ended</li>
+<li>ai.recommendation.created</li>
+<li>human.correction.applied</li>
+</ul>
+<p>イベントがAIの経験データになる。</p>
+<h2 id="3-2-rule-before-ai">3.2 Rule Before AI</h2>\n<p>法令や絶対条件をLLMの推論に任せない。</p>
+<p>例:</p>
+<ul>
+<li>派遣できない条件</li>
+<li>必須契約</li>
+<li>承認権限</li>
+<li>料金下限</li>
+<li>個人情報アクセス権</li>
+<li>外部送信禁止条件</li>
+</ul>
+<p>これらはコード / Policy Engineで判定する。</p>
+<p>AIは「曖昧な判断」「優先順位」「文章」「仮説」「提案」「要約」を担当する。</p>
+<h2 id="3-3-api-tool-first">3.3 API / Tool First</h2>\n<p>AIにDBを直接書き換えさせない。</p>
+<p>AIは許可されたTool/APIのみを使う。</p>
+<p>例:</p>
+<ul>
+<li>get_company_context()</li>
+<li>get_staff_context()</li>
+<li>get_requisition_context()</li>
+<li>search_candidates()</li>
+<li>create_internal_task()</li>
+<li>propose_next_action()</li>
+<li>draft_company_message()</li>
+<li>draft_staff_message()</li>
+<li>update_requisition_status()</li>
+<li>add_structured_tag()</li>
+<li>request_human_approval()</li>
+</ul>
+<p>すべて、</p>
+<ul>
+<li>input schema</li>
+<li>output schema</li>
+<li>permission</li>
+<li>validation</li>
+<li>idempotency</li>
+<li>audit</li>
+<li>rollback方針</li>
+</ul>
+<p>を持つ。</p>
+<h2 id="3-4-human-authority">3.4 Human Authority</h2>\n<p>AIが「人間を置き換える」のではなく、人間の判断価値が高い部分に集中させる。</p>
+<p>人間が残すもの:</p>
+<ul>
+<li>企業との関係構築</li>
+<li>スタッフ面談</li>
+<li>交渉</li>
+<li>例外判断</li>
+<li>感情を伴う対応</li>
+<li>重要な採否判断</li>
+<li>重大トラブル</li>
+<li>経営判断</li>
+</ul>
+<p>AIに寄せるもの:</p>
+<ul>
+<li>記録</li>
+<li>要約</li>
+<li>検索</li>
+<li>監視</li>
+<li>集計</li>
+<li>転記</li>
+<li>下書き</li>
+<li>タグ候補</li>
+<li>候補抽出</li>
+<li>次アクション候補</li>
+<li>異常検知</li>
+<li>原因仮説</li>
+<li>効果測定</li>
+</ul>
+<h2 id="3-5-eval-driven-development">3.5 Eval Driven Development</h2>\n<p>AIの出来を「感覚」で評価しない。</p>
+<p>機能ごとに、</p>
+<ul>
+<li>何を成功とするか</li>
+<li>何が失敗か</li>
+<li>どの程度の精度が必要か</li>
+<li>人間が何を修正したか</li>
+<li>前バージョンより改善したか</li>
+</ul>
+<p>を測れる状態にする。</p>
+<h2 id="3-6-progressive-autonomy">3.6 Progressive Autonomy</h2>\n<p>自律度は機能ごとに明示的に管理し、安全性とEval結果に応じて設定する。</p>
+<ul>
+<li>L0: Observation — 見るだけ</li>
+<li>L1: Suggestion — 提案のみ</li>
+<li>L2: Draft — 下書き作成</li>
+<li>L3: Approval Execute — 人間承認後に実行</li>
+<li>L4: Autonomous — 条件付き自動実行</li>
+</ul>
+<p>機能単位でレベルを持たせる。</p>
+<hr />
+<h1 id="4-v2の全体アーキテクチャ">4. v2の全体アーキテクチャ</h1>\n<pre><code class="language-text">┌─────────────────────────────────────────────┐
+│                EXPERIENCE LAYER             │
+│ AI Command Center / Approval Inbox / Search │
+└──────────────────────┬──────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────┐
+│             ORCHESTRATION LAYER             │
+│ Durable Workflow / Queue / Scheduler        │
+│ Human Interrupt / Retry / Timeout / Resume  │
+└──────────────────────┬──────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────┐
+│                AI RUNTIME                   │
+│ Main Orchestrator                           │
+│ Skills: Sales / Intake / Interview / Match  │
+│ Case / Retention / Improvement              │
+└─────────────┬─────────────┬─────────────────┘
+              │             │
+┌─────────────▼──────┐ ┌────▼────────────────┐
+│  CONTEXT ENGINE    │ │ POLICY / GUARDRAIL  │
+│ structured data    │ │ hard rules          │
+│ knowledge          │ │ permission          │
+│ case memory        │ │ approval policy     │
+└─────────────┬──────┘ └────┬────────────────┘
+              │             │
+┌─────────────▼─────────────▼────────────────┐
+│               TOOL / ACTION LAYER          │
+│ Showcase API / MCP / Mail / LINE / Zendesk │
+│ Telephony / Search / Calendar / External   │
+└──────────────────────┬─────────────────────┘
+                       │
+┌──────────────────────▼─────────────────────┐
+│              DATA / EVENT LAYER            │
+│ Existing DB / kintone adapters             │
+│ Event Store / Audit Log / Documents        │
+└──────────────────────┬─────────────────────┘
+                       │
+┌──────────────────────▼─────────────────────┐
+│         OBSERVABILITY / EVAL LAYER         │
+│ Trace / Metrics / Cost / Eval Dataset      │
+│ Human Correction / Replay / A-B / Rollback │
+└─────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h1 id="5-agent設計">5. Agent設計</h1>\n<h2 id="5-1-agentを必要以上に分割しない">5.1 Agentを必要以上に分割しない</h2>\n<p>v2の基本構成では、</p>
+<p><strong>Main Orchestrator + Skills + Tools</strong></p>
+<p>を基本とする。</p>
+<p>理由:</p>
+<ul>
+<li>Agent間通信はデバッグ難易度が上がる</li>
+<li>Contextの重複が増える</li>
+<li>コストが増える</li>
+<li>誤判断の原因特定が難しい</li>
+<li>役割境界を早期に固定すると将来のモデル性能向上を阻害する可能性がある</li>
+</ul>
+<p>独立Agent化は、Evalで「分離した方が明確に精度・速度・保守性が上がる」と確認できた領域だけ行う。</p>
+<h2 id="5-2-core-skills">5.2 Core Skills</h2>\n<h3 id="sales-intelligence-skill">Sales Intelligence Skill</h3>\n<p>役割:</p>
+<ul>
+<li>営業活動分類</li>
+<li>顧客反応抽出</li>
+<li>次回アクション抽出</li>
+<li>次アクション期限推定</li>
+<li>営業優先順位</li>
+<li>休眠リード再活性化</li>
+<li>既存クライアント増員兆候</li>
+<li>新規 / 既存 / オペレーション分類</li>
+</ul>
+<h3 id="requisition-intake-skill">Requisition Intake Skill</h3>\n<p>役割:</p>
+<ul>
+<li>自然言語の依頼を構造化</li>
+<li>求人タグへ変換</li>
+<li>必須項目チェック</li>
+<li>未確認項目抽出</li>
+<li>条件矛盾検知</li>
+<li>条件緩和候補提示</li>
+</ul>
+<h3 id="interview-copilot-skill">Interview Copilot Skill</h3>\n<p>役割:</p>
+<ul>
+<li>面談前ブリーフ</li>
+<li>聞くべき項目</li>
+<li>面談中の記録</li>
+<li>面談後の要約</li>
+<li>スキル / 経験 / 希望タグ候補</li>
+<li>未確認事項</li>
+<li>スタッフへの理解メモ</li>
+<li>次に紹介しやすい案件タイプ</li>
+</ul>
+<h3 id="matching-skill">Matching Skill</h3>\n<p>2段階にする。</p>
+<h4 id="stage-1-deterministic-filter">Stage 1: Deterministic Filter</h4>\n<ul>
+<li>勤務地</li>
+<li>勤務開始</li>
+<li>曜日</li>
+<li>時間</li>
+<li>法的条件</li>
+<li>必須資格</li>
+<li>必須経験</li>
+<li>絶対NG条件</li>
+</ul>
+<h4 id="stage-2-ai-ranking">Stage 2: AI Ranking</h4>\n<ul>
+<li>経験適合</li>
+<li>仕事内容適合</li>
+<li>希望適合</li>
+<li>類似案件実績</li>
+<li>継続可能性</li>
+<li>企業傾向</li>
+<li>スタッフ傾向</li>
+<li>過去の成功 / 失敗パターン</li>
+</ul>
+<p>結果:</p>
+<ul>
+<li>match_score</li>
+<li>推薦理由</li>
+<li>懸念事項</li>
+<li>確認事項</li>
+<li>過去類似事例</li>
+</ul>
+<h3 id="case-manager-skill">Case Manager Skill</h3>\n<p>案件を常時監視。</p>
+<p>検知:</p>
+<ul>
+<li>24/48/72時間動きなし</li>
+<li>候補者ゼロ</li>
+<li>企業回答待ち</li>
+<li>スタッフ回答待ち</li>
+<li>面談未設定</li>
+<li>契約停滞</li>
+<li>開始日接近</li>
+<li>更新期限接近</li>
+<li>異常なステータス遷移</li>
+</ul>
+<p>通知だけでなく、</p>
+<ul>
+<li>原因仮説</li>
+<li>推奨アクション</li>
+<li>誰が対応すべきか</li>
+<li>期限</li>
+</ul>
+<p>まで出す。</p>
+<h3 id="retention-expansion-skill">Retention / Expansion Skill</h3>\n<p>稼働後の監視。</p>
+<ul>
+<li>初日</li>
+<li>3日</li>
+<li>14日</li>
+<li>1ヶ月</li>
+<li>更新前</li>
+</ul>
+<p>企業 / スタッフの双方から、</p>
+<ul>
+<li>離職兆候</li>
+<li>不満</li>
+<li>条件不一致</li>
+<li>更新可能性</li>
+<li>増員需要</li>
+<li>他部署需要</li>
+</ul>
+<p>を検知する。</p>
+<h3 id="process-improvement-skill">Process Improvement Skill</h3>\n<p>全業務Traceを分析。</p>
+<p>例:</p>
+<ul>
+<li>最近、候補者提案までの時間が悪化</li>
+<li>特定項目の人間修正率が高い</li>
+<li>同じ確認作業が繰り返されている</li>
+<li>ある営業担当だけ次回アクション未設定が多い</li>
+<li>特定条件の案件だけ充足率が低い</li>
+<li>新規営業が不足</li>
+<li>職場見学など非営業作業が営業KPIに混入</li>
+</ul>
+<p>結果として、</p>
+<ul>
+<li>業務ルール変更案</li>
+<li>UI変更案</li>
+<li>入力項目変更案</li>
+<li>自動化候補</li>
+<li>AI Prompt変更候補</li>
+<li>新規Eval候補</li>
+</ul>
+<p>を作る。</p>
+<hr />
+<h1 id="6-event-store">6. Event Store</h1>\n<p>v2では「イベント履歴」を第一級データとして追加する。</p>
+<h2 id="6-1-event共通schema案">6.1 Event共通Schema案</h2>\n<pre><code class="language-json">{
+  &quot;event_id&quot;: &quot;uuid&quot;,
+  &quot;event_type&quot;: &quot;candidate.proposed&quot;,
+  &quot;schema_version&quot;: 1,
+  &quot;occurred_at&quot;: &quot;2026-09-01T10:00:00+09:00&quot;,
+  &quot;ingested_at&quot;: &quot;2026-09-01T10:00:01+09:00&quot;,
+  &quot;actor_type&quot;: &quot;human|ai|system|external&quot;,
+  &quot;actor_id&quot;: &quot;string&quot;,
+  &quot;source&quot;: &quot;showcase|line|email|zendesk|phone|manual|api&quot;,
+  &quot;entity_type&quot;: &quot;company|staff|requisition|placement|lead&quot;,
+  &quot;entity_id&quot;: &quot;string&quot;,
+  &quot;correlation_id&quot;: &quot;string&quot;,
+  &quot;causation_id&quot;: &quot;string&quot;,
+  &quot;trace_id&quot;: &quot;string&quot;,
+  &quot;payload&quot;: {},
+  &quot;before&quot;: {},
+  &quot;after&quot;: {},
+  &quot;confidence&quot;: 0.0,
+  &quot;requires_review&quot;: false
+}
+</code></pre>
+<h2 id="6-2-重要イベント">6.2 重要イベント</h2>\n<h3 id="sales">Sales</h3>\n<ul>
+<li>sales.activity.created</li>
+<li>sales.call.completed</li>
+<li>sales.email.sent</li>
+<li>sales.visit.completed</li>
+<li>sales.meeting.completed</li>
+<li>sales.response.received</li>
+<li>sales.next_action.created</li>
+<li>sales.lead_paused</li>
+<li>sales.lead_reactivated</li>
+</ul>
+<h3 id="staff">Staff</h3>\n<ul>
+<li>staff.registered</li>
+<li>staff.profile.updated</li>
+<li>staff.interview.scheduled</li>
+<li>staff.interview.completed</li>
+<li>staff.tag.proposed</li>
+<li>staff.tag.confirmed</li>
+</ul>
+<h3 id="requisition">Requisition</h3>\n<ul>
+<li>requisition.created</li>
+<li>requisition.updated</li>
+<li>requisition.condition_changed</li>
+<li>requisition.paused</li>
+<li>requisition.closed</li>
+</ul>
+<h3 id="matching">Matching</h3>\n<ul>
+<li>candidate.generated</li>
+<li>candidate.proposed</li>
+<li>candidate.client_rejected</li>
+<li>candidate.staff_rejected</li>
+<li>candidate.accepted</li>
+<li>candidate.withdrawn</li>
+</ul>
+<h3 id="placement">Placement</h3>\n<ul>
+<li>placement.started</li>
+<li>placement.checkin</li>
+<li>placement.risk_detected</li>
+<li>placement.renewed</li>
+<li>placement.ended</li>
+</ul>
+<h3 id="ai">AI</h3>\n<ul>
+<li>ai.recommendation.created</li>
+<li>ai.tool.requested</li>
+<li>ai.tool.executed</li>
+<li>ai.tool.failed</li>
+<li>ai.approval.requested</li>
+<li>ai.approval.approved</li>
+<li>ai.approval.rejected</li>
+<li>ai.output.corrected</li>
+</ul>
+<hr />
+<h1 id="7-結果理由-を資産化する">7. 「結果理由」を資産化する</h1>\n<p>案件結果では以下を別々に持つ。</p>
+<h2 id="7-1-決まらなかった理由">7.1 決まらなかった理由</h2>\n<p>例:</p>
+<ul>
+<li>スキル不足</li>
+<li>経験不一致</li>
+<li>曜日</li>
+<li>時間</li>
+<li>距離</li>
+<li>給与</li>
+<li>企業選考</li>
+<li>スタッフ辞退</li>
+<li>他候補決定</li>
+<li>タイミング</li>
+<li>連絡不能</li>
+<li>条件変更</li>
+<li>案件消滅</li>
+</ul>
+<h2 id="7-2-決まった理由">7.2 決まった理由</h2>\n<p>例:</p>
+<ul>
+<li>必須経験一致</li>
+<li>類似業務経験</li>
+<li>勤務条件一致</li>
+<li>長期就業可能</li>
+<li>即勤務可能</li>
+<li>人物相性</li>
+<li>技術力</li>
+<li>コミュニケーション</li>
+<li>勤務安定性</li>
+<li>柔軟性</li>
+<li>過去実績</li>
+<li>企業要望に対する特殊適合</li>
+</ul>
+<p>タグだけでなく、可能なら</p>
+<ul>
+<li>human_selected_reason</li>
+<li>ai_inferred_reason</li>
+<li>client_stated_reason</li>
+</ul>
+<p>を分ける。</p>
+<p>「AI推定」と「人間/顧客が明言した事実」を混ぜない。</p>
+<hr />
+<h1 id="8-context-engine">8. Context Engine</h1>\n<p>AIに毎回DB全件を渡さない。</p>
+<p>そのタスクに必要な高シグナル情報だけを構成する。</p>
+<h2 id="8-1-context優先順位">8.1 Context優先順位</h2>\n<ol>
+<li>Hard Policy</li>
+<li>現在の案件 / 対象レコード</li>
+<li>直近イベント</li>
+<li>関連する企業 / スタッフ</li>
+<li>関連する過去事例</li>
+<li>必要な業務Knowledge</li>
+<li>長期履歴の要約</li>
+</ol>
+<h2 id="8-2-structured-first">8.2 Structured First</h2>\n<p>現在進めているタグ化はAI化に非常に有効。</p>
+<p>重要な条件は、</p>
+<p><strong>自然言語だけで保存せず、構造化データを正とする。</strong></p>
+<p>AIは構造化データを作る補助には使うが、最終的な業務条件のSource of TruthはDB側。</p>
+<h2 id="8-3-case-memory">8.3 Case Memory</h2>\n<p>過去案件を検索可能にする。</p>
+<p>例:</p>
+<p>「婚礼制作経験3年 / 土日可 / 埼玉 / 週4」の候補者を提案する際、</p>
+<ul>
+<li>類似案件</li>
+<li>決定理由</li>
+<li>不成立理由</li>
+<li>継続期間</li>
+<li>企業の過去傾向</li>
+</ul>
+<p>を参照できる。</p>
+<p>Vector Searchは補助として使用。</p>
+<p>完全一致・条件検索は通常DB検索を優先する。</p>
+<hr />
+<h1 id="9-ai-command-center">9. AI Command Center</h1>\n<p>v2の中心UI。</p>
+<p>通常の「一覧画面」ではなく、</p>
+<p><strong>今日、人間が判断・行動する必要があるもの</strong></p>
+<p>を先頭に出す。</p>
+<h2 id="9-1-dashboard">9.1 Dashboard</h2>\n<p>例:</p>
+<ul>
+<li>緊急案件</li>
+<li>人間承認待ち</li>
+<li>AI推奨アクション</li>
+<li>失注リスク</li>
+<li>稼働終了リスク</li>
+<li>営業機会</li>
+<li>48時間以上停滞</li>
+<li>今日期限</li>
+<li>AI自動処理済み</li>
+<li>AIエラー</li>
+<li>業務改善提案</li>
+</ul>
+<h2 id="9-2-action-card">9.2 Action Card</h2>\n<p>1枚のカードに、</p>
+<ul>
+<li>対象</li>
+<li>現在状況</li>
+<li>なぜ今対応すべきか</li>
+<li>AI推奨</li>
+<li>根拠</li>
+<li>信頼度</li>
+<li>関連履歴</li>
+<li>実行ボタン</li>
+<li>修正</li>
+<li>却下</li>
+<li>理由入力</li>
+</ul>
+<p>を表示。</p>
+<h2 id="9-3-explainability">9.3 Explainability</h2>\n<p>AIの内部思考を表示する必要はない。</p>
+<p>代わりに、</p>
+<ul>
+<li>判断に使った事実</li>
+<li>参照レコード</li>
+<li>適用ルール</li>
+<li>推薦理由</li>
+<li>不確実な点</li>
+</ul>
+<p>を表示する。</p>
+<hr />
+<h1 id="10-営業のv2フロー">10. 営業のv2フロー</h1>\n<pre><code class="language-text">Lead発生
+  ↓
+企業同定 / 重複判定
+  ↓
+AIで属性整理
+  ↓
+過去接点取得
+  ↓
+優先度判定
+  ↓
+今日の営業対象へ
+  ↓
+営業担当が接触
+  ↓
+通話 / 面談 / メールから自動記録
+  ↓
+顧客反応を構造化
+  ↓
+次回Action生成
+  ↓
+期限監視
+  ↓
+結果
+  ↓
+営業Eval / 改善
+</code></pre>
+<p>営業担当者に入力させるのではなく、</p>
+<p><strong>行動から営業報告を生成する。</strong></p>
+<p>入力が必要な場合も、</p>
+<p>「ゼロから文章を書く」ではなく、</p>
+<p>AI生成結果の確認・修正にする。</p>
+<hr />
+<h1 id="11-企業受注のv2フロー">11. 企業受注のv2フロー</h1>\n<p>企業から、</p>
+<p>「10月から週3、制作できる人がほしい」</p>
+<p>と来た場合。</p>
+<p>AIが抽出:</p>
+<ul>
+<li>開始時期</li>
+<li>日数</li>
+<li>職種</li>
+<li>作業</li>
+<li>経験</li>
+<li>勤務地</li>
+<li>時間</li>
+<li>期間</li>
+<li>必須条件</li>
+<li>希望条件</li>
+</ul>
+<p>不足:</p>
+<ul>
+<li>時給 / 単価</li>
+<li>曜日</li>
+<li>勤務時間</li>
+<li>具体作業</li>
+</ul>
+<p>Showcaseは担当者に、</p>
+<p><strong>「不足している4項目だけ聞いてください」</strong></p>
+<p>と表示。</p>
+<p>条件が揃ったら、</p>
+<ul>
+<li>案件登録</li>
+<li>求人タグ</li>
+<li>社内検索条件</li>
+<li>求人原稿</li>
+<li>候補者検索</li>
+</ul>
+<p>まで連動。</p>
+<hr />
+<h1 id="12-面談のv2フロー">12. 面談のv2フロー</h1>\n<h2 id="面談前">面談前</h2>\n<p>AIが生成:</p>
+<ul>
+<li>30秒プロフィール</li>
+<li>職歴要約</li>
+<li>希望</li>
+<li>矛盾</li>
+<li>未確認</li>
+<li>今回深掘りすべき5点</li>
+</ul>
+<h2 id="面談中">面談中</h2>\n<p>可能なら音声からリアルタイム / 事後文字起こし。</p>
+<h2 id="面談後">面談後</h2>\n<p>AIが、</p>
+<ul>
+<li>面談要約</li>
+<li>経験タグ候補</li>
+<li>スキルタグ候補</li>
+<li>希望条件</li>
+<li>制約</li>
+<li>人物理解</li>
+<li>強み</li>
+<li>懸念</li>
+<li>紹介に向く案件タイプ</li>
+</ul>
+<p>を生成。</p>
+<p>担当者が確認・修正。</p>
+<p>修正内容はEval Datasetへ送る。</p>
+<hr />
+<h1 id="13-matching-v2">13. Matching v2</h1>\n<p>AIに丸投げしない。</p>
+<h2 id="13-1-hard-filter">13.1 Hard Filter</h2>\n<p>コードで除外。</p>
+<h2 id="13-2-candidate-ranking">13.2 Candidate Ranking</h2>\n<p>AI / scoringで順位付け。</p>
+<p>出力例:</p>
+<pre><code class="language-text">1. Aさん 91
+   推薦:
+   - 婚礼制作4年
+   - 土日可
+   - 通勤38分
+   - 過去類似案件8ヶ月継続
+
+   懸念:
+   - 大型婚礼経験は少ない
+
+   確認:
+   - 11月繁忙期の週5対応
+</code></pre>
+<h2 id="13-3-matching-feedback">13.3 Matching Feedback</h2>\n<p>企業がAさんを選択したら、</p>
+<ul>
+<li>なぜ選んだか</li>
+</ul>
+<p>企業が却下したら、</p>
+<ul>
+<li>なぜ却下したか</li>
+</ul>
+<p>スタッフが辞退したら、</p>
+<ul>
+<li>なぜ辞退したか</li>
+</ul>
+<p>を可能な範囲で取得。</p>
+<p>Matching Evalに反映。</p>
+<hr />
+<h1 id="14-稼働後v2">14. 稼働後v2</h1>\n<p>派遣は「決定」で終わらない。</p>
+<p>Showcaseがライフサイクルを監視。</p>
+<pre><code class="language-text">開始
+↓
+初日確認
+↓
+3日
+↓
+14日
+↓
+1ヶ月
+↓
+更新前
+↓
+更新 / 終了
+</code></pre>
+<p>AIは、</p>
+<ul>
+<li>定着リスク</li>
+<li>企業満足</li>
+<li>スタッフ満足</li>
+<li>問題兆候</li>
+<li>更新可能性</li>
+<li>増員可能性</li>
+</ul>
+<p>を検出。</p>
+<p>「問題が起きてから対応」ではなく、</p>
+<p><strong>問題が起こる前に人間へ出す。</strong></p>
+<hr />
+<h1 id="15-voice-phone-v2">15. Voice / Phone v2</h1>\n<p>音声AIは将来機能ではなく、v2で実験対象に入れてよい。</p>
+<p>対象用途:</p>
+<ul>
+<li>電話受付</li>
+<li>面談予約</li>
+<li>折返し受付</li>
+<li>登録方法案内</li>
+<li>条件確認</li>
+<li>面談文字起こし</li>
+<li>営業電話のリアルタイム記録</li>
+</ul>
+<p>重要なのは「AIが話すこと」より、</p>
+<pre><code class="language-text">電話
+↓
+相手の同定
+↓
+会話内容
+↓
+構造化
+↓
+Showcase Event
+↓
+Task / Next Action
+</code></pre>
+<p>まで一気通貫させること。</p>
+<p>営業電話の完全自律化はv2の優先対象外。</p>
+<hr />
+<h1 id="16-durable-execution">16. Durable Execution</h1>\n<p>AI業務は途中で、</p>
+<ul>
+<li>API Timeout</li>
+<li>モデル障害</li>
+<li>ネットワーク切断</li>
+<li>外部サービス障害</li>
+<li>人間承認待ち</li>
+<li>数時間 / 数日待機</li>
+</ul>
+<p>が発生する。</p>
+<p>そのため、</p>
+<p><strong>AI Agentの処理を通常のHTTP Request単発処理だけで作らない。</strong></p>
+<p>必要要件:</p>
+<ul>
+<li>Checkpoint</li>
+<li>Retry</li>
+<li>Resume</li>
+<li>Timeout</li>
+<li>Scheduled Resume</li>
+<li>Human Interrupt</li>
+<li>Idempotency</li>
+<li>Dead Letter / Error Queue</li>
+<li>Cancel</li>
+<li>Compensating Action</li>
+</ul>
+<p>候補技術:</p>
+<ul>
+<li>Temporal</li>
+<li>LangGraph persistence</li>
+<li>Dapr / Restate</li>
+<li>その他同等のDurable Workflow基盤</li>
+</ul>
+<p>エンジニアが比較しADRを作成する。</p>
+<hr />
+<h1 id="17-mcp-a2a">17. MCP / A2A</h1>\n<h2 id="17-1-mcp">17.1 MCP</h2>\n<p>Showcaseの業務機能をAIが利用できる標準Toolとして公開する候補。</p>
+<p>MCP Server例:</p>
+<ul>
+<li>Showcase Companies</li>
+<li>Showcase Staff</li>
+<li>Showcase Requisitions</li>
+<li>Showcase Matching</li>
+<li>Showcase Tasks</li>
+<li>Showcase Knowledge</li>
+</ul>
+<p>ただし、</p>
+<p><strong>MCP = セキュリティを自動で解決するものではない。</strong></p>
+<p>Toolごとに権限・認証・監査を持たせる。</p>
+<h2 id="17-2-a2a">17.2 A2A</h2>\n<p>Showcase v2の中核要件ではないが、必要性がある場合に採用する。</p>
+<p>将来、</p>
+<ul>
+<li>Showcase Agent</li>
+<li>花JOB Agent</li>
+<li>ハナワク Agent</li>
+<li>外部AI Agent</li>
+<li>顧客側Agent</li>
+</ul>
+<p>を独立サービスとして連携する場合に有効。</p>
+<p>設計はA2A対応可能にしておくが、必要になるまで実装しない。</p>
+<hr />
+<h1 id="18-ai-model-strategy">18. AI Model Strategy</h1>\n<p>特定モデルにシステム全体を固定しない。</p>
+<p>必要なのは <strong>Model Router</strong>。</p>
+<p>タスクごとに、</p>
+<ul>
+<li>精度</li>
+<li>速度</li>
+<li>コスト</li>
+<li>Context</li>
+<li>Tool Use</li>
+<li>Voice</li>
+<li>Structured Output</li>
+</ul>
+<p>をEvalし、最適モデルを使う。</p>
+<p>例:</p>
+<ul>
+<li>軽い分類 → 高速・低コストモデル</li>
+<li>マッチング説明 → 中〜上位推論モデル</li>
+<li>難しい業務改善分析 → 高推論モデル</li>
+<li>Voice → Realtime Voice Model</li>
+</ul>
+<p>OpenAI / Anthropic / Google等を差し替え可能な設計にする。</p>
+<p>ただし「マルチモデル対応」のために抽象化を過剰にしない。</p>
+<p>最低限、</p>
+<ul>
+<li>model_provider</li>
+<li>model_name</li>
+<li>prompt_version</li>
+<li>parameters</li>
+<li>trace_id</li>
+</ul>
+<p>を保存する。</p>
+<hr />
+<h1 id="19-self-improving-loop">19. Self-Improving Loop</h1>\n<p>Showcase v2で最重要。</p>
+<pre><code class="language-text">AIが判断
+↓
+人間が採用 / 修正 / 却下
+↓
+結果保存
+↓
+Correction Dataset
+↓
+Eval Case化
+↓
+新Prompt / Tool / Model / Ruleをテスト
+↓
+Historical Replay
+↓
+改善確認
+↓
+Canary
+↓
+本番
+</code></pre>
+<h2 id="19-1-correctionを捨てない">19.1 Correctionを捨てない</h2>\n<p>例:</p>
+<p>AI:
+「婚礼装花 上級」</p>
+<p>人:
+「中級へ修正」</p>
+<p>保存:</p>
+<ul>
+<li>original_output</li>
+<li>corrected_output</li>
+<li>correction_type</li>
+<li>reason</li>
+<li>reviewer</li>
+<li>context_snapshot</li>
+<li>prompt_version</li>
+<li>model_version</li>
+</ul>
+<p>これが次のEvalになる。</p>
+<h2 id="19-2-eval種類">19.2 Eval種類</h2>\n<h3 id="code-rule-grader">Code / Rule Grader</h3>\n<ul>
+<li>必須項目</li>
+<li>Hard Policy違反</li>
+<li>DB状態</li>
+<li>正しいTaskが作成されたか</li>
+</ul>
+<h3 id="llm-grader">LLM Grader</h3>\n<ul>
+<li>推薦理由の妥当性</li>
+<li>要約品質</li>
+<li>顧客返信品質</li>
+<li>面談理解</li>
+</ul>
+<h3 id="human-grader">Human Grader</h3>\n<ul>
+<li>重要な曖昧判断</li>
+<li>営業優先順位</li>
+<li>人物評価</li>
+<li>業務改善案</li>
+</ul>
+<hr />
+<h1 id="20-historical-replay-digital-twin">20. Historical Replay / Digital Twin</h1>\n<p>v2の非常に重要な実験機能。</p>
+<p>過去の業務データを使って、</p>
+<p><strong>「その時点でAIが存在していたら何を提案したか」</strong></p>
+<p>を再生する。</p>
+<p>例:</p>
+<p>2026-04-01時点の案件情報だけをAIに与える。</p>
+<p>AI:</p>
+<ul>
+<li>誰を候補にするか</li>
+<li>何を次アクションにするか</li>
+<li>条件緩和を提案するか</li>
+</ul>
+<p>実際の結果と比較。</p>
+<p>これにより、本番で顧客に影響を与えずAIを検証できる。</p>
+<p>重要:</p>
+<p>未来情報リークを防ぐ。</p>
+<p>Replay時点以降に発生したデータをContextへ入れない。</p>
+<hr />
+<h1 id="21-shadow-mode">21. Shadow Mode</h1>\n<p>Showcase v2は本番データをMirrorしてShadow Modeを実行できる構造とし、</p>
+<p><strong>AIは判断するが実行しない。</strong></p>
+<p>人間の実際の行動と比較する。</p>
+<p>例:</p>
+<pre><code class="language-text">AI推奨:
+A社へ本日追客
+
+実際:
+営業担当者はB社へ電話
+
+3日後:
+A社から案件発生
+</code></pre>
+<p>こうしたデータを比較する。</p>
+<p>Shadow Modeで評価できるもの:</p>
+<ul>
+<li>Next Best Action</li>
+<li>Candidate Ranking</li>
+<li>Stale Case Detection</li>
+<li>Churn Risk</li>
+<li>Expansion Opportunity</li>
+<li>Sales Classification</li>
+</ul>
+<hr />
+<h1 id="22-feature-flag-canary">22. Feature Flag / Canary</h1>\n<p>AI機能を一括リリースしない。</p>
+<p>例:</p>
+<ul>
+<li>全社員OFF</li>
+<li>管理者だけON</li>
+<li>1担当者のみON</li>
+<li>10%案件</li>
+<li>特定企業除外</li>
+<li>Draft Only</li>
+<li>Approval Required</li>
+<li>Autonomous</li>
+</ul>
+<p>まで制御。</p>
+<p>問題があれば即OFF。</p>
+<hr />
+<h1 id="23-observability">23. Observability</h1>\n<p>AIの「ログ」だけでは足りない。</p>
+<p>最低限、</p>
+<ul>
+<li>trace_id</li>
+<li>workflow_id</li>
+<li>event_id</li>
+<li>user_id</li>
+<li>entity_id</li>
+<li>prompt_version</li>
+<li>model</li>
+<li>input tokens</li>
+<li>output tokens</li>
+<li>latency</li>
+<li>cost</li>
+<li>tool calls</li>
+<li>tool result</li>
+<li>approval</li>
+<li>final outcome</li>
+<li>correction</li>
+<li>error</li>
+</ul>
+<p>を追えるようにする。</p>
+<p>OpenTelemetry互換を推奨。</p>
+<p>個人情報をTraceに無制限保存しない。</p>
+<hr />
+<h1 id="24-security-containment">24. Security / Containment</h1>\n<p>自律AIは「賢さ」よりBlast Radius管理が重要。</p>
+<p>必須:</p>
+<ul>
+<li>Least Privilege</li>
+<li>ReadとWrite Toolを分離</li>
+<li>本番DB直接接続禁止</li>
+<li>SecretをPromptに入れない</li>
+<li>External Contentを信用しない</li>
+<li>Prompt Injection対策</li>
+<li>外部送信は原則Human Approvalを標準とし、Evalと権限設計で安全性が確認されたActionのみ自動化可能</li>
+<li>削除 / 契約 / 料金変更は強制承認</li>
+<li>全Tool Audit</li>
+<li>Idempotency Key</li>
+<li>Rate Limit</li>
+<li>Cost Limit</li>
+<li>Agent単位Budget</li>
+<li>Emergency Kill Switch</li>
+<li>PII Masking</li>
+<li>Data Retention Policy</li>
+</ul>
+<p>AI SandboxとCredential管理を分離する。</p>
+<hr />
+<h1 id="25-ai-command-center-の画面候補">25. AI Command Center の画面候補</h1>\n<h2 id="25-1-home">25.1 Home</h2>\n<pre><code class="language-text">今日の重要事項
+
+[緊急案件 3]
+[承認待ち 8]
+[営業機会 12]
+[停滞案件 7]
+[稼働リスク 4]
+
+AI処理
+184件完了
+6件要確認
+2件失敗
+</code></pre>
+<h2 id="25-2-today-actions">25.2 Today Actions</h2>\n<p>優先度順。</p>
+<pre><code class="language-text">A社
+理由:
+前回見積から3日 / 過去平均回答2.1日
+
+AI提案:
+電話で確認
+
+想定会話:
+「先日の...」
+
+[履歴] [下書き] [完了] [延期] [不要]
+</code></pre>
+<h2 id="25-3-approval-inbox">25.3 Approval Inbox</h2>\n<p>AIが実行したいAction。</p>
+<ul>
+<li>メール送信</li>
+<li>LINE送信</li>
+<li>Status更新</li>
+<li>タグ変更</li>
+<li>案件条件更新</li>
+</ul>
+<p>[承認] [修正して実行] [却下]</p>
+<h2 id="25-4-ai-trace">25.4 AI Trace</h2>\n<p>管理者向け。</p>
+<ul>
+<li>なぜ判断したか</li>
+<li>使ったTool</li>
+<li>参照した事実</li>
+<li>適用Rule</li>
+<li>成否</li>
+<li>Cost</li>
+<li>Human Correction</li>
+</ul>
+<hr />
+<h1 id="26-kpi">26. KPI</h1>\n<h2 id="26-1-business-kpi">26.1 Business KPI</h2>\n<ul>
+<li>Lead → 商談率</li>
+<li>商談 → 案件化率</li>
+<li>案件 → 提案率</li>
+<li>提案 → 決定率</li>
+<li>Fill Rate</li>
+<li>Time to First Proposal</li>
+<li>Time to Fill</li>
+<li>稼働継続率</li>
+<li>更新率</li>
+<li>既存増員率</li>
+<li>新規売上比率</li>
+</ul>
+<h2 id="26-2-operation-kpi">26.2 Operation KPI</h2>\n<ul>
+<li>手入力時間</li>
+<li>営業報告遅延</li>
+<li>Next Action未設定率</li>
+<li>停滞案件数</li>
+<li>二重入力数</li>
+<li>転記回数</li>
+<li>人間が検索に使う時間</li>
+<li>面談後処理時間</li>
+</ul>
+<h2 id="26-3-ai-kpi">26.3 AI KPI</h2>\n<ul>
+<li>Recommendation Acceptance Rate</li>
+<li>Human Correction Rate</li>
+<li>False Positive</li>
+<li>False Negative</li>
+<li>Tool Success Rate</li>
+<li>Policy Violation</li>
+<li>Hallucination</li>
+<li>Latency</li>
+<li>Cost / Task</li>
+<li>Escalation Rate</li>
+</ul>
+<h2 id="26-4-improvement-kpi">26.4 Improvement KPI</h2>\n<ul>
+<li>問題検知 → 改善案までの時間</li>
+<li>改善案 → Eval追加までの時間</li>
+<li>Eval Pass Rate</li>
+<li>Regression数</li>
+<li>Rollback数</li>
+<li>Human Correction減少率</li>
+</ul>
+<hr />
+<h1 id="27-v2開発方式-aiに構築させるためのrepository-design">27. v2開発方式 — AIに構築させるためのRepository Design</h1>\n<p>コードより先にRepository内の「AIが読む正本」を整備する。</p>
+<p>最低限作成:</p>
+<pre><code class="language-text">/docs
+  PRODUCT_SPEC.md
+  DOMAIN_MODEL.md
+  EVENT_CATALOG.md
+  WORKFLOW_CATALOG.md
+  TOOL_CATALOG.md
+  POLICY.md
+  KNOWLEDGE_ARCHITECTURE.md
+  AI_BEHAVIOR.md
+  EVALS.md
+  SECURITY.md
+  OBSERVABILITY.md
+  DEPLOYMENT.md
+
+/adr
+  ADR-0001-xxx.md
+  ADR-0002-xxx.md
+
+/evals
+  sales/
+  matching/
+  interview/
+  case_manager/
+
+/prompts
+  sales/
+  matching/
+  interview/
+
+/tests
+
+CLAUDE.md
+AGENTS.md
+README.md
+</code></pre>
+<p><code>CLAUDE.md</code> / <code>AGENTS.md</code>には、</p>
+<ul>
+<li>絶対に壊してはいけないもの</li>
+<li>現在のArchitecture</li>
+<li>Coding Rule</li>
+<li>Test Rule</li>
+<li>Migration Rule</li>
+<li>Production禁止事項</li>
+<li>変更時に更新すべきDocs</li>
+</ul>
+<p>を書く。</p>
+<hr />
+<h1 id="28-ai-coding-harness">28. AI Coding Harness</h1>\n<p>「AIに全部作らせる」は、1 Agentに巨大Promptを渡すことではない。</p>
+<p>v2開発では最低限、</p>
+<h2 id="planner">Planner</h2>\n<ul>
+<li>仕様理解</li>
+<li>Current Code調査</li>
+<li>Gap Analysis</li>
+<li>実装分割</li>
+<li>依存関係</li>
+<li>Acceptance Criteria</li>
+</ul>
+<h2 id="implementer">Implementer</h2>\n<ul>
+<li>1 Taskずつ実装</li>
+<li>Test追加</li>
+<li>Docs更新</li>
+<li>Migration作成</li>
+</ul>
+<h2 id="reviewer-evaluator">Reviewer / Evaluator</h2>\n<ul>
+<li>仕様適合</li>
+<li>Test</li>
+<li>Security</li>
+<li>Regression</li>
+<li>UI</li>
+<li>Error Handling</li>
+<li>Observability</li>
+</ul>
+<p>の役割を分ける。</p>
+<p>同一モデルでもSession / Roleを分離してよい。</p>
+<p>重要なのは、</p>
+<p><strong>実装したAI自身を、そのまま合格判定者にしない。</strong></p>
+<hr />
+<h1 id="29-ai開発の1-task単位">29. AI開発の1 Task単位</h1>\n<pre><code class="language-text">1. Spec確認
+2. Current Code検索
+3. Implementation Plan
+4. 対象ファイル列挙
+5. 実装
+6. Unit Test
+7. Integration Test
+8. Eval
+9. Reviewer
+10. Docs更新
+11. Commit
+</code></pre>
+<p>各Taskは小さくする。</p>
+<p>長時間Agentでは、</p>
+<ul>
+<li>task state</li>
+<li>completed</li>
+<li>next</li>
+<li>decisions</li>
+<li>blockers</li>
+</ul>
+<p>を構造化Artifactで引き継ぐ。</p>
+<hr />
+<h1 id="30-v2-environment">30. v2 Environment</h1>\n<p>現行Showcaseを直接改造する前提にしない。</p>
+<p>推奨:</p>
+<pre><code class="language-text">Production Showcase
+        │
+        ├── Read Adapter / Event Mirror
+        │
+Showcase v2 Sandbox
+        │
+        ├── AI Runtime
+        ├── Event Store
+        ├── Eval
+        └── Command Center
+</code></pre>
+<p>Sandbox / Shadow ModeではRead Only運用を選択可能とし、Writeは権限・承認ポリシーで制御する。</p>
+<p>Writeはv2内のTask / Draft / Recommendationのみ。</p>
+<p>十分評価できたActionだけ現行Showcase APIへ接続。</p>
+<hr />
+<h1 id="31-showcase-v2-capability-scope">31. Showcase v2 Capability Scope</h1>\n<p>Showcase v2では、以下を単一の将来仕様として扱う。<br />
+実装順序や技術的な優先順位は、現行Showcaseの構造・依存関係・安全性・Eval結果を踏まえてエンジニアとAIが決定する。</p>
+<h2 id="data-event-context">Data / Event / Context</h2>\n<ul>
+<li>Event Store</li>
+<li>Context Engine</li>
+<li>Case Memory</li>
+<li>Structured Tags / Domain Model</li>
+<li>Knowledge Architecture</li>
+<li>Policy / Rule Engine</li>
+<li>Audit Trail</li>
+</ul>
+<h2 id="ai-agent-runtime">AI / Agent Runtime</h2>\n<ul>
+<li>Main Orchestrator</li>
+<li>Sales Intelligence Skill</li>
+<li>Requisition Intake Skill</li>
+<li>Interview Copilot Skill</li>
+<li>Matching Skill</li>
+<li>Case Manager Skill</li>
+<li>Retention / Expansion Skill</li>
+<li>Process Improvement Skill</li>
+<li>Model Router</li>
+<li>Tool / Function Calling</li>
+<li>Human Approval</li>
+<li>Durable Execution</li>
+</ul>
+<h2 id="operation-automation">Operation Automation</h2>\n<ul>
+<li>Sales Activity Auto Classification</li>
+<li>Next Best Action</li>
+<li>Case Stale Detection</li>
+<li>Candidate Ranking</li>
+<li>Requisition Structuring</li>
+<li>Job Text Generation</li>
+<li>Interview Summarization / Tagging</li>
+<li>Retention Risk Detection</li>
+<li>Expansion Opportunity Detection</li>
+<li>Email / LINE Draft</li>
+<li>Autonomous Follow-up where permitted</li>
+<li>Realtime Voice / Phone Integration</li>
+</ul>
+<h2 id="learning-evaluation">Learning / Evaluation</h2>\n<ul>
+<li>Human Correction Capture</li>
+<li>Eval Framework</li>
+<li>Historical Replay</li>
+<li>Shadow Mode</li>
+<li>A/B / Canary</li>
+<li>Regression Eval</li>
+<li>Automated Eval Case Generation</li>
+<li>Prompt / Workflow Improvement Proposal</li>
+<li>Process Mining</li>
+</ul>
+<h2 id="platform-integration">Platform / Integration</h2>\n<ul>
+<li>Showcase Tool API</li>
+<li>MCP</li>
+<li>A2A where useful</li>
+<li>External Service Adapters</li>
+<li>Observability / OpenTelemetry</li>
+<li>Feature Flag</li>
+<li>Permission Matrix</li>
+<li>Kill Switch</li>
+<li>Cost / Rate Controls</li>
+</ul>
+<h2 id="development-automation">Development Automation</h2>\n<ul>
+<li>AI Coding Harness</li>
+<li>Planner / Implementer / Reviewer</li>
+<li>ADR generation</li>
+<li>Test generation</li>
+<li>Eval generation</li>
+<li>Documentation maintenance</li>
+<li>AI-generated PR / change proposal</li>
+<li>Structured handoff artifacts</li>
+</ul>
+<h1 id="32-v2で-やらない-こと">32. v2で「やらない」こと</h1>\n<p>以下は避ける。</p>
+<ul>
+<li>現行Showcase全面リプレイス</li>
+<li>必要性が検証されていない多数の独立Agent</li>
+<li>AIからProduction DBへの直接Write</li>
+<li>全DBをPromptへ投入</li>
+<li>Vector DBですべて解決</li>
+<li>AI推論で法令判定</li>
+<li>Evalなしでモデル変更</li>
+<li>Promptをコード内に散在</li>
+<li>Model名を業務ロジックに直書き</li>
+<li>AIの推薦理由と事実を混同</li>
+<li>外部メール / LINEを初日から完全自動送信</li>
+<li>Human Correctionを上書きして捨てる</li>
+<li>Traceに個人情報を無制限保存</li>
+<li>「AIだから」という理由だけで複雑なフレームワークを採用</li>
+</ul>
+<hr />
+<h1 id="33-showcase-v2-acceptance-criteria">33. Showcase v2 Acceptance Criteria</h1>\n<p>v2テスト版の最低合格条件。</p>
+<h2 id="architecture">Architecture</h2>\n<ul>
+<li>現行Showcaseと分離されている</li>
+<li>Eventが追跡可能</li>
+<li>AI Actionにtrace_idがある</li>
+<li>Rule / AI / Human判断を区別できる</li>
+<li>Model / Prompt versionを追える</li>
+</ul>
+<h2 id="safety">Safety</h2>\n<ul>
+<li>外部Writeを止められる</li>
+<li>Feature Flagで停止可能</li>
+<li>Human Approvalを設定可能</li>
+<li>Tool権限が限定される</li>
+<li>AIがProduction DBへ直接Writeしない</li>
+</ul>
+<h2 id="learning">Learning</h2>\n<ul>
+<li>人間修正が保存される</li>
+<li>修正からEval Caseを作れる</li>
+<li>Historical Replayできる</li>
+<li>変更前 / 後を比較できる</li>
+</ul>
+<h2 id="business">Business</h2>\n<p>以下のEnd-to-End Use CaseをShowcase v2の代表的な検証シナリオとして扱う。</p>
+<h3 id="use-case-a">Use Case A</h3>\n<p>営業接点 → 自動営業報告 → Next Action</p>
+<h3 id="use-case-b">Use Case B</h3>\n<p>案件 → Candidate Ranking → 人間評価</p>
+<h3 id="use-case-c">Use Case C</h3>\n<p>案件停滞 → AI検知 → 原因仮説 → Action提案</p>
+<h3 id="use-case-d">Use Case D</h3>\n<p>面談音声 → 要約 → タグ候補 → Human Correction</p>
+<p>まで行う。</p>
+<hr />
+<h1 id="34-エンジニア-aiに求める設計成果物">34. エンジニア / AIに求める設計成果物</h1>\n<p>この資料を実装仕様へ落とす際、以下の設計成果物をAIと共同で作成・維持する。</p>
+<ol>
+<li><strong>Current Showcase Architecture Map</strong></li>
+<li><strong>v2 Gap Analysis</strong></li>
+<li><strong>v2 Target Architecture</strong></li>
+<li><strong>Current Data → v2 Domain Mapping</strong></li>
+<li><strong>Event Catalog v0</strong></li>
+<li><strong>Tool/API Catalog v0</strong></li>
+<li><strong>Hard Policy候補一覧</strong></li>
+<li><strong>Top 10 AI Use Cases</strong></li>
+<li><strong>Eval Plan</strong></li>
+<li><strong>Security / Permission Matrix</strong></li>
+<li><strong>Technology ADR</strong></li>
+<li><strong>End-to-End Use Case / Integration Plan</strong></li>
+</ol>
+<p>その後、AI Coding Harnessへ渡す。</p>
+<hr />
+<h1 id="35-技術選定でエンジニアとaiに比較してほしいもの">35. 技術選定でエンジニアとAIに比較してほしいもの</h1>\n<p>この仕様は製品名を固定しない。</p>
+<p>以下を比較し、ADRを残す。</p>
+<h2 id="agent-runtime">Agent Runtime</h2>\n<ul>
+<li>OpenAI Agents SDK</li>
+<li>Claude Agent SDK / Claude Code based harness</li>
+<li>LangGraph</li>
+<li>Custom lightweight runtime</li>
+</ul>
+<h2 id="durable-workflow">Durable Workflow</h2>\n<ul>
+<li>Temporal</li>
+<li>LangGraph persistence</li>
+<li>Dapr</li>
+<li>Restate</li>
+<li>Current stackでの自前実装</li>
+</ul>
+<h2 id="tool-protocol">Tool Protocol</h2>\n<ul>
+<li>Function Calling</li>
+<li>MCP</li>
+<li>REST / RPC</li>
+</ul>
+<h2 id="agent-interop">Agent Interop</h2>\n<ul>
+<li>A2A</li>
+<li>Internal RPC</li>
+<li>不要</li>
+</ul>
+<h2 id="observability">Observability</h2>\n<ul>
+<li>OpenTelemetry</li>
+<li>Agent SDK native tracing</li>
+<li>Existing APM</li>
+</ul>
+<h2 id="retrieval">Retrieval</h2>\n<ul>
+<li>Existing relational DB</li>
+<li>Full-text</li>
+<li>pgvector / vector store</li>
+<li>Hybrid</li>
+</ul>
+<p>「流行しているから」ではなく、</p>
+<p><strong>現在のShowcaseとの整合、開発速度、運用難易度、AIが保守しやすいか、Eval可能か</strong></p>
+<p>で決める。</p>
+<hr />
+<h1 id="36-2026年時点の技術的根拠">36. 2026年時点の技術的根拠</h1>\n<p>今回の方向性は概念だけではなく、現在の主要AI開発基盤で実装可能なものになっている。</p>
+<h2 id="agent-tool-use-trace-sandbox">Agent Tool Use / Trace / Sandbox</h2>\n<p>OpenAI Agents SDKでは、Tool、Handoff、Guardrail、Tracingに加え、2026年にはSandboxを使った長時間Agent実行が強化されている。</p>
+<h2 id="self-improving">Self Improving</h2>\n<p>OpenAI / ThriveのTax Agent事例では、</p>
+<p>Human Correction → Product Trace → Eval → 改善</p>
+<p>というループが実装されている。</p>
+<p>Showcaseでも同じ考え方を業務判断へ転用する。</p>
+<h2 id="eval">Eval</h2>\n<p>AnthropicはAgent Evalについて、</p>
+<ul>
+<li>task</li>
+<li>trial</li>
+<li>grader</li>
+<li>transcript / trace</li>
+<li>outcome</li>
+<li>eval harness</li>
+</ul>
+<p>を分け、Capability EvalとRegression Evalを組み合わせる設計を推奨している。</p>
+<h2 id="long-running-development">Long Running Development</h2>\n<p>Anthropicは長時間Application開発で、</p>
+<p>Planner / Generator / Evaluator</p>
+<p>と、Sessionを跨ぐStructured ArtifactによるContext引継ぎを実証している。</p>
+<h2 id="context-engineering">Context Engineering</h2>\n<p>現在はPrompt Engineeringだけではなく、</p>
+<ul>
+<li>Instructions</li>
+<li>Tools</li>
+<li>Context</li>
+<li>Memory</li>
+<li>Retrieval</li>
+<li>History</li>
+</ul>
+<p>全体を最適化するContext Engineeringが重要。</p>
+<h2 id="mcp">MCP</h2>\n<p>MCPはAgentとTool / Dataを接続する標準として進化し、2026-07-28仕様ではstateless core、Multi Round-Trip Requests、authorization hardening、tasks等が追加されている。</p>
+<h2 id="a2a">A2A</h2>\n<p>A2AはAgent間連携のオープン標準としてLinux Foundation配下で進み、2026年には主要クラウドを含む多数の組織が参加している。</p>
+<h2 id="durable-ai">Durable AI</h2>\n<p>Temporal等のDurable Executionは、長時間Agent、Human Approval、Retry、障害復旧を通常の業務システムとして扱うために有効。</p>
+<h2 id="voice">Voice</h2>\n<p>Realtime Voice Modelは、</p>
+<ul>
+<li>listen</li>
+<li>reason</li>
+<li>transcribe</li>
+<li>tool use</li>
+<li>action</li>
+</ul>
+<p>までリアルタイムに実行できる段階に来ている。</p>
+<hr />
+<h1 id="37-ai-builderへの指示">37. AI BUILDERへの指示</h1>\n<p>以下をこの資料と一緒にAIへ渡す。</p>
+<blockquote>
+<p>あなたはShowcase v2のLead Architect / AI Engineerです。</p>
+<p>この資料を「完成仕様」とみなして盲目的に実装してはいけません。</p>
+<p>まず現行Showcaseの実コード、DB、API、画面、運用を調査してください。</p>
+<p>本資料と現行実装に矛盾がある場合は、現行実装を事実としてGapを明示してください。</p>
+<p>既存Showcaseを壊さず、v2 Sandbox上でEnd-to-Endに動く構成を設計してください。</p>
+<p>技術選定には必ずADRを作成してください。</p>
+<p>AIが判断する項目、コードで決定する項目、人間承認が必要な項目を分けてください。</p>
+<p>AIのすべての判断・Tool Call・結果はTrace可能にしてください。</p>
+<p>Human Correctionを捨てず、Eval Dataset化できる構造にしてください。</p>
+<p>機能実装前にAcceptance Test / Evalを定義してください。</p>
+<p>一度に巨大な変更をせず、小さなTaskへ分解してください。</p>
+<p>各Task終了時に、テスト、ドキュメント更新、未解決事項を残してください。</p>
+<p>複雑なMulti-Agent構成は、Single Orchestrator + Skillsより優れていることがEvalで確認されるまで採用しないでください。</p>
+<p>Productionへの外部Writeは、明示的に許可されるまで禁止です。</p>
+<p>仕様にないコードやデータ構造を想像で作らず、必ずCurrent Codeから確認してください。</p>
+<p>コード実装と並行して必ず以下の設計成果物を作成・維持し、
+Current Architecture / Gap Analysis / Target Architecture / Event Catalog / Tool Catalog / Policy Matrix / Eval Plan / ADR候補
+としてください。</p>
+</blockquote>
+<hr />
+<h1 id="38-最終到達イメージ">38. 最終到達イメージ</h1>\n<p>Showcase v2が目指すのは、</p>
+<pre><code class="language-text">人がシステムを見る
+↓
+問題を探す
+↓
+考える
+↓
+入力する
+↓
+誰かに依頼する
+</code></pre>
+<p>ではない。</p>
+<pre><code class="language-text">業務Event発生
+↓
+Showcaseが観測
+↓
+Rule適用
+↓
+AIがContextを理解
+↓
+必要Actionを判断
+↓
+自動実行 or Human Approval
+↓
+結果を観測
+↓
+人間修正を保存
+↓
+Eval
+↓
+業務 / AI / UIを改善
+</code></pre>
+<p>である。</p>
+<p>最終的には、</p>
+<blockquote>
+<p><strong>コパンの仕事をShowcaseに記録するのではなく、Showcaseの上でコパンの仕事そのものが動く。</strong></p>
+</blockquote>
+<p>そして、</p>
+<blockquote>
+<p><strong>仕事が動くほど、成功・失敗・人間修正が蓄積され、次の判断と業務設計が改善される。</strong></p>
+</blockquote>
+<p>ここをShowcase v2の北極星とする。</p>
+<hr />
+<h1 id="appendix-a-参考にした主要公開情報">Appendix A — 参考にした主要公開情報</h1>\n<ul>
+<li><p>OpenAI — The next evolution of the Agents SDK<br />
+https://openai.com/index/the-next-evolution-of-the-agents-sdk/</p>
+</li>
+<li><p>OpenAI — Building self-improving tax agents with Codex<br />
+https://openai.com/index/building-self-improving-tax-agents-with-codex/</p>
+</li>
+<li><p>OpenAI — Responses API Reference<br />
+https://developers.openai.com/api/reference/</p>
+</li>
+<li><p>OpenAI — Advancing voice intelligence with new models in the API<br />
+https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/</p>
+</li>
+<li><p>Anthropic — Harness design for long-running application development<br />
+https://www.anthropic.com/engineering/harness-design-long-running-apps</p>
+</li>
+<li><p>Anthropic — Demystifying evals for AI agents<br />
+https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents</p>
+</li>
+<li><p>Anthropic — Effective context engineering for AI agents<br />
+https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</p>
+</li>
+<li><p>Anthropic — How we contain Claude across products<br />
+https://www.anthropic.com/engineering/how-we-contain-claude</p>
+</li>
+<li><p>Model Context Protocol — Specification / 2026-07-28 release<br />
+https://modelcontextprotocol.io/</p>
+</li>
+<li><p>A2A Protocol — Official Specification<br />
+https://a2a-protocol.org/</p>
+</li>
+<li><p>Temporal — Durable AI / AI Agent Reference Architecture<br />
+https://docs.temporal.io/ai</p>
+</li>
+<li><p>OpenTelemetry — Semantic Conventions<br />
+https://opentelemetry.io/docs/specs/semconv/</p>
+</li>
+</ul>
+
+  </main>
+</div>
+</body>
+</html>
