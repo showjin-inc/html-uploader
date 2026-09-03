@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>コパンのメール一覧</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --ink: #1b1a17;
+    --ink-soft: #524e46;
+    --ink-faint: #8b857a;
+    --ground: #faf8f4;
+    --card: #ffffff;
+    --line: #e3ddd2;
+    --line-soft: #efeae1;
+    --accent: #8a5a2b;
+    --client: #1f6f5c;
+    --client-soft: #e6f2ee;
+    --staff: #2c5c8a;
+    --staff-soft: #e6eef6;
+    --warn: #a2621a;
+    --warn-soft: #fdf2e3;
+    --stop: #9c3b32;
+    --stop-soft: #fbeceb;
+    --code-bg: #f2ede4;
+
+    --display: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+    --mono: "Roboto Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #efeae1;
+      --ink-soft: #b4ada0;
+      --ink-faint: #857f74;
+      --ground: #14130f;
+      --card: #1d1b17;
+      --line: #322e27;
+      --line-soft: #262320;
+      --accent: #d9a469;
+      --client: #6cc5ab;
+      --client-soft: #172b25;
+      --staff: #7fb3e0;
+      --staff-soft: #16232f;
+      --warn: #dca35d;
+      --warn-soft: #2b2317;
+      --stop: #e08b83;
+      --stop-soft: #2e1c1b;
+      --code-bg: #241f19;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink: #efeae1;
+    --ink-soft: #b4ada0;
+    --ink-faint: #857f74;
+    --ground: #14130f;
+    --card: #1d1b17;
+    --line: #322e27;
+    --line-soft: #262320;
+    --accent: #d9a469;
+    --client: #6cc5ab;
+    --client-soft: #172b25;
+    --staff: #7fb3e0;
+    --staff-soft: #16232f;
+    --warn: #dca35d;
+    --warn-soft: #2b2317;
+    --stop: #e08b83;
+    --stop-soft: #2e1c1b;
+    --code-bg: #241f19;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.85;
+    margin: 0;
+    padding: 0 20px 90px;
+  }
+
+  .wrap { max-width: 960px; margin: 0 auto; }
+
+  header.top { padding: 60px 0 32px; border-bottom: 2px solid var(--ink); }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--accent); text-transform: uppercase; margin: 0 0 12px;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(27px, 5vw, 40px); line-height: 1.25;
+    letter-spacing: -0.01em; text-wrap: balance; margin: 0 0 14px;
+  }
+  .lede { font-size: 16px; color: var(--ink-soft); margin: 0; max-width: 62ch; }
+
+  section { padding: 40px 0 0; }
+  h2 {
+    font-family: var(--display); font-weight: 700; font-size: 20px;
+    margin: 0 0 4px; display: flex; align-items: baseline; gap: 10px;
+  }
+  h2 .n { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 500; flex: none; }
+  h3 { font-family: var(--display); font-weight: 700; font-size: 15px; margin: 26px 0 6px; }
+  p { margin: 0 0 12px; max-width: 70ch; }
+  ul { margin: 0 0 12px; padding-left: 1.35em; max-width: 70ch; }
+  li { margin-bottom: 4px; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px; background: var(--line); border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden; margin: 22px 0;
+  }
+  .stat { background: var(--card); padding: 13px 16px; }
+  .stat .k { font-size: 11px; color: var(--ink-faint); display: block; line-height: 1.5; }
+  .stat .v {
+    font-family: var(--mono); font-size: 25px; font-weight: 500;
+    font-variant-numeric: tabular-nums; display: block; margin-top: 2px;
+  }
+  .stat .n { font-size: 11px; color: var(--ink-faint); }
+
+  .tw { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 720px; }
+  th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th {
+    font-family: var(--display); font-size: 11.5px; letter-spacing: 0.04em;
+    color: var(--ink-faint); font-weight: 700;
+    border-bottom: 1px solid var(--line); white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  .phase { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); white-space: nowrap; }
+  .who {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    padding: 1px 6px; border-radius: 3px; white-space: nowrap;
+  }
+  .w-client { background: var(--client-soft); color: var(--client); }
+  .w-staff { background: var(--staff-soft); color: var(--staff); }
+  .yes { color: var(--client); font-weight: 700; white-space: nowrap; }
+  .no { color: var(--ink-faint); white-space: nowrap; }
+  .cant { color: var(--stop); font-weight: 700; white-space: nowrap; font-size: 12px; }
+  .sub { display: block; font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
+
+  .note {
+    border-left: 3px solid var(--accent); background: var(--card);
+    padding: 13px 17px; border-radius: 0 8px 8px 0; margin: 18px 0;
+  }
+  .note.warn { border-left-color: var(--warn); }
+  .note p:last-child { margin-bottom: 0; }
+  .note .label {
+    font-family: var(--display); font-weight: 700; font-size: 12px;
+    letter-spacing: 0.03em; display: block; margin-bottom: 3px; color: var(--accent);
+  }
+  .note.warn .label { color: var(--warn); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 18px 0 6px; font-size: 12px; color: var(--ink-soft); }
+  .legend span.who { margin-right: 5px; }
+
+  footer { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-faint); }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">コパン — 2026-09-03 現在</p>
+  <h1>コパンのメール一覧</h1>
+  <p class="lede">コパンから送られるメールを、いつ送られるか・誰に届くか・止められるか・署名が入るか・どこで文面を直せるかで整理した一覧です。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>全体</h2>
+
+  <div class="stats">
+    <div class="stat"><span class="k">文面を画面から直せる</span><span class="v">19</span><span class="n">通（＋本文先頭の挨拶）</span></div>
+    <div class="stat"><span class="k">依頼者（企業）向け</span><span class="v">16</span><span class="n">通</span></div>
+    <div class="stat"><span class="k">スタッフ向け</span><span class="v">3</span><span class="n">通</span></div>
+    <div class="stat"><span class="k">文面を変えられない</span><span class="v">1</span><span class="n">通（パスワード再設定）</span></div>
+  </div>
+
+  <div class="legend">
+    <div><span class="who w-client">依頼者</span>企業のご担当者</div>
+    <div><span class="who w-staff">スタッフ</span>派遣スタッフ本人</div>
+  </div>
+
+  <div class="note">
+    <span class="label">署名について</span>
+    <p><strong>依頼者向けには署名が入ります。スタッフ向けには入りません。</strong>署名の文面は1か所で直せて、依頼者向けのすべてに反映されます。</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">02</span>依頼者（企業）向け</h2>
+
+  <p>依頼の進み方に沿って送られます。宛先は<strong>依頼のご連絡先と、依頼した方の両方</strong>です。ご担当者を別のメンバーへ変えた依頼は、<strong>変更後の方にだけ</strong>届きます。</p>
+
+  <div class="tw">
+  <table>
+    <thead>
+      <tr>
+        <th>段階</th>
+        <th>メール</th>
+        <th>送られるとき</th>
+        <th>配信停止</th>
+        <th>署名</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="phase">依頼</td>
+        <td><b>サービス依頼受付</b></td>
+        <td>依頼者が依頼を送信した直後（自動返信）</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">見積</td>
+        <td><b>見積回答送信</b></td>
+        <td>運営が見積の回答を送信したとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">受注</td>
+        <td><b>受注確定</b></td>
+        <td>依頼者が見積に同意して受注が決まったとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">ヒアリング</td>
+        <td><b>ヒアリング日時確定</b><span class="sub">日時と通話URLの表示部分は変えられません</span></td>
+        <td>企業ヒアリングの日時・通話URLが決まったとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">人選</td>
+        <td><b>候補スタッフ提案</b></td>
+        <td>運営が候補スタッフの提案を登録したとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">人選</td>
+        <td><b>職場見学／面接日確定</b><span class="sub">人材派遣は「職場見学」、AGENT採用は「面接」に自動で言い換わります</span></td>
+        <td>職場見学（面接）の日程が決まったとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">確定</td>
+        <td><b>派遣スタッフ確定</b></td>
+        <td>採用が決まってスタッフが確定したとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">開始前</td>
+        <td><b>派遣開始のお知らせ</b><span class="sub">何日前に送るかを設定できます（既定は3日前）</span></td>
+        <td>派遣開始予定日が近づいたとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">更新</td>
+        <td><b>契約更新意向確認</b></td>
+        <td>派遣終了が近づき、更新の意向をうかがうとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td class="phase">完了</td>
+        <td><b>派遣完了</b></td>
+        <td>派遣が終わったあとのお礼</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>条件変更見積もり（4通）</h3>
+
+  <p>すべて<strong>運営の操作</strong>で送られます。依頼者がポータルで自分で同意・辞退した場合は、画面でやりとりが完結するため<strong>メールは送りません</strong>（運営にはSlackで届きます）。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>メール</th><th>送られるとき</th><th>配信停止</th><th>署名</th></tr></thead>
+    <tbody>
+      <tr><td><b>条件変更見積もり 提示</b></td><td>運営が条件変更の見積もりを提示したとき</td><td class="yes">できる</td><td class="yes">入る</td></tr>
+      <tr><td><b>条件変更見積もり 同意受付</b></td><td>電話などで同意を受け、運営が「企業同意」として記録したとき</td><td class="yes">できる</td><td class="yes">入る</td></tr>
+      <tr><td><b>条件変更見積もり 辞退受付</b></td><td>電話などで辞退を受け、運営が「辞退」として記録したとき</td><td class="yes">できる</td><td class="yes">入る</td></tr>
+      <tr><td><b>条件変更見積もり 取り下げ</b></td><td>運営が提示済みの見積もりを取り下げたとき</td><td class="yes">できる</td><td class="yes">入る</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>アカウント関連（2通）</h3>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>メール</th><th>送られるとき</th><th>配信停止</th><th>署名</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>メンバー招待状</b><span class="sub">権限と有効期限の枠は変えられません</span></td>
+        <td>メンバー管理から招待したとき</td>
+        <td class="yes">できる</td>
+        <td class="yes">入る</td>
+      </tr>
+      <tr>
+        <td><b>会員登録メール認証</b></td>
+        <td>新しくアカウントを登録した直後</td>
+        <td class="cant">できない</td>
+        <td class="yes">入る</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note warn">
+    <span class="label">会員登録メール認証は止められません</span>
+    <p>このメールが届かないと登録が完了できないため、配信停止の対象外にしています。</p>
+  </div>
+
+  <div class="note">
+    <span class="label">本文の先頭に入る挨拶</span>
+    <p>依頼者向けのメールは、本文の先頭に共通の挨拶が自動で入ります。各メールの本文はその後に続きます。挨拶の文面は1か所で直せて、すべてに反映されます。</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03</span>スタッフ向け（3通）</h2>
+
+  <p>宛先はスタッフ本人です。<strong>署名は入りません</strong>（企業向けとは分けています）。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>メール</th><th>送られるとき</th><th>配信停止</th><th>署名</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>登録内容の入力のご案内</b></td>
+        <td>運営がスタッフへエントリーフォームの案内を送ったとき<span class="sub">メールを送らず、URLだけ発行することもできます</span></td>
+        <td class="yes">できる</td>
+        <td class="no">入らない</td>
+      </tr>
+      <tr>
+        <td><b>エントリー受付のお知らせ</b></td>
+        <td>スタッフがエントリーフォームを送信した直後（自動返信）</td>
+        <td class="yes">できる</td>
+        <td class="no">入らない</td>
+      </tr>
+      <tr>
+        <td><b>面談日程確定</b><span class="sub">面談時のお願い・ご確認事項が本文に含まれています</span></td>
+        <td>面談日程を選び、登録ステータスを「面談予定」にして保存したとき</td>
+        <td class="yes">できる</td>
+        <td class="no">入らない</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note warn">
+    <span class="label">面談日程確定メールが送られる条件</span>
+    <p>日程を入れるだけでは送られません。<strong>登録ステータスを「面談予定」に変えて保存したときだけ</strong>送られます。あとから日程を変えても、自動では再送されません。</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span>文面を変えられないメール</h2>
+
+  <p><strong>パスワード再設定</strong>のメールだけ、文面を画面から直せません。ログイン画面の「パスワードをお忘れですか？」から送られます。変更が必要な場合はご相談ください。</p>
+</section>
+
+<section>
+  <h2><span class="n">05</span>直すときの場所</h2>
+
+  <p>いずれも <strong>詳細設定（コパン）→「通知メール文面」</strong>タブです。リリースは不要で、保存すればすぐ反映されます。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>直したいもの</th><th>場所</th></tr></thead>
+    <tbody>
+      <tr><td>件名・本文</td><td>メールごとに件名と本文の欄があります</td></tr>
+      <tr><td>送る・送らない</td><td>メールごとのスイッチ（会員登録メール認証だけは止められません）</td></tr>
+      <tr><td>送信元のアドレス・表示名</td><td>画面の上部</td></tr>
+      <tr><td>署名</td><td>共通の署名欄。依頼者向けのすべてに反映されます</td></tr>
+      <tr><td>本文の先頭の挨拶</td><td>「共通ヘッダー」の欄</td></tr>
+      <tr><td>派遣開始の何日前に送るか</td><td>1〜30日で指定（既定3日）。<strong>Slack通知の日数と共通</strong>です</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">06</span>前回の一覧からの変更</h2>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>変更</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td><b>スタッフ向けが3通に</b></td><td>登録内容の入力のご案内／エントリー受付のお知らせ／面談日程確定を追加。<strong>署名は入れない</strong>扱いにしました</td></tr>
+      <tr><td><b>面談時のお願いを本文へ</b></td><td>面談日程確定メールの本文に、面談時のお願い・ご確認事項を含めました</td></tr>
+      <tr><td><b>条件変更見積もりが4通に</b></td><td>提示／同意受付／辞退受付／取り下げ。依頼者が自分で回答した場合はメールを送りません</td></tr>
+      <tr><td><b>「見学」の言い換え</b></td><td>人材派遣は「職場見学」、AGENT採用（紹介予定派遣）は「面接」に自動で言い換わります。文面は共通で1つです</td></tr>
+      <tr><td><b>「現場見学」→「職場見学」</b></td><td>画面とメールの表記を全体で見直しました</td></tr>
+      <tr><td><b>担当者の変更に追従</b></td><td>ご担当者を別のメンバーへ変えた依頼は、変更後の方にだけ届くようになりました</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer>
+  2026-09-03 現在。
+</footer>
+
+</div>
+
+</body>
+</html>
