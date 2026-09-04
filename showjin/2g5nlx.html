@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<title>コパン運用フロー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --paper:#f4f7f4;
+  --surface:#ffffff;
+  --surface-2:#eef3ef;
+  --ink:#17211c;
+  --ink-2:#3b4a42;
+  --muted:#5f6b63;
+  --line:#dde5df;
+  --line-2:#c6d3ca;
+  --brand:#1f6b47;
+  --brand-soft:#e7f1ea;
+  --sales:#1f6b47;
+  --sales-bg:#e7f1ea;
+  --ops:#2f5d8c;
+  --ops-bg:#e6eef7;
+  --client:#8f5c14;
+  --client-bg:#f8efdf;
+  --staff:#69458a;
+  --staff-bg:#f0e9f7;
+  --auto:#5d6b63;
+  --auto-bg:#eaefeb;
+  --alert:#a5332a;
+  --alert-bg:#fbeae7;
+  --shadow:0 1px 2px rgba(23,33,28,.06), 0 8px 24px -18px rgba(23,33,28,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1512;
+    --surface:#151f1a;
+    --surface-2:#1b2721;
+    --ink:#e7ede8;
+    --ink-2:#c3cec7;
+    --muted:#96a49b;
+    --line:#26332c;
+    --line-2:#33443a;
+    --brand:#63c290;
+    --brand-soft:#16291f;
+    --sales:#63c290; --sales-bg:#16291f;
+    --ops:#83b3e8;   --ops-bg:#152435;
+    --client:#dcae62;--client-bg:#2e2313;
+    --staff:#bd9ce2; --staff-bg:#251c33;
+    --auto:#94a39a;  --auto-bg:#1c2621;
+    --alert:#ec897c; --alert-bg:#331a17;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -20px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1512;
+  --surface:#151f1a;
+  --surface-2:#1b2721;
+  --ink:#e7ede8;
+  --ink-2:#c3cec7;
+  --muted:#96a49b;
+  --line:#26332c;
+  --line-2:#33443a;
+  --brand:#63c290;
+  --brand-soft:#16291f;
+  --sales:#63c290; --sales-bg:#16291f;
+  --ops:#83b3e8;   --ops-bg:#152435;
+  --client:#dcae62;--client-bg:#2e2313;
+  --staff:#bd9ce2; --staff-bg:#251c33;
+  --auto:#94a39a;  --auto-bg:#1c2621;
+  --alert:#ec897c; --alert-bg:#331a17;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -20px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"BIZ UDPGothic","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;
+  font-size:15.5px;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.disp{font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;text-wrap:balance;}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+
+/* ---------- shell ---------- */
+.page{max-width:1120px;margin:0 auto;padding:0 20px 96px;}
+.col{max-width:74ch;}
+
+header.mast{
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,var(--surface),var(--paper));
+}
+.mast-in{max-width:1120px;margin:0 auto;padding:52px 20px 34px;}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--brand);font-weight:600;margin:0 0 14px;
+}
+h1{font-size:clamp(30px,4.4vw,44px);line-height:1.25;margin:0 0 14px;font-weight:900;letter-spacing:.01em;}
+.lede{margin:0;color:var(--ink-2);max-width:66ch;font-size:16px;}
+.meta{
+  display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:24px;
+  font-size:12.5px;color:var(--muted);
+}
+.meta b{color:var(--ink-2);font-weight:700;}
+
+nav.jump{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.jump-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;gap:4px;overflow-x:auto;}
+.jump a{
+  flex:none;padding:13px 12px;font-size:13px;color:var(--muted);text-decoration:none;
+  border-bottom:2px solid transparent;font-weight:700;
+}
+.jump a:hover{color:var(--ink);border-bottom-color:var(--line-2);}
+.jump a:focus-visible{outline:2px solid var(--brand);outline-offset:-4px;border-radius:3px;}
+
+section{padding-top:56px;}
+h2{
+  font-size:clamp(21px,2.6vw,27px);margin:0 0 6px;font-weight:900;letter-spacing:.01em;
+  display:flex;align-items:baseline;gap:12px;
+}
+h2 .idx{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  color:var(--brand);letter-spacing:.14em;
+}
+h3{font-size:17px;margin:38px 0 8px;font-weight:700;}
+h4{font-size:14px;margin:26px 0 6px;font-weight:700;color:var(--ink-2);}
+p{margin:0 0 14px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 26px;max-width:70ch;}
+a{color:var(--brand);}
+
+/* ---------- role chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11.5px;font-weight:700;line-height:1;
+  padding:4px 8px;border-radius:3px;white-space:nowrap;
+  font-family:"Zen Kaku Gothic New",sans-serif;
+}
+.c-sales{background:var(--sales-bg);color:var(--sales);}
+.c-ops{background:var(--ops-bg);color:var(--ops);}
+.c-client{background:var(--client-bg);color:var(--client);}
+.c-staff{background:var(--staff-bg);color:var(--staff);}
+.c-auto{background:var(--auto-bg);color:var(--auto);}
+.c-alert{background:var(--alert-bg);color:var(--alert);}
+
+.legend{
+  display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
+  padding:14px 16px;border:1px solid var(--line);border-radius:6px;
+  background:var(--surface);margin:22px 0 0;font-size:12.5px;color:var(--muted);
+}
+
+/* ---------- figures ---------- */
+figure{
+  margin:30px 0 8px;padding:20px 20px 14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  box-shadow:var(--shadow);
+}
+.scroll{overflow-x:auto;}
+figure svg{display:block;max-width:100%;height:auto;min-width:520px;}
+figcaption{
+  margin-top:12px;padding-top:11px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--muted);line-height:1.7;
+}
+
+/* svg text defaults */
+svg text{font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",sans-serif;}
+.n-box{fill:var(--surface-2);stroke:var(--line-2);}
+.n-lab{fill:var(--ink);font-size:13px;font-weight:700;}
+.n-sub{fill:var(--muted);font-size:10.5px;}
+.e-lab{fill:var(--muted);font-size:10.5px;}
+.lane-lab{fill:var(--muted);font-size:11px;font-weight:700;}
+.flow-line{stroke:var(--line-2);stroke-width:1.6;fill:none;}
+.arrowhead{fill:var(--line-2);}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:26px 0 6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:var(--shadow);}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px;}
+thead th{
+  text-align:left;font-size:11.5px;letter-spacing:.08em;color:var(--muted);
+  font-weight:700;padding:12px 14px;border-bottom:1px solid var(--line-2);
+  background:var(--surface-2);white-space:nowrap;
+}
+tbody td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.7;}
+tbody tr:last-child td{border-bottom:0;}
+td.step{white-space:nowrap;}
+td.step .num{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
+  display:block;margin-bottom:3px;
+}
+td.step b{font-family:"Zen Kaku Gothic New",sans-serif;font-size:13.5px;}
+td.who{white-space:nowrap;}
+td.days{white-space:nowrap;}
+.days .d{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px;}
+.dim{color:var(--muted);font-size:12px;}
+.scr{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);
+  display:block;margin-top:5px;
+}
+
+/* ---------- callouts ---------- */
+.note{
+  border-left:3px solid var(--brand);background:var(--brand-soft);
+  padding:14px 16px;border-radius:0 6px 6px 0;margin:24px 0;font-size:14px;
+}
+.warn{border-left-color:var(--alert);background:var(--alert-bg);}
+.note p:last-child{margin-bottom:0;}
+.note b{font-family:"Zen Kaku Gothic New",sans-serif;}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:14px;margin:26px 0 6px;}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 17px;
+  box-shadow:var(--shadow);
+}
+.card h4{margin:10px 0 6px;font-size:14.5px;color:var(--ink);}
+.card p{font-size:13px;color:var(--ink-2);margin:0;line-height:1.75;}
+.card .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--muted);}
+
+ul.tight{margin:8px 0 16px;padding-left:1.25em;}
+ul.tight li{margin-bottom:6px;}
+ul.tight li::marker{color:var(--line-2);}
+
+hr.rule{border:0;border-top:1px solid var(--line);margin:56px 0 0;}
+
+footer.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);}
+
+@media (max-width:640px){
+  body{font-size:15px;}
+  .mast-in{padding:38px 20px 26px;}
+  figure{padding:14px 12px 12px;}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+
+<header class="mast">
+  <div class="mast-in">
+    <p class="eyebrow">Copain × SHOWCASE — Operations</p>
+    <h1>コパン運用フロー</h1>
+    <p class="lede">SHOWCASE 管理画面のステータスをそのまま業務手順にした、営業・オペレーション・スタッフ登録の標準フローです。「いま誰のボールか」「何日で警告が出るか」「どの画面で操作するか」を各ステップに紐づけています。</p>
+    <div class="meta">
+      <span><b>対象</b> 笑人 コパン事業部（営業／オペレーター）</span>
+      <span><b>基準システム</b> SHOWCASE（show-case.app）</span>
+      <span><b>作成日</b> 2026/08/27</span>
+    </div>
+  </div>
+</header>
+
+<nav class="jump" aria-label="セクション">
+  <div class="jump-in">
+    <a href="#overview">全体像</a>
+    <a href="#sales">営業フロー</a>
+    <a href="#ops">オペフロー</a>
+    <a href="#selection">選考サイクル</a>
+    <a href="#staff">スタッフ登録・就業</a>
+    <a href="#rhythm">日次・週次の運用</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<!-- ============ 全体像 ============ -->
+<section id="overview">
+  <h2><span class="idx">00</span>全体像</h2>
+  <p class="sub">コパンの案件は「見積」と「依頼」の2つの箱で管理され、そこにスタッフプールから人を差し込む構造です。まずこの3本の線を押さえます。</p>
+
+  <div class="col">
+    <p>案件の入口は2つあります。企業が自社ポータルから見積を出す<b>企業発信</b>と、営業が先回りして見積を作って提示する<b>Showcase 発信</b>です。どちらも「見積依頼」として立ち、企業が発注した瞬間に<b>コパン依頼</b>へ変わり、14 段階のステータスを進みます。</p>
+    <p>サービス種別は <b>人材派遣</b> と <b>AGENT採用</b> の2つ。フローの骨格は同じですが、選考の中身が「現場見学」か「面接」かで分かれ、人材派遣だけが派遣必須情報（事業所・抵触日）と社会保険手続きを持ちます。</p>
+  </div>
+
+  <figure>
+    <div class="scroll">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="企業発信とShowcase発信の2つの入口が見積に集まり、発注でコパン依頼となり、スタッフプールから候補を入れて派遣完了に至る全体像">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto">
+            <polygon points="0,0 10,4 0,8" class="arrowhead"></polygon>
+          </marker>
+        </defs>
+
+        <rect x="30" y="48" width="175" height="56" rx="5" class="n-box"></rect>
+        <text x="117" y="72" text-anchor="middle" class="n-lab">企業が見積依頼</text>
+        <text x="117" y="90" text-anchor="middle" class="n-sub">企業発信（プル）</text>
+
+        <rect x="30" y="136" width="175" height="56" rx="5" class="n-box"></rect>
+        <text x="117" y="160" text-anchor="middle" class="n-lab">営業が見積提示</text>
+        <text x="117" y="178" text-anchor="middle" class="n-sub">Showcase 発信（プッシュ）</text>
+
+        <rect x="290" y="92" width="160" height="56" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="370" y="116" text-anchor="middle" class="n-lab">見積管理</text>
+        <text x="370" y="134" text-anchor="middle" class="n-sub">最大3パターン提示</text>
+
+        <rect x="540" y="92" width="170" height="56" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="625" y="116" text-anchor="middle" class="n-lab">コパン依頼</text>
+        <text x="625" y="134" text-anchor="middle" class="n-sub">14 ステータスを進行</text>
+
+        <rect x="800" y="92" width="160" height="56" rx="5" class="n-box"></rect>
+        <text x="880" y="116" text-anchor="middle" class="n-lab">派遣完了 / 採用</text>
+        <text x="880" y="134" text-anchor="middle" class="n-sub">手動で確定</text>
+
+        <rect x="540" y="212" width="170" height="52" rx="5" class="n-box" style="stroke:var(--staff)"></rect>
+        <text x="625" y="234" text-anchor="middle" class="n-lab">スタッフ本登録</text>
+        <text x="625" y="252" text-anchor="middle" class="n-sub">就業ステータス＝待機中</text>
+
+        <path d="M205,76 L247,76 L247,110 L284,110" class="flow-line" marker-end="url(#ah)"></path>
+        <path d="M205,164 L247,164 L247,130 L284,130" class="flow-line" marker-end="url(#ah)"></path>
+        <path d="M450,120 L534,120" class="flow-line" marker-end="url(#ah)"></path>
+        <text x="492" y="110" text-anchor="middle" class="e-lab">発注</text>
+        <path d="M710,120 L794,120" class="flow-line" marker-end="url(#ah)"></path>
+        <text x="752" y="110" text-anchor="middle" class="e-lab">稼働終了</text>
+        <path d="M625,212 L625,154" class="flow-line" marker-end="url(#ah)"></path>
+        <text x="638" y="188" class="e-lab">候補として人選</text>
+      </svg>
+    </div>
+    <figcaption>入口は2系統だが、発注（コパン依頼化）の一点で1本に合流する。スタッフプールは依頼と独立して育て、「人選中」で初めて依頼に接続される。</figcaption>
+  </figure>
+
+  <div class="legend" aria-label="ロールの色分け">
+    <span class="chip c-sales">営業</span>
+    <span class="chip c-ops">オペ</span>
+    <span class="chip c-client">企業（要催促）</span>
+    <span class="chip c-staff">スタッフ担当</span>
+    <span class="chip c-auto">システム自動</span>
+    <span>SHOWCASE 内の色分けと同じく、<b style="color:var(--alert)">赤＝運営が動くべき停滞</b>／<b style="color:var(--client)">黄＝企業の対応待ち（＝催促する）</b>。</span>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ 営業フロー ============ -->
+<section id="sales">
+  <h2><span class="idx">01</span>営業フロー</h2>
+  <p class="sub">見積依頼 → 見積完了 → 受注依頼 → 企業ヒアリング予定。オペにバトンを渡すまでの4ステップで、ボールは営業と企業を交互に行き来します。</p>
+
+  <figure>
+    <div class="scroll">
+      <svg viewBox="0 0 1040 250" role="img" aria-label="営業フローのスイムレーン図。営業レーンの見積依頼から企業レーンの見積完了へ、再び営業レーンの受注依頼、企業ヒアリング予定を経てオペの求人掲載予定へ渡る">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto">
+            <polygon points="0,0 10,4 0,8" class="arrowhead"></polygon>
+          </marker>
+        </defs>
+
+        <line x1="80" y1="34" x2="1015" y2="34" style="stroke:var(--line)" stroke-width="1"></line>
+        <line x1="80" y1="128" x2="1015" y2="128" style="stroke:var(--line)" stroke-width="1"></line>
+        <line x1="80" y1="222" x2="1015" y2="222" style="stroke:var(--line)" stroke-width="1"></line>
+        <text x="72" y="82" text-anchor="end" class="lane-lab">企業</text>
+        <text x="72" y="176" text-anchor="end" class="lane-lab">営業</text>
+
+        <!-- 1 見積依頼 (営業) -->
+        <rect x="88" y="148" width="135" height="56" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="155.5" y="164" text-anchor="middle" class="n-sub">① 依頼ステータス</text>
+        <text x="155.5" y="182" text-anchor="middle" class="n-lab">見積依頼</text>
+        <text x="155.5" y="198" text-anchor="middle" class="n-sub" style="fill:var(--alert)">2日で停滞警告</text>
+
+        <!-- 2 見積完了 (企業) -->
+        <rect x="285" y="54" width="135" height="56" rx="5" class="n-box" style="stroke:var(--client)"></rect>
+        <text x="352.5" y="70" text-anchor="middle" class="n-sub">②</text>
+        <text x="352.5" y="88" text-anchor="middle" class="n-lab">見積完了</text>
+        <text x="352.5" y="104" text-anchor="middle" class="n-sub" style="fill:var(--client)">3日で催促</text>
+
+        <!-- 3 受注依頼 (営業) -->
+        <rect x="482" y="148" width="135" height="56" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="549.5" y="164" text-anchor="middle" class="n-sub">③</text>
+        <text x="549.5" y="182" text-anchor="middle" class="n-lab">受注依頼</text>
+        <text x="549.5" y="198" text-anchor="middle" class="n-sub" style="fill:var(--alert)">2日で停滞警告</text>
+
+        <!-- 4 ヒアリング (営業) -->
+        <rect x="679" y="148" width="135" height="56" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="746.5" y="164" text-anchor="middle" class="n-sub">④</text>
+        <text x="746.5" y="180" text-anchor="middle" class="n-lab">企業ヒアリング</text>
+        <text x="746.5" y="197" text-anchor="middle" class="n-sub" style="fill:var(--alert)">日時未確定で3日</text>
+
+        <!-- 5 オペへ -->
+        <rect x="876" y="148" width="135" height="56" rx="5" class="n-box" style="stroke:var(--ops)" stroke-dasharray="4 3"></rect>
+        <text x="943.5" y="164" text-anchor="middle" class="n-sub">⑤</text>
+        <text x="943.5" y="182" text-anchor="middle" class="n-lab">求人掲載予定</text>
+        <text x="943.5" y="198" text-anchor="middle" class="n-sub" style="fill:var(--ops)">オペへ引き継ぎ</text>
+
+        <path d="M223,176 L250,176 L250,82 L279,82" class="flow-line" marker-end="url(#ah2)"></path>
+        <text x="252" y="132" text-anchor="middle" class="e-lab">見積提示</text>
+        <path d="M420,82 L447,82 L447,176 L476,176" class="flow-line" marker-end="url(#ah2)"></path>
+        <text x="449" y="132" text-anchor="middle" class="e-lab">発注</text>
+        <path d="M617,176 L673,176" class="flow-line" marker-end="url(#ah2)"></path>
+        <text x="645" y="166" text-anchor="middle" class="e-lab">受注確定</text>
+        <path d="M814,176 L870,176" class="flow-line" marker-end="url(#ah2)"></path>
+        <text x="842" y="166" text-anchor="middle" class="e-lab">日時確定</text>
+      </svg>
+    </div>
+    <figcaption>ボールが企業レーンに渡っている②だけは「停滞」ではなく「催促」。営業が動かないまま止まる①③④が赤の停滞対象になる。</figcaption>
+  </figure>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>ステータス</th><th>主担当</th><th>期限</th><th>やること</th><th>自動で飛ぶ通知</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="step"><span class="num">01</span><b>見積依頼</b></td>
+          <td class="who"><span class="chip c-sales">営業</span></td>
+          <td class="days"><span class="d">2日</span><br><span class="dim">停滞警告</span></td>
+          <td>勤務条件パターン（最大3件）ごとに<b>請求時給・スタッフ時給</b>を入力。最低賃金の法定下限を下回ると警告が出るので必ず解消する。粗利は自動計算。各パターンで「可／見送り」を選び、プレビューを確認してから<b>企業へ提示</b>。まだ詰めきれないときは一時保存。
+            <span class="scr">コパン → 見積管理 → 詳細</span></td>
+          <td><span class="dim">見積回答送信</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">02</span><b>見積完了</b></td>
+          <td class="who"><span class="chip c-client">企業</span></td>
+          <td class="days"><span class="d">3日</span><br><span class="dim">企業対応待ち</span></td>
+          <td>企業の発注判断待ち。3日を超えたら<b>営業が催促</b>する（放置＝対応漏れ扱い）。発注されると見積が「コパン依頼化」され、依頼管理に現れる。
+            <span class="scr">タスクボード → 要対応 → 企業対応待ち</span></td>
+          <td><span class="dim">サービス依頼受付</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">03</span><b>受注依頼</b></td>
+          <td class="who"><span class="chip c-sales">営業</span></td>
+          <td class="days"><span class="d">2日</span><br><span class="dim">停滞警告</span></td>
+          <td><b>受注内容</b>タブで確定募集人数・請求時給・スタッフ時給・残業／深夜割増・派遣期間・実働時間・週日数を確定させる。ここで決めた数字がこの後の粗利と契約のベースになる。
+            <span class="scr">依頼詳細 → 受注内容 → 受注内容を更新する</span></td>
+          <td><span class="dim">受注確定</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">04</span><b>企業ヒアリング予定</b></td>
+          <td class="who"><span class="chip c-sales">営業</span></td>
+          <td class="days"><span class="d">3日</span><br><span class="dim">日時未確定のみ</span></td>
+          <td>日時を確定させると停滞対象から外れ、以後は<b>期限超過（猶予0日）</b>で管理される。ヒアリングでは1日の流れ・服装・必要スキル・職場の雰囲気・アクセス・収入例など18項目を埋める。ここの密度がそのまま求人原稿の質になる。
+            <span class="scr">依頼詳細 → 企業ヒアリング</span></td>
+          <td><span class="dim">ヒアリング日時確定</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>営業が受注後も持ち続ける仕事</h3>
+  <div class="col">
+    <p>バトンをオペに渡したあとも、営業は「企業と話す役」として次の4つを持ち続けます。ここが抜けると案件が止まります。</p>
+    <ul class="tight">
+      <li><b>現場見学／面接の日程調整と実施</b> ― 調整が3日、実施後の意向確認が3日で警告。</li>
+      <li><b>採用確認</b> ― 見学後の確認予定日を過ぎると期限超過（猶予0日）。</li>
+      <li><b>契約更新の意向確認</b> ― ⑪派遣中（更新確認中）で7日。</li>
+      <li><b>条件変更見積もり</b> ― 稼働中の条件変更は見積を再提示。企業回答待ち／受注確定待ちが要対応カードに出る。</li>
+    </ul>
+  </div>
+
+  <div class="note warn">
+    <p><b>受注前の必須チェック：労働者派遣基本契約書</b><br>
+    企業単位で締結が必須です。未締結の依頼には全ステータスで⚠が出続けます。遅くとも<b>勤務開始日まで</b>に締結し、<b>企業・店舗管理 → 企業編集</b>で締結年月日を登録してください（登録しないと警告は消えません）。</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ オペフロー ============ -->
+<section id="ops">
+  <h2><span class="idx">02</span>オペフロー</h2>
+  <p class="sub">求人掲載予定から派遣完了まで、依頼ステータス⑤〜⑭。オペが主管ですが、途中で企業と営業に3回ボールが渡ります。</p>
+
+  <figure>
+    <div class="scroll">
+      <svg viewBox="0 0 800 966" role="img" aria-label="オペフローの縦型フロー図。求人掲載予定から人選中、派遣情報確認中、一部手配済み、派遣確定、派遣中、更新確認中、更新確認済み、完了確認中、派遣完了までの10ステップと各ステップの担当・期限">
+        <defs>
+          <marker id="ah3" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto">
+            <polygon points="0,0 10,4 0,8" class="arrowhead"></polygon>
+          </marker>
+        </defs>
+
+        <!-- 5 -->
+        <rect x="130" y="24" width="360" height="54" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="150" y="46" class="n-sub">⑤</text>
+        <text x="150" y="64" class="n-lab">求人掲載予定</text>
+        <text x="30" y="56" class="lane-lab" style="fill:var(--ops)">オペ</text>
+        <text x="510" y="46" class="n-sub">媒体別に原稿生成 → 掲載ステータス更新</text>
+        <text x="510" y="64" class="n-sub" style="fill:var(--alert)">5日で停滞警告</text>
+
+        <!-- 6 -->
+        <rect x="130" y="112" width="360" height="54" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="150" y="134" class="n-sub">⑥</text>
+        <text x="150" y="152" class="n-lab">人選中</text>
+        <text x="30" y="144" class="lane-lab" style="fill:var(--ops)">オペ</text>
+        <text x="510" y="134" class="n-sub">候補追加 → 打診 → 提案 → 見学／面接 → 決定</text>
+        <text x="510" y="152" class="n-sub" style="fill:var(--alert)">7日で停滞／枠未確保7日</text>
+
+        <!-- 7 -->
+        <rect x="130" y="200" width="360" height="54" rx="5" class="n-box" style="stroke:var(--client)"></rect>
+        <text x="150" y="222" class="n-sub">⑦</text>
+        <text x="150" y="240" class="n-lab">派遣情報確認中</text>
+        <text x="30" y="232" class="lane-lab" style="fill:var(--client)">企業</text>
+        <text x="510" y="222" class="n-sub">企業が事業所名・所在地・抵触日を登録</text>
+        <text x="510" y="240" class="n-sub" style="fill:var(--client)">3日で催促（オペ）</text>
+
+        <!-- 8 -->
+        <rect x="130" y="288" width="360" height="54" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="150" y="310" class="n-sub">⑧</text>
+        <text x="150" y="328" class="n-lab">一部手配済み</text>
+        <text x="30" y="320" class="lane-lab" style="fill:var(--ops)">オペ</text>
+        <text x="510" y="310" class="n-sub">残枠の手配を継続（見学中は停滞抑制）</text>
+        <text x="510" y="328" class="n-sub" style="fill:var(--alert)">7日で停滞警告</text>
+
+        <!-- 9 -->
+        <rect x="130" y="376" width="360" height="54" rx="5" class="n-box" style="stroke:var(--auto)"></rect>
+        <text x="150" y="398" class="n-sub">⑨</text>
+        <text x="150" y="416" class="n-lab">派遣確定</text>
+        <text x="30" y="408" class="lane-lab" style="fill:var(--auto)">自動</text>
+        <text x="510" y="398" class="n-sub">定員満了・開始日待ち／欠員は枠未確保で検知</text>
+        <text x="510" y="416" class="n-sub">停滞の対象外</text>
+
+        <!-- 10 -->
+        <rect x="130" y="464" width="360" height="54" rx="5" class="n-box" style="stroke:var(--auto)"></rect>
+        <text x="150" y="486" class="n-sub">⑩</text>
+        <text x="150" y="504" class="n-lab">派遣中</text>
+        <text x="30" y="496" class="lane-lab" style="fill:var(--auto)">自動</text>
+        <text x="510" y="486" class="n-sub">開始日に自動遷移。雇用保険・社会保険の加入手続き</text>
+        <text x="510" y="504" class="n-sub" style="fill:var(--ops)">保険手続きは要対応カードで管理</text>
+
+        <!-- 11 -->
+        <rect x="130" y="552" width="360" height="54" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="150" y="574" class="n-sub">⑪</text>
+        <text x="150" y="592" class="n-lab">派遣中（更新確認中）</text>
+        <text x="30" y="584" class="lane-lab" style="fill:var(--sales)">営業</text>
+        <text x="510" y="574" class="n-sub">契約60日以上→30日前／59日以下→15日前に自動開始</text>
+        <text x="510" y="592" class="n-sub" style="fill:var(--alert)">7日で停滞警告</text>
+
+        <!-- 12 -->
+        <rect x="130" y="640" width="360" height="54" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="150" y="662" class="n-sub">⑫</text>
+        <text x="150" y="680" class="n-lab">派遣中（更新確認済み）</text>
+        <text x="30" y="672" class="lane-lab" style="fill:var(--sales)">営業</text>
+        <text x="510" y="662" class="n-sub">更新あり→更新契約を作成／なし→終了処理</text>
+        <text x="510" y="680" class="n-sub">停滞対象外・要対応カードで管理</text>
+
+        <!-- 13 -->
+        <rect x="130" y="728" width="360" height="54" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="150" y="750" class="n-sub">⑬</text>
+        <text x="150" y="768" class="n-lab">完了確認中</text>
+        <text x="30" y="760" class="lane-lab" style="fill:var(--ops)">オペ</text>
+        <text x="510" y="750" class="n-sub">全アサインが終了済み。完了処理待ち</text>
+        <text x="510" y="768" class="n-sub" style="fill:var(--alert)">5日で停滞警告</text>
+
+        <!-- 14 -->
+        <rect x="130" y="816" width="360" height="54" rx="5" class="n-box" style="stroke:var(--brand);stroke-width:1.8"></rect>
+        <text x="150" y="838" class="n-sub">⑭</text>
+        <text x="150" y="856" class="n-lab">派遣完了</text>
+        <text x="30" y="848" class="lane-lab" style="fill:var(--ops)">オペ</text>
+        <text x="510" y="838" class="n-sub">「派遣完了にする」を押して確定</text>
+        <text x="510" y="856" class="n-sub" style="fill:var(--alert)">自動では完了しない</text>
+
+        <path d="M310,78 L310,106" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,166 L310,194" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,254 L310,282" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,342 L310,370" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,430 L310,458" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,518 L310,546" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,606 L310,634" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,694 L310,722" class="flow-line" marker-end="url(#ah3)"></path>
+        <path d="M310,782 L310,810" class="flow-line" marker-end="url(#ah3)"></path>
+
+        <text x="320" y="96" class="e-lab">応募・候補が集まる</text>
+        <text x="320" y="184" class="e-lab">スタッフ確定</text>
+        <text x="320" y="272" class="e-lab">必須情報の登録完了</text>
+        <text x="320" y="360" class="e-lab">全枠が充足</text>
+        <text x="320" y="448" class="e-lab">開始日到来（自動）</text>
+        <text x="320" y="536" class="e-lab">終了30日前／15日前（自動）</text>
+        <text x="320" y="624" class="e-lab">双方の意向が確定</text>
+        <text x="320" y="712" class="e-lab">更新なし＝終了</text>
+        <text x="320" y="800" class="e-lab">全スタッフ稼働終了</text>
+
+        <!-- 8 back to 6 loop -->
+        <path d="M130,315 L96,315 L96,139 L124,139" class="flow-line" stroke-dasharray="4 3" marker-end="url(#ah3)"></path>
+        <text x="104" y="230" class="e-lab" transform="rotate(-90 104 230)" text-anchor="middle">残枠は人選へ戻す</text>
+
+        <!-- 離脱 -->
+        <rect x="560" y="880" width="200" height="44" rx="5" class="n-box" style="stroke:var(--alert)" stroke-dasharray="4 3"></rect>
+        <text x="660" y="900" text-anchor="middle" class="n-lab" font-size="12">失注 / 人選停止</text>
+        <text x="660" y="916" text-anchor="middle" class="n-sub">依頼詳細の「危険操作」から</text>
+      </svg>
+    </div>
+    <figcaption>⑨⑩⑫は停滞カウントの対象外で、代わりに「要対応カード」（保険手続き・更新契約未作成・抵触日違反など）が状態として出続ける。⑭だけは自動遷移せず、人が押して初めて完了する。</figcaption>
+  </figure>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>ステータス</th><th>主担当</th><th>期限</th><th>やること</th><th>自動で飛ぶ通知</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="step"><span class="num">05</span><b>求人掲載予定</b></td>
+          <td class="who"><span class="chip c-ops">オペ</span></td>
+          <td class="days"><span class="d">5日</span></td>
+          <td>ヒアリングメモ＋受注確定情報から媒体別の求人原稿を生成し、<b>媒体ごとに掲載ステータスを更新</b>する。出力先は花JOB／フラワージョブ／CO（キャスティングワン）／Airワーク／indeed。
+            <span class="scr">依頼詳細 → 求人情報出力</span></td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">06</span><b>人選中</b></td>
+          <td class="who"><span class="chip c-ops">オペ</span> <span class="chip c-sales">営業</span></td>
+          <td class="days"><span class="d">7日</span><br><span class="dim">枠未確保も7日</span></td>
+          <td>候補を検索して追加 →打診／エントリー→企業へ提案→受入確認→見学・面接→採用決定。詳細は<a href="#selection">選考サイクル</a>。<b>候補が1人もいない枠</b>は「枠未確保 N枠」として別に警告されるので、まず埋めることを優先する。
+            <span class="scr">依頼詳細 → スタッフ選考</span></td>
+          <td><span class="dim">候補スタッフ提案 / 現場見学・面接日確定 / 派遣スタッフ確定</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">07</span><b>派遣情報確認中</b></td>
+          <td class="who"><span class="chip c-client">企業</span></td>
+          <td class="days"><span class="d">3日</span><br><span class="dim">企業対応待ち</span></td>
+          <td>企業が<b>事業所名・事業所所在地・派遣受入制限（抵触日）</b>を登録するのを待つ。3日で催促。人材派遣のみ。
+            <span class="scr">依頼詳細 → 派遣必須情報</span></td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">08</span><b>一部手配済み</b></td>
+          <td class="who"><span class="chip c-ops">オペ</span></td>
+          <td class="days"><span class="d">7日</span></td>
+          <td>募集人数の一部だけ確定した状態。<b>残枠の手配を続ける</b>。残枠で見学が動いている間は停滞警告が抑制される。</td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">09</span><b>派遣確定</b></td>
+          <td class="who"><span class="chip c-auto">自動</span></td>
+          <td class="days"><span class="dim">対象外</span></td>
+          <td>定員満了で開始日を待つだけの状態。停滞には数えない。<b>開始日になると自動で「派遣中」へ</b>。欠員が出た場合は枠未確保として検知される。</td>
+          <td><span class="dim">派遣開始 N日前</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">10</span><b>派遣中</b></td>
+          <td class="who"><span class="chip c-ops">オペ</span></td>
+          <td class="days"><span class="dim">対象外</span></td>
+          <td>稼働中。<b>雇用保険・社会保険の加入手続き</b>が必要なスタッフは「保険手続き未処理」として要対応に出続ける。加入日を登録して消し込む。稼働終了時は喪失手続きも同様。
+            <span class="scr">依頼詳細 → 稼働・更新</span></td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">11</span><b>派遣中（更新確認中）</b></td>
+          <td class="who"><span class="chip c-sales">営業</span></td>
+          <td class="days"><span class="d">7日</span></td>
+          <td>契約期間が<b>60日以上なら終了30日前、59日以下なら15日前</b>に自動で開始される。企業とスタッフ双方の更新意向を確認して確定させる。</td>
+          <td><span class="dim">契約更新意向確認</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">12</span><b>派遣中（更新確認済み）</b></td>
+          <td class="who"><span class="chip c-sales">営業</span> <span class="chip c-ops">オペ</span></td>
+          <td class="days"><span class="dim">対象外</span></td>
+          <td>更新<b>あり</b>→次回の依頼書（更新契約）を作成。未作成のままだと「更新契約 未作成」が要対応に出る。更新<b>なし</b>→終了処理へ。抵触日を越える契約は「抵触日違反」として警告。</td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">13</span><b>完了確認中</b></td>
+          <td class="who"><span class="chip c-ops">オペ</span></td>
+          <td class="days"><span class="d">5日</span></td>
+          <td>全アサインが終了した状態。保険の喪失手続き・実勤務日数の確定など残処理を片付ける。</td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><span class="num">14</span><b>派遣完了</b></td>
+          <td class="who"><span class="chip c-ops">オペ</span></td>
+          <td class="days"><span class="dim">手動</span></td>
+          <td>依頼詳細の<b>「派遣完了にする」</b>を押して確定。<b>自動では完了しない</b>ので、⑬に溜まったまま放置されがち。週次で必ず棚卸しする。</td>
+          <td><span class="dim">派遣完了</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ 選考サイクル ============ -->
+<section id="selection">
+  <h2><span class="idx">03</span>選考サイクル</h2>
+  <p class="sub">⑥人選中の中身。ここが最も止まりやすく、実際に現在17件が人選中・うち10件が停滞しています。1候補ごとにフェーズと期限が別管理されます。</p>
+
+  <figure>
+    <div class="scroll">
+      <svg viewBox="0 0 1180 268" role="img" aria-label="選考サイクルの図。候補追加から打診・エントリー、企業へ提案、受入確認、見学・面接の日程調整、実施、採用確認、決定へ進み、見送りの場合はNGリスト登録に分岐する">
+        <defs>
+          <marker id="ah4" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto">
+            <polygon points="0,0 10,4 0,8" class="arrowhead"></polygon>
+          </marker>
+        </defs>
+
+        <rect x="20" y="52" width="132" height="60" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="86" y="78" text-anchor="middle" class="n-lab" font-size="12.5">候補を追加</text>
+        <text x="86" y="96" text-anchor="middle" class="n-sub">条件検索・NG除外</text>
+
+        <rect x="184" y="52" width="132" height="60" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="250" y="72" text-anchor="middle" class="n-lab" font-size="12.5">打診 / エントリー</text>
+        <text x="250" y="90" text-anchor="middle" class="n-sub">スタッフの意向確認</text>
+        <text x="250" y="105" text-anchor="middle" class="n-sub" style="fill:var(--alert)">未動き7日</text>
+
+        <rect x="348" y="52" width="132" height="60" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="414" y="78" text-anchor="middle" class="n-lab" font-size="12.5">企業へ提案</text>
+        <text x="414" y="96" text-anchor="middle" class="n-sub">候補スタッフ提案メール</text>
+
+        <rect x="512" y="52" width="132" height="60" rx="5" class="n-box" style="stroke:var(--client)"></rect>
+        <text x="578" y="72" text-anchor="middle" class="n-lab" font-size="12.5">受入確認</text>
+        <text x="578" y="90" text-anchor="middle" class="n-sub">企業がOK / NG回答</text>
+        <text x="578" y="105" text-anchor="middle" class="n-sub" style="fill:var(--client)">5日で催促</text>
+
+        <rect x="676" y="52" width="132" height="60" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="742" y="72" text-anchor="middle" class="n-lab" font-size="12.5">見学 / 面接調整</text>
+        <text x="742" y="90" text-anchor="middle" class="n-sub">日程を確定させる</text>
+        <text x="742" y="105" text-anchor="middle" class="n-sub" style="fill:var(--alert)">3日</text>
+
+        <rect x="840" y="52" width="132" height="60" rx="5" class="n-box" style="stroke:var(--sales)"></rect>
+        <text x="906" y="72" text-anchor="middle" class="n-lab" font-size="12.5">実施 → 採用確認</text>
+        <text x="906" y="90" text-anchor="middle" class="n-sub">意向確認・採否決定</text>
+        <text x="906" y="105" text-anchor="middle" class="n-sub" style="fill:var(--alert)">実施後3日</text>
+
+        <rect x="1004" y="52" width="132" height="60" rx="5" class="n-box" style="stroke:var(--brand);stroke-width:1.8"></rect>
+        <text x="1070" y="78" text-anchor="middle" class="n-lab" font-size="12.5">採用決定</text>
+        <text x="1070" y="96" text-anchor="middle" class="n-sub">枠が1つ埋まる</text>
+
+        <path d="M152,82 L178,82" class="flow-line" marker-end="url(#ah4)"></path>
+        <path d="M316,82 L342,82" class="flow-line" marker-end="url(#ah4)"></path>
+        <path d="M480,82 L506,82" class="flow-line" marker-end="url(#ah4)"></path>
+        <path d="M644,82 L670,82" class="flow-line" marker-end="url(#ah4)"></path>
+        <path d="M808,82 L834,82" class="flow-line" marker-end="url(#ah4)"></path>
+        <path d="M972,82 L998,82" class="flow-line" marker-end="url(#ah4)"></path>
+
+        <!-- 見送り分岐 -->
+        <rect x="512" y="184" width="296" height="52" rx="5" class="n-box" style="stroke:var(--alert)" stroke-dasharray="4 3"></rect>
+        <text x="660" y="206" text-anchor="middle" class="n-lab" font-size="12.5">見送り → NGリスト登録 / スキップ</text>
+        <text x="660" y="224" text-anchor="middle" class="n-sub" style="fill:var(--alert)">未処理2日で警告（オペ）</text>
+
+        <path d="M578,112 L578,178" class="flow-line" stroke-dasharray="4 3" marker-end="url(#ah4)"></path>
+        <text x="588" y="148" class="e-lab">企業NG</text>
+        <path d="M906,112 L906,160 L814,160 L814,206 L814,206" class="flow-line" stroke-dasharray="4 3" marker-end="url(#ah4)"></path>
+        <text x="916" y="140" class="e-lab">不採用</text>
+
+        <!-- 再人選ループ -->
+        <path d="M512,210 L470,210 L470,140 L86,140 L86,118" class="flow-line" stroke-dasharray="4 3" marker-end="url(#ah4)"></path>
+        <text x="278" y="132" text-anchor="middle" class="e-lab">別候補を再検索（枠は空いたまま＝枠未確保）</text>
+      </svg>
+    </div>
+    <figcaption>候補ごとに停滞が別々にカウントされる。見送りが出た時点で枠は「候補ゼロ」に戻るため、NG処理と次候補の投入をセットで行わないと枠未確保の警告が立ち上がる。</figcaption>
+  </figure>
+
+  <div class="cards">
+    <div class="card">
+      <span class="k">SEARCH</span>
+      <h4>候補検索で必ず使う除外</h4>
+      <p>「スタッフNGリスト対象除外」「見送り歴ありスタッフ除外」「現在稼働中を除外」「別案件で候補中を除外」「本登録のみ」。外すと二重打診や過去NGの再提案が起きます。</p>
+    </div>
+    <div class="card">
+      <span class="k">MATCHING</span>
+      <h4>マッチング軸</h4>
+      <p>ショップ／ウエディング／葬儀の経験年数、運転可能車種（AT軽〜2tトラック）、希望勤務地、希望の働き方。配送業務がある案件は車種の確認が必須です。</p>
+    </div>
+    <div class="card">
+      <span class="k">SLOT</span>
+      <h4>枠未確保の見かた</h4>
+      <p>「枠未確保 N枠」＝候補も確定もいない枠の数。「枠未確保 N日」＝最後に候補が動いた日からの放置日数（7日で警告）。派遣中・派遣確定でも欠員は検知されます。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ スタッフ ============ -->
+<section id="staff">
+  <h2><span class="idx">04</span>スタッフ登録・就業フロー</h2>
+  <p class="sub">依頼とは独立して回す、人材プールを育てる流れ。登録ボード（採用まで）と就業ボード（稼働まで）の2枚で管理します。</p>
+
+  <figure>
+    <div class="scroll">
+      <svg viewBox="0 0 1060 350" role="img" aria-label="スタッフフロー図。登録ボードはエントリーから面談日程調整中、面談予定、本登録へ進み不採用・辞退に分岐する。本登録後は就業ボードの待機中、案件検討中、現場見学予定あり、派遣決定、派遣中と進み、稼働終了後は待機中へ戻るか非アクティブになる">
+        <defs>
+          <marker id="ah5" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" orient="auto">
+            <polygon points="0,0 10,4 0,8" class="arrowhead"></polygon>
+          </marker>
+        </defs>
+
+        <text x="20" y="26" class="lane-lab" style="fill:var(--staff)">登録ボード ― エントリーから本登録まで</text>
+
+        <rect x="40" y="40" width="150" height="48" rx="5" class="n-box" style="stroke:var(--staff)"></rect>
+        <text x="115" y="62" text-anchor="middle" class="n-lab" font-size="12.5">エントリー</text>
+        <text x="115" y="79" text-anchor="middle" class="n-sub">仮登録・入力案内メール</text>
+
+        <rect x="230" y="40" width="150" height="48" rx="5" class="n-box" style="stroke:var(--staff)"></rect>
+        <text x="305" y="62" text-anchor="middle" class="n-lab" font-size="12.5">面談日程調整中</text>
+        <text x="305" y="79" text-anchor="middle" class="n-sub" style="fill:var(--alert)">未設定が続くと警告</text>
+
+        <rect x="420" y="40" width="150" height="48" rx="5" class="n-box" style="stroke:var(--staff)"></rect>
+        <text x="495" y="62" text-anchor="middle" class="n-lab" font-size="12.5">面談予定</text>
+        <text x="495" y="79" text-anchor="middle" class="n-sub">予定日超過は期限超過</text>
+
+        <rect x="610" y="40" width="150" height="48" rx="5" class="n-box" style="stroke:var(--brand);stroke-width:1.8"></rect>
+        <text x="685" y="62" text-anchor="middle" class="n-lab" font-size="12.5">本登録</text>
+        <text x="685" y="79" text-anchor="middle" class="n-sub">派遣可能な状態</text>
+
+        <rect x="420" y="108" width="150" height="34" rx="5" class="n-box" style="stroke:var(--alert)" stroke-dasharray="4 3"></rect>
+        <text x="495" y="130" text-anchor="middle" class="n-sub" style="fill:var(--alert)">不採用 / 辞退</text>
+
+        <path d="M190,64 L224,64" class="flow-line" marker-end="url(#ah5)"></path>
+        <path d="M380,64 L414,64" class="flow-line" marker-end="url(#ah5)"></path>
+        <path d="M570,64 L604,64" class="flow-line" marker-end="url(#ah5)"></path>
+        <path d="M495,88 L495,102" class="flow-line" stroke-dasharray="4 3" marker-end="url(#ah5)"></path>
+
+        <path d="M685,88 L685,166 L115,166 L115,196" class="flow-line" marker-end="url(#ah5)"></path>
+        <text x="400" y="160" text-anchor="middle" class="e-lab">本登録完了で就業ボードへ（就業ステータス＝待機中）</text>
+
+        <text x="20" y="192" class="lane-lab" style="fill:var(--ops)">就業ボード ― 待機から稼働まで</text>
+
+        <rect x="40" y="202" width="140" height="48" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="110" y="224" text-anchor="middle" class="n-lab" font-size="12.5">待機中</text>
+        <text x="110" y="241" text-anchor="middle" class="n-sub">270名</text>
+
+        <rect x="212" y="202" width="140" height="48" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="282" y="230" text-anchor="middle" class="n-lab" font-size="12.5">案件検討中</text>
+
+        <rect x="384" y="202" width="140" height="48" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="454" y="224" text-anchor="middle" class="n-lab" font-size="12.5">現場見学予定あり</text>
+        <text x="454" y="241" text-anchor="middle" class="n-sub">AGENT採用は面接</text>
+
+        <rect x="556" y="202" width="140" height="48" rx="5" class="n-box" style="stroke:var(--ops)"></rect>
+        <text x="626" y="230" text-anchor="middle" class="n-lab" font-size="12.5">派遣決定</text>
+
+        <rect x="728" y="202" width="140" height="48" rx="5" class="n-box" style="stroke:var(--brand);stroke-width:1.8"></rect>
+        <text x="798" y="230" text-anchor="middle" class="n-lab" font-size="12.5">派遣中</text>
+
+        <rect x="900" y="202" width="130" height="48" rx="5" class="n-box" style="stroke:var(--auto)" stroke-dasharray="4 3"></rect>
+        <text x="965" y="224" text-anchor="middle" class="n-sub" style="fill:var(--auto)">非アクティブ</text>
+        <text x="965" y="240" text-anchor="middle" class="n-sub">52名</text>
+
+        <path d="M180,226 L206,226" class="flow-line" marker-end="url(#ah5)"></path>
+        <path d="M352,226 L378,226" class="flow-line" marker-end="url(#ah5)"></path>
+        <path d="M524,226 L550,226" class="flow-line" marker-end="url(#ah5)"></path>
+        <path d="M696,226 L722,226" class="flow-line" marker-end="url(#ah5)"></path>
+        <path d="M868,226 L894,226" class="flow-line" stroke-dasharray="4 3" marker-end="url(#ah5)"></path>
+
+        <path d="M798,250 L798,304 L110,304 L110,256" class="flow-line" marker-end="url(#ah5)"></path>
+        <text x="454" y="298" text-anchor="middle" class="e-lab">稼働終了 → 再び待機中へ（ここを戻し忘れると次の人選で拾えない）</text>
+      </svg>
+    </div>
+    <figcaption>2枚のボードは連続している。就業ボードの「待機中」が人選の母集団になるため、稼働終了後に待機へ戻す運用が人選のスピードを直接決める。</figcaption>
+  </figure>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>ステップ</th><th>主担当</th><th>やること</th><th>自動で飛ぶ通知</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="step"><b>エントリー受付</b></td>
+          <td class="who"><span class="chip c-staff">スタッフ担当</span></td>
+          <td>媒体からのエントリーを受け付け、登録内容の入力を案内する。仮登録のまま<b>ヒアリング予定が設定されない日数</b>が続くと登録ボードとダッシュボードに警告が出る。CSV一括取り込みも可。
+            <span class="scr">スタッフ管理 → 新規スタッフ登録 / CSV取り込み</span></td>
+          <td><span class="dim">エントリー受付のお知らせ / 登録内容の入力のご案内</span></td>
+        </tr>
+        <tr>
+          <td class="step"><b>面談日程調整中</b></td>
+          <td class="who"><span class="chip c-staff">スタッフ担当</span></td>
+          <td>面談日時を確定させる。確定するとタスクボードのスケジュールに載る。</td>
+          <td><span class="dim">面談日程確定</span></td>
+        </tr>
+        <tr>
+          <td class="step"><b>面談予定 → 面談実施</b></td>
+          <td class="who"><span class="chip c-staff">スタッフ担当</span></td>
+          <td>「スタッフ面談内容」の設問に沿って実施し、経験年数・運転車種・希望条件・タグを登録する。<b>ここの入力精度がそのまま人選の検索精度</b>になる。予定日を過ぎて未実施だと期限超過（猶予0日）。</td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><b>本登録 / 不採用・辞退</b></td>
+          <td class="who"><span class="chip c-staff">スタッフ担当</span></td>
+          <td>本登録にすると就業ステータス「待機中」となり、人選の検索対象に入る（候補検索の「本登録のみ」で絞られる）。</td>
+          <td><span class="dim">―</span></td>
+        </tr>
+        <tr>
+          <td class="step"><b>待機中 → 派遣中</b></td>
+          <td class="who"><span class="chip c-ops">オペ</span></td>
+          <td>案件の選考進行に合わせて就業ステータスが動く。<b>打診・エントリー後7日</b>選考が動かないと警告。稼働終了後は待機中に戻すか、連絡が取れない・就業意思なしなら非アクティブへ。</td>
+          <td><span class="dim">―</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ 運用リズム ============ -->
+<section id="rhythm">
+  <h2><span class="idx">05</span>日次・週次の運用</h2>
+  <p class="sub">フローを回す実務は、ほぼタスクボードの上で完結します。見る順番を固定するのがコツです。</p>
+
+  <div class="cards">
+    <div class="card">
+      <span class="k">DAILY / 朝</span>
+      <h4>タスクボードを上から3ブロック</h4>
+      <p>① スケジュール（本日・明日の確定予定）→ ② 要対応（停滞している依頼／候補停滞／枠未確保／期限超過）→ ③ ステータス看板。<b>担当者フィルタは既定で「自分」</b>なので、チーム全体を見るときは「全員」に切り替える。</p>
+    </div>
+    <div class="card">
+      <span class="k">DAILY / 判断</span>
+      <h4>赤と黄で動きを変える</h4>
+      <p>赤＝自分たちが手を動かす。黄＝企業への催促を1本入れて記録を残す。<b>催促した事実は対応メモに残す</b>と停滞カウントの起点がリセットされます。</p>
+    </div>
+    <div class="card">
+      <span class="k">WEEKLY</span>
+      <h4>棚卸しする3点</h4>
+      <p>完了確認中に溜まった依頼（手動でしか完了しない）／保険手続き・喪失の未処理／メンバー別の担当件数の偏り。ダッシュボード下部の担当状況表で確認します。</p>
+    </div>
+  </div>
+
+  <h3>停滞が「消える操作」と「消えない操作」</h3>
+  <div class="col">
+    <p>停滞日数は<b>案件が実質的に進んだ最後の日時</b>から数えます。ここを取り違えて「担当を付け替えたのに警告が消えない」となりがちなので、チームで共通認識にしておきます。</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th style="width:50%">消える（進行として扱われる）</th><th>消えない（進行ではない）</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>
+            <ul class="tight" style="margin:0">
+              <li>対応メモの追加・操作にともなう履歴の記録</li>
+              <li>求人媒体の掲載ステータス変更／受注条件の変更</li>
+              <li>候補の追加・選考ステータス変更（打診・提案・見学・決定・見送り）</li>
+              <li>確定スタッフの情報更新（時給・勤務日数・保険）</li>
+              <li>企業側の操作（受入回答・条件変更見積もりの回答・派遣必須情報の登録）</li>
+            </ul>
+          </td>
+          <td>
+            <ul class="tight" style="margin:0">
+              <li>担当営業・担当オペレーターの変更</li>
+              <li>企業側窓口（ご担当者・連絡先）の変更</li>
+              <li>企業が依頼詳細を開いた（既読になった）</li>
+              <li>履歴が残らない編集・一覧やボードの閲覧</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <p><b>日数はすべて変更できます。</b>ステータス別／候補フェーズ別／枠未確保／期限超過の猶予は <b>システム → コパン詳細設定 → 依頼管理</b>、仮登録ヒアリング未設定と打診中未動きは <b>同 → スタッフ</b> タブ。数値を保存すれば即時反映されます。この資料の日数は現在の既定値です。</p>
+  </div>
+</section>
+
+<footer class="foot">
+  <p>作成方法：SHOWCASE 管理画面（ダッシュボード／タスクボード／見積管理／依頼管理／スタッフ管理／詳細設定・停滞アラート仕様）を<b>閲覧のみ</b>で確認して構成しました。データの登録・編集・削除は一切行っていません。日数・担当・通知の記述は 2026/08/27 時点の設定と仕様表示に基づきます。</p>
+</footer>
+
+</div>
+
+</body>
+</html>
