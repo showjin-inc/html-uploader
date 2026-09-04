@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笑人 Growth Data Platform 構想書</title>
+<style>
+:root{
+  --bg:#f3f1ec;--paper:#fffdf9;--ink:#151515;--muted:#6d6a63;--line:#d8d3c8;
+  --red:#8c2323;--red2:#b13e35;--soft:#eee9df;--shadow:0 16px 50px rgba(30,25,20,.07)
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI","Yu Gothic","Noto Sans JP",sans-serif;line-height:1.75}
+.wrap{max-width:1180px;margin:0 auto;padding:28px}
+.hero{min-height:70vh;padding:64px;border-radius:28px;background:radial-gradient(circle at 82% 14%,rgba(177,62,53,.18),transparent 34%),linear-gradient(135deg,#121212,#27221f);color:#fff;display:flex;align-items:flex-end;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;width:420px;height:420px;right:-120px;bottom:-160px;border-radius:50%;border:1px solid rgba(255,255,255,.12);box-shadow:0 0 0 70px rgba(255,255,255,.025),0 0 0 140px rgba(255,255,255,.018)}
+.kicker{font-size:12px;letter-spacing:.18em;color:#c9c0b4;font-weight:700}
+h1{font-size:clamp(38px,6.5vw,76px);line-height:1.1;margin:12px 0 24px;letter-spacing:-.03em}
+.hero p{max-width:790px;font-size:18px;color:#e6dfd6}.meta{margin-top:28px;color:#ada498;font-size:13px}
+section{margin:30px 0;padding:46px;background:var(--paper);border:1px solid rgba(60,50,40,.07);border-radius:22px;box-shadow:0 10px 36px rgba(30,25,20,.05)}
+.no{font-size:12px;color:var(--red);font-weight:800;letter-spacing:.14em}
+h2{font-size:34px;line-height:1.35;margin:8px 0 22px;letter-spacing:-.02em} h3{font-size:21px;margin:28px 0 10px}
+p.lead{font-size:20px;line-height:1.7}.note{color:var(--muted)}
+.quote{margin:28px 0;padding:20px 24px;border-left:4px solid var(--red);background:#f8f1ef;font-size:22px;font-weight:800}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff}.card strong{display:block;font-size:18px;margin-bottom:8px}.card small{color:var(--red);font-weight:800;letter-spacing:.08em}
+.dark{background:#181716;color:#fff;border-color:#181716}.dark p,.dark li{color:#ddd6cd}
+.pill{display:inline-block;margin:4px 6px 4px 0;padding:5px 10px;border-radius:999px;background:#eee3df;color:var(--red);font-size:12px;font-weight:800}
+table{width:100%;border-collapse:collapse;margin-top:18px}th,td{padding:14px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:12px;color:#6f6a63;letter-spacing:.04em}td:first-child{font-weight:700}
+pre{background:#161616;color:#f2eee8;padding:22px;border-radius:16px;overflow:auto;font-size:13px;line-height:1.65}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:22px}
+.step{min-height:100px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:14px 10px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;position:relative}
+.step:not(:last-child):after{content:"→";position:absolute;right:-14px;color:#aaa196;z-index:3}
+.layer{padding:22px;border-radius:16px;margin:12px 0;color:#fff}.l1{background:#2c3e50}.l2{background:#3c5b67}.l3{background:#4b6650}.l4{background:#7b5d37}.l5{background:#7b2a2a}
+.metric{font-size:32px;font-weight:900;line-height:1.2;margin-top:5px}.tag{display:inline-block;background:var(--soft);border-radius:7px;padding:3px 8px;font-size:12px;margin:2px}
+.warning{background:#fff7de;border:1px solid #ead392;padding:18px 20px;border-radius:14px}.good{background:#eef5ef;border:1px solid #bed1c1;padding:18px 20px;border-radius:14px}
+.timeline{border-left:3px solid var(--line);margin:18px 0 0 10px;padding-left:22px}.timeline .item{margin:0 0 24px}.timeline strong{display:block}
+.dashboard{padding:26px;background:#151515;color:white;border-radius:18px}.dashboard .grid4 .card{background:#222;color:white;border-color:#3a3a3a}.dashboard .card small{color:#b9afa4}.dashboard .card strong{font-size:14px;color:#d8d0c7}
+.arch{background:#f7f4ee;border:1px solid var(--line);padding:22px;border-radius:16px}.footer{text-align:center;color:#777066;font-size:12px;padding:45px 10px 65px}
+@media(max-width:860px){.wrap{padding:14px}.hero{padding:34px 24px;min-height:62vh;border-radius:20px}section{padding:28px 22px}.grid2,.grid3,.grid4{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.step:not(:last-child):after{content:"↓";right:50%;bottom:-20px;top:auto;transform:translateX(50%)}table{display:block;overflow:auto}h2{font-size:28px}}
+@media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero,section{box-shadow:none}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header class="hero"><div>
+<div class="kicker">SHOWJIN GROWTH DATA PLATFORM / ENGINEERING CONCEPT</div>
+<h1>広告・広報・求人・稼働・給与を<br>ひとつのデータでつなぐ。</h1>
+<p>Google Analytics、SNS、hanabacca、花JOB、ハナワク、Copain、Showcaseを横断し、「誰が、どこで知り、どの経路を通り、どのサービスを使い、最終的にどれだけ働き・稼いだか」まで追跡できるデータ基盤を構築する。</p>
+<div class="meta">Engineering Concept Draft / 株式会社笑人 / 2026.09</div>
+</div></header>
+
+<section>
+<div class="no">01 / PURPOSE</div>
+<h2>目的は「アクセス解析」ではない。</h2>
+<p class="lead">このシステムの目的は、PV・フォロワー・広告クリックを一覧化することではない。<strong>広告・広報・メディア活動が、実際の登録・応募・面談・受注・稼働・給与・粗利へどうつながったかを一気通貫で可視化し、その結果から次の施策を自動的に改善すること</strong>である。</p>
+<div class="quote">「何が伸びたか」ではなく、<br>「何が人を動かし、会社と働く人にどんな結果を生んだか」を見る。</div>
+</section>
+
+<section>
+<div class="no">02 / BUSINESS QUESTIONS</div>
+<h2>最終的に答えられるようにしたい問い。</h2>
+<div class="grid2">
+<div class="card"><strong>媒体・企画</strong>どの記事、Reel、YouTube、広告、検索キーワードが登録や稼働につながったか。</div>
+<div class="card"><strong>サービス横断</strong>hanabaccaで知った人が、その後 花JOB・ハナワク・Copainをどう利用したか。</div>
+<div class="card"><strong>人単位</strong>あるユーザーが笑人と最初に接点を持ってから、どのサービスで何回働いたか。</div>
+<div class="card"><strong>給与・経済価値</strong>その人が笑人グループのサービス経由で実際にどれだけ給与・報酬を得たか。</div>
+<div class="card"><strong>平均値</strong>流入元・媒体・テーマ別に、一人当たり平均稼働回数・平均給与・平均LTVがどう違うか。</div>
+<div class="card"><strong>企業側</strong>どの媒体・企画から来た企業が求人依頼・派遣依頼・受注・粗利につながったか。</div>
+<div class="card"><strong>PDCA</strong>過去に似た施策を行った時、何が成功し何が失敗したか。次は何を変えるべきか。</div>
+<div class="card"><strong>予算配分</strong>次月の広告費・取材・制作工数を、どのテーマ・媒体に寄せるべきか。</div>
+</div>
+</section>
+
+<section>
+<div class="no">03 / TARGET ARCHITECTURE</div>
+<h2>全体アーキテクチャ。</h2>
+<div class="arch">
+<div class="layer l1"><strong>① データ取得層</strong><br>GA4 / Search Console / Instagram / YouTube / TikTok / X / 広告媒体 / 各サービスサイト</div>
+<div class="layer l2"><strong>② 統合・正規化層</strong><br>媒体ごとの指標名・期間・コンテンツID・Campaign IDを共通形式へ変換</div>
+<div class="layer l3"><strong>③ ID・顧客統合層</strong><br>anonymous_id → user_id → unified_person_id / company_id / lead_id を接続</div>
+<div class="layer l4"><strong>④ Showcase業務データ層</strong><br>登録 → 応募 → 面談 → 求人紹介 → 決定 → 稼働 → 給与/報酬 → 売上 → 粗利</div>
+<div class="layer l5"><strong>⑤ 分析・AI意思決定層</strong><br>経路分析 / LTV / 媒体評価 / Theme評価 / PDCA履歴 / AI Plan・Action提案</div>
+</div>
+</section>
+
+<section>
+<div class="no">04 / DATA COLLECTION</div>
+<h2>外部データ取得。</h2>
+<table><thead><tr><th>データ源</th><th>取得内容</th><th>取得方法の想定</th><th>主用途</th></tr></thead><tbody>
+<tr><td>Google Analytics 4</td><td>ユーザー、セッション、流入元、ページ、イベント、キーイベント、Campaign等</td><td>Google Analytics Data API + BigQuery Export</td><td>Web行動・経路分析</td></tr>
+<tr><td>Search Console</td><td>検索クエリ、表示回数、クリック、CTR、掲載順位</td><td>Search Console API</td><td>SEO・検索需要</td></tr>
+<tr><td>Instagram</td><td>投稿/Reel、リーチ、再生、保存、シェア、反応、フォロワー等</td><td>Meta公式APIで取得可能な範囲</td><td>コンテンツ評価</td></tr>
+<tr><td>YouTube</td><td>再生、視聴時間、平均視聴時間、Engaged views、登録増減、シェア等</td><td>YouTube Analytics / Reporting API</td><td>動画評価</td></tr>
+<tr><td>TikTok</td><td>アカウント・動画情報、利用可能な指標</td><td>TikTok公式API。権限・製品ごとの取得可能範囲を確認</td><td>短尺動画評価</td></tr>
+<tr><td>X・その他</td><td>投稿指標、リンク流入など</td><td>公式API / UTM / 取得可能範囲に応じたAdapter</td><td>拡散・流入評価</td></tr>
+<tr><td>広告媒体</td><td>広告費、Impression、Click、CV、Campaign、Creative</td><td>Google/Meta等のAds API</td><td>費用対効果</td></tr>
+</tbody></table>
+<div class="warning" style="margin-top:22px"><strong>設計原則：</strong> SNS APIは媒体ごとに権限・仕様・取得可能指標が変わるため、媒体固有実装を分析ロジックへ直結させない。<code>Connector / Adapter → 共通SNSスキーマ</code> の形にして、追加・変更に耐えられる構造にする。</div>
+</section>
+
+<section>
+<div class="no">05 / ID DESIGN</div>
+<h2>最重要：人・企業・流入を同じID体系でつなぐ。</h2>
+<p>データが集まっても、同一人物をサービス間で接続できなければ経営分析には使えない。そのため、登録前の匿名アクセスから、登録後の人物IDまでを段階的に接続する。</p>
+<pre>anonymous_id       // Cookie等の匿名識別子
+session_id         // Web訪問単位
+touchpoint_id      // SNS / 記事 / 広告 / 検索等の接点
+campaign_id        // 施策・キャンペーン
+theme_id           // 「花業界の給与」等の企画テーマ
+content_id         // 記事・動画・投稿単位
+
+lead_id            // 登録・問い合わせ時に発行
+service_user_id    // 花JOB / ハナワク / Copain 各サービスID
+unified_person_id  // 笑人グループ横断の人物ID
+company_id         // 法人/企業統合ID
+job_id             // 求人・案件ID
+work_id            // 稼働実績ID
+payroll_id         // 給与/報酬実績ID
+revenue_id         // 売上実績ID</pre>
+<div class="good"><strong>理想：</strong> ログイン・登録後に <code>anonymous_id</code> と <code>unified_person_id</code> を安全に接続し、「登録前に何を見ていたか」から「登録後にどれだけ働いたか」までつなげる。</div>
+</section>
+
+<section>
+<div class="no">06 / SHOWCASE JOURNEY</div>
+<h2>Showcase側で持つ「求人流入から稼働まで」。</h2>
+<div class="flow"><div class="step">流入・閲覧</div><div class="step">登録</div><div class="step">応募・相談</div><div class="step">面談・紹介</div><div class="step">決定・契約</div><div class="step">稼働・給与</div></div>
+<h3>最低限、保存したいイベント</h3>
+<div>
+<span class="tag">site_visit</span><span class="tag">content_view</span><span class="tag">service_click</span>
+<span class="tag">signup</span><span class="tag">job_view</span><span class="tag">job_apply</span>
+<span class="tag">interview_complete</span><span class="tag">job_proposed</span><span class="tag">match_success</span>
+<span class="tag">work_started</span><span class="tag">work_completed</span><span class="tag">payroll_confirmed</span>
+<span class="tag">revenue_confirmed</span><span class="tag">gross_profit_confirmed</span>
+</div>
+<h3>各イベントに共通で持たせる項目</h3>
+<pre>event_id
+event_type
+occurred_at
+unified_person_id
+company_id
+service_id
+job_id
+theme_id
+content_id
+campaign_id
+first_touch_id
+last_touch_id
+assist_touch_ids[]
+source
+medium
+device
+amount
+metadata_json</pre>
+</section>
+
+<section>
+<div class="no">07 / ECONOMIC VALUE</div>
+<h2>「誰が、どの経路で、どれだけ稼いだか」を出す。</h2>
+<p class="lead">この基盤の面白さは、コンバージョンを「登録」で止めず、<strong>働く人が実際に得た経済価値</strong>まで追えることにある。</p>
+<div class="grid3">
+<div class="card"><small>PERSON</small><strong>個人累計給与・報酬</strong>笑人グループ内の対象サービス経由で、ある人が累計いくら得たか。</div>
+<div class="card"><small>ACQUISITION</small><strong>流入元別 平均給与</strong>hanabacca、Instagram、Google検索、広告などの流入元ごとに平均を比較。</div>
+<div class="card"><small>THEME</small><strong>テーマ別 経済価値</strong>「給与」「転職」「母の日」等、どの企画から来た人が長く働いているか。</div>
+<div class="card"><small>SERVICE</small><strong>サービス横断収入</strong>ハナワク → Copain等、複数サービスを使った人の累計実績。</div>
+<div class="card"><small>LTV</small><strong>一人当たりLTV</strong>会社粗利だけでなく、本人の累計給与・稼働回数・継続月数も併記。</div>
+<div class="card"><small>SOCIETAL VALUE</small><strong>働く機会を生んだ金額</strong>メディア・サービスが最終的にどれだけの雇用・所得機会を作ったか。</div>
+</div>
+<div class="warning" style="margin-top:22px"><strong>重要：</strong>「笑人が直接支給した給与」と「花JOB等で紹介先企業が支給する給与」は混在させない。<br>実績支給額 / 推定年収 / 求人票上の給与条件 を別フィールド・別指標として管理する。</div>
+</section>
+
+<section>
+<div class="no">08 / ATTRIBUTION</div>
+<h2>「最後にクリックした媒体」だけで評価しない。</h2>
+<p>人は複数回・複数媒体に触れてから登録する。したがって、最低でも以下の4評価を保持する。</p>
+<table><thead><tr><th>評価方式</th><th>意味</th><th>用途</th></tr></thead><tbody>
+<tr><td>First Touch</td><td>最初に笑人を知った接点</td><td>認知・新規獲得評価</td></tr>
+<tr><td>Last Touch</td><td>登録直前の接点</td><td>刈り取り・CV評価</td></tr>
+<tr><td>Assist</td><td>途中で影響した接点</td><td>hanabaccaやYouTube等の間接貢献</td></tr>
+<tr><td>Multi-touch</td><td>複数接点へ重みを配分</td><td>経営判断・予算配分</td></tr>
+</tbody></table>
+<h3>例</h3>
+<pre>Instagram Reel
+  ↓  first touch
+hanabacca 記事
+  ↓  assist
+YouTube
+  ↓  assist
+Google検索
+  ↓
+花JOB 求人
+  ↓  last touch
+登録
+  ↓
+Copain 面談
+  ↓
+稼働
+  ↓
+給与 180,000円 / 粗利 72,000円</pre>
+</section>
+
+<section>
+<div class="no">09 / PDCA ENGINE</div>
+<h2>PDCAを「担当者の記憶」ではなく、システムに残す。</h2>
+<p class="lead">過去の施策・仮説・結果・改善内容をすべて履歴化し、次回のPlanとActionを過去傾向からAIが提案する。</p>
+<div class="grid4">
+<div class="card dark"><small>PLAN</small><strong>仮説</strong>誰に、何を、どの媒体で、なぜ届けるか。期待KPIと予算を保存。</div>
+<div class="card"><small>DO</small><strong>実行</strong>投稿・広告・記事・取材・LP等の実行履歴をTheme ID / Campaign IDで統合。</div>
+<div class="card"><small>CHECK</small><strong>結果</strong>リーチ → 流入 → 登録 → 面談 → 稼働 → 給与 → 粗利まで自動評価。</div>
+<div class="card"><small>ACT</small><strong>改善</strong>成功・失敗要因を記録。次の予算、企画、対象、クリエイティブを提案。</div>
+</div>
+<h3>PDCA履歴テーブル例</h3>
+<pre>pdca_cycle_id
+theme_id
+campaign_id
+period_start
+period_end
+
+plan_hypothesis
+target_segment
+planned_channels[]
+planned_budget
+target_kpis_json
+
+actual_cost
+actual_metrics_json
+downstream_metrics_json
+salary_generated
+gross_profit_generated
+
+check_summary
+success_factors[]
+failure_factors[]
+external_factors[]
+
+action_decision
+next_test
+ai_recommendation
+human_decision
+decision_reason
+created_at</pre>
+</section>
+
+<section>
+<div class="no">10 / AI LEARNING LOOP</div>
+<h2>過去傾向から「次に何をするか」を継続提案する。</h2>
+<p>AIには単月データだけを渡さず、過去のPDCA履歴・季節性・媒体別傾向・テーマ別成果・求人需給・稼働実績まで参照させる。</p>
+<div class="grid2">
+<div class="card"><strong>Plan提案例</strong>「昨年10〜11月は“繁忙期×短期勤務”テーマがハナワク登録率と稼働率の両方で高かった。前年より企業案件が増えているため、今年は9月末から取材・動画を前倒しする。」</div>
+<div class="card"><strong>Action提案例</strong>「Instagramはリーチが高いが稼働率が低い。一方YouTube接触者は登録数は少ないが3か月継続率が高い。次回はInstagramからYouTube/記事への中間導線を増やす。」</div>
+</div>
+<h3>AIが毎回比較する軸</h3>
+<div><span class="pill">前年同期</span><span class="pill">直近3か月</span><span class="pill">同テーマ過去施策</span><span class="pill">媒体別</span><span class="pill">サービス別</span><span class="pill">企業/求職者別</span><span class="pill">初回登録率</span><span class="pill">稼働化率</span><span class="pill">継続率</span><span class="pill">平均給与</span><span class="pill">粗利LTV</span><span class="pill">広告費</span></div>
+</section>
+
+<section>
+<div class="no">11 / DASHBOARD</div>
+<h2>経営ダッシュボードのイメージ。</h2>
+<div class="dashboard"><div class="grid4">
+<div class="card"><small>MEDIA REACH</small><strong>総リーチ</strong><div class="metric">1.28M</div></div>
+<div class="card"><small>LEADS</small><strong>登録・問い合わせ</strong><div class="metric">376</div></div>
+<div class="card"><small>ACTIVE</small><strong>稼働化</strong><div class="metric">31</div></div>
+<div class="card"><small>EARNINGS</small><strong>発生給与・報酬</strong><div class="metric">¥4.8M</div></div>
+<div class="card"><small>AVG EARNINGS</small><strong>1人平均給与</strong><div class="metric">¥155K</div></div>
+<div class="card"><small>GP</small><strong>発生粗利</strong><div class="metric">¥1.9M</div></div>
+<div class="card"><small>MEDIA ASSIST</small><strong>メディア接触CV</strong><div class="metric">214</div></div>
+<div class="card"><small>LTV</small><strong>平均継続月数</strong><div class="metric">4.6</div></div>
+</div></div>
+<h3>経営者が切り替えて見られる軸</h3>
+<ul>
+<li>媒体別：hanabacca / Instagram / YouTube / Google / 広告</li>
+<li>サービス別：花JOB / ハナワク / Copain / その他</li>
+<li>テーマ別：給与 / 転職 / 繁忙期 / 技術 / 現場取材 等</li>
+<li>求職者属性別：経験、職種、地域、登録月、流入月</li>
+<li>企業別：リード元、受注、稼働人数、売上、粗利</li>
+<li>期間別：日次 / 月次 / 四半期 / 年間 / 前年同期</li>
+</ul>
+</section>
+
+<section>
+<div class="no">12 / DATA MODEL</div>
+<h2>主要データモデル案。</h2>
+<table><thead><tr><th>テーブル</th><th>役割</th><th>主キー例</th></tr></thead><tbody>
+<tr><td>media_account</td><td>SNS/GA/YouTube等のアカウント管理</td><td>media_account_id</td></tr>
+<tr><td>content</td><td>記事・投稿・動画</td><td>content_id</td></tr>
+<tr><td>theme</td><td>企画テーマ統合</td><td>theme_id</td></tr>
+<tr><td>campaign</td><td>施策・広告キャンペーン</td><td>campaign_id</td></tr>
+<tr><td>touchpoint</td><td>ユーザー接点</td><td>touchpoint_id</td></tr>
+<tr><td>identity_map</td><td>匿名ID・サービスID・統合IDの対応</td><td>identity_map_id</td></tr>
+<tr><td>person</td><td>人物マスタ（PIIは分離）</td><td>unified_person_id</td></tr>
+<tr><td>company</td><td>企業マスタ</td><td>company_id</td></tr>
+<tr><td>journey_event</td><td>登録〜稼働の全イベント</td><td>event_id</td></tr>
+<tr><td>work_record</td><td>稼働実績</td><td>work_id</td></tr>
+<tr><td>payroll_record</td><td>給与・報酬実績</td><td>payroll_id</td></tr>
+<tr><td>revenue_record</td><td>売上・粗利</td><td>revenue_id</td></tr>
+<tr><td>pdca_cycle</td><td>仮説・結果・改善履歴</td><td>pdca_cycle_id</td></tr>
+<tr><td>ai_recommendation</td><td>AI提案・採否・理由・結果</td><td>recommendation_id</td></tr>
+</tbody></table>
+</section>
+
+<section>
+<div class="no">13 / PRIVACY & SECURITY</div>
+<h2>個人単位で追えるからこそ、分析用データと個人情報を分離する。</h2>
+<div class="warning">GA4等の外部分析基盤へ、氏名・メール・電話番号などを送らない。外部分析では自社発行の非識別IDを使用し、本人情報との対応表はShowcase側の権限制御された領域で保持する。</div>
+<div class="grid2" style="margin-top:16px">
+<div class="card"><strong>分析基盤</strong>unified_person_id、属性カテゴリ、行動、稼働、集計値。原則として分析に不要なPIIを持たない。</div>
+<div class="card"><strong>Showcase個人情報領域</strong>氏名、連絡先、契約・給与詳細等。RBAC、監査ログ、閲覧権限を設定。</div>
+</div>
+<h3>ダッシュボード表示</h3>
+<ul>
+<li>経営画面：原則集計値。必要時のみ権限者が個別ドリルダウン。</li>
+<li>広告・広報担当：個人名・個別給与を見せず、流入元別平均・分布・LTV等で評価。</li>
+<li>人事・給与担当：業務上必要な給与詳細のみアクセス。</li>
+<li>すべての個人詳細参照・エクスポートを監査ログへ保存。</li>
+</ul>
+</section>
+
+<section>
+<div class="no">14 / IMPLEMENTATION PRIORITY</div>
+<h2>実装優先順位。</h2>
+<div class="timeline">
+<div class="item"><strong>STEP 1｜計測設計を統一</strong>Theme ID / Content ID / Campaign ID / UTM / イベント命名規則 / サービス横断ID方針を確定。</div>
+<div class="item"><strong>STEP 2｜外部データを自動取得</strong>GA4・Search Console・YouTube・Instagram等をConnector化し、日次で統合DBへ保存。</div>
+<div class="item"><strong>STEP 3｜ShowcaseのJourney Eventを整備</strong>登録・応募・面談・決定・稼働・給与・売上・粗利のイベントを共通形式で記録。</div>
+<div class="item"><strong>STEP 4｜Identity Mapを接続</strong>anonymous_id → lead_id → service_user_id → unified_person_id を安全に結合。</div>
+<div class="item"><strong>STEP 5｜経路・LTV・給与分析</strong>First / Last / Assist / Multi-touch と、平均給与・継続・粗利まで算出。</div>
+<div class="item"><strong>STEP 6｜PDCA Engine</strong>Plan・Do・Check・Actを履歴化し、過去傾向を踏まえたAI提案を開始。</div>
+</div>
+</section>
+
+<section>
+<div class="no">15 / COMPLETION CONDITIONS</div>
+<h2>この基盤の「完成」の定義。</h2>
+<div class="grid2">
+<div class="card"><strong>1</strong>主要サイト・SNSのデータが日次で自動取得される。</div>
+<div class="card"><strong>2</strong>各コンテンツがTheme ID / Content IDで横断管理される。</div>
+<div class="card"><strong>3</strong>登録前の流入から登録後の稼働までを人物単位で接続できる。</div>
+<div class="card"><strong>4</strong>媒体・テーマ別に登録率、稼働率、平均給与、LTV、粗利を比較できる。</div>
+<div class="card"><strong>5</strong>PDCAの仮説・結果・改善・意思決定理由が履歴として残る。</div>
+<div class="card"><strong>6</strong>AIが過去施策を参照し、次のPlan / Action案を継続提示できる。</div>
+<div class="card"><strong>7</strong>AI提案の採否と、その後の結果も保存され、提案精度を検証できる。</div>
+<div class="card"><strong>8</strong>個人情報・給与情報は適切に分離・権限制御・監査される。</div>
+</div>
+</section>
+
+<section>
+<div class="no">16 / NORTH STAR</div>
+<h2>最終的に作りたいもの。</h2>
+<div class="quote">「広告を出したら何人来たか」ではなく、<br><br>「どの発信・取材・SNS・広告が人との最初の接点になり、<br>その人が笑人の中でどんな仕事と出会い、どれだけ働き、どれだけ稼ぎ、<br>会社にはどれだけの事業価値が生まれたか」までわかる状態。</div>
+<p class="lead">その履歴を毎月蓄積し、次の施策を過去の成功・失敗から学習して改善し続ける。これは広告分析システムではなく、<strong>笑人全体の「集客 → 雇用 → 収益 → 学習」を循環させるGrowth Data Platform</strong>として設計する。</p>
+</section>
+
+<section>
+<div class="no">APPENDIX / OFFICIAL REFERENCES</div>
+<h2>実装時に確認する公式ドキュメント。</h2>
+<ul>
+<li>Google Analytics Data API — https://developers.google.com/analytics/devguides/reporting/data/v1</li>
+<li>GA4 BigQuery Export — https://support.google.com/analytics/answer/9358801</li>
+<li>GA4 User-ID — https://support.google.com/analytics/answer/9355972</li>
+<li>GA4 PII送信禁止 — https://support.google.com/analytics/answer/6366371</li>
+<li>YouTube Analytics / Reporting API — https://developers.google.com/youtube/analytics</li>
+<li>TikTok for Developers — https://developers.tiktok.com/</li>
+</ul>
+<p class="note">※ SNS系APIは利用権限・アカウント種別・API仕様変更の影響を受けるため、実装着手時に各公式仕様を再確認すること。</p>
+</section>
+
+<footer class="footer">SHOWJIN Growth Data Platform / Engineering Concept Draft / 2026</footer>
+</main>
+</body>
+</html>
