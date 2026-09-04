@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hanabacca メディア事業部 事業化ロードマップ</title>
+<style>
+  :root{
+    --bg:#f4f0e8;
+    --paper:#fffdf8;
+    --ink:#151515;
+    --muted:#6d6a64;
+    --accent:#8b1a1a;
+    --accent-2:#c79b63;
+    --line:#ded6ca;
+    --soft:#eee6da;
+    --green:#2f5b47;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;line-height:1.75}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 24px 80px}
+  .hero{background:linear-gradient(135deg,#171717 0%,#2b2420 100%);color:white;border-radius:28px;padding:64px 56px;position:relative;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.12)}
+  .hero:after{content:"Hanabacca";position:absolute;right:-20px;bottom:-42px;font-size:120px;font-weight:800;letter-spacing:-4px;color:rgba(255,255,255,.035)}
+  .eyebrow{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#dfc6aa;margin-bottom:10px}
+  h1{font-size:46px;line-height:1.15;margin:0 0 18px;letter-spacing:-.03em}
+  .lead{font-size:20px;max-width:850px;color:#eee6de;margin:0}
+  .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .pill{font-size:13px;padding:8px 12px;border:1px solid rgba(255,255,255,.22);border-radius:999px;color:#f5eee7}
+  section{margin-top:34px;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:34px 34px 32px;box-shadow:0 8px 24px rgba(31,25,20,.04)}
+  h2{font-size:30px;margin:0 0 14px;letter-spacing:-.02em}
+  h3{font-size:21px;margin:28px 0 10px}
+  p{margin:8px 0 14px}
+  .note{background:#f8f3ec;border-left:4px solid var(--accent);padding:16px 18px;border-radius:12px;margin:18px 0}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+  .card h4{font-size:17px;margin:0 0 8px}
+  .num{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--accent);color:white;font-weight:700;margin-bottom:12px}
+  .role{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .flow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0}
+  .flow span{background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:12px;font-weight:650}
+  .arrow{color:var(--accent);font-weight:800}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px}
+  th,td{border-bottom:1px solid var(--line);padding:13px 10px;text-align:left;vertical-align:top}
+  th{background:#f8f4ee;font-weight:700}
+  .money{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+  .kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}
+  .kpi .box{background:#171717;color:#fff;border-radius:16px;padding:20px}
+  .kpi b{display:block;font-size:24px;margin-bottom:3px}
+  .timeline{position:relative;margin:20px 0 0;padding-left:28px}
+  .timeline:before{content:"";position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--line)}
+  .step{position:relative;margin:0 0 24px;padding:0 0 0 10px}
+  .step:before{content:"";position:absolute;left:-26px;top:9px;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--paper)}
+  .step strong{font-size:18px}
+  .tag{display:inline-block;font-size:12px;padding:4px 8px;background:var(--soft);border-radius:8px;margin-right:6px;color:#5f554b}
+  ul{padding-left:1.2em;margin:10px 0 4px}
+  li{margin:5px 0}
+  .highlight{color:var(--accent);font-weight:800}
+  .good{color:var(--green);font-weight:750}
+  footer{margin-top:30px;color:var(--muted);font-size:13px;text-align:center}
+  @media(max-width:800px){
+    .wrap{padding:20px 14px 48px}.hero{padding:38px 26px}h1{font-size:34px}.lead{font-size:17px}
+    .grid,.grid3,.kpi{grid-template-columns:1fr}section{padding:26px 20px}h2{font-size:25px}
+    table{font-size:13px;display:block;overflow-x:auto;white-space:nowrap}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Showjin / Media Business Development</div>
+    <h1>Hanabacca メディア事業部<br>事業化ロードマップ</h1>
+    <p class="lead">Hanabaccaを単なるオウンドメディアではなく、笑人の「メディア事業部」として位置づけ、認知拡大・集客・収益化を同時に成立させるための初期設計。</p>
+    <div class="meta">
+      <span class="pill">対象期間：立ち上げ〜3年</span>
+      <span class="pill">初期予算：年間100〜300万円想定</span>
+      <span class="pill">体制：事業責任者＋社内0.5名＋外注中心</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>1. 事業部としての位置づけ</h2>
+    <p>Hanabaccaの役割は、花JOB・ハナワク・コパンを直接売る広告媒体ではない。第一の目的は、<span class="highlight">花業界を知らない人にも花の仕事・文化・現場の面白さを届け、笑人という存在を知ってもらうこと</span>に置く。</p>
+    <div class="note"><strong>基本思想：</strong>「検索される会社」ではなく、「知った結果、検索したくなる会社」をつくる。</div>
+    <div class="flow">
+      <span>認知</span><span class="arrow">→</span>
+      <span>興味・共感</span><span class="arrow">→</span>
+      <span>Hanabaccaとの接触継続</span><span class="arrow">→</span>
+      <span>各サービスを知る</span><span class="arrow">→</span>
+      <span>利用・応募・相談</span>
+    </div>
+    <p>メディア事業部化する理由は、広告費を消費するだけでなく、記事・動画・写真・取材ネットワーク・視聴者・企業との関係を<span class="good">会社の資産として蓄積するため</span>である。</p>
+  </section>
+
+  <section>
+    <h2>2. 初期の事業目的</h2>
+    <div class="grid3">
+      <div class="card"><div class="num">1</div><h4>認知</h4><p>花業界外の人にも「Hanabacca」「笑人」を知ってもらう。サービス名より先に、世界観と存在を知ってもらう。</p></div>
+      <div class="card"><div class="num">2</div><h4>集客</h4><p>Hanabaccaから花JOB・ハナワク・コパンへの自然な流入をつくり、広告だけに依存しない集客導線を育てる。</p></div>
+      <div class="card"><div class="num">3</div><h4>収益</h4><p>将来的にタイアップ、スポンサー、制作受託、イベント等で、メディア自身が売上を生む状態を目指す。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. 立ち上げ時の組織</h2>
+    <p>最初から大きな組織を作らず、<strong>社内は最小人数、制作は外注中心</strong>で始める。</p>
+    <div class="grid3">
+      <div class="card">
+        <div class="role">事業責任者</div><h4>発起人・最終判断</h4>
+        <ul><li>事業の方向性</li><li>企画の優先順位</li><li>ブランド判断</li><li>取材先・業界ネットワーク</li><li>スポンサー等の重要商談</li></ul>
+      </div>
+      <div class="card">
+        <div class="role">社内 0.5名</div><h4>編集運営・進行</h4>
+        <ul><li>ネタ収集</li><li>取材日程調整</li><li>素材整理</li><li>外注発注</li><li>投稿・入稿</li><li>KPI集計</li></ul>
+      </div>
+      <div class="card">
+        <div class="role">外部人材</div><h4>ディレクター＋制作</h4>
+        <ul><li>企画・構成・編集方針</li><li>YouTube編集</li><li>Shorts/Reels</li><li>サムネイル</li><li>記事編集・ライティング</li><li>撮影（必要時）</li></ul>
+      </div>
+    </div>
+    <div class="note"><strong>重要：</strong>「Hanabaccaらしさ」は外部編集長が完成形を持ってくるのではなく、立ち上げメンバーで作り、運用しながら言語化・更新していく。</div>
+  </section>
+
+  <section>
+    <h2>4. 外部ディレクターの役割</h2>
+    <p>動画編集者とディレクターは分けて考える。外部ディレクターは制作作業者ではなく、<strong>メディア全体の頭脳</strong>として機能する。</p>
+    <table>
+      <thead><tr><th>領域</th><th>主な役割</th></tr></thead>
+      <tbody>
+        <tr><td>企画</td><td>月間テーマ、取材先、シリーズ企画、媒体別の展開設計</td></tr>
+        <tr><td>構成</td><td>YouTube構成、記事構成、ショート化するポイントの設計</td></tr>
+        <tr><td>制作指示</td><td>編集者・ライター・デザイナーへの指示、品質チェック</td></tr>
+        <tr><td>ブランド</td><td>Hanabaccaらしさの整理、Style Guideの更新</td></tr>
+        <tr><td>分析</td><td>再生、保存、流入、指名検索、サービス送客を確認し改善</td></tr>
+        <tr><td>事業化</td><td>将来のタイアップ、スポンサー、制作受託の商品設計</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>5. コンテンツの作り方</h2>
+    <p>毎回ゼロから「何を投稿するか」を考えるのではなく、<strong>現場で起きていることを発見し、複数媒体へ展開する</strong>。</p>
+    <div class="flow">
+      <span>現場の出来事</span><span class="arrow">→</span>
+      <span>ネタ収集</span><span class="arrow">→</span>
+      <span>ディレクション</span><span class="arrow">→</span>
+      <span>撮影・取材</span><span class="arrow">→</span>
+      <span>YouTube</span><span class="arrow">＋</span>
+      <span>Shorts / Reels</span><span class="arrow">＋</span>
+      <span>Hanabacca記事</span>
+    </div>
+    <h3>1つの取材を複数媒体へ</h3>
+    <div class="grid">
+      <div class="card"><h4>例：婚礼装花の早朝搬入</h4><ul><li>YouTube：10〜15分の密着</li><li>Shorts：3本</li><li>Instagram：写真・リール</li><li>Hanabacca：背景と現場の深掘り記事</li></ul></div>
+      <div class="card"><h4>例：花市場の朝</h4><ul><li>YouTube：市場密着</li><li>Shorts：「朝4時の花市場」</li><li>Instagram：仕入れた花・現場写真</li><li>Hanabacca：流通や価格の解説</li></ul></div>
+    </div>
+    <p>「1回の撮影から1か月分の素材を作る」方向へ徐々に運用を最適化する。</p>
+  </section>
+
+  <section>
+    <h2>6. Hanabaccaらしさの作り方</h2>
+    <p>立ち上げ時点でブランドガイドを完成させない。初期メンバーが実際に制作しながら、良かったもの・違ったものを蓄積して決めていく。</p>
+    <div class="timeline">
+      <div class="step"><strong>Ver 0.1｜立ち上げ</strong><br><span class="tag">仮説</span>色味、余白、言葉遣い、煽らない、花と人への敬意など最低限の共通認識だけ設定。</div>
+      <div class="step"><strong>Ver 0.3｜3〜6か月</strong><br><span class="tag">学習</span>実際に出した記事・動画の中から「Hanabaccaっぽい」を抽出。</div>
+      <div class="step"><strong>Ver 1.0｜1年</strong><br><span class="tag">定着</span>映像・記事・サムネ・タイトル・音・語り口まで外注へ共有できるStyle Guideにする。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>7. 初年度の現実的な予算</h2>
+    <p>年間100〜300万円の範囲で開始する。推奨は<strong>200万円前後を基準</strong>にし、3〜6か月ごとに継続判断する。</p>
+    <table>
+      <thead><tr><th>項目</th><th>年間目安</th><th>考え方</th></tr></thead>
+      <tbody>
+        <tr><td>外部ディレクション</td><td class="money">60〜100万円</td><td>月5〜8万円程度。月間企画・品質管理・改善・制作指示。</td></tr>
+        <tr><td>動画・記事編集外注</td><td class="money">60〜100万円</td><td>YouTube、Shorts、記事編集等。必要に応じて月契約。</td></tr>
+        <tr><td>機材・ツール</td><td class="money">20〜30万円</td><td>スマホ活用、マイク、照明、ジンバル、AI・編集ツール等。</td></tr>
+        <tr><td>広告・コンテンツ拡散</td><td class="money">20〜40万円</td><td>CV広告ではなく、反応の良いコンテンツを広く届ける目的。</td></tr>
+        <tr><td>取材・予備費</td><td class="money">10〜30万円</td><td>交通費、臨時撮影、企画費等。</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>予算運用：</strong>初年度300万円を先に使い切らない。最初の3か月で小さく検証し、制作体制と反応が良いところへ追加投資する。</div>
+  </section>
+
+  <section>
+    <h2>8. YouTube制作の初期モデル</h2>
+    <p>15分前後の動画編集は、外注編集者に対して<strong>1本2〜3万円前後</strong>を一つの現実的な基準とする。単発発注より、テンプレート化した月契約の方が運営しやすい。</p>
+    <div class="card">
+      <h4>運用例</h4>
+      <p class="money">月12万円前後</p>
+      <ul><li>YouTube：4本</li><li>Shorts / Reels：12本</li><li>サムネイル：4枚</li></ul>
+      <p>ただし成立条件は、撮影素材を整理して渡すこと、編集方針をテンプレート化すること、Shortsは長尺動画から切り出すこと。</p>
+    </div>
+    <p>目指すのはテレビ的な派手さではなく、<strong>アウトドア・建築・インテリア系メディアのような、映像・余白・空気感を大切にしたクオリティ</strong>。</p>
+  </section>
+
+  <section>
+    <h2>9. 最初の12か月ロードマップ</h2>
+    <div class="timeline">
+      <div class="step"><strong>0〜1か月｜事業部化</strong><br>目的・ターゲット・媒体役割・初年度予算・責任者を確定。「広告活動」ではなくメディア事業として社内定義する。</div>
+      <div class="step"><strong>1〜3か月｜小さく制作開始</strong><br>外部ディレクター候補、編集者候補とテスト。YouTube、Shorts、Hanabacca記事を実際に出して反応を見る。</div>
+      <div class="step"><strong>3〜6か月｜型をつくる</strong><br>企画フォーマット、撮影方法、編集テンプレート、タイトル、サムネ、Style Guideを整理。月次運営を安定化。</div>
+      <div class="step"><strong>6〜9か月｜勝ち筋へ集中</strong><br>反応の良いテーマ・動画形式・媒体を特定。低反応コンテンツを減らし、取材・制作を集中させる。</div>
+      <div class="step"><strong>9〜12か月｜事業化テスト</strong><br>媒体資料を作成し、企業タイアップ・スポンサー・制作受託等を小さくテスト。広告宣伝費だけの部署から、売上を作る部署へ移行開始。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>10. KPIの考え方</h2>
+    <p>初年度は売上だけでは評価しない。<strong>認知 → 接触 → 信頼 → 送客 → 売上</strong>の順で追う。</p>
+    <div class="kpi">
+      <div class="box"><b>認知</b>動画再生・リーチ・指名検索</div>
+      <div class="box"><b>接触</b>フォロー・保存・登録・再訪</div>
+      <div class="box"><b>送客</b>花JOB / ハナワク / コパン流入</div>
+      <div class="box"><b>収益</b>タイアップ・スポンサー・制作受託</div>
+    </div>
+    <p>重要なのはフォロワー数単独ではなく、「Hanabaccaを見た人が笑人や各サービスを知り、必要な時に思い出してくれるか」を確認すること。</p>
+  </section>
+
+  <section>
+    <h2>11. 3年間の事業部成長イメージ</h2>
+    <table>
+      <thead><tr><th>年度</th><th>状態</th><th>主なゴール</th></tr></thead>
+      <tbody>
+        <tr><td>1年目</td><td>メディア事業部の立ち上げ</td><td>制作体制確立、ブランドの型、継続発信、送客計測開始</td></tr>
+        <tr><td>2年目</td><td>業界メディアとして認知拡大</td><td>取材依頼、企業連携、シリーズ企画、タイアップ・制作受託を拡大</td></tr>
+        <tr><td>3年目</td><td>独立したメディア事業として成立</td><td>認知・集客と収益を両立。社内の広告部門ではなく、利益を生む事業部へ</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>12. 初期段階でやらないこと</h2>
+    <div class="grid">
+      <div class="card"><h4>規模を追いすぎない</h4><p>大量投稿、毎日投稿、全SNS同時攻略を最初からやらない。</p></div>
+      <div class="card"><h4>高額機材を先に買わない</h4><p>世界観と企画が固まる前にカメラ・スタジオへ大きく投資しない。</p></div>
+      <div class="card"><h4>外注へ丸投げしない</h4><p>「いい感じにしてください」ではブランドが育たない。社内で判断基準を持つ。</p></div>
+      <div class="card"><h4>サービス広告に戻さない</h4><p>求人・登録・問い合わせを毎回求めない。まず「見たい」「知りたい」を優先する。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>13. 最終的に目指す事業部像</h2>
+    <p>Hanabaccaメディア事業部は、<strong>「笑人の広告を作る部署」ではなく、「花業界を面白く伝えることで、結果的に笑人の認知・集客・売上を生み、自らも売上を作る部署」</strong>を目指す。</p>
+    <div class="note">
+      <strong>事業化の到達点</strong><br>
+      ① コンテンツが継続的に作れる<br>
+      ② Hanabaccaらしさが共有できる<br>
+      ③ 各サービスへ自然な送客が発生する<br>
+      ④ 外部企業から取材・制作・タイアップの相談が来る<br>
+      ⑤ メディア単体でも売上が立つ
+    </div>
+    <p>ここまでをHanabaccaメディア事業部の第一段階とし、その先の業界標準化、情報インフラ、AI・DX事業などは次段階として別途設計する。</p>
+  </section>
+
+  <footer>Hanabacca Media Business Plan / 2026-08-07</footer>
+</div>
+</body>
+</html>
