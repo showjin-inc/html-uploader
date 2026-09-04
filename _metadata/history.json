@@ -99,17 +99,6 @@
     "pageUrl": "https://share.showjin.co.jp/copain/fslhvs.html"
   },
   {
-    "id": "2026-08-27T01-26-13",
-    "brand": "sj",
-    "title": "showcaseタスクボード案",
-    "author": "萩原",
-    "fileName": "o5y75s.html",
-    "filePath": "showjin/o5y75s.html",
-    "createdAt": "2026-08-27",
-    "expiresAt": "2026-09-03",
-    "pageUrl": "https://share.showjin.co.jp/showjin/o5y75s.html"
-  },
-  {
     "id": "2026-09-02T01-10-21",
     "brand": "sj",
     "title": "showcase2.0構想_萩原作成",
@@ -152,5 +141,16 @@
     "createdAt": "2026-09-03",
     "expiresAt": "2026-10-03",
     "pageUrl": "https://share.showjin.co.jp/showjin/p876eb.html"
+  },
+  {
+    "id": "2026-09-04T04-09-54",
+    "brand": "cp",
+    "title": "hanabacca概要案資料",
+    "author": "萩原",
+    "fileName": "f3zak7.html",
+    "filePath": "copain/f3zak7.html",
+    "createdAt": "2026-09-04",
+    "expiresAt": "2026-10-04",
+    "pageUrl": "https://share.showjin.co.jp/copain/f3zak7.html"
   }
 ]
