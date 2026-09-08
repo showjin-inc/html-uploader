@@ -44,50 +44,6 @@
     "pageUrl": "https://share.showjin.co.jp/copain/2g68uu.html"
   },
   {
-    "id": "2026-08-06T09-58-21",
-    "brand": "sj",
-    "title": "EMIE用３サービスの概要・比較",
-    "author": "萩原",
-    "fileName": "1h5c9j.html",
-    "filePath": "showjin/1h5c9j.html",
-    "createdAt": "2026-08-06",
-    "expiresAt": "2026-09-05",
-    "pageUrl": "https://share.showjin.co.jp/showjin/1h5c9j.html"
-  },
-  {
-    "id": "2026-08-07T01-16-30",
-    "brand": "sj",
-    "title": "EMIE用３サービスの概要・比較02",
-    "author": "萩原",
-    "fileName": "xacglm.html",
-    "filePath": "showjin/xacglm.html",
-    "createdAt": "2026-08-07",
-    "expiresAt": "2026-09-06",
-    "pageUrl": "https://share.showjin.co.jp/showjin/xacglm.html"
-  },
-  {
-    "id": "2026-08-07T02-42-10",
-    "brand": "sj",
-    "title": "hanabaccaビジネス化PJ",
-    "author": "萩原",
-    "fileName": "mwkiaf.html",
-    "filePath": "showjin/mwkiaf.html",
-    "createdAt": "2026-08-07",
-    "expiresAt": "2026-09-06",
-    "pageUrl": "https://share.showjin.co.jp/showjin/mwkiaf.html"
-  },
-  {
-    "id": "2026-08-07T04-11-42",
-    "brand": "sj",
-    "title": "熊坂さん打ち合わせ資料",
-    "author": "萩原",
-    "fileName": "v49vpc.html",
-    "filePath": "showjin/v49vpc.html",
-    "createdAt": "2026-08-07",
-    "expiresAt": "2026-09-06",
-    "pageUrl": "https://share.showjin.co.jp/showjin/v49vpc.html"
-  },
-  {
     "id": "2026-08-12T07-47-23",
     "brand": "cp",
     "title": "ShowCaseリリースノート2026-08-18",
@@ -174,5 +130,16 @@
     "createdAt": "2026-09-04",
     "expiresAt": "2026-10-04",
     "pageUrl": "https://share.showjin.co.jp/showjin/0cgqoa.html"
+  },
+  {
+    "id": "2026-09-08T05-20-47",
+    "brand": "cp",
+    "title": "showcase 集計・レポート機能要件（提案）",
+    "author": "石井　愛",
+    "fileName": "chfqyk.html",
+    "filePath": "copain/chfqyk.html",
+    "createdAt": "2026-09-08",
+    "expiresAt": null,
+    "pageUrl": "https://share.showjin.co.jp/copain/chfqyk.html"
   }
 ]
