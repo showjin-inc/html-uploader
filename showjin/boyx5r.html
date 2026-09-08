@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ジラフラワー端末 Office 導入手順</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f5f7f4;
+    --surface: #ffffff;
+    --surface-alt: #eef2ed;
+    --ink: #1b241f;
+    --ink-soft: #4d5c53;
+    --muted: #78877d;
+    --line: #d6ded8;
+    --accent: #2f6f5e;
+    --accent-soft: #e2efe9;
+    --warn: #9a5518;
+    --warn-soft: #f6ecdf;
+    --display: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #141a17;
+      --surface: #1c231f;
+      --surface-alt: #232b26;
+      --ink: #eef2ee;
+      --ink-soft: #b8c4bc;
+      --muted: #8b9990;
+      --line: #333d37;
+      --accent: #6cbfa5;
+      --accent-soft: #22332c;
+      --warn: #d9a066;
+      --warn-soft: #33281c;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #141a17;
+    --surface: #1c231f;
+    --surface-alt: #232b26;
+    --ink: #eef2ee;
+    --ink-soft: #b8c4bc;
+    --muted: #8b9990;
+    --line: #333d37;
+    --accent: #6cbfa5;
+    --accent-soft: #22332c;
+    --warn: #d9a066;
+    --warn-soft: #33281c;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.85;
+    margin: 0;
+    padding: 40px 20px 88px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  header { display: flex; flex-direction: column; gap: 14px; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .lede { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .fact { background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+  .fact dt {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .fact dd { margin: 0; font-weight: 500; font-size: 14px; line-height: 1.6; word-break: break-all; }
+  .fact dd.mono { font-family: var(--mono); font-size: 13px; }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  h2 .phase {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+
+  ol.steps > li {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 0 16px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+  ol.steps > li:first-child { border-top: none; padding-top: 6px; }
+
+  .num {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 999px;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .step-body h3 {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.6;
+  }
+  .step-body p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+  .step-body ul { margin: 0; padding-left: 1.2em; color: var(--ink-soft); font-size: 14px; }
+  .step-body ul li { margin-bottom: 3px; }
+  .step-body ul li strong { color: var(--ink); font-weight: 500; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    padding: 1px 5px;
+    word-break: break-all;
+  }
+
+  .url {
+    font-family: var(--mono);
+    font-size: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 10px 13px;
+    word-break: break-all;
+  }
+
+  .specimen {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 18px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .specimen .name {
+    font-family: var(--mono);
+    font-size: clamp(20px, 5.4vw, 30px);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .specimen .name span { border-bottom: 3px solid var(--accent); padding-bottom: 3px; }
+  .specimen .name span.sep { border-bottom-color: transparent; color: var(--muted); }
+  .specimen .name span.p2 { border-bottom-color: var(--warn); }
+  .specimen .name span.p3 { border-bottom-color: var(--muted); }
+
+  .legend { display: flex; flex-direction: column; gap: 8px; margin: 0; }
+  .legend div { display: grid; grid-template-columns: 96px 1fr; gap: 12px; font-size: 13.5px; align-items: baseline; }
+  .legend dt {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .legend dt.k1 { color: var(--accent); }
+  .legend dt.k2 { color: var(--warn); }
+  .legend dt.k3 { color: var(--muted); }
+  .legend dd { margin: 0; color: var(--ink-soft); }
+
+  .note {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    padding: 11px 14px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .note strong { color: var(--ink); font-weight: 500; }
+
+  .caution {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn);
+    padding: 11px 14px;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .caution strong { color: var(--warn); font-weight: 700; }
+
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 460px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--ink-soft);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  td.mono { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+  td.blank { color: var(--muted); font-family: var(--mono); font-size: 13px; }
+
+  dl.faq { margin: 0; display: flex; flex-direction: column; gap: 16px; }
+  dl.faq dt { font-weight: 700; font-size: 14.5px; font-family: var(--display); }
+  dl.faq dd { margin: 4px 0 0; color: var(--ink-soft); font-size: 14px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  @media (max-width: 520px) {
+    h1 { font-size: 25px; }
+    ol.steps > li { grid-template-columns: 34px 1fr; gap: 0 12px; }
+    .num { width: 28px; height: 28px; font-size: 12px; }
+    .legend div { grid-template-columns: 78px 1fr; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <p class="eyebrow">笑人株式会社 / 社内手順書</p>
+    <h1>新しいパソコン 2 台の名前を付けて、Microsoft 365（Office）を入れる手順</h1>
+    <p class="lede">
+      福岡 LAB に導入する 2 台の作業手順です。
+      <strong>「① パソコンの名前を変更 → ② Office をインストール」の順番</strong>で進めてください。
+      名前を先に変えておくと、あとから管理画面でどの拠点のどの端末かがすぐ分かるようになります。
+      作業時間は 1 台あたり 30 分ほど（ダウンロード速度によります）。
+    </p>
+  </header>
+
+  <section>
+    <h2>作業前に確認すること</h2>
+    <dl class="facts">
+      <div class="fact">
+        <dt>使うアカウント</dt>
+        <dd class="mono">giraflower@showjin.onmicrosoft.com</dd>
+      </div>
+      <div class="fact">
+        <dt>パスワード</dt>
+        <dd>萩原から別途お伝えします（このシートには記載していません）</dd>
+      </div>
+      <div class="fact">
+        <dt>今回付ける名前</dt>
+        <dd class="mono">FUKUOKA-2609-01<br>FUKUOKA-2609-02</dd>
+      </div>
+    </dl>
+    <p class="note" style="margin-top:14px;">
+      <strong>先に用意するもの：</strong>対象のパソコン本体、インターネット接続、上記アカウントのパスワード。
+      パソコンには管理者権限（ソフトを入れられる権限）でログインしておいてください。
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="phase">RULE</span>デバイス名の付け方</h2>
+
+    <div class="specimen">
+      <div class="name">
+        <span class="p1">FUKUOKA</span><span class="sep">-</span><span class="p2">2609</span><span class="sep">-</span><span class="p3">01</span>
+      </div>
+      <dl class="legend">
+        <div>
+          <dt class="k1">FUKUOKA</dt>
+          <dd>拠点／LAB 名。半角の英大文字で、<strong>最大 7 文字</strong>。</dd>
+        </div>
+        <div>
+          <dt class="k2">2609</dt>
+          <dd>導入した年月。西暦の下 2 桁＋月 2 桁。2026 年 9 月なら <code>2609</code>。</dd>
+        </div>
+        <div>
+          <dt class="k3">01</dt>
+          <dd>同じ拠点・同じ月に導入した台数の連番。1 台目は <code>01</code>、2 台目は <code>02</code>。</dd>
+        </div>
+      </dl>
+    </div>
+
+    <p class="caution" style="margin-top:14px;">
+      <strong>ここが重要：</strong>Windows のデバイス名は<strong>半角 15 文字まで</strong>です。上の形（7＋1＋4＋1＋2＝15 文字）でちょうど上限なので、
+      これ以上文字を足さないでください。使えるのは半角の英数字とハイフン（-）だけです。スペース・全角文字・アンダースコア（_）は使えません。
+    </p>
+
+    <p class="note" style="margin-top:12px;">
+      <strong>拠点名が 8 文字以上になる場合：</strong>7 文字以内に短縮してください（例：NASUSHIOBARA → <code>NASU</code>、
+      <code>NASU-2609-01</code>）。短縮した名前は萩原に共有し、以降その拠点では同じ短縮名を使います。
+    </p>
+
+    <div class="table-wrap" style="margin-top:14px;">
+      <table>
+        <thead>
+          <tr><th>今回の対象</th><th>付けるデバイス名</th><th>文字数</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>福岡 LAB 1 台目</td><td class="mono">FUKUOKA-2609-01</td><td>15</td></tr>
+          <tr><td>福岡 LAB 2 台目</td><td class="mono">FUKUOKA-2609-02</td><td>15</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="phase">STEP 1</span>パソコンの名前を変更する（Office を入れる前に）</h2>
+    <ol class="steps">
+
+      <li>
+        <span class="num">1</span>
+        <div class="step-body">
+          <h3>今の名前と、付ける名前を確認する</h3>
+          <p>これから作業する 1 台目には <code>FUKUOKA-2609-01</code>、2 台目には <code>FUKUOKA-2609-02</code> を付けます。取り違えないように、先に本体に貼るなどして決めてから進めてください。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">2</span>
+        <div class="step-body">
+          <h3>名前を変更する（Windows の場合）</h3>
+          <ul>
+            <li>画面左下のスタートボタン → <strong>設定</strong> を開く</li>
+            <li>左のメニューから <strong>システム</strong> → 一番下の <strong>バージョン情報</strong> を開く</li>
+            <li>上部の <strong>「このPCの名前を変更」</strong> ボタンを押す</li>
+            <li>新しい名前（例：<code>FUKUOKA-2609-01</code>）を入力して <strong>「次へ」</strong></li>
+            <li><strong>「今すぐ再起動する」</strong> を押す</li>
+          </ul>
+          <p>Windows 10 の場合は「設定 → システム → 詳細情報 →『このPCの名前を変更』」と表示されます。場所は同じです。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">3</span>
+        <div class="step-body">
+          <h3>名前を変更する（Mac の場合）</h3>
+          <ul>
+            <li>アップルメニュー → <strong>システム設定</strong> を開く</li>
+            <li><strong>一般</strong> → <strong>情報</strong> を開き、一番上の <strong>「名前」</strong> をクリックして書き換える</li>
+            <li>さらに <strong>一般 → 共有</strong> を開き、<strong>「ローカルホスト名」</strong> も同じ名前になっているか確認する（違っていれば「編集」で合わせる）</li>
+            <li>変更したら Mac を再起動する</li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">4</span>
+        <div class="step-body">
+          <h3>再起動後、名前が変わったことを確認する</h3>
+          <p>もう一度「バージョン情報」（Mac は「情報」）を開き、デバイス名が新しい名前になっていることを確認してください。<strong>ここが変わっていないまま Office を入れると、管理画面には古い名前で登録されてしまいます。</strong></p>
+          <p class="caution"><strong>確認できたら次へ。</strong>名前が変わっていない場合は、もう一度手順 2（または 3）をやり直してください。</p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="phase">STEP 2</span>Microsoft 365（Office）をインストールする</h2>
+    <ol class="steps">
+
+      <li>
+        <span class="num">5</span>
+        <div class="step-body">
+          <h3>インストールしたいパソコンで、ブラウザを開く</h3>
+          <p>Microsoft Edge か Google Chrome を使ってください。必ず「これから Office を入れたいパソコン」で作業します。別のパソコンで開いても、そのパソコンには入りません。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">6</span>
+        <div class="step-body">
+          <h3>次のアドレスを開く</h3>
+          <div class="url">https://portal.office.com/account</div>
+          <p>アドレス欄に直接入力するか、コピーして貼り付けてください。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">7</span>
+        <div class="step-body">
+          <h3>会社のアカウントでサインインする</h3>
+          <ul>
+            <li>ユーザー名に <code>giraflower@showjin.onmicrosoft.com</code> を入力 →「次へ」</li>
+            <li>パスワードを入力 →「サインイン」</li>
+            <li>「サインインの状態を維持しますか？」と出たら「はい」でかまいません</li>
+          </ul>
+          <p class="caution"><strong>すでに別のアカウントでサインインされていた場合：</strong>アカウントの選択画面が出たら「別のアカウントを使用する」を選び、上記のアカウントを入力してください。個人用の Microsoft アカウント（outlook.jp / hotmail など）ではインストールできません。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">8</span>
+        <div class="step-body">
+          <h3>「マイ アカウント」の画面で「Office のインストール」を押す</h3>
+          <p>画面左上に「マイ アカウント」と表示されます。左上のカード「Office アプリとデバイス」の中にある <strong>「Office のインストール」</strong> ボタンを押すと、インストール用ファイルのダウンロードが始まります。</p>
+          <ul>
+            <li>Windows の場合：<code>OfficeSetup.exe</code></li>
+            <li>Mac の場合：<code>Microsoft_365_Installer.pkg</code></li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">9</span>
+        <div class="step-body">
+          <h3>ダウンロードしたファイルを開いてインストールする</h3>
+          <p>ブラウザの右上（ダウンロード一覧）から、ダウンロードしたファイルをダブルクリックして実行します。「このアプリがデバイスに変更を加えることを許可しますか？」と出たら「はい」を押してください。</p>
+          <p>あとは画面の指示どおりに進むだけです。<strong>完了まで 10〜20 分ほどかかります。</strong>途中でパソコンの電源を切ったり、ネットワークを切らないでください。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">10</span>
+        <div class="step-body">
+          <h3>Word を起動して、同じアカウントでサインインする</h3>
+          <p>インストールが終わったら Word（または Excel）を起動します。サインイン画面が出たら、手順 7 と同じアカウントとパスワードを入力してください。ここでサインインしないとライセンスが認証されず、しばらくすると編集できなくなります。</p>
+          <p>ライセンス条項の同意画面が出たら「同意する」を押して完了です。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">11</span>
+        <div class="step-body">
+          <h3>下の報告シートを埋めて、萩原に送る</h3>
+          <p>管理画面にこの名前で登録されたかを確認します。デバイス名・OS・作業日を記入してください。</p>
+        </div>
+      </li>
+
+      <li>
+        <span class="num">12</span>
+        <div class="step-body">
+          <h3>2 台目でも、手順 1 〜 11 を繰り返す</h3>
+          <p>2 台目の名前は <code>FUKUOKA-2609-02</code> です。名前の変更を先に済ませてから Office を入れる、という順番は 2 台目でも同じです。</p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <section>
+    <h2>完了報告シート</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>台</th>
+            <th>付けたデバイス名</th>
+            <th>OS</th>
+            <th>作業日</th>
+            <th>Word サインイン</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1 台目</td>
+            <td class="mono">FUKUOKA-2609-01</td>
+            <td class="blank">　</td>
+            <td class="blank">　</td>
+            <td class="blank">□</td>
+          </tr>
+          <tr>
+            <td>2 台目</td>
+            <td class="mono">FUKUOKA-2609-02</td>
+            <td class="blank">　</td>
+            <td class="blank">　</td>
+            <td class="blank">□</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:12px;">名前を上記と違うものにした場合は、実際に付けた名前に書き換えて報告してください。</p>
+  </section>
+
+  <section>
+    <h2>やってはいけないこと</h2>
+    <p class="caution">
+      <strong>1.</strong> 名前を変更する前に Office を入れない（古い名前で管理画面に登録され、どの拠点の端末か分からなくなります）。<br>
+      <strong>2.</strong> 個人用の Microsoft アカウントでサインインしない（会社のライセンスが使えません）。<br>
+      <strong>3.</strong> 共用パソコンや退職予定者のパソコンには入れない（台数を消費します）。<br>
+      <strong>4.</strong> アカウントとパスワードを他の人に転送しない。必要な人がいれば萩原に連絡してください。
+    </p>
+  </section>
+
+  <section>
+    <h2>うまくいかないとき</h2>
+    <dl class="faq">
+      <dt>デバイス名を入力したら「名前が長すぎます」「使用できない文字です」と出る</dt>
+      <dd>半角 15 文字を超えているか、全角文字・スペース・アンダースコアが混ざっています。半角英数字とハイフンだけで、15 文字以内に収めてください。</dd>
+
+      <dt>すでに Office を入れてしまってから名前を変更した</dt>
+      <dd>Office 自体は問題なく使えますが、管理画面には古い名前が残ります。新旧どちらの名前も萩原に伝えてください。管理側で古い登録を解除して整理します。</dd>
+
+      <dt>「Office のインストール」ボタンが見つからない</dt>
+      <dd>画面左のメニューから「アプリとデバイス」を開くと、同じインストールボタンがあります。それでも出ない場合は、サインインしているアカウントが会社のアカウントかどうかを画面右上のアイコンで確認してください。</dd>
+
+      <dt>「ライセンスがありません」「サブスクリプションが見つかりません」と表示される</dt>
+      <dd>別のアカウントでサインインしている可能性が高いです。Word の「ファイル → アカウント」から一度サインアウトし、会社のアカウントで入り直してください。</dd>
+
+      <dt>「インストールできる台数の上限に達しました」と表示される</dt>
+      <dd>萩原に連絡してください。管理センター側で使っていない古いパソコンの登録を解除すれば、続けられます。</dd>
+
+      <dt>すでに古い Office が入っているパソコンの場合</dt>
+      <dd>そのままインストールを進めても問題ありませんが、動作がおかしいときは古い Office をアンインストールしてから入れ直してください。判断に迷ったら作業を止めて萩原に連絡を。</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <div>作成：萩原（笑人株式会社）／2026年9月8日</div>
+    <div>不明点があれば、作業を止めて先に確認してください。</div>
+  </footer>
+
+</div>
+</body>
+</html>
