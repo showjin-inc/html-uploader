@@ -154,17 +154,6 @@
     "pageUrl": "https://share.showjin.co.jp/showjin/boyx5r.html"
   },
   {
-    "id": "2026-09-10T03-29-41",
-    "brand": "cp",
-    "title": "タスクボード改善案",
-    "author": "高原浩生",
-    "fileName": "ugpqsb.html",
-    "filePath": "copain/ugpqsb.html",
-    "createdAt": "2026-09-10",
-    "expiresAt": "2026-09-17",
-    "pageUrl": "https://share.showjin.co.jp/copain/ugpqsb.html"
-  },
-  {
     "id": "2026-09-14T10-07-34",
     "brand": "sj",
     "title": "アピス様_タスク管理運用マニュアル",
@@ -174,5 +163,16 @@
     "createdAt": "2026-09-14",
     "expiresAt": null,
     "pageUrl": "https://share.showjin.co.jp/showjin/tpsucp.html"
+  },
+  {
+    "id": "2026-09-18T00-58-10",
+    "brand": "sj",
+    "title": "ナレッジチャット001",
+    "author": "萩原",
+    "fileName": "c0ccrj.html",
+    "filePath": "showjin/c0ccrj.html",
+    "createdAt": "2026-09-18",
+    "expiresAt": "2026-10-18",
+    "pageUrl": "https://share.showjin.co.jp/showjin/c0ccrj.html"
   }
 ]
