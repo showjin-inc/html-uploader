@@ -174,5 +174,16 @@
     "createdAt": "2026-09-18",
     "expiresAt": "2026-10-18",
     "pageUrl": "https://share.showjin.co.jp/showjin/c0ccrj.html"
+  },
+  {
+    "id": "2026-09-18T03-07-11",
+    "brand": "sj",
+    "title": "showrapマニュアル",
+    "author": "萩原",
+    "fileName": "01ikpm.html",
+    "filePath": "showjin/01ikpm.html",
+    "createdAt": "2026-09-18",
+    "expiresAt": "2026-10-18",
+    "pageUrl": "https://share.showjin.co.jp/showjin/01ikpm.html"
   }
 ]
