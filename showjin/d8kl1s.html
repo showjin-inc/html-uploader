@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Knowledge Chat 技術概要</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      body {
+        margin: 0;
+        font: 14px system-ui, sans-serif;
+        background: #fafaf9;
+      }
+      img {
+        max-width: 100%;
+      }
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+
+    <style>
+      :root {
+        --paper: #faf9f7;
+        --surface: #ffffff;
+        --surface-sunk: #f2f1ee;
+        --ink: #16202b;
+        --muted: #5b6a78;
+        --faint: #8c9aa6;
+        --rule: #dfe2e0;
+        --rule-strong: #c3c9c6;
+        --accent: #1f6f6b;
+        --accent-soft: #e3efed;
+        --warn: #8a6520;
+        --warn-soft: #f6efe1;
+        --deny: #a03a2e;
+        --deny-soft: #f8e9e6;
+
+        --display: 'Zen Old Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+        --body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+        --mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --paper: #101720;
+          --surface: #18212c;
+          --surface-sunk: #141c25;
+          --ink: #e5eaee;
+          --muted: #9fb0bd;
+          --faint: #6f8090;
+          --rule: #263240;
+          --rule-strong: #354555;
+          --accent: #63b8b0;
+          --accent-soft: #16302e;
+          --warn: #d0a45c;
+          --warn-soft: #2b2416;
+          --deny: #e08a7c;
+          --deny-soft: #2e1c19;
+        }
+      }
+
+      :root[data-theme='dark'] {
+        --paper: #101720;
+        --surface: #18212c;
+        --surface-sunk: #141c25;
+        --ink: #e5eaee;
+        --muted: #9fb0bd;
+        --faint: #6f8090;
+        --rule: #263240;
+        --rule-strong: #354555;
+        --accent: #63b8b0;
+        --accent-soft: #16302e;
+        --warn: #d0a45c;
+        --warn-soft: #2b2416;
+        --deny: #e08a7c;
+        --deny-soft: #2e1c19;
+      }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 15px;
+        line-height: 1.85;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .wrap {
+        max-width: 830px;
+        margin: 0 auto;
+        padding-inline: 20px;
+        padding-block: 56px 96px;
+      }
+
+      /* ---------------------------------------------------------- masthead */
+
+      .masthead {
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 22px;
+        margin-bottom: 14px;
+      }
+
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 0 0 14px;
+      }
+
+      h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(30px, 6.2vw, 46px);
+        line-height: 1.25;
+        letter-spacing: 0.01em;
+        margin: 0 0 12px;
+        text-wrap: balance;
+      }
+
+      .standfirst {
+        font-size: 16px;
+        color: var(--muted);
+        margin: 0;
+        max-width: 62ch;
+      }
+
+      .masthead-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 22px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--faint);
+        margin-bottom: 52px;
+      }
+
+      /* ----------------------------------------------------------- headings */
+
+      h2 {
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        margin: 64px 0 6px;
+        padding-top: 22px;
+        border-top: 1px solid var(--rule-strong);
+        text-wrap: balance;
+      }
+
+      h2 .kicker {
+        display: block;
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin-bottom: 7px;
+      }
+
+      h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 34px 0 8px;
+        text-wrap: balance;
+      }
+
+      p {
+        margin: 0 0 16px;
+        max-width: 68ch;
+      }
+
+      .lede {
+        font-size: 16.5px;
+        color: var(--muted);
+        margin-bottom: 26px;
+      }
+
+      strong {
+        font-weight: 700;
+      }
+
+      code {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: var(--surface-sunk);
+        border: 1px solid var(--rule);
+        border-radius: 3px;
+        padding: 1px 5px;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      /* -------------------------------------------------------------- thesis */
+
+      .thesis {
+        background: var(--surface);
+        border: 1px solid var(--rule-strong);
+        border-left: 3px solid var(--accent);
+        padding: 24px 26px 8px;
+        margin: 28px 0;
+      }
+
+      .thesis h3 {
+        margin-top: 0;
+      }
+
+      .thesis p:last-child {
+        margin-bottom: 16px;
+      }
+
+      /* --------------------------------------------------------------- lists */
+
+      ul.plain {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+      }
+
+      ul.plain > li {
+        position: relative;
+        padding-left: 20px;
+        max-width: 68ch;
+      }
+
+      ul.plain > li::before {
+        content: '';
+        position: absolute;
+        left: 2px;
+        top: 0.72em;
+        width: 7px;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      /* ------------------------------------------------------------- tables */
+
+      .scroller {
+        overflow-x: auto;
+        margin: 0 0 22px;
+        border: 1px solid var(--rule);
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 480px;
+        font-size: 13.5px;
+        line-height: 1.6;
+        background: var(--surface);
+      }
+
+      th,
+      td {
+        text-align: left;
+        vertical-align: top;
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--rule);
+      }
+
+      thead th {
+        background: var(--surface-sunk);
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      td.svc {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        white-space: nowrap;
+        color: var(--ink);
+      }
+
+      td.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      /* -------------------------------------------------------------- badges */
+
+      .tag {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.05em;
+        padding: 2px 7px;
+        border-radius: 2px;
+        white-space: nowrap;
+        border: 1px solid transparent;
+      }
+
+      .tag-ok {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .tag-wip {
+        background: var(--warn-soft);
+        color: var(--warn);
+        border-color: var(--warn);
+      }
+
+      .tag-no {
+        background: var(--deny-soft);
+        color: var(--deny);
+        border-color: var(--deny);
+      }
+
+      /* ------------------------------------------------------------ pipeline */
+
+      ol.pipeline {
+        list-style: none;
+        counter-reset: step;
+        padding: 0;
+        margin: 22px 0 24px;
+        display: grid;
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+      }
+
+      ol.pipeline > li {
+        counter-increment: step;
+        background: var(--surface);
+        display: grid;
+        grid-template-columns: 46px 1fr;
+        gap: 0 14px;
+        padding: 13px 16px;
+      }
+
+      ol.pipeline > li::before {
+        content: counter(step, decimal-leading-zero);
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        padding-top: 2px;
+      }
+
+      ol.pipeline .step-name {
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      ol.pipeline .step-why {
+        font-size: 13.5px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      /* --------------------------------------------------------------- misc */
+
+      /* ------------------------------------------------------------- diagram */
+      /* Hand-built rather than a diagram library: the page then needs no runtime
+         at all, which is what lets the same file be downloaded and opened offline. */
+
+      .diagram {
+        margin: 24px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .tier {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 0 16px;
+        align-items: start;
+        padding: 16px 0;
+        border-top: 1px solid var(--rule);
+      }
+
+      .tier:last-of-type {
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .tier-label {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--faint);
+        padding-top: 12px;
+      }
+
+      .boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .box {
+        flex: 1 1 150px;
+        min-width: 0;
+        background: var(--surface);
+        border: 1px solid var(--rule-strong);
+        border-radius: 3px;
+        padding: 11px 13px;
+      }
+
+      .box.store {
+        border-style: dashed;
+        background: var(--surface-sunk);
+      }
+
+      .box-name {
+        font-weight: 700;
+        font-size: 13.5px;
+        line-height: 1.5;
+      }
+
+      .box-sub {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-top: 2px;
+      }
+
+      /* One grid for the whole list, not one per row, so the mono column lines up. */
+      .flows {
+        list-style: none;
+        padding: 0;
+        margin: 18px 0 0;
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 9px 16px;
+        font-size: 13px;
+      }
+
+      .flows li {
+        display: contents;
+      }
+
+      .flow-path {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      .flow-why {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      @media (max-width: 560px) {
+        .tier {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .tier-label {
+          padding-top: 0;
+        }
+        .flows {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+        .flows li:not(:first-child) .flow-path {
+          margin-top: 10px;
+        }
+      }
+
+      .note {
+        font-size: 13px;
+        color: var(--faint);
+        border-left: 2px solid var(--rule-strong);
+        padding-left: 14px;
+        margin: 0 0 20px;
+        max-width: 64ch;
+      }
+
+      footer {
+        margin-top: 72px;
+        padding-top: 20px;
+        border-top: 1px solid var(--rule-strong);
+        font-size: 12.5px;
+        color: var(--faint);
+      }
+
+      footer p {
+        max-width: none;
+      }
+
+      @media (max-width: 560px) {
+        .wrap {
+          padding-block: 36px 64px;
+        }
+        ol.pipeline > li {
+          grid-template-columns: 34px 1fr;
+          gap: 0 10px;
+        }
+      }
+    </style>
+
+    <div class="wrap">
+      <header class="masthead">
+        <p class="eyebrow">社内技術共有 / Knowledge Chat</p>
+        <h1>権限境界からつくるチャット</h1>
+        <p class="standfirst">
+          社外ゲストを含む B2B チャット + ナレッジ基盤です。技術選定のほとんどは「誰に何を見せないか」から逆算されています。
+          この文書は、その逆算の道筋をエンジニア向けに説明します。
+        </p>
+      </header>
+
+      <div class="masthead-meta">
+        <span>2026-09-24</span>
+        <span>Sprint 2 進行中</span>
+        <span>TypeScript / Node 24 / AWS ap-northeast-1</span>
+      </div>
+
+      <h2><span class="kicker">What it is</span>これは何か</h2>
+
+      <p class="lede">
+        社内メンバーと社外ゲストが同じ画面で会話し、その会話からナレッジを育てる製品です。Slack や Teams
+        との違いは、<strong>ゲストに過去を見せない</strong>という要件を機能ではなく設計の中心に置いている点です。
+      </p>
+
+      <ul class="plain">
+        <li>
+          <strong>Room</strong> — 通常 Room / Secret Room / ゲスト Room / ゲスト DM
+          の4種。それぞれ参加者の範囲と履歴の見え方が違います。
+        </li>
+        <li>
+          <strong>ゲスト</strong> — 他社の人を特定の Room にだけ招く。<code>from_join</code> なら参加した瞬間より前の発言は
+          <em>存在ごと</em>見えません。
+        </li>
+        <li><strong>ナレッジ化</strong> — 会話から候補を抽出し、承認を経て正式ナレッジにする（M7 以降）。</li>
+        <li>
+          <strong>AI</strong> — 会話の文脈を使った回答。ただし AI
+          が読める範囲は、それを起動した人が読める範囲と完全に一致します。
+        </li>
+      </ul>
+
+      <h2><span class="kicker">The constraint</span>いちばん重要な制約</h2>
+
+      <p>
+        設計書で凍結されている要件のうち、実装コストを最も左右しているのは次の3つです。ここを理解すると、後続の技術選定がすべて説明できます。
+      </p>
+
+      <div class="thesis">
+        <h3>1. 403 ではなく 404 を返す</h3>
+        <p>
+          権限のないリソースは「アクセス拒否」ではなく「存在しない」と答えます。403 は
+          <strong>そこに何かがあることを教えてしまう</strong>ためです。Secret Room の ID を総当たりされても、存在する Room
+          と 存在しない Room の応答が<strong>1バイトも違わない</strong>ことをテストで保証しています。
+        </p>
+
+        <h3>2. Full Admin は管理者であって閲覧者ではない</h3>
+        <p>
+          会社の最高管理者であっても、自分が参加していない Room の中身は読めません。一覧にも出ません。
+          「管理権限があれば全部見える」という一般的な前提を、この製品は採用していません。
+        </p>
+
+        <h3>3. 履歴境界は <code>visibility_from_seq</code> ひとつ</h3>
+        <p>
+          「この人はこの Room
+          の何番目の発言から見てよいか」を1つの数値で表し、<strong>HTTP・検索・AI・リアルタイム配信のすべてが同じ数値を参照します</strong>。境界の実装が4つあれば、いつか3つが正しくて1つが間違います。
+        </p>
+      </div>
+
+      <p>
+        3つ目が特に効いています。たとえばリアルタイム配信で「メッセージが編集された」という通知を送るとき、本文を含まない
+        メタデータだけの通知であっても、参加前の発言についてはゲストに届けてはいけません。<strong>「そこに何かがある」と伝わってしまう</strong>からです。
+      </p>
+
+      <h2><span class="kicker">Architecture</span>構成</h2>
+
+      <div class="diagram">
+        <div class="tier">
+          <div class="tier-label">Client</div>
+          <div class="boxes">
+            <div class="box">
+              <div class="box-name">ブラウザ</div>
+              <div class="box-sub">React + Vite + TanStack Query</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier">
+          <div class="tier-label">Edge</div>
+          <div class="boxes">
+            <div class="box">
+              <div class="box-name">ALB</div>
+              <div class="box-sub">HTTPS</div>
+            </div>
+            <div class="box">
+              <div class="box-name">API Gateway</div>
+              <div class="box-sub">WebSocket（検証待ち）</div>
+            </div>
+            <div class="box">
+              <div class="box-name">Cognito</div>
+              <div class="box-sub">ログイン / JWT</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier">
+          <div class="tier-label">Compute</div>
+          <div class="boxes">
+            <div class="box">
+              <div class="box-name">API</div>
+              <div class="box-sub">Express 5 / Fargate</div>
+            </div>
+            <div class="box">
+              <div class="box-name">Worker</div>
+              <div class="box-sub">Outbox 配信 / 保持期間 / Fargate</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier">
+          <div class="tier-label">State</div>
+          <div class="boxes">
+            <div class="box store">
+              <div class="box-name">Aurora PostgreSQL</div>
+              <div class="box-sub">唯一の正。権限判定もここ</div>
+            </div>
+            <div class="box store">
+              <div class="box-name">ElastiCache / Redis</div>
+              <div class="box-sub">接続台帳・チケット。正ではない</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="flows">
+        <li>
+          <span class="flow-path">ブラウザ → API</span>
+          <span class="flow-why">HTTPS。OpenAPI で型もバリデーションも固定</span>
+        </li>
+        <li>
+          <span class="flow-path">ブラウザ → API → Redis</span>
+          <span class="flow-why">WebSocket 接続用チケットの発行。60秒・1回きり</span>
+        </li>
+        <li>
+          <span class="flow-path">API → Aurora</span>
+          <span class="flow-why">業務データと Outbox イベントを<strong>同一トランザクション</strong>で書く</span>
+        </li>
+        <li>
+          <span class="flow-path">Worker → Aurora <span aria-hidden="true">①</span></span>
+          <span class="flow-why">Outbox から「何が起きたか」を読む</span>
+        </li>
+        <li>
+          <span class="flow-path">Worker → Aurora <span aria-hidden="true">②</span></span>
+          <span class="flow-why"><strong>配信の直前に「いま誰に見せてよいか」を問い直す</strong></span>
+        </li>
+        <li>
+          <span class="flow-path">Worker → Redis → API Gateway</span>
+          <span class="flow-why">許可された接続にだけフレームを渡す</span>
+        </li>
+      </ul>
+
+      <p class="note">
+        要点は Worker から Aurora への線が2本あることです。1本目は「何が起きたか」を読む線、2本目は「いま誰に見せて
+        よいか」を配信の直前に問い直す線です。Redis
+        は誰が接続中かを知っていますが、<strong>誰に見せてよいかは知りません</strong>。後者を省くとこの製品は成立しません。
+      </p>
+
+      <h2><span class="kicker">Why these tools</span>なぜこの構成なのか</h2>
+
+      <p class="lede">一般的な選択肢ではなく、こちらを選んだ理由を書きます。太字が「この製品固有の理由」です。</p>
+
+      <h3>契約とバリデーション</h3>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr>
+              <th>採用</th>
+              <th>なぜ必要か</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="svc">OpenAPI 3.1<br />（凍結・SHA-256 検証）</td>
+              <td>
+                API 仕様を SHA-256 で固定し、CI
+                が毎回ハッシュを照合します。<strong>仕様の書き換えは実装上の問題の解決策にならない</strong>という運用ルールを、レビューではなく機械で担保するためです。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">express-openapi-validator<br />（リクエスト＋レスポンス両方向）</td>
+              <td>
+                リクエストだけでなく<strong>レスポンスも実行時に検証します</strong>。契約外のフィールドをサーバーが
+                返してしまう事故＝そのまま情報漏洩だからです。実測コストは p95 で +0.070ms でした。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">openapi-typescript<br />+ openapi-fetch</td>
+              <td>
+                フロントの型を仕様から生成。生成物のドリフトを CI が検出するので、<strong
+                  >画面側が手書きの URL やレスポンス型を持てません</strong
+                >。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>データ</h3>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr>
+              <th>採用</th>
+              <th>なぜ必要か</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="svc">Aurora PostgreSQL</td>
+              <td>
+                トランザクション・行ロック・部分ユニークインデックスが要件に直結します。特に seq 採番 （Room
+                内の連番）は行ロックとユニーク制約の組み合わせで、<strong>欠番も重複も起こさない</strong>ことを保証しています。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">Kysely + pg<br />（ORM を使わない）</td>
+              <td>
+                型は付けたいが SQL は隠したくない。<strong>権限判定のクエリは読めることが重要</strong>で、ORM が生成する SQL
+                を推測しながらレビューしたくないためです。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">SQL 直書きマイグレーション</td>
+              <td>
+                CHECK 制約・部分ユニークインデックス・トリガを「DB 側の契約」として明示するため。マイグレーションツールの
+                抽象化に載せると、これらが表現できないか、表現できても読めなくなります。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">Transactional Outbox</td>
+              <td>
+                イベント行を<strong>業務データと同じトランザクションで書きます</strong>。別々に書くと「保存されたが配信されない」
+                「配信されたが保存されていない」が発生します。配信は at-least-once なので、ハンドラは冪等に書きます。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>認証・リアルタイム</h3>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr>
+              <th>採用</th>
+              <th>なぜ必要か</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="svc">Cognito<br />+ aws-jwt-verify</td>
+              <td>
+                パスワード管理・リセット・MFA を自前で持たないため。ただし<strong
+                  >JWT の署名が正しいことは「今この人が操作してよい」を意味しません</strong
+                >。アカウント状態・所属状態・セッション・端末をリクエストごとに DB で再評価しています。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">接続チケット<br /><code>POST /realtime/tickets</code></td>
+              <td>
+                ブラウザは WebSocket に Authorization ヘッダを付けられません。URL に JWT を載せる実装が世の中にありますが、
+                <strong>URL はログ・プロキシ・履歴・Referer に残ります</strong>。代わりに32バイトの不透明な乱数を発行し、
+                サーバーは SHA-256 だけを保持、TTL 60秒・1回使ったら消滅、とします。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">Redis（ElastiCache）</td>
+              <td>
+                「誰がどの Room に接続中か」の一時台帳。<strong>Redis は権限の根拠ではありません</strong>。
+                全損しても「配信されなくなる」だけで、「見えてはいけないものが配信される」は起きない設計です。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">API Gateway WebSocket<br /><span class="tag tag-wip">検証待ち</span></td>
+              <td>
+                初期候補。1通を N 人に配ると N 通分の課金になるため、宛先数が増えると専用ゲートウェイが安くなります。
+                分岐点は月4,760万配信と試算済みで、これを AWS 上で実測してから確定します。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>実行環境</h3>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr>
+              <th>採用</th>
+              <th>なぜ必要か</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="svc">ECS Fargate</td>
+              <td>API と Worker を同じ TypeScript スタックで動かします。EC2 の OS 管理を持たないため。</td>
+            </tr>
+            <tr>
+              <td class="svc">Worker を分離</td>
+              <td>
+                Outbox 配信・保持期間の失効処理・通知をリクエストの外に出すため。<strong
+                  >配信のファンアウトを POST /messages のレイテンシに入れない</strong
+                >のが目的です。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">OpenSearch <span class="tag tag-wip">M4 から</span></td>
+              <td>
+                日本語全文検索。kuromoji と n-gram の品質比較を M4
+                前に行う予定。<strong>検索結果にも同じ権限境界を適用する</strong>必要があるため、インデックスの設計が権限設計に従属します。
+              </td>
+            </tr>
+            <tr>
+              <td class="svc">S3 + GuardDuty <span class="tag tag-wip">M5 から</span></td>
+              <td>添付ファイル。スキャン完了までは <code>pending</code> 状態で、他の参加者にも見せません。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2><span class="kicker">Request path</span>リクエストが通る道</h2>
+
+      <p>すべての API リクエストがこの順で処理されます。<strong>順番自体が仕様で固定されています</strong>。</p>
+
+      <ol class="pipeline">
+        <li>
+          <span class="step-name">Request ID 付与</span>
+          <span class="step-why">HTTP → Outbox → Worker → リアルタイムまで1つの ID で追跡する</span>
+        </li>
+        <li>
+          <span class="step-name">認証（JWT 検証）</span>
+          <span class="step-why">署名・発行元・有効期限。アクセストークン以外は受け付けない</span>
+        </li>
+        <li>
+          <span class="step-name">実効状態の再評価</span>
+          <span class="step-why"
+            >アカウント凍結・所属停止・セッション失効・端末失効を DB で確認。<strong
+              >トークンが有効でもここで止まる</strong
+            ></span
+          >
+        </li>
+        <li>
+          <span class="step-name">権限判定</span>
+          <span class="step-why"
+            >リソースごとに Permission Service へ問い合わせ。<strong>この前に本文を読まない</strong>のが規約</span
+          >
+        </li>
+        <li>
+          <span class="step-name">リクエスト検証</span>
+          <span class="step-why">OpenAPI に対する実行時検証。未知のフィールドは 422 で拒否</span>
+        </li>
+        <li>
+          <span class="step-name">ドメイン処理</span>
+          <span class="step-why">トランザクション内で業務データを書く</span>
+        </li>
+        <li>
+          <span class="step-name">Outbox 書き込み</span>
+          <span class="step-why">同一トランザクション。ロールバックすればイベントも消える</span>
+        </li>
+        <li>
+          <span class="step-name">監査ログ</span>
+          <span class="step-why"
+            >メタデータのみ。本文・引用・ファイル内容・AI 回答は<strong>書き込み前に機械的に拒否</strong>される</span
+          >
+        </li>
+        <li>
+          <span class="step-name">レスポンス検証 → エラー変換</span>
+          <span class="step-why">契約外の応答は 500 に変換し、問題のある本文は送信しない</span>
+        </li>
+      </ol>
+
+      <p>
+        認証がバリデーションより<strong>前</strong>にあるのは意図的です。バリデータ自身の認証機能は
+        <code>Bearer nonsense</code> を通してしまうことが事前検証で分かっており、認証として使えないためです。
+      </p>
+
+      <h2><span class="kicker">Status</span>いまどこまで</h2>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr>
+              <th>領域</th>
+              <th>状態</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>会話一覧 / 詳細 / メンバー</td>
+              <td><span class="tag tag-ok">動作</span></td>
+              <td>Full Admin から Secret Room が消えることをテストで固定</td>
+            </tr>
+            <tr>
+              <td>メッセージ送信 / タイムライン</td>
+              <td><span class="tag tag-ok">動作</span></td>
+              <td>seq 採番・再送の冪等性・引用の検証つき</td>
+            </tr>
+            <tr>
+              <td>編集 / 削除 / 既読</td>
+              <td><span class="tag tag-ok">動作</span></td>
+              <td>編集は30分以内・旧本文は保持しない。削除は墓標が残る</td>
+            </tr>
+            <tr>
+              <td>リアルタイム配信（ローカル）</td>
+              <td><span class="tag tag-ok">動作</span></td>
+              <td>チケット発行 → WebSocket → 配信まで一気通貫</td>
+            </tr>
+            <tr>
+              <td>リアルタイム配信（AWS）</td>
+              <td><span class="tag tag-wip">検証待ち</span></td>
+              <td>ElastiCache を数日作って実測する。約216円</td>
+            </tr>
+            <tr>
+              <td>検索 / ファイル / AI / ナレッジ</td>
+              <td><span class="tag tag-no">未着手</span></td>
+              <td>M4 以降</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr>
+              <th>数字</th>
+              <th class="num">値</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>自動テスト</td>
+              <td class="num">287</td>
+              <td>単体 / 統合 / セキュリティ / E2E。CI で PostgreSQL と Redis を実物で起動</td>
+            </tr>
+            <tr>
+              <td>API エンドポイント実装済み</td>
+              <td class="num">12</td>
+              <td>契約上の総数はこれより多い。未実装パスも契約どおりの 404 を返す</td>
+            </tr>
+            <tr>
+              <td>マイグレーション</td>
+              <td class="num">8</td>
+              <td>ロールバックと再適用も CI で毎回検証</td>
+            </tr>
+            <tr>
+              <td>設計判断の記録</td>
+              <td class="num">15</td>
+              <td>迷った箇所は理由つきで <code>docs/decisions/</code> に残す</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>テストの方針</h3>
+
+      <p>
+        セキュリティ要件は「実装した」ではなく「壊すとテストが落ちる」状態にしています。たとえば履歴境界の判定を
+        1行消すと、HTTP のテストとリアルタイム配信のテストの<strong>両方が落ちます</strong>。実装したあと
+        実際に消して確認しています。
+      </p>
+
+      <h2><span class="kicker">Cost</span>費用</h2>
+
+      <p>
+        すべて既存 AWS 利用料（月6〜8万円）への<strong>追加分</strong>、消費税込みです。専用アカウントを分けているので
+        既存リソースとの共有はありません。
+      </p>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr>
+              <th>環境</th>
+              <th class="num">月額</th>
+              <th>内容</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>現在</td>
+              <td class="num">0 円</td>
+              <td>ローカル Docker + GitHub Actions。Cognito は無料枠内（実績値）</td>
+            </tr>
+            <tr>
+              <td>AWS リアルタイム検証</td>
+              <td class="num">216 円</td>
+              <td>3日分。作って消す</td>
+            </tr>
+            <tr>
+              <td>テスト環境を常設する場合</td>
+              <td class="num">21,900 円</td>
+              <td>半分が NAT Gateway と ALB。<strong>現時点では作らない判断</strong></td>
+            </tr>
+            <tr>
+              <td>本番 / 100席（検索なし）</td>
+              <td class="num">42,700 円</td>
+              <td>M4 前の最初のリリース形</td>
+            </tr>
+            <tr>
+              <td>本番 / 1,000席</td>
+              <td class="num">218,300 円</td>
+              <td>1席あたり 218 円</td>
+            </tr>
+            <tr>
+              <td>本番 / 10,000席</td>
+              <td class="num">1,033,800 円</td>
+              <td>1席あたり 103 円</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note">
+        100席の「1席562円」は製品の効率ではなく、固定費を100で割った数字です。S 規模では費用の8割が
+        「利用がゼロでも発生する分」なので、値付けの根拠には使えません。AI（LLM）の利用料はプロバイダ未決のため
+        含めていません。
+      </p>
+
+      <h2><span class="kicker">For reviewers</span>コードを見る人へ</h2>
+
+      <p>レビューで見てほしい不変条件です。ここが崩れていたら指摘してください。</p>
+
+      <ul class="plain">
+        <li><strong>404, not 403.</strong> 権限のないリソースは <code>RESOURCE_NOT_FOUND</code>。理由はログにだけ書く</li>
+        <li>
+          <strong>権限主体は DB 由来。</strong> <code>PermissionSubject</code> は private symbol
+          を持つので、リクエスト入力から組み立てられない
+        </li>
+        <li><strong>権限判定が本文取得より前。</strong> ハンドラの最初の仕事が認可</li>
+        <li><strong>境界はどこでも同じ。</strong> HTTP / 検索 / AI / リアルタイム、メタデータのみの通知も含む</li>
+        <li><strong>Outbox は同一トランザクション。</strong> ハンドラは冪等</li>
+        <li><strong>監査はメタデータのみ。</strong> 本文を含むキーは挿入前に例外</li>
+        <li><strong>ログに秘密と本文を入れない。</strong> シリアライズ時に落とす仕組みはあるが、頼らない</li>
+        <li><strong>配信先は配信時に再判定。</strong> Redis の集合は候補であって権限ではない</li>
+      </ul>
+
+      <footer>
+        <p>
+          リポジトリ: <code>hiroshi-hagiwara/knowledge-chat</code>（非公開）/ 詳細は <code>docs/</code> 以下。 設計判断は
+          <code>docs/decisions/</code>、費用の内訳は <code>docs/cost/AWS_COST_JA.md</code>。
+        </p>
+        <p>質問はコードの該当行を指して聞いてもらえると早いです。</p>
+      </footer>
+    </div>
+
+  </body>
+</html>
