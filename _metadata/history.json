@@ -44,83 +44,6 @@
     "pageUrl": "https://share.showjin.co.jp/copain/2g68uu.html"
   },
   {
-    "id": "2026-09-02T01-10-21",
-    "brand": "sj",
-    "title": "showcase2.0構想_萩原作成",
-    "author": "萩原",
-    "fileName": "3qsa6s.html",
-    "filePath": "showjin/3qsa6s.html",
-    "createdAt": "2026-09-02",
-    "expiresAt": "2026-10-02",
-    "pageUrl": "https://share.showjin.co.jp/showjin/3qsa6s.html"
-  },
-  {
-    "id": "2026-09-02T08-45-22",
-    "brand": "cp",
-    "title": "コパンナレッジ構築システム",
-    "author": "萩原",
-    "fileName": "sa8iss.html",
-    "filePath": "copain/sa8iss.html",
-    "createdAt": "2026-09-02",
-    "expiresAt": "2026-10-02",
-    "pageUrl": "https://share.showjin.co.jp/copain/sa8iss.html"
-  },
-  {
-    "id": "2026-09-03T01-46-04",
-    "brand": "cp",
-    "title": "コパンのメール一覧",
-    "author": "高原浩生",
-    "fileName": "331q65.html",
-    "filePath": "copain/331q65.html",
-    "createdAt": "2026-09-03",
-    "expiresAt": "2026-10-03",
-    "pageUrl": "https://share.showjin.co.jp/copain/331q65.html"
-  },
-  {
-    "id": "2026-09-03T07-08-17",
-    "brand": "sj",
-    "title": "2026年10月からの最低賃金（ジラフ用）",
-    "author": "石井　愛",
-    "fileName": "p876eb.html",
-    "filePath": "showjin/p876eb.html",
-    "createdAt": "2026-09-03",
-    "expiresAt": "2026-10-03",
-    "pageUrl": "https://share.showjin.co.jp/showjin/p876eb.html"
-  },
-  {
-    "id": "2026-09-04T04-09-54",
-    "brand": "cp",
-    "title": "hanabacca概要案資料",
-    "author": "萩原",
-    "fileName": "f3zak7.html",
-    "filePath": "copain/f3zak7.html",
-    "createdAt": "2026-09-04",
-    "expiresAt": "2026-10-04",
-    "pageUrl": "https://share.showjin.co.jp/copain/f3zak7.html"
-  },
-  {
-    "id": "2026-09-04T05-57-14",
-    "brand": "sj",
-    "title": "コパン運用フロー",
-    "author": "萩原",
-    "fileName": "2g5nlx.html",
-    "filePath": "showjin/2g5nlx.html",
-    "createdAt": "2026-09-04",
-    "expiresAt": "2026-10-04",
-    "pageUrl": "https://share.showjin.co.jp/showjin/2g5nlx.html"
-  },
-  {
-    "id": "2026-09-04T07-10-28",
-    "brand": "sj",
-    "title": "笑人広告宣伝の構想v1",
-    "author": "萩原",
-    "fileName": "0cgqoa.html",
-    "filePath": "showjin/0cgqoa.html",
-    "createdAt": "2026-09-04",
-    "expiresAt": "2026-10-04",
-    "pageUrl": "https://share.showjin.co.jp/showjin/0cgqoa.html"
-  },
-  {
     "id": "2026-09-08T05-20-47",
     "brand": "cp",
     "title": "showcase 集計・レポート機能要件（提案）",
@@ -141,17 +64,6 @@
     "createdAt": "2026-09-08",
     "expiresAt": null,
     "pageUrl": "https://share.showjin.co.jp/copain/fv2h9g.html"
-  },
-  {
-    "id": "2026-09-08T07-38-01",
-    "brand": "sj",
-    "title": "ジラフ福岡officeインストール手順",
-    "author": "萩原",
-    "fileName": "boyx5r.html",
-    "filePath": "showjin/boyx5r.html",
-    "createdAt": "2026-09-08",
-    "expiresAt": "2026-10-08",
-    "pageUrl": "https://share.showjin.co.jp/showjin/boyx5r.html"
   },
   {
     "id": "2026-09-14T10-07-34",
@@ -198,14 +110,14 @@
     "pageUrl": "https://share.showjin.co.jp/showjin/1gjsrw.html"
   },
   {
-    "id": "2026-09-24T02-13-50",
+    "id": "2026-10-17T12-19-20",
     "brand": "sj",
-    "title": "ナレッジチャット（仮称）のAWSコストについて",
+    "title": "ジラフサイトの評価",
     "author": "萩原",
-    "fileName": "d8kl1s.html",
-    "filePath": "showjin/d8kl1s.html",
-    "createdAt": "2026-09-24",
-    "expiresAt": "2026-10-01",
-    "pageUrl": "https://share.showjin.co.jp/showjin/d8kl1s.html"
+    "fileName": "tdxecv.html",
+    "filePath": "showjin/tdxecv.html",
+    "createdAt": "2026-10-17",
+    "expiresAt": "2026-11-16",
+    "pageUrl": "https://share.showjin.co.jp/showjin/tdxecv.html"
   }
 ]
