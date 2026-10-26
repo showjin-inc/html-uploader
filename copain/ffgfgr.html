@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>公式LINE メッセージ配信分析（2026/09/29〜10/25）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F7F4;
+    --paper: #FFFFFF;
+    --ink: #1F2A24;
+    --muted: #5E6B63;
+    --line: #DCE3DD;
+    --leaf: #2E5B43;
+    --leaf-soft: #E3EEE7;
+    --petal: #C2577A;
+    --petal-soft: #F7E4EB;
+    --sand: #8A6D3B;
+    --sand-soft: #F3ECDD;
+    --grey-soft: #ECEEEC;
+    --bar: #9CC2AB;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141A16;
+      --paper: #1C241F;
+      --ink: #E6ECE8;
+      --muted: #A3B0A8;
+      --line: #33403A;
+      --leaf: #8CC7A4;
+      --leaf-soft: #23352B;
+      --petal: #E895B1;
+      --petal-soft: #3A2530;
+      --sand: #D6B97E;
+      --sand-soft: #352E20;
+      --grey-soft: #2A322D;
+      --bar: #4E7F63;
+      color-scheme: dark;
+    }
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+  header.cover {
+    border-left: 6px solid var(--leaf);
+    padding: 4px 0 4px 20px;
+    margin-bottom: 36px;
+  }
+  header.cover p.meta { margin: 0; color: var(--muted); font-size: 13px; }
+  h1 { font-size: 26px; line-height: 1.4; margin: 6px 0 8px; font-weight: 700; }
+  h2 {
+    font-size: 19px;
+    margin: 48px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--leaf);
+    font-weight: 700;
+  }
+  h3 { font-size: 16px; margin: 24px 0 6px; color: var(--leaf); }
+  p { margin: 0 0 12px; max-width: 46em; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 8px 0 12px;
+  }
+  .figures div { background: var(--paper); padding: 14px 16px; }
+  .figures dt { font-size: 13px; color: var(--muted); }
+  .figures dd { margin: 2px 0 0; font-size: 24px; font-weight: 700; }
+  .figures dd span { font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 4px; }
+
+  .table-wrap { overflow-x: auto; background: var(--paper); border: 1px solid var(--line); }
+  table { border-collapse: collapse; width: 100%; min-width: 920px; font-size: 13.5px; }
+  th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  thead th { background: var(--leaf-soft); font-weight: 700; white-space: nowrap; position: sticky; top: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.rank { text-align: center; font-weight: 700; color: var(--muted); width: 2.5em; }
+  td.date { white-space: nowrap; }
+  td.content strong { font-weight: 500; }
+  tbody tr:last-child td { border-bottom: none; }
+  .imp { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .imp i { display: block; height: 8px; background: var(--bar); border-radius: 1px; }
+  .imp b { font-weight: 700; min-width: 2.5em; text-align: right; }
+  .sub { display: block; color: var(--muted); font-size: 12px; }
+  .tag {
+    display: inline-block; font-size: 11.5px; padding: 1px 7px; border-radius: 3px;
+    white-space: nowrap; margin-bottom: 2px;
+  }
+  .t-casual { background: var(--leaf-soft); color: var(--leaf); }
+  .t-bridal { background: var(--petal-soft); color: var(--petal); }
+  .t-notice { background: var(--sand-soft); color: var(--sand); }
+  .t-area { background: var(--grey-soft); color: var(--muted); }
+  .hi { color: var(--leaf); font-weight: 700; }
+  .lo { color: var(--petal); font-weight: 700; }
+
+  .compare { width: 100%; min-width: 560px; }
+  .finding { background: var(--paper); border: 1px solid var(--line); padding: 16px 20px; margin: 12px 0; }
+  .finding h3 { margin-top: 0; }
+  .finding p:last-child { margin-bottom: 0; }
+  ol.actions { padding-left: 1.4em; max-width: 48em; }
+  ol.actions li { margin-bottom: 10px; }
+  ul.notes { padding-left: 1.2em; max-width: 52em; color: var(--muted); font-size: 13px; }
+  ul.notes li { margin-bottom: 6px; }
+  footer { margin-top: 48px; font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 600px) {
+    main { padding: 24px 16px 48px; }
+    h1 { font-size: 22px; }
+    .figures dd { font-size: 20px; }
+  }
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    main { max-width: none; padding: 0; }
+    .table-wrap { overflow: visible; border: none; }
+    table { min-width: 0; font-size: 9pt; }
+    h2 { break-after: avoid; }
+    .finding, tr { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header class="cover">
+  <p class="meta">社内共有資料　作成日 2026年10月26日</p>
+  <h1>公式LINE メッセージ配信分析<br>2026年9月29日〜10月25日</h1>
+  <p class="meta">対象：期間中の一斉配信 16本（最終配信は10月21日）</p>
+</header>
+
+<section>
+  <h2>概要</h2>
+  <p>約620人規模に届けた13本の配信を合計すると、開封率は約24%、開封した人のうちリンクをクリックした人は約36%でした。開いた人の反応は良い一方で、そもそも開かれていない配信が多いことが最大の課題です。</p>
+  <dl class="figures">
+    <div><dt>配信本数</dt><dd>16<span>本</span></dd></div>
+    <div><dt>平均開封率（約620人規模の13本）</dt><dd>24.1<span>%</span></dd></div>
+    <div><dt>合計クリック人数</dt><dd>637<span>人</span></dd></div>
+    <div><dt>開封者のクリック率</dt><dd>36.0<span>%</span></dd></div>
+  </dl>
+  <p class="small muted">開封者のクリック率は、クリック人数が表示された配信のみで算出しています。</p>
+</section>
+
+<section>
+  <h2>配信一覧（表示回数順）</h2>
+  <p class="small muted">表示回数は、吹き出しごとの表示回数の合計です。複数の吹き出しで構成された配信は、その分だけ表示回数が多くなります。クリック率は管理画面と同じく「クリック人数 ÷ 開封人数」です。</p>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>順位</th>
+        <th>配信日時</th>
+        <th>配信内容</th>
+        <th class="num">配信数</th>
+        <th class="num">表示回数</th>
+        <th class="num">開封数</th>
+        <th class="num">開封率</th>
+        <th class="num">クリック人数</th>
+        <th class="num">クリック率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rank">1</td>
+        <td class="date">9/30（水）18:11</td>
+        <td class="content"><span class="tag t-notice">お知らせ</span><br><strong>求人情報ページリニューアルのお知らせ</strong><span class="sub">吹き出し2つ</span></td>
+        <td class="num">681</td>
+        <td class="num"><span class="imp"><i style="width:80px"></i><b>704</b></span></td>
+        <td class="num">325</td>
+        <td class="num hi">47.7%</td>
+        <td class="num">70</td>
+        <td class="num">21.5%</td>
+      </tr>
+      <tr>
+        <td class="rank">2</td>
+        <td class="date">10/5（月）17:20</td>
+        <td class="content"><span class="tag t-casual">単発・アルバイト</span><br><strong>【PR】1日単位で応募できる「ハナワク」</strong><span class="sub">吹き出し3つ／3つ目のクリックが最多（100人）</span></td>
+        <td class="num">690</td>
+        <td class="num"><span class="imp"><i style="width:62px"></i><b>546</b></span></td>
+        <td class="num">203</td>
+        <td class="num">29.4%</td>
+        <td class="num hi">107</td>
+        <td class="num hi">52.7%</td>
+      </tr>
+      <tr>
+        <td class="rank">3</td>
+        <td class="date">10/19（月）17:16</td>
+        <td class="content"><span class="tag t-casual">単発・アルバイト</span><br><strong>【PR】ハナワク（10/5の再配信）</strong><span class="sub">吹き出し3つ／3つ目のクリックが最多（89人）</span></td>
+        <td class="num">693</td>
+        <td class="num"><span class="imp"><i style="width:54px"></i><b>474</b></span></td>
+        <td class="num">181</td>
+        <td class="num">26.1%</td>
+        <td class="num">82</td>
+        <td class="num">45.3%</td>
+      </tr>
+      <tr>
+        <td class="rank">4</td>
+        <td class="date">10/1（木）21:00</td>
+        <td class="content"><span class="tag t-casual">単発・アルバイト</span><br><strong>レインボウ 有明｜アルバイト募集・平日のみ（TOC有明内フラワーショップ）</strong></td>
+        <td class="num">620</td>
+        <td class="num"><span class="imp"><i style="width:27px"></i><b>236</b></span></td>
+        <td class="num">185</td>
+        <td class="num">29.8%</td>
+        <td class="num">75</td>
+        <td class="num">40.5%</td>
+      </tr>
+      <tr>
+        <td class="rank">5</td>
+        <td class="date">10/8（木）18:49</td>
+        <td class="content"><span class="tag t-casual">単発・アルバイト</span><br><strong>レインボウ 有明｜アルバイト募集・土日休み（TOC有明内フラワーショップ）</strong></td>
+        <td class="num">618</td>
+        <td class="num"><span class="imp"><i style="width:26px"></i><b>230</b></span></td>
+        <td class="num">171</td>
+        <td class="num">27.7%</td>
+        <td class="num">49</td>
+        <td class="num">28.7%</td>
+      </tr>
+      <tr>
+        <td class="rank">6</td>
+        <td class="date">10/7（水）12:26</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>第一園芸 浦安｜先行エントリー受付・ブライトンホテル東京ベイ派遣</strong><span class="sub">同じ求人の1回目</span></td>
+        <td class="num">620</td>
+        <td class="num"><span class="imp"><i style="width:24px"></i><b>208</b></span></td>
+        <td class="num">148</td>
+        <td class="num">23.9%</td>
+        <td class="num">28</td>
+        <td class="num lo">18.9%</td>
+      </tr>
+      <tr>
+        <td class="rank">7</td>
+        <td class="date">10/15（木）12:41</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>レインボウ ブーケ｜時給50円アップ・ホテルニューオータニ ウエディングブーケ制作</strong></td>
+        <td class="num">616</td>
+        <td class="num"><span class="imp"><i style="width:19px"></i><b>163</b></span></td>
+        <td class="num">126</td>
+        <td class="num">20.5%</td>
+        <td class="num">53</td>
+        <td class="num">42.1%</td>
+      </tr>
+      <tr>
+        <td class="rank">8</td>
+        <td class="date">9/29（火）18:35</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>ベスト｜派遣・新宿＋高田馬場 ブライダル企業フローリスト</strong></td>
+        <td class="num">613</td>
+        <td class="num"><span class="imp"><i style="width:18px"></i><b>161</b></span></td>
+        <td class="num">118</td>
+        <td class="num">19.2%</td>
+        <td class="num">45</td>
+        <td class="num">38.1%</td>
+      </tr>
+      <tr>
+        <td class="rank">9</td>
+        <td class="date">10/6（火）18:08</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>サンジュルディ恵比寿｜未経験歓迎・秋婚礼シーズンスタッフ</strong></td>
+        <td class="num">626</td>
+        <td class="num"><span class="imp"><i style="width:17px"></i><b>148</b></span></td>
+        <td class="num">113</td>
+        <td class="num">18.1%</td>
+        <td class="num">20未満</td>
+        <td class="num">－</td>
+      </tr>
+      <tr>
+        <td class="rank">10</td>
+        <td class="date">10/16（金）17:55</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>ユーアイ｜社員・アルバイト グランドハイアット東京の婚礼・空間装飾</strong></td>
+        <td class="num">600</td>
+        <td class="num"><span class="imp"><i style="width:17px"></i><b>148</b></span></td>
+        <td class="num">110</td>
+        <td class="num">18.3%</td>
+        <td class="num">51</td>
+        <td class="num">46.4%</td>
+      </tr>
+      <tr>
+        <td class="rank">11</td>
+        <td class="date">10/13（火）18:16</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>第一園芸 浦安｜新着募集・ブライトンホテル東京ベイ派遣</strong><span class="sub">同じ求人の2回目</span></td>
+        <td class="num">617</td>
+        <td class="num"><span class="imp"><i style="width:14px"></i><b>127</b></span></td>
+        <td class="num">104</td>
+        <td class="num">16.9%</td>
+        <td class="num">38</td>
+        <td class="num">36.5%</td>
+      </tr>
+      <tr>
+        <td class="rank">12</td>
+        <td class="date">10/21（水）17:45</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>ユー花園 八芳園｜正社員募集・婚礼装花スタッフ</strong></td>
+        <td class="num">620</td>
+        <td class="num"><span class="imp"><i style="width:14px"></i><b>127</b></span></td>
+        <td class="num">97</td>
+        <td class="num">15.6%</td>
+        <td class="num">39</td>
+        <td class="num">40.2%</td>
+      </tr>
+      <tr>
+        <td class="rank">13</td>
+        <td class="date">10/20（火）17:10</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>第一園芸 浦安｜おすすめ・ブライトンホテル東京ベイ派遣</strong><span class="sub">同じ求人の3回目</span></td>
+        <td class="num">622</td>
+        <td class="num"><span class="imp"><i style="width:13px"></i><b>118</b></span></td>
+        <td class="num">100</td>
+        <td class="num">16.1%</td>
+        <td class="num">20未満</td>
+        <td class="num">－</td>
+      </tr>
+      <tr>
+        <td class="rank">14</td>
+        <td class="date">10/14（水）16:59</td>
+        <td class="content"><span class="tag t-area">地域選択</span><br><strong>求人情報の配信地域を選択してください</strong><span class="sub">地域未選択の人向け</span></td>
+        <td class="num">395</td>
+        <td class="num"><span class="imp"><i style="width:8px"></i><b>69</b></span></td>
+        <td class="num">64</td>
+        <td class="num">16.2%</td>
+        <td class="num">20未満</td>
+        <td class="num">－</td>
+      </tr>
+      <tr>
+        <td class="rank">15</td>
+        <td class="date">10/20（火）12:28</td>
+        <td class="content"><span class="tag t-area">地域選択</span><br><strong>求人情報の配信地域を選択してください（再送）</strong><span class="sub">地域未選択の人向け</span></td>
+        <td class="num">375</td>
+        <td class="num"><span class="imp"><i style="width:6px"></i><b>49</b></span></td>
+        <td class="num">40</td>
+        <td class="num lo">10.7%</td>
+        <td class="num">20未満</td>
+        <td class="num">－</td>
+      </tr>
+      <tr>
+        <td class="rank">16</td>
+        <td class="date">10/3（土）10:31</td>
+        <td class="content"><span class="tag t-bridal">婚礼・ホテル系</span><br><strong>レインボウ 大阪・福岡｜新着・ホテルニューオータニ婚礼装花</strong><span class="sub">大阪・福岡エリアの人向け</span></td>
+        <td class="num">22</td>
+        <td class="num">20未満</td>
+        <td class="num">20未満</td>
+        <td class="num">－</td>
+        <td class="num">20未満</td>
+        <td class="num">－</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small muted">「20未満」はLINEの管理画面で数値が表示されない（20未満）ことを示し、ゼロという意味ではありません。</p>
+</section>
+
+<section>
+  <h2>分かったこと</h2>
+
+  <div class="finding">
+    <h3>仕事の種類によって「開かれ方」がはっきり分かれる</h3>
+    <p>有明のアルバイトやハナワクのような、気軽に始められる働き方の配信は開封率が高く、婚礼・ホテル系の正社員・派遣募集は開封率が低めです。ただし婚礼・ホテル系は、開いた人のクリック率が高く、関心のある人には強く届いています。</p>
+    <div class="table-wrap">
+    <table class="compare">
+      <thead><tr><th>種類</th><th class="num">本数</th><th class="num">平均開封率</th><th class="num">平均クリック率</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag t-casual">単発・アルバイト</span>（有明、ハナワク）</td><td class="num">4</td><td class="num hi">28.3%</td><td class="num">41.8%</td></tr>
+        <tr><td><span class="tag t-bridal">婚礼・ホテル系</span>（正社員・派遣・社員）</td><td class="num">8</td><td class="num">18.6%</td><td class="num">37.0%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="small muted">婚礼・ホテル系の平均クリック率は、クリック人数が表示された6本で算出しています（10/3の大阪・福岡配信は除外）。</p>
+  </div>
+
+  <div class="finding">
+    <h3>同じ求人を繰り返し配信すると反応が落ちる</h3>
+    <p>同じ内容の再配信では、どれも反応が下がっています。ハナワクは2週間空けた再配信でも、開封率が29.4%から26.1%に、クリック人数が107人から82人に減りました。第一園芸 浦安は2週間で3回配信し、開封率が23.9%、16.9%、16.1%と下がり、3回目はクリックが20人未満になりました。有明も、平日版から土日休み版でクリック人数が75人から49人に減っています。</p>
+    <p>一方で、同じ第一園芸の求人でも「先行エントリー受付」（クリック率18.9%）より「新着募集」（36.5%）の方が反応が良く、打ち出し方でも差が出ています。</p>
+  </div>
+
+  <div class="finding">
+    <h3>複数の吹き出しを使った配信はクリックが多い</h3>
+    <p>クリック人数の上位2本は、どちらも吹き出し3つで構成したハナワクの配信です。どちらも3つ目の吹き出しのクリックが最も多く、最後に置いた内容が行動につながっていました。</p>
+  </div>
+
+  <div class="finding">
+    <h3>地域選択の依頼は、再送するほど反応が下がる</h3>
+    <p>地域未選択の人向けの依頼は、1回目の開封率が16.2%、6日後の再送が10.7%と、期間中で最も反応が弱い配信でした。地域を選んでいない人は、配信自体への関心が薄い層である可能性があります。</p>
+  </div>
+
+  <div class="finding">
+    <h3>配信頻度が高く、昼の配信は反応が弱め</h3>
+    <p>約620人に対して、3週間で13本、ほぼ平日毎日の配信になっています。また12時台の3本のうち2本（10/7、10/20）は反応が弱く、10/20は昼と夕方に1日2本配信していました。ただし昼の配信は本数が少ないため、時間帯の影響は参考程度です。</p>
+  </div>
+</section>
+
+<section>
+  <h2>今後の改善案</h2>
+  <ol class="actions">
+    <li><strong>配信頻度を週2〜3本に絞る。</strong>全員向けの定期配信は、単発・アルバイト系やハナワクのような開かれやすい内容を中心にします。</li>
+    <li><strong>婚礼・ホテル系の求人は対象を絞るか、まとめて送る。</strong>希望職種や雇用形態で絞った人だけに送るか、複数の吹き出しで「今週の注目求人」として1本にまとめます。</li>
+    <li><strong>同じ求人の配信は2回までにする。</strong>2回目は「新着」「条件アップ」など切り口を変えます。</li>
+    <li><strong>地域選択は一斉配信ではなく常設にする。</strong>リッチメニューや友だち追加時のあいさつメッセージから選べるようにします。</li>
+    <li><strong>応募までの成果を計測できるようにする。</strong>応募ページや応募完了画面にLINE Tagを設置し、クリック後に応募したかを追えるようにします。今回の期間はコンバージョンのデータが記録されていませんでした。</li>
+  </ol>
+</section>
+
+<section>
+  <h2>データについての補足</h2>
+  <ul class="notes">
+    <li>出典：LINE公式アカウント管理画面のメッセージ配信データ（CSV）と配信一覧画面（2026年10月26日時点）。</li>
+    <li>表示回数：吹き出しごとの表示回数の合計。開封数：メッセージを開封した人数。</li>
+    <li>開封率：開封数 ÷ 配信数。クリック率：クリック人数 ÷ 開封数（管理画面の定義と同じ）。</li>
+    <li>LINEの管理画面では20未満の数値が表示されないため、該当箇所は「20未満」と記載しています。</li>
+    <li>配信数が約690の配信は全員向け、約620は地域で絞った配信、約380〜400は地域未選択の人向け、22は大阪・福岡の人向けと考えられます。</li>
+    <li>直近の配信は、集計期間中も数値が少しずつ増える可能性があります。</li>
+  </ul>
+</section>
+
+<footer>株式会社コパン　社内共有資料</footer>
+
+</main>
+</body>
+</html>
