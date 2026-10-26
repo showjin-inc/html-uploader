@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>求人別アナリティクス報告（表示回数順）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #F6F7F5;
+    --sheet: #FFFFFF;
+    --ink: #1E2A26;
+    --ink-soft: #5B6661;
+    --leaf: #3F6B4E;
+    --petal: #C8577A;
+    --petal-wash: #F4DDE5;
+    --rule: #DCE0DC;
+    --row-alt: #F9FAF8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --paper: #141A18;
+      --sheet: #1B2321;
+      --ink: #E8ECE9;
+      --ink-soft: #A2ADA8;
+      --leaf: #8DBB9C;
+      --petal: #E487A6;
+      --petal-wash: #4A2834;
+      --rule: #2E3935;
+      --row-alt: #1F2826;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px 72px;
+  }
+  header { border-bottom: 2px solid var(--leaf); padding-bottom: 20px; margin-bottom: 36px; }
+  h1 {
+    font-family: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    font-weight: 700;
+    font-size: clamp(24px, 4vw, 34px);
+    line-height: 1.35;
+    margin: 0 0 8px;
+    letter-spacing: 0.02em;
+  }
+  .meta { color: var(--ink-soft); font-size: 13px; margin: 0; }
+  h2 {
+    font-family: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    font-size: 21px;
+    margin: 48px 0 12px;
+    padding-left: 12px;
+    border-left: 4px solid var(--leaf);
+    line-height: 1.4;
+  }
+  p { margin: 0 0 12px; max-width: 46em; }
+  ul { margin: 0 0 12px; padding-left: 1.3em; max-width: 46em; }
+  li { margin-bottom: 4px; }
+  .lead { font-size: 16px; }
+  .lead strong { color: var(--petal); }
+  .totals { display: flex; gap: 32px; flex-wrap: wrap; margin: 20px 0 8px; }
+  .totals div { min-width: 140px; }
+  .totals b { display: block; font-size: 30px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .totals span { color: var(--ink-soft); font-size: 13px; }
+  .note { color: var(--ink-soft); font-size: 13px; }
+  .table-wrap {
+    overflow-x: auto;
+    background: var(--sheet);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    margin: 12px 0;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { padding: 9px 12px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 700; font-size: 12.5px; color: var(--ink-soft); background: var(--sheet); white-space: nowrap; }
+  tbody tr:nth-child(even) { background: var(--row-alt); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.path { white-space: nowrap; color: var(--leaf); font-weight: 500; }
+  td.date { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+  td.rank { width: 3em; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  td.title { min-width: 16em; }
+  .bar-cell { min-width: 150px; }
+  .bar { display: flex; align-items: center; gap: 8px; }
+  .bar i {
+    display: block; height: 10px; border-radius: 0 5px 5px 0;
+    background: var(--petal);
+    width: calc(var(--v) / 40 * 100px);
+    min-width: 3px;
+  }
+  .bar b { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 2ch; }
+  tr.top td { background: var(--petal-wash); }
+  .tasks { list-style: none; padding-left: 0; }
+  .tasks li::before { content: "□ "; color: var(--leaf); }
+  footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--ink-soft); font-size: 12px; }
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    main { padding: 0; max-width: none; }
+    .table-wrap { overflow: visible; border: none; }
+    tr { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>求人別アナリティクス報告（表示回数順）</h1>
+    <p class="meta">作成日：2026年10月26日　株式会社コパン 社内共有資料</p>
+  </header>
+
+  <section>
+    <h2>概要</h2>
+    <p class="lead">2026年9月29日〜10月25日の求人タイトル別表示回数は、<strong>/job/593/</strong>（麻布十番エリア★13時〜OK/髪色自由の販…）の40回が最多です。</p>
+    <div class="totals">
+      <div><b>852</b><span>ユーザー数（全体合計）</span></div>
+      <div><b>58</b><span>応募フォーム表示（全体合計）</span></div>
+      <div><b>238</b><span>表示回数（掲載26行の合計）</span></div>
+    </div>
+    <ul>
+      <li>出典：求人別アナリティクス（copain）レポートのPDF出力</li>
+      <li>注意：元レポートは全99行ですが、PDFに含まれるのは上位26行のみです。また、ページタイトルはレポート上で途中省略（…）されています。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>求人タイトル別 表示回数ランキング</h2>
+    <p>上位3件（/job/593/、/job/518/、/job/574/）の計104回で、掲載26行の合計238回の約4割を占めます。同じ表示回数の場合はページパス順です。</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th class="num">順位</th><th>ページパス</th><th>ページタイトル（省略あり）</th><th>表示回数</th><th>表示開始日</th><th>表示終了日</th></tr>
+        </thead>
+        <tbody>
+          <tr class="top"><td class="rank">1</td><td class="path">/job/593/</td><td class="title">麻布十番エリア★13時〜OK/髪色自由の販…</td><td class="bar-cell"><div class="bar"><i style="--v:40"></i><b>40</b></div></td><td class="date">2026/9/29</td><td class="date">2026/10/20</td></tr>
+          <tr class="top"><td class="rank">2</td><td class="path">/job/518/</td><td class="title">吉祥寺/法人向けメインのフラワーショップ…</td><td class="bar-cell"><div class="bar"><i style="--v:32"></i><b>32</b></div></td><td class="date">2026/9/29</td><td class="date">2026/10/25</td></tr>
+          <tr class="top"><td class="rank">2</td><td class="path">/job/574/</td><td class="title">＜紹介予定派遣＞株式会社ユーアイ/グラン…</td><td class="bar-cell"><div class="bar"><i style="--v:32"></i><b>32</b></div></td><td class="date">2026/10/16</td><td class="date">2026/10/18</td></tr>
+          <tr><td class="rank">4</td><td class="path">/job/519/</td><td class="title">ホテルニューオータニ｜館内レストラン・…</td><td class="bar-cell"><div class="bar"><i style="--v:16"></i><b>16</b></div></td><td class="date">2026/9/29</td><td class="date">2026/10/19</td></tr>
+          <tr><td class="rank">5</td><td class="path">/job/511/</td><td class="title">セントグレース大聖堂｜ウエディング装花…</td><td class="bar-cell"><div class="bar"><i style="--v:10"></i><b>10</b></div></td><td class="date">2026/10/2</td><td class="date">2026/10/22</td></tr>
+          <tr><td class="rank">5</td><td class="path">/job/528/</td><td class="title">ヴィオラ木更津work studio｜葬儀アシスタ…</td><td class="bar-cell"><div class="bar"><i style="--v:10"></i><b>10</b></div></td><td class="date">2026/9/30</td><td class="date">2026/10/20</td></tr>
+          <tr><td class="rank">5</td><td class="path">/job/569/</td><td class="title">【アルバイト募集／A’syu】制作から打合せ…</td><td class="bar-cell"><div class="bar"><i style="--v:10"></i><b>10</b></div></td><td class="date">2026/10/1</td><td class="date">2026/10/22</td></tr>
+          <tr><td class="rank">5</td><td class="path">/job/591/</td><td class="title">制作〜打合せまで挑戦！婚礼の空間演出フ…</td><td class="bar-cell"><div class="bar"><i style="--v:10"></i><b>10</b></div></td><td class="date">2026/10/1</td><td class="date">2026/10/21</td></tr>
+          <tr><td class="rank">9</td><td class="path">/job/517/</td><td class="title">ザ ストリングス 表参道｜ウエディング装…</td><td class="bar-cell"><div class="bar"><i style="--v:9"></i><b>9</b></div></td><td class="date">2026/9/29</td><td class="date">2026/10/22</td></tr>
+          <tr><td class="rank">9</td><td class="path">/job/521/</td><td class="title">【紹介予定派遣】正社員募集/ホテルニュー…</td><td class="bar-cell"><div class="bar"><i style="--v:9"></i><b>9</b></div></td><td class="date">2026/10/14</td><td class="date">2026/10/23</td></tr>
+          <tr><td class="rank">11</td><td class="path">/job/576/</td><td class="title">【ユーアイ/グランドハイアット東京】（紹…</td><td class="bar-cell"><div class="bar"><i style="--v:8"></i><b>8</b></div></td><td class="date">2026/10/14</td><td class="date">2026/10/23</td></tr>
+          <tr><td class="rank">12</td><td class="path">/job/510/</td><td class="title">＜紹介予定派遣＞ 株式会社ベスト-アニバ…</td><td class="bar-cell"><div class="bar"><i style="--v:7"></i><b>7</b></div></td><td class="date">2026/10/2</td><td class="date">2026/10/17</td></tr>
+          <tr><td class="rank">13</td><td class="path">/job/483/</td><td class="title">アンダーズ東京でウエディング装花｜月給…</td><td class="bar-cell"><div class="bar"><i style="--v:6"></i><b>6</b></div></td><td class="date">2026/10/5</td><td class="date">2026/10/15</td></tr>
+          <tr><td class="rank">14</td><td class="path">/job/586/</td><td class="title">月水金の週3日〜★お花のモクモク軽作業…</td><td class="bar-cell"><div class="bar"><i style="--v:5"></i><b>5</b></div></td><td class="date">2026/10/1</td><td class="date">2026/10/14</td></tr>
+          <tr><td class="rank">15</td><td class="path">/job/513/</td><td class="title">キンプトン新宿東京｜ウエディング装花｜…</td><td class="bar-cell"><div class="bar"><i style="--v:4"></i><b>4</b></div></td><td class="date">2026/10/7</td><td class="date">2026/10/20</td></tr>
+          <tr><td class="rank">15</td><td class="path">/job/514/</td><td class="title">表参道駅直結★最先端のウエディング装花…</td><td class="bar-cell"><div class="bar"><i style="--v:4"></i><b>4</b></div></td><td class="date">2026/10/14</td><td class="date">2026/10/19</td></tr>
+          <tr><td class="rank">15</td><td class="path">/job/516/</td><td class="title">大宮の超人気式場★８つの会場を彩る装花…</td><td class="bar-cell"><div class="bar"><i style="--v:4"></i><b>4</b></div></td><td class="date">2026/10/14</td><td class="date">2026/10/24</td></tr>
+          <tr><td class="rank">15</td><td class="path">/job/562/</td><td class="title">【株式会社Bond/ボワドゥギ福岡】 正社員…</td><td class="bar-cell"><div class="bar"><i style="--v:4"></i><b>4</b></div></td><td class="date">2026/10/13</td><td class="date">2026/10/21</td></tr>
+          <tr><td class="rank">15</td><td class="path">/job/581/</td><td class="title">車通勤OK★2ヶ月後正社員／花束の制作・…</td><td class="bar-cell"><div class="bar"><i style="--v:4"></i><b>4</b></div></td><td class="date">2026/10/1</td><td class="date">2026/10/14</td></tr>
+          <tr><td class="rank">20</td><td class="path">/job/512/</td><td class="title">キンプトン新宿東京勤務★最先端の装花プ…</td><td class="bar-cell"><div class="bar"><i style="--v:3"></i><b>3</b></div></td><td class="date">2026/10/5</td><td class="date">2026/10/23</td></tr>
+          <tr><td class="rank">20</td><td class="path">/job/550/</td><td class="title">【アド・スタッフ　行田支店】 作業場内制…</td><td class="bar-cell"><div class="bar"><i style="--v:3"></i><b>3</b></div></td><td class="date">2026/10/6</td><td class="date">2026/10/19</td></tr>
+          <tr><td class="rank">22</td><td class="path">/job/520/</td><td class="title">正社員募集✿一流ホテルの客室・レストラ…</td><td class="bar-cell"><div class="bar"><i style="--v:2"></i><b>2</b></div></td><td class="date">2026/9/29</td><td class="date">2026/10/16</td></tr>
+          <tr><td class="rank">22</td><td class="path">/job/555/</td><td class="title">【アド・スタッフ　行田支店】 葬儀装花/…</td><td class="bar-cell"><div class="bar"><i style="--v:2"></i><b>2</b></div></td><td class="date">2026/9/30</td><td class="date">2026/10/18</td></tr>
+          <tr><td class="rank">22</td><td class="path">/job/564/</td><td class="title">【株式会社ユー花園/ホテルオークラ東京店…</td><td class="bar-cell"><div class="bar"><i style="--v:2"></i><b>2</b></div></td><td class="date">2026/10/15</td><td class="date">2026/10/21</td></tr>
+          <tr><td class="rank">25</td><td class="path">/job/515/</td><td class="title">大宮アートグレイス｜ウエディング装花｜…</td><td class="bar-cell"><div class="bar"><i style="--v:1"></i><b>1</b></div></td><td class="date">2026/10/19</td><td class="date">2026/10/19</td></tr>
+          <tr><td class="rank">25</td><td class="path">/job/521/</td><td class="title">ニューオータニ婚礼装花プロ募集★実働７.…</td><td class="bar-cell"><div class="bar"><i style="--v:1"></i><b>1</b></div></td><td class="date">2026/10/14</td><td class="date">2026/10/14</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">/job/521/ は期間中にタイトルを変更しており、旧タイトル（25位）と新タイトル（9位）の2行に分かれています。</p>
+  </section>
+
+  <section>
+    <h2>求人別 流入元とユーザー数</h2>
+    <p>ユーザー数が最も多いのは /job/852/（TOC有明のフラワーショップ）の131人で、応募フォーム表示は3件です。PDFに含まれる求人はこの3件のみで、全体合計はユーザー数852、応募フォーム表示58件です。</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>ページパス</th><th>ページタイトル</th><th class="num">ユーザー数</th><th class="num">応募フォーム表示</th><th>流入元の内訳（ユーザー数）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="path">/job/852/</td><td class="title">&lt;紹介予定派遣&gt;週3〜OK/平日のみ！TOC有明内でのフラワーショップ勤務</td><td class="num">131</td><td class="num">3</td><td>direct 122（応募2）、google 7（応募1）、hanajob.info 1、showjin.cybozu.com 1、manager.line.biz 0</td></tr>
+          <tr><td class="path">/job/867/</td><td class="title">新浦安駅徒歩3分│ブーケ・メイン装花の制作スタッフ｜婚礼装花経験者募集</td><td class="num">46</td><td class="num">1</td><td>direct 39（応募1）、google 6、manager.line.biz 1</td></tr>
+          <tr><td class="path">/job/787/</td><td class="title">ブーケ制作専属スタッフ募集！ホテルニューオータニ</td><td class="num">37</td><td class="num">0</td><td>direct 30、google 4、yahoo 2、manager.line.biz 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">/job/787/ の合計はPDF上で欠けているため、流入元の合算値（37）を記載しています。</p>
+  </section>
+
+  <section>
+    <h2>確認事項</h2>
+    <ul class="tasks">
+      <li>残り73行（27〜99行目）をレポートから書き出し、ランキングに追加する</li>
+      <li>省略されたページタイトルの全文を補う</li>
+    </ul>
+  </section>
+
+  <footer>出典：求人別アナリティクス（copain）レポートのPDF出力（2026年9月29日〜10月25日）</footer>
+</main>
+</body>
+</html>
