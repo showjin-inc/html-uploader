@@ -77,39 +77,6 @@
     "pageUrl": "https://share.showjin.co.jp/showjin/tpsucp.html"
   },
   {
-    "id": "2026-09-18T00-58-10",
-    "brand": "sj",
-    "title": "ナレッジチャット001",
-    "author": "萩原",
-    "fileName": "c0ccrj.html",
-    "filePath": "showjin/c0ccrj.html",
-    "createdAt": "2026-09-18",
-    "expiresAt": "2026-10-18",
-    "pageUrl": "https://share.showjin.co.jp/showjin/c0ccrj.html"
-  },
-  {
-    "id": "2026-09-18T03-07-11",
-    "brand": "sj",
-    "title": "showrapマニュアル",
-    "author": "萩原",
-    "fileName": "01ikpm.html",
-    "filePath": "showjin/01ikpm.html",
-    "createdAt": "2026-09-18",
-    "expiresAt": "2026-10-18",
-    "pageUrl": "https://share.showjin.co.jp/showjin/01ikpm.html"
-  },
-  {
-    "id": "2026-09-18T05-14-27",
-    "brand": "sj",
-    "title": "デジはな課ビジネス運用たたき台",
-    "author": "萩原",
-    "fileName": "1gjsrw.html",
-    "filePath": "showjin/1gjsrw.html",
-    "createdAt": "2026-09-18",
-    "expiresAt": "2026-10-18",
-    "pageUrl": "https://share.showjin.co.jp/showjin/1gjsrw.html"
-  },
-  {
     "id": "2026-10-17T12-19-20",
     "brand": "sj",
     "title": "ジラフサイトの評価",
@@ -119,5 +86,16 @@
     "createdAt": "2026-10-17",
     "expiresAt": "2026-11-16",
     "pageUrl": "https://share.showjin.co.jp/showjin/tdxecv.html"
+  },
+  {
+    "id": "2026-10-26T05-07-05",
+    "brand": "cp",
+    "title": "求人別アナリティクス報告　2026年9月29日〜10月25日",
+    "author": "石井　愛",
+    "fileName": "10mfpc.html",
+    "filePath": "copain/10mfpc.html",
+    "createdAt": "2026-10-26",
+    "expiresAt": null,
+    "pageUrl": "https://share.showjin.co.jp/copain/10mfpc.html"
   }
 ]
