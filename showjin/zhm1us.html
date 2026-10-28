@@ -1,0 +1,160 @@
+<!doctype html>
+<!--
+  総務の方が DEV で最終確認するときのチェック表（2026-10-28 ユーザー指示：「チェック要素を押さえた内容で、多すぎないように」）。
+  印刷して使う（A4 縦）。くわしいやり方は docs/管理画面の使い方.html。画面やきまりを変えたら、ここも直す。
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>DEV 確認チェック表｜giraflower 管理画面</title>
+<style>
+:root{--ink:#28190f;--muted:#695b4d;--rule:#d9cbbb;--orange:#db7722;--orangeText:#a55a1f;--warm:#f6ece0;--red:#b42318;--redBg:#fdecea}
+*{box-sizing:border-box}
+body{margin:0;background:#fbf7f2;color:var(--ink);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;font-size:15px;line-height:1.7}
+.page{max-width:960px;margin:0 auto;padding:32px 16px 48px}
+h1{font-size:24px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 20px}
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 20px}
+.who div{background:#fff;border:1px solid var(--rule);border-radius:8px;padding:8px 12px;min-height:56px}
+.who b{display:block;font-size:12px;color:var(--muted)}
+.note{background:var(--redBg);border:1px solid #f3c2bd;border-radius:10px;padding:12px 16px;margin:0 0 24px}
+.note h2{font-size:15px;margin:0 0 4px}
+.note ul{margin:0;padding-left:1.3em}
+.note li{margin:2px 0}
+h2.sec{font-size:17px;margin:28px 0 8px;padding-left:10px;border-left:6px solid var(--orange)}
+h2.sec small{font-size:13px;font-weight:400;color:var(--muted);margin-left:8px}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{border:1px solid var(--rule);padding:8px 10px;text-align:left;vertical-align:top}
+thead th{background:var(--warm);font-size:13px;white-space:nowrap}
+td.no{width:2.6em;text-align:center;font-weight:700;color:var(--orangeText)}
+td.do{width:34%}
+td.res{width:7.5em;white-space:nowrap;font-size:14px}
+td.memo{width:22%}
+.tag{display:inline-block;background:var(--ink);color:#fff;border-radius:4px;padding:0 6px;font-size:12px;line-height:1.7;vertical-align:1px}
+.free td{height:44px}
+.foot{color:var(--muted);font-size:13px;margin-top:20px}
+@media (max-width:700px){
+  .who{grid-template-columns:1fr}
+  thead{display:none}
+  table,tbody,tr,td{display:block;width:auto!important}
+  tr{border:1px solid var(--rule);border-radius:8px;margin:0 0 10px;background:#fff;overflow:hidden}
+  td{border:0;border-top:1px solid var(--rule)}
+  td:first-child{border-top:0}
+  td.no{text-align:left;background:var(--warm)}
+  td.res::before{content:"結果　"}
+  td.memo::before{content:"メモ";display:block;font-size:12px;color:var(--muted)}
+  td.memo{min-height:56px}
+  .free tr{min-height:0}
+}
+@media print{
+  @page{size:A4 portrait;margin:12mm}
+  body{background:#fff;font-size:11.5px;line-height:1.55}
+  .page{padding:0;max-width:none}
+  h1{font-size:19px}
+  h2.sec{font-size:14px;margin:14px 0 6px;break-after:avoid}
+  .note{padding:8px 12px;margin-bottom:14px}
+  th,td{padding:5px 7px}
+  tr{break-inside:avoid}
+  .who div{min-height:44px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>DEV 確認チェック表</h1>
+<p class="sub">giraflower の新しい管理画面を、本番の前に試しのサイト（DEV）で確かめるための表です。印刷して（A4 縦）、上から順に試してください。<br>
+やり方が分からないときは「管理画面の使い方」を見てください。DEV の ID とパスワードも、そこに書いてあります。</p>
+
+<div class="who">
+  <div><b>確認した人</b></div>
+  <div><b>日付</b></div>
+  <div><b>使ったもの（パソコン・スマホ／ブラウザ）</b></div>
+</div>
+
+<div class="note">
+  <h2>試す前に</h2>
+  <ul>
+    <li>フォームから送ると、本当にメールが届きます。お名前は「テスト 花子」のように<b>日本語</b>で、メールアドレスは<b>自分のもの</b>を入れてください（英字だけだと、いたずらとして受け付けません）。</li>
+    <li>フォームは<b>同じ回線から1時間に5回まで</b>です（お問い合わせ・応募それぞれ）。会社の回線で何人も試すとすぐに上限になるので、だれが送るかを決めておくか、スマホの回線（Wi-Fi を切る）で送ってください。</li>
+    <li>DEV で入れたものは、すべて試しのデータです。本番のサイトには出ません。</li>
+  </ul>
+</div>
+
+<h2 class="sec">1. 入る</h2>
+<table>
+  <thead><tr><th>No.</th><th>やること</th><th>確かめること</th><th>結果</th><th>メモ</th></tr></thead>
+  <tbody>
+    <tr><td class="no">1</td><td class="do">DEV の管理画面を開き、ID とパスワードを入れる</td><td>管理画面の「ログイン」の画面が出る</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">2</td><td class="do">自分のメールアドレスを入れて、コードを頼む</td><td>6桁のコードがメールで届き、入れると管理画面のホームが出る</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+  </tbody>
+</table>
+
+<h2 class="sec">2. 求人を出す</h2>
+<table>
+  <thead><tr><th>No.</th><th>やること</th><th>確かめること</th><th>結果</th><th>メモ</th></tr></thead>
+  <tbody>
+    <tr><td class="no">3</td><td class="do">「求人」で、ある求人を<b>コピー</b>し（無ければ「求人を新しく作る」）、拠点・給与などを少し変えて下書きで保存する</td><td>入れる項目が分かる。項目名がオレンジの枠の欄を1つ空にして公開しようとすると、足りない項目が出て止まる</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">4</td><td class="do">「確認する」で見た目を見てから、公開する</td><td>採用ページにカードが出る。「詳しい条件を見る」の中身も合っている</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">5</td><td class="do">一覧の ↑ ↓ で、その求人の並びを変える</td><td>採用ページのカードの順番も変わる</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+  </tbody>
+</table>
+
+<h2 class="sec">3. 応募を受ける <small>（2で出した求人に応募します）</small></h2>
+<table>
+  <thead><tr><th>No.</th><th>やること</th><th>確かめること</th><th>結果</th><th>メモ</th></tr></thead>
+  <tbody>
+    <tr><td class="no">6</td><td class="do">採用ページのその求人の「応募する」から、試しに応募する</td><td>自分に「受付のメール」が届く。社内の宛先に「新しい応募がありました」が届く（名前・連絡先は書いていない）</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">7</td><td class="do">管理画面の「応募」で、その応募を開く</td><td>ホームとメニューに「未対応」の数が出る。応募した求人・中身が合っている</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">8</td><td class="do">状態を「連絡済み」→「面接・見学」に変え、メモを残す</td><td>だれが・いつ変えたかが「メモ・経過」に残る</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">9</td><td class="do">状態を「不採用」にする → そのあと「面接・見学」に戻す</td><td>不採用にすると、一覧に「◯年◯月◯日に個人情報を消します」（6か月後）と出る。戻すと、その表示がなくなる</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+  </tbody>
+</table>
+
+<h2 class="sec">4. お問い合わせを受ける</h2>
+<table>
+  <thead><tr><th>No.</th><th>やること</th><th>確かめること</th><th>結果</th><th>メモ</th></tr></thead>
+  <tbody>
+    <tr><td class="no">10</td><td class="do">お問い合わせのページから、試しに送る（本文に「集客」「SEO」などの営業らしい言葉は入れない）</td><td>自分に「受付のメール」が届く。社内の宛先に「お問い合わせがありました」が届く</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">11</td><td class="do">管理画面の「お問い合わせ」で開き、状態を「連絡済み」に変えてメモを残す</td><td>一覧の絞り込み（対応中・未対応 など）と件数が合っている</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">12</td><td class="do">状態を「対応済み」にする</td><td>一覧に「◯年◯月◯日に個人情報を消します」（1年後）と出る</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+  </tbody>
+</table>
+
+<h2 class="sec">5. 片づけ・スマホ</h2>
+<table>
+  <thead><tr><th>No.</th><th>やること</th><th>確かめること</th><th>結果</th><th>メモ</th></tr></thead>
+  <tbody>
+    <tr><td class="no">13</td><td class="do">2で出した求人を「募集を終える」</td><td>採用ページから消え、管理画面の一覧の下にまとまる</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">14</td><td class="do">スマホで管理画面に入り、一覧を見る・状態を変える</td><td>文字が小さすぎたり、はみ出したりせずに使える</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">15</td><td class="do">届いた受付のメール（応募・お問い合わせ）を読み返す</td><td>お客さま・応募者に送る言葉として、言葉づかいや中身に問題がない</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+  </tbody>
+</table>
+
+<h2 class="sec">6. 管理者の方だけ <span class="tag">管理者</span></h2>
+<table>
+  <thead><tr><th>No.</th><th>やること</th><th>確かめること</th><th>結果</th><th>メモ</th></tr></thead>
+  <tbody>
+    <tr><td class="no">16</td><td class="do">「通知の設定」で、本番で知らせを受けるアドレスを入れて保存し、「試しのメールを送る」を押す</td><td>入れたアドレスすべてに届く</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+    <tr><td class="no">17</td><td class="do">「利用者」で、本番で管理画面を使う人と、その権限（一般ユーザー・管理者）を決める</td><td>だれが何をできるようにするかが決まった</td><td class="res">□OK □気になる</td><td class="memo"></td></tr>
+  </tbody>
+</table>
+
+<h2 class="sec">気になったこと（分かりにくい・足りない・言葉づかい など）</h2>
+<table class="free">
+  <thead><tr><th style="width:26%">画面・ページ</th><th>気になったこと</th></tr></thead>
+  <tbody>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+  </tbody>
+</table>
+
+<p class="foot">終わったら、この表を取りまとめの方に渡してください。</p>
+
+</div>
+</body>
+</html>
