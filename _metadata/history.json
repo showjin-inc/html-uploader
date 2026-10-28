@@ -130,5 +130,16 @@
     "createdAt": "2026-10-26",
     "expiresAt": null,
     "pageUrl": "https://share.showjin.co.jp/copain/hhyzo0.html"
+  },
+  {
+    "id": "2026-10-28T13-54-58",
+    "brand": "sj",
+    "title": "giraflower新サイトの運用画面マニュアル",
+    "author": "萩原",
+    "fileName": "vuelgr.html",
+    "filePath": "showjin/vuelgr.html",
+    "createdAt": "2026-10-28",
+    "expiresAt": "2026-11-27",
+    "pageUrl": "https://share.showjin.co.jp/showjin/vuelgr.html"
   }
 ]
