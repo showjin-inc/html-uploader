@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>giraflower 管理画面の使い方</title>
+<!-- build.py が src/php/app/manual.html と src/php/admin/manual.css から作る。直すときはそちらを直す -->
+<style>
+body{margin:0;background:#fbf8f3;color:#28190f;font:16px/1.85 "Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+.mPage{max-width:880px;margin:0 auto;padding:32px 20px 80px}
+.mPageHead{border-bottom:3px solid #db7722;padding-bottom:20px;margin-bottom:28px}
+.mPageHead p{margin:0;color:#695b4d;font-size:14px}
+.mPageHead .mBrand{color:#a55a1f;font-weight:700;letter-spacing:.08em}
+.mPageHead h1{font-size:30px;line-height:1.4;margin:6px 0 10px}
+.mPageFoot{margin-top:64px;padding-top:16px;border-top:1px solid #e2d6c8;color:#695b4d;font-size:14px}
+@media (max-width:640px){body{font-size:15px}.mPage{padding:20px 16px 60px}.mPageHead h1{font-size:24px}}
+@media print{body{background:#fff}.mPage{max-width:none;padding:0}}
+/* 管理画面の「使い方」（admin/manual.php）と、配る docs/管理画面の使い方.html で共通。.man の中だけに効く */
+.man{--mInk:#28190f;--mMuted:#695b4d;--mRule:#e2d6c8;--mOrange:#db7722;--mOrangeText:#a55a1f;--mWarm:#f6ece0;--mRed:#b42318;--mRedBg:#fdecea;--mGreenBg:#eaf4ec;
+  counter-reset:mSec;max-width:880px;line-height:1.85}
+.man p{margin:0 0 12px}
+.man ul,.man ol{margin:0 0 14px;padding-left:1.5em}
+.man li{margin:4px 0}
+.man a{color:var(--mOrangeText)}
+.man code{background:var(--mWarm);border:0;padding:1px 6px;border-radius:4px;font-size:.92em;word-break:break-all}
+.man h2{counter-increment:mSec;font-size:22px;line-height:1.45;margin:56px 0 16px;padding:10px 0 8px;border-bottom:2px solid var(--mRule);scroll-margin-top:16px}
+.man h2::before{content:counter(mSec);display:inline-block;min-width:2em;color:var(--mOrange)}
+.man h3{font-size:17px;margin:32px 0 10px;scroll-margin-top:16px}
+.man h3::before{content:"";display:inline-block;width:6px;height:1em;background:var(--mOrange);border-radius:3px;margin-right:10px;vertical-align:-2px}
+.man .mLead{font-size:17px}
+.man .mMuted{color:var(--mMuted)}
+.man .mSmall{font-size:14px}
+.man .mBtn{display:inline-block;border:1px solid var(--mOrange);color:var(--mOrangeText);background:#fff;border-radius:999px;padding:0 10px;font-size:.9em;font-weight:700;white-space:nowrap;line-height:1.7}
+.man .mMenu{display:inline-block;background:var(--mInk);color:#fff;border-radius:4px;padding:0 8px;font-size:.9em;white-space:nowrap;line-height:1.7}
+.man .mTag{display:inline-block;border-radius:4px;padding:0 8px;font-size:.85em;font-weight:700;white-space:nowrap;line-height:1.8;background:var(--mWarm);color:var(--mInk)}
+.man .mTag--admin{background:var(--mInk);color:#fff}
+.man .mTag--end{background:var(--mRedBg);color:var(--mRed)}
+.man h2 .mTag{font-size:13px;vertical-align:3px;margin-left:6px}
+.man .mBox{background:#fff;border:1px solid var(--mRule);border-radius:12px;padding:18px 20px;margin:16px 0 20px}
+.man .mBox>:last-child{margin-bottom:0}
+.man .mBox--key{border:2px solid var(--mOrange)}
+.man .mBox--warn{background:var(--mRedBg);border-color:#f3c2bd}
+.man .mBox--ok{background:var(--mGreenBg);border-color:#bcd9c1}
+.man .mBox h4{margin:0 0 8px;font-size:16px}
+.man .mCred{display:grid;grid-template-columns:max-content 1fr;gap:8px 16px;align-items:center;margin:12px 0}
+.man .mCred dt{font-weight:700}
+.man .mCred dd{margin:0}
+.man .mFill{display:inline-block;min-width:12em;border-bottom:2px dashed var(--mOrange);color:var(--mRed);font-weight:700;padding:0 4px}
+.man .mVal{font-family:Menlo,Consolas,monospace;font-size:17px;font-weight:700;background:var(--mWarm);padding:2px 10px;border-radius:6px;word-break:break-all}
+.man .mTableWrap{overflow-x:auto;margin:12px 0 20px;border:0;background:none}
+.man table{border-collapse:collapse;width:100%;background:#fff;font-size:15px}
+.man th,.man td{border:1px solid var(--mRule);padding:8px 12px;text-align:left;vertical-align:top}
+.man thead th{background:var(--mWarm);white-space:nowrap}
+.man tbody th{white-space:nowrap;background:#fdfaf6}
+.man td.mN{text-align:right;white-space:nowrap}
+.man ol.mSteps{counter-reset:mStep;list-style:none;padding:0}
+.man ol.mSteps>li{counter-increment:mStep;position:relative;padding-left:42px;margin:12px 0}
+.man ol.mSteps>li::before{content:counter(mStep);position:absolute;left:0;top:2px;width:28px;height:28px;border-radius:50%;background:var(--mOrange);color:#fff;font-weight:700;font-size:15px;display:grid;place-items:center;line-height:1}
+.man .mFlow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 16px}
+.man .mFlow span:not(.mTag){color:var(--mMuted)}
+.man .mToc{background:#fff;border:1px solid var(--mRule);border-radius:12px;padding:16px 20px;margin:20px 0}
+.man .mTocTitle{font-weight:700;margin:0 0 6px}
+.man .mToc ol{columns:2;column-gap:32px;margin:0;padding-left:1.4em}
+.man .mToc li{break-inside:avoid;margin:2px 0}
+.man ul.mCheck{padding-left:1.8em}
+.man ul.mCheck li{list-style:none;position:relative}
+.man ul.mCheck li::before{content:"□";position:absolute;left:-1.5em;color:var(--mOrangeText)}
+@media (max-width:640px){
+  .man h2{font-size:19px}
+  .man .mToc ol{columns:1}
+  .man .mCred{grid-template-columns:1fr;gap:2px}
+  .man .mCred dd{margin-bottom:8px}
+  .man tbody th,.man thead th{white-space:normal;min-width:5.5em}
+  .man th,.man td{padding:8px 10px}
+}
+@media print{
+  .man h2{break-after:avoid}
+  .man .mBox,.man table,.man ol.mSteps>li{break-inside:avoid}
+  .man a{color:inherit;text-decoration:none}
+}
+
+</style>
+</head>
+<body>
+<div class="mPage">
+<header class="mPageHead">
+  <p class="mBrand">giraflower（株式会社笑人 ジラフラワー事業部）</p>
+  <h1>管理画面の使い方</h1>
+  <p>対象：お問い合わせ・応募・求人・お知らせを管理する総務の方</p>
+</header>
+<!--
+  管理画面の使い方（2026-10-28 ユーザー指示）。管理画面の「使い方」（admin/manual.php）と、総務の方に配る docs/管理画面の使い方.html（build.py が作る）の中身。
+  docs の印で囲んだところは配る HTML だけ（DEV への入り方など）、admin の印で囲んだところは管理者だけに出す。toc の印に目次が入る（印の書き方は admin/manual.php）。
+  見出しの番号は CSS（manual.css）で自動で振る。h2 は id 付きの1行の形にする（目次を作るため）。画面やきまりを変えたら、ここも直す。
+-->
+<div class="man">
+
+<p class="mLead">お問い合わせ・応募の確認や、求人・お知らせの掲載を行う「管理画面」の使い方と、設定するときの考え方をまとめています。</p>
+<p>いまは公開前の<b>試しのサイト（DEV）</b>で動いています。まずは DEV で一通り触っていただき、分かりにくいところや足りないところがあれば教えてください。
+管理画面の中の<span class="mMenu">使い方</span>にも、同じ説明があります。</p>
+
+<nav class="mToc" aria-label="目次"><p class="mTocTitle">目次</p><ol><li><a href="#dev">DEV（試しのサイト）への入り方</a></li><li><a href="#login">管理画面へのログイン</a></li><li><a href="#screen">画面の見方と権限</a></li><li><a href="#inquiry">お問い合わせの確認と対応</a></li><li><a href="#entry">応募の確認と対応</a></li><li><a href="#privacy">個人情報を消すきまり</a></li><li><a href="#jobs">求人の掲載</a></li><li><a href="#news">お知らせ</a></li><li><a href="#faq">よくある質問</a></li><li><a href="#admin">管理者だけの設定</a></li><li><a href="#sim">試算の設定（数字の考え方）</a></li><li><a href="#trouble">困ったとき</a></li><li><a href="#test">DEV で確かめていただきたいこと</a></li></ol></nav>
+
+
+<h2 id="dev">DEV（試しのサイト）への入り方</h2>
+
+<p>DEV は、本番と同じ作りの<b>練習用のサイト</b>です。お客さまや応募者からは見えないよう、ID とパスワードで鍵をかけています。
+ここで何を入れても、本番のサイトには出ません。安心して試してください。</p>
+
+<div class="mBox mBox--key">
+  <h4>DEV の入口</h4>
+  <dl class="mCred">
+    <dt>サイト</dt><dd><span class="mVal">https://dev.giraflower.com/</span></dd>
+    <dt>管理画面</dt><dd><span class="mVal">https://dev.giraflower.com/admin/</span></dd>
+    <dt>ID</dt><dd><span class="mFill">（ここに ID を書く）</span></dd>
+    <dt>パスワード</dt><dd><span class="mFill">（ここにパスワードを書く）</span></dd>
+  </dl>
+  <p class="mSmall mMuted">この ID とパスワードは、DEV に入るための<b>みんなで共通の鍵</b>です。社外の人には教えないでください。<br>
+  管理画面のログインは、これとは別に、一人ひとりのメールアドレスで行います（次の章）。</p>
+</div>
+
+<ol class="mSteps">
+  <li>パソコンかスマホのブラウザ（Chrome・Safari・Edge など）で <code>https://dev.giraflower.com/admin/</code> を開きます。</li>
+  <li>「ユーザ名」「パスワード」を聞く小さな窓が出ます。上の <b>ID</b> と <b>パスワード</b> を入れて「ログイン」（または OK）を押します。<br>
+    <span class="mSmall mMuted">ブラウザが「パスワードを保存しますか？」と聞いてきたら、自分専用のパソコンなら保存してかまいません。</span></li>
+  <li>giraflower の管理画面の「ログイン」の画面が出ます。ここからは次の章のとおりです。</li>
+</ol>
+
+<p class="mSmall mMuted">DEV から届くメールは、件名の頭が <b>[giraflower DEV]</b> になります（本番は [giraflower]）。<br>
+本番に切り替えたあとは、管理画面は <code>https://giraflower.com/admin/</code> になります。本番には、この ID とパスワードの鍵はありません（メールアドレスでのログインだけになります）。</p>
+
+
+<h2 id="login">管理画面へのログイン</h2>
+
+<p>管理画面に<b>パスワードはありません</b>。登録してあるメールアドレスに届く<b>6桁のコード</b>で入ります。</p>
+
+<h3>はじめて使うとき</h3>
+<p>先に、管理者があなたのメールアドレスを登録します。登録されると「<b>[giraflower] 管理画面に登録しました</b>」という件名のメールが届きます。
+メールの中のリンクを開くと、ログインの画面に進みます。</p>
+
+<h3>ログインのしかた</h3>
+<ol class="mSteps">
+  <li>ログインの画面で<b>自分のメールアドレス</b>を入れ、<span class="mBtn">ログインのコードを送る</span>を押します。</li>
+  <li>そのアドレスに「<b>[giraflower] 管理画面のコード：123456</b>」という件名のメールが届きます（1〜2分かかることがあります）。</li>
+  <li>メールの6桁の数字を入れて、<span class="mBtn">ログイン</span>を押します。</li>
+</ol>
+<p>使い終わったら、右上の<span class="mBtn">ログアウト</span>を押します。アドレスを打ち間違えたときは、コードを入れる画面の<span class="mBtn">別のアドレスで入る</span>で戻れます。</p>
+
+<div class="mBox">
+  <h4>コードのきまり</h4>
+  <ul>
+    <li>コードは<b>10分間・1回だけ</b>使えます。</li>
+    <li>コードを頼んだのと<b>同じブラウザ</b>で入れてください。同じパソコンでも、Chrome で頼んで Safari やプライベートウィンドウで入れると通りません。</li>
+    <li>5回まちがえると、そのコードは使えなくなります。<span class="mBtn">コードを送り直す</span>から頼み直してください（前のコードは使えなくなります）。</li>
+    <li>コードを頼める回数には上限があります：同じアドレスで、同じ回線から1時間に5回、1日に30回まで。また、同じ回線（会社のネットなど）からは、全員あわせて1時間に20回までです。</li>
+    <li>何もしないまま<b>2時間</b>たつか、ログインから<b>12時間</b>たつと、自動でログアウトします。書きかけの長い文は、こまめに保存してください。</li>
+  </ul>
+</div>
+
+<div class="mBox mBox--warn">
+  <h4>メールアカウントが「鍵」になります</h4>
+  <ul>
+    <li>メールを他人に見られると、管理画面にも入られてしまいます。メールのパスワードと2段階認証をしっかり設定してください。</li>
+    <li>登録するのは、<b>本人だけが読めるアドレス</b>にしてください（みんなで見る共有のアドレスは避けます）。</li>
+    <li>コードは、だれにも教えないでください。giraflower からコードを聞くことはありません。</li>
+    <li>右上の自分の名前を押すと、最近ログインした日時が見られます。覚えのないログインがあれば、すぐ管理者に知らせてください。</li>
+  </ul>
+</div>
+
+<h2 id="screen">画面の見方と権限</h2>
+
+<p>上のメニューから、使う画面を選びます。利用者には「一般ユーザー」と「管理者」の2つの権限があり、管理者にだけ出るメニューがあります。</p>
+
+<div class="mTableWrap"><table>
+  <thead><tr><th>メニュー</th><th>何をするところか</th><th>使える人</th></tr></thead>
+  <tbody>
+    <tr><th>ホーム</th><td>未対応のお問い合わせ・応募の数、公開中の求人・お知らせの数、新しいものの一覧、注意のお知らせ</td><td>全員</td></tr>
+    <tr><th>お問い合わせ</th><td>お問い合わせフォームから届いたものを見る・対応の状態を記録する</td><td>全員</td></tr>
+    <tr><th>応募</th><td>応募フォームから届いたものを見る・選考の状態を記録する</td><td>全員</td></tr>
+    <tr><th>求人</th><td>採用ページの募集を作る・公開する・終える</td><td>全員</td></tr>
+    <tr><th>お知らせ</th><td>トップページと「お知らせ」のページに出す記事</td><td>全員</td></tr>
+    <tr><th>よくある質問</th><td>HANABASE・採用情報のページの「よくあるご質問」</td><td>全員</td></tr>
+    <tr><th>利用者</th><td>管理画面を使う人の登録・停止</td><td><span class="mTag mTag--admin">管理者</span></td></tr>
+    <tr><th>試算の設定</th><td>HANABASE のページの試算で使う数字</td><td><span class="mTag mTag--admin">管理者</span></td></tr>
+    <tr><th>試算の記録</th><td>HANABASE のページで試算された条件の集計</td><td><span class="mTag mTag--admin">管理者</span></td></tr>
+    <tr><th>メールの文面</th><td>サイトから自動で送るメールの件名・本文</td><td><span class="mTag mTag--admin">管理者</span></td></tr>
+    <tr><th>通知の設定</th><td>お問い合わせ・応募が来たことを知らせるメールの宛先</td><td><span class="mTag mTag--admin">管理者</span></td></tr>
+    <tr><th>操作の記録</th><td>だれが、いつ、何をしたか</td><td><span class="mTag mTag--admin">管理者</span></td></tr>
+    <tr><th>使い方</th><td>このページ</td><td>全員</td></tr>
+  </tbody>
+</table></div>
+<p class="mSmall mMuted">メニューの「お問い合わせ」「応募」の横の数字は、未対応の件数です。お問い合わせ・応募を「いま消す」（すぐに消す）ことができるのは、管理者だけです。</p>
+
+<h3>ホームに出る注意</h3>
+<ul>
+  <li><b>「通知の宛先が決まっていません」</b>：お問い合わせや応募が来ても、知らせのメールが届かない状態です。管理者が「通知の設定」で宛先を入れます。</li>
+  <li><b>「この2週間に、メールを送れなかったことがあります」</b>：下に、いつ・どのメールが・何番のお問い合わせや応募で送れなかったかが並びます。
+    <ul>
+      <li>「受付」のメールが送れなかったとき：お客さま・応募者に受付のメールが届いていません。その番号を開いて、こちらから連絡してください。</li>
+      <li>「通知」のメールが送れなかったとき：社内に知らせが届いていません。一覧で、その番号のものを確かめてください。通知の宛先が決まっていないときも、ここに出ます。</li>
+      <li>続くときは、制作の担当に知らせてください。</li>
+    </ul>
+    <span class="mSmall mMuted">お客さまがアドレスを打ち間違えて、メールが戻ってきた場合は、ここには出ません。</span></li>
+</ul>
+
+<h2 id="inquiry">お問い合わせの確認と対応</h2>
+
+<h3>届いたときの流れ</h3>
+<ol class="mSteps">
+  <li>お客さまがフォームから送ると、お客さまには「受付のメール」が自動で届きます（1営業日以内を目安に返信する旨と、返信が無いときはお電話を、と書いてあります）。<br>
+    <span class="mSmall mMuted">ただし、営業・宣伝らしい言葉があるものには、受付のメールを送りません（下の「営業の可能性」）。</span></li>
+  <li>社内の宛先には「<b>[giraflower] お問い合わせがありました（ご相談内容）</b>」という<b>知らせのメール</b>が届きます。<br>
+    <span class="mSmall mMuted">知らせのメールには、お客さまの名前や連絡先は書いていません（メールが転送されても個人情報が広がらないようにするためです）。中身は管理画面で見ます。</span></li>
+  <li>知らせのメールのリンクか、メニューの<span class="mMenu">お問い合わせ</span>から開きます。</li>
+  <li>中身を確かめ、お客さまに<b>1営業日以内</b>に連絡します。メールアドレス・電話番号は、押すとそのままメール・電話ができます。</li>
+  <li>連絡したら<b>状態</b>を変え、<b>メモ</b>に経過を残します。</li>
+</ol>
+
+<h3>一覧の見方</h3>
+<ul>
+  <li>新しい順に並んでいます。番号（#12 など）か名前を押すと、中身が開きます。</li>
+  <li>上の札で絞り込めます：<span class="mTag">すべて</span> <span class="mTag">対応中</span>（終わっていないもの全部） <span class="mTag">未対応</span> <span class="mTag">連絡済み</span> など。括弧の中は件数です。</li>
+  <li><b>「営業の可能性」</b>の印が付いたものは、文面に営業・宣伝らしい言葉（「SEO」「集客」「ホームページ制作」「補助金」など）があったものです。知らせのメールの件名にも【営業の可能性】と付きます。
+    この場合、お客さまへの自動の受付メールは送っていません。中身を見て、営業なら「対応しない」にしてください。本物のご相談だったら、ふつうに連絡します。</li>
+  <li>「試算の条件」が入っているものは、HANABASE のページの試算から相談に進んだ方です（どんな条件で試算したかが分かります）。</li>
+</ul>
+
+<h3>状態の意味</h3>
+<div class="mFlow"><span class="mTag">未対応</span><span>→</span><span class="mTag">連絡済み</span><span>→</span><span class="mTag">打ち合わせ中</span><span>→</span><span class="mTag mTag--end">対応済み</span><span>／</span><span class="mTag mTag--end">対応しない</span></div>
+<div class="mTableWrap"><table>
+  <thead><tr><th>状態</th><th>いつ使うか</th></tr></thead>
+  <tbody>
+    <tr><th>未対応</th><td>届いたばかりで、まだだれも連絡していない。<b>ホームとメニューの「未対応」の数</b>に出ます。これが残っていたら、すぐ対応します。</td></tr>
+    <tr><th>連絡済み</th><td>メール・電話で最初の連絡をした。お客さまからの返事を待っている。</td></tr>
+    <tr><th>打ち合わせ中</th><td>お見積もり・打ち合わせなど、具体的な話が進んでいる。</td></tr>
+    <tr><th>対応済み <span class="mTag mTag--end">終わり</span></th><td>やりとりが終わった（ご依頼につながった・資料を送って終わった・見送りになった など）。</td></tr>
+    <tr><th>対応しない <span class="mTag mTag--end">終わり</span></th><td>営業・宣伝・いたずらなど、返事をしないもの。</td></tr>
+  </tbody>
+</table></div>
+<p><span class="mTag mTag--end">終わり</span>の状態にした日から、<b>1年で個人情報が自動で消えます</b>（「<a href="#privacy">個人情報を消すきまり</a>」）。間違えて「終わり」にしたときは、元の状態に戻せば、消える日の予定も取り消されます。</p>
+
+<h3>状態の変え方・メモの残し方</h3>
+<ol class="mSteps">
+  <li>お問い合わせを開き、「状態」の選択肢から新しい状態を選んで<span class="mBtn">変える</span>を押します。<br>
+    <span class="mSmall mMuted">変えたことは、だれが・いつ変えたかと一緒に、下の「メモ・経過」に自動で残ります。</span></li>
+  <li>「メモ」の欄に、連絡した日・話した内容・次にすることなどを書いて<span class="mBtn">メモを残す</span>を押します。</li>
+</ol>
+<p class="mSmall mMuted">メモは、ほかの担当者への引き継ぎにもなります。「6/3 電話。来週見積もりを送る（山田）」のように、短くてかまいません。お客さまの個人的な事情など、必要の無いことは書かないでください。</p>
+
+<h2 id="entry">応募の確認と対応</h2>
+
+<h3>届いたときの流れ</h3>
+<ol class="mSteps">
+  <li>応募した人には「受付のメール」が自動で届きます。<br>
+    <span class="mSmall mMuted">「これまでの経験・資格」「自己PR」の欄に営業・宣伝らしい言葉（「SNS運用」「集客」「人材紹介」など）があると、知らせのメールの件名に【営業の可能性】と付きます（管理画面の応募には印は出ません）。
+    花の仕事の応募でも出てくる言葉なので、応募した人への受付のメールは、この場合も送っています。中身を見て判断してください。</span></li>
+  <li>社内の宛先には「<b>[giraflower] 新しい応募がありました（募集の名前）</b>」という知らせのメールが届きます（名前や連絡先は書いていません）。</li>
+  <li>メールのリンクか、メニューの<span class="mMenu">応募</span>から開き、中身を確かめて連絡します。</li>
+  <li>選考の進み具合に合わせて<b>状態</b>を変え、<b>メモ</b>に経過（連絡した日、面接の日時、伝えたことなど）を残します。やり方はお問い合わせと同じです。</li>
+</ol>
+
+<h3>一覧の見方</h3>
+<ul>
+  <li>上の札で絞り込めます：<span class="mTag">すべて</span> <span class="mTag">選考中</span>（終わっていないもの全部） <span class="mTag">未対応</span> <span class="mTag">採用</span> など。括弧の中は件数です。</li>
+  <li>中身の画面の「求人を見る」から、応募した求人の中身に移れます。</li>
+</ul>
+
+<h3>状態の意味</h3>
+<div class="mFlow"><span class="mTag">未対応</span><span>→</span><span class="mTag">連絡済み</span><span>→</span><span class="mTag">面接・見学</span><span>→</span><span class="mTag mTag--end">採用</span><span>／</span><span class="mTag mTag--end">不採用</span><span>／</span><span class="mTag mTag--end">辞退</span></div>
+<div class="mTableWrap"><table>
+  <thead><tr><th>状態</th><th>いつ使うか</th></tr></thead>
+  <tbody>
+    <tr><th>未対応</th><td>届いたばかりで、まだ連絡していない。ホームとメニューの「未対応」の数に出ます。</td></tr>
+    <tr><th>連絡済み</th><td>応募者に連絡した（面接・見学の日程を調整している など）。</td></tr>
+    <tr><th>面接・見学</th><td>面接・見学の日が決まった、または行った。結果を出すまで。</td></tr>
+    <tr><th>採用 <span class="mTag mTag--end">終わり</span></th><td>採用を決めて、本人に伝えた。</td></tr>
+    <tr><th>不採用 <span class="mTag mTag--end">終わり</span></th><td>見送りを決めて、本人に伝えた。</td></tr>
+    <tr><th>辞退 <span class="mTag mTag--end">終わり</span></th><td>本人から辞退の連絡があった、または連絡がつかなくなった。</td></tr>
+  </tbody>
+</table></div>
+<p><span class="mTag mTag--end">終わり</span>の状態にした日から、<b>6か月で個人情報が自動で消えます</b>（「<a href="#privacy">個人情報を消すきまり</a>」）。
+採用した人の情報は、それまでに社内の書類（雇用の書類など）へ移してください。</p>
+
+<div class="mBox mBox--warn">
+  <h4>応募の情報の扱い</h4>
+  <ul>
+    <li>画面を写真に撮ったり、個人のスマホのメモやチャットに写したりしないでください。</li>
+    <li>だれがどの応募を開いたかは、「操作の記録」に残ります（管理者が見られます）。</li>
+  </ul>
+</div>
+
+<h2 id="privacy">個人情報を消すきまり</h2>
+
+<p>お問い合わせと応募の個人情報は、必要な期間が過ぎたら<b>自動で消えます</b>。手で消す作業はいりません。</p>
+
+<div class="mTableWrap"><table>
+  <thead><tr><th></th><th>消える時期</th><th>消えるもの</th><th>残るもの（個人が分からない情報）</th></tr></thead>
+  <tbody>
+    <tr><th>お問い合わせ</th>
+      <td>「対応済み」「対応しない」にしてから<b>1年</b></td>
+      <td>会社名・店舗名、お名前、メールアドレス、電話番号、会場・対象施設、ご相談の詳細、メモ</td>
+      <td>受付の日、ご相談内容、関連するサービス、試算の条件、挙式予定日、営業の印、状態</td></tr>
+    <tr><th>応募</th>
+      <td>「採用」「不採用」「辞退」にしてから<b>6か月</b></td>
+      <td>お名前、ふりがな、メールアドレス、電話番号、生年月日、市区町村、これまでの経験・資格、自己PR、メモ</td>
+      <td>受付の日、応募した募集、都道府県、年代（生年月日から出したもの）、働き始められる時期、花の仕事の経験、状態</td></tr>
+    <tr><th>終わっていないもの</th>
+      <td colspan="3">状態が終わっていなくても、<b>1年間だれも触っていない</b>（状態もメモも変わっていない）ものは、同じように消えます。対応を忘れたまま、個人情報が残り続けないようにするためです。<br>
+      <span class="mSmall mMuted">開いて見ただけでは「触った」ことになりません。状態を変えるか、メモを残すと、そこから1年に延びます。</span></td></tr>
+  </tbody>
+</table></div>
+
+<ul>
+  <li>「終わり」の状態にすると、中身の画面の上と一覧に「◯年◯月◯日に個人情報を消します」と出ます。</li>
+  <li>終わっていないものは、中身の画面に「このまま触らないと◯年◯月◯日に消えます」と小さく出ます（一覧には出ません）。</li>
+  <li>実際に消えるのは、その日を過ぎてから、だれかが管理画面を開くか、フォームから送信があったときです（日付ぴったりではありません）。</li>
+  <li>残す必要がある情報は、消える前に社内の台帳や書類に移してください。</li>
+  <li>残った「個人が分からない情報」は、どんな相談・応募が多いかを見るために使います。</li>
+  <li>個人情報が消えたあとは、メモを足せません。</li>
+  <li>本人から「消してほしい」と言われたときは、<b>管理者</b>が中身の画面の下の<span class="mBtn">いま消す</span>で、すぐに消せます。このときは、<b>分析用の情報も含めて記録ごと全部</b>消え、元に戻せません。</li>
+</ul>
+<p class="mSmall mMuted">期間（1年・6か月・1年）はサイトの設定で決めてあり、管理画面からは変えられません。変えたいときは制作の担当に相談してください。</p>
+
+<h2 id="jobs">求人の掲載</h2>
+
+<p>採用ページの募集カードを作ります。「公開中」の求人だけが、一覧の並びのとおりに採用ページに出ます。</p>
+
+<div class="mTableWrap"><table>
+  <thead><tr><th>やりたいこと</th><th>押すところ</th></tr></thead>
+  <tbody>
+    <tr><th>新しく作る</th><td><span class="mMenu">求人</span> → <span class="mBtn">求人を新しく作る</span>。似た募集があれば、それを<span class="mBtn">コピー</span>して直すと早いです（コピーは下書きになります）。</td></tr>
+    <tr><th>採用ページに出す</th><td><span class="mBtn">保存して公開する</span>（一覧の<span class="mBtn">公開する</span>でも同じ）</td></tr>
+    <tr><th>内容を直す</th><td><span class="mBtn">直す</span> → 直して保存。公開中の求人のボタンは<span class="mBtn">保存する（すぐ採用ページに出ます）</span>で、押した時点で採用ページが変わります。</td></tr>
+    <tr><th>募集をやめる</th><td><span class="mBtn">募集を終える</span>。採用ページから消えます（記録は残り、一覧の下にまとまります）。</td></tr>
+    <tr><th>いったん隠す</th><td><span class="mBtn">下書きに戻す</span>。採用ページから消えます。</td></tr>
+    <tr><th>並びを変える</th><td><span class="mBtn">↑</span> <span class="mBtn">↓</span>。採用ページのカードの順番になります。</td></tr>
+    <tr><th>公開前に見た目を確かめる</th><td><span class="mBtn">確認する</span>／<span class="mBtn">採用ページを確認する（下書き入り）</span>。ログインしている人にだけ、下書きも入った採用ページが見えます。</td></tr>
+    <tr><th>消す</th><td>公開中でない求人だけ<span class="mBtn">消す</span>が出ます（元に戻せません）。ふつうは「募集を終える」で十分です。</td></tr>
+  </tbody>
+</table></div>
+
+<h3>入れる項目</h3>
+<ul>
+  <li><b>カードの上の部分</b>：拠点、雇用形態（アルバイト・パート・契約社員・正社員・業務委託）、職種、ひとこと（任意）。<br>
+    拠点は、欄を押すと出る候補（<b>東京・埼玉・福岡・山口</b>）から選んでください。「福岡」「山口」のときは、募集する会社が自動で「株式会社 PLANTOO PLUS」になります。
+    <span class="mSmall mMuted">「福岡県」「福岡市」のように書くと自動で切り替わらず、株式会社笑人の募集として出てしまいます。</span></li>
+  <li><b>カードの表に出す5つ</b>：仕事内容・勤務地・給与・勤務時間・休日（業務委託では、業務内容・業務の場所・報酬・業務の時間・業務の日）。5つとも必要です。</li>
+  <li><b>「詳しい条件を見る」で開く項目</b>：法律（職業安定法・フリーランス法）で載せる項目が、はじめから入っています。<b>項目名がオレンジの枠の行は、空だと公開できません。</b>内容が空の行は、カードに出ません。<br>
+    雇う募集：仕事内容と就業場所の「変更の範囲」、契約期間、契約の更新、試用期間、休憩、残業、受動喫煙の防止、加入する保険<br>
+    業務委託：契約の形、契約期間、契約の解除・不更新</li>
+  <li><b>期間の定めが無い募集</b>（正社員など）は、契約期間の欄に「<b>期間の定めなし</b>」のように「定めなし」か「定めがない」という言葉を入れてください。そうすると「契約の更新」は空でも公開できます。
+    <span class="mSmall mMuted">「無期」「期間の定め無し」（漢字の「無し」）などでは、更新の欄が空のままだと公開できません。</span></li>
+  <li>行は<span class="mBtn">行を足す</span>で足し、<span class="mBtn">×</span>で消せます。雇用形態を変えて法定の項目が足りなくなったときは、<span class="mBtn">足りない法定の項目を足す</span>で足せます。</li>
+  <li>雇用形態を「業務委託」にすると、カードに「雇用契約ではありません」と自動で出ます。</li>
+  <li>改行は、カードでも改行になります。</li>
+</ul>
+
+<div class="mBox">
+  <h4>数字を入れるときの考え方（給与・報酬）</h4>
+  <ul>
+    <li>給与・報酬は、<b>拠点の都道府県の最低賃金より下にしない</b>でください。東京・埼玉・福岡・山口で金額が違います。</li>
+    <li>最低賃金は<b>毎年10月ごろに上がります</b>。そのたびに、公開中のすべての求人の金額を見直してください（厚生労働省の「地域別最低賃金」で確かめられます）。</li>
+    <li>「時給 1,300円〜」のように幅を書くときは、<b>いちばん下の金額</b>が最低賃金以上になっているかを見ます。</li>
+    <li>交通費・手当を書くときは、給与の金額に含めるのか別なのかが分かる書き方にします（例：「時給 1,300円（交通費は別に支給・上限 月2万円）」）。</li>
+  </ul>
+</div>
+
+<div class="mBox mBox--warn">
+  <h4>古い求人を出したままにしない</h4>
+  <p>条件が変わったらすぐ直し、募集を終えたらすぐ<span class="mBtn">募集を終える</span>を押してください。古い情報を出したままにしないことも、法律で決まっています。</p>
+  <p>求人のページには「公開日」が自動で出ます。公開日は、<b>最初に公開した日</b>のまま変わりません（内容を直しても、いったん終えてまた公開しても同じです）。
+  新しい募集として出し直したいときは、<span class="mBtn">コピー</span>で新しい求人を作って公開し、古いほうは「募集を終える」にします。</p>
+</div>
+
+<h2 id="news">お知らせ</h2>
+<ol class="mSteps">
+  <li><span class="mMenu">お知らせ</span> → <span class="mBtn">お知らせを書く</span>。</li>
+  <li>日付・題名・本文を入れて<span class="mBtn">保存して公開する</span>（まだ出さないときは<span class="mBtn">下書きを保存</span>）。</li>
+  <li>トップページ（新しい3件）と「お知らせ」のページに出ます。</li>
+</ol>
+<ul>
+  <li><b>日付を先の日にすると、その日になってから出ます</b>（予約）。</li>
+  <li>本文は、空の行を入れると段落が分かれます。<code>https://</code> で始まる URL はリンクになります。</li>
+  <li>応募者やお客さまなど、<b>個人の名前は書かない</b>でください。</li>
+  <li>出したものを引っ込めるときは<span class="mBtn">下書きに戻す</span>、要らなくなったら<span class="mBtn">消す</span>（元に戻せません）。</li>
+</ul>
+
+<h2 id="faq">よくある質問</h2>
+<p>HANABASE・採用情報のページの下にある「よくあるご質問」です。</p>
+<ol class="mSteps">
+  <li><span class="mMenu">よくある質問</span>を開くと、ページごとに質問が並んでいます。</li>
+  <li>足すとき：そのページの<span class="mBtn">質問を足す</span> → 質問と答えを入れて<span class="mBtn">保存して公開する</span>（まだ出さないときは<span class="mBtn">非公開のまま保存</span>）。</li>
+  <li>直すとき：<span class="mBtn">直す</span>。「出すページ」を変えると、別のページへ移せます。</li>
+  <li>並べ替え：<span class="mBtn">↑</span> <span class="mBtn">↓</span>。ページにはこの並びで出ます。</li>
+  <li>出さないとき：<span class="mBtn">非公開にする</span>（あとで戻せます）。もう要らないときは<span class="mBtn">消す</span>（元に戻せません）。</li>
+</ol>
+<ul>
+  <li>答えは、空の行で段落が分かれます。</li>
+  <li>リンクにしたいところは <code>[お問い合わせ](/contact/)</code> のように書きます。かっこは<b>半角</b>の <code>[ ]</code> と <code>( )</code> です（全角の［］（）では動きません）。
+    [ ] の中が見せる文字、すぐ後ろの ( ) の中がアドレスで、アドレスは <code>/</code> で始まるサイトの中のページか、<code>https://</code> で始まるものだけ使えます。</li>
+  <li>公開の質問が1つも無いページは、「よくあるご質問」の見出しごと出ません。</li>
+  <li>HANASPO・TSUNAGU はまだページを出していないので、質問を公開してもサイトには出ません。</li>
+</ul>
+
+
+<h2 id="admin">管理者だけの設定 <span class="mTag mTag--admin">管理者</span></h2>
+
+<h3>利用者（管理画面を使う人）</h3>
+<ul>
+  <li><b>追加</b>：<span class="mMenu">利用者</span> → <span class="mBtn">新規登録</span>。名前（画面と記録に出る。例：東京LAB 山田）・メールアドレス・権限を入れて<span class="mBtn">登録する</span>。本人に「管理画面に登録しました」のメールが届きます。</li>
+  <li><b>状況</b>：「招待メールを送った」→ 本人がメールのリンクを開くと「招待のリンクを開いた」→ ログインすると「ログイン済み」。
+    「招待メールを送れていない」のときや、届かないと言われたときは<span class="mBtn">招待メールを送り直す</span>。<br>
+    <span class="mSmall mMuted">会社のメールの安全確認でリンクが自動で開かれ、本人が見る前に「開いた」になることがあります。</span></li>
+  <li><b>名前・アドレス・権限を変える</b>：その人の<span class="mBtn">編集</span>。メールアドレスを変えると、新しいアドレスに登録のメールが届き、次から新しいアドレスでログインします。</li>
+  <li><b>止める</b>：辞めた人・使わなくなった人は、すぐ<span class="mBtn">止める</span>にします（記録に名前を残すため、消さずに止めます）。戻すときは<span class="mBtn">使えるようにする</span>。</li>
+  <li>自分自身は止められません。また、管理者が1人しかいないときは、その人を一般ユーザーにしたり止めたりはできません。</li>
+</ul>
+<div class="mBox">
+  <h4>権限の決め方</h4>
+  <p>ふだんの対応（お問い合わせ・応募・求人・お知らせ・よくある質問）だけなら<b>一般ユーザー</b>で足ります。
+  利用者の追加・停止、通知の宛先、メールの文面、試算の数字を直す人、個人情報をすぐ消す判断をする人だけを<b>管理者</b>にします。管理者は少ないほど安全です。</p>
+</div>
+
+<h3>通知の設定</h3>
+<p>お問い合わせや応募が来たことを知らせるメールの宛先です。</p>
+<ol class="mSteps">
+  <li><span class="mMenu">通知の設定</span>を開きます。</li>
+  <li>「お問い合わせの通知の宛先」を入れます。「応募の通知の宛先」は、別の人に届けたいときだけ入れます（空なら、お問い合わせと同じ宛先に届きます）。</li>
+  <li>複数の人に届けたいときは <code>a@example.com, b@example.com</code> のように半角の「,」で区切ります（5つまで）。</li>
+  <li><span class="mBtn">保存する</span>を押し、<span class="mBtn">試しのメールを送る</span>で届くか確かめます（迷惑メールのフォルダも見てください）。</li>
+</ol>
+<p class="mSmall mMuted">知らせが届かないと対応が遅れます。担当が変わったら、すぐここを直してください。</p>
+
+<h3>メールの文面</h3>
+<p>サイトから自動で送るメールの件名と本文を直せます。送り元はどれも <code>no-reply@giraflower.com</code> です。</p>
+<div class="mTableWrap"><table>
+  <thead><tr><th>メール</th><th>だれに届くか</th></tr></thead>
+  <tbody>
+    <tr><th>ログインのコード</th><td>管理画面の利用者</td></tr>
+    <tr><th>利用者の登録のお知らせ</th><td>追加した利用者</td></tr>
+    <tr><th>応募の通知（社内向け）</th><td>通知の設定で決めた宛先</td></tr>
+    <tr><th>応募の受付（応募者向け）</th><td>応募した人</td></tr>
+    <tr><th>お問い合わせの通知（社内向け）</th><td>通知の設定で決めた宛先</td></tr>
+    <tr><th>お問い合わせの受付（お客さま向け）</th><td>お問い合わせした人</td></tr>
+    <tr><th>共通の署名</th><td>応募・お問い合わせの受付メールの最後に入る</td></tr>
+  </tbody>
+</table></div>
+<ul>
+  <li><code>{{name}}</code> のような<b>印</b>のところに、送るときの中身（名前・番号など）が入ります。使える印は画面に出ます。</li>
+  <li>「消せない」の札が付いた印（ログインのコードの <code>{{code}}</code> など）は、消すと保存できません。</li>
+  <li>社内向けのメール（コード・登録・通知）の件名には、頭に [giraflower] が自動で付きます。</li>
+  <li><span class="mBtn">自分に見本を送る</span>で、自分のアドレスに見本を送って確かめられます。</li>
+  <li><span class="mBtn">最初の文面に戻す</span>で、最初に用意した文面に戻せます。</li>
+  <li>社内向けの知らせには、応募者・お客さまの名前や連絡先を入れないでください。</li>
+</ul>
+
+<h3>試算の記録</h3>
+<p>HANABASE のページで「任せた効果を見る」が押されるたびに、その条件（婚礼単価・バックマージン・月の件数・任せ方）と結果が残ります。どんなお客さまが関心を持っているかを知るためのものです。</p>
+<ul>
+  <li><b>だれが試したかは分かりません。</b>名前・メールアドレスなどは残しません。同じブラウザからの試算は、同じ「人」の印（#A3F2C1 など）でまとまります。</li>
+  <li>上のボタンで期間（7日・30日・90日・すべて）を切り替えられます。<span class="mBtn">CSV で保存</span>で Excel で開けるファイルにできます。</li>
+  <li>「何が選ばれているか」で、どの任せ方・単価・件数が多いかが分かります。「人ごとの試算」で印を押すと、その人がどう条件を変えて試したかが見られます。</li>
+  <li>いたずらでデータが増えすぎないよう、残す数に上限があります（1日に全体で3,000件・同じ人から200件まで、同じ回線から1時間に60回・1日に300回まで）。</li>
+</ul>
+
+<h3>操作の記録</h3>
+<p>だれが、いつ、何をしたか（新しい順に300件）。ログイン、状態の変更、応募やお問い合わせを開いたこと、求人の公開、設定の変更、個人情報の自動の消去、メールを送れなかったことなどが残ります。名前などの個人情報は書かず、番号だけを残しています。</p>
+
+<h2 id="sim">試算の設定（数字の考え方） <span class="mTag mTag--admin">管理者</span></h2>
+
+<p>HANABASE のページの「任せた効果を、試算する。」は、お客さま（式場・花店など）が「婚礼の装花の仕事を giraflower に任せたら、社内でどれだけ時間が空くか」を確かめるためのものです。
+ここで使う数字を、<span class="mMenu">試算の設定</span>で決めます。<b>保存すると、すぐページの計算に使われます。</b></p>
+
+<div class="mBox mBox--warn">
+  <h4>いまの数字は仮のものです</h4>
+  <p>最初に入っているのは、画面を作るために置いた<b>仮の数字</b>です（下の表）。公開の前に、実際の仕事の時間をもとに決めてください。</p>
+</div>
+
+<h3>入れる数字</h3>
+<div class="mTableWrap"><table>
+  <thead><tr><th>項目</th><th>意味</th><th>最初の値（仮）</th></tr></thead>
+  <tbody>
+    <tr><th>仕入れ</th><td rowspan="5">婚礼<b>1件</b>あたり、その工程にかかる時間（式場・花店が自分でやったとき）。0.5時間きざみ。</td><td class="mN">2 時間</td></tr>
+    <tr><th>制作</th><td class="mN">5 時間</td></tr>
+    <tr><th>納品</th><td class="mN">1 時間</td></tr>
+    <tr><th>施工</th><td class="mN">2 時間</td></tr>
+    <tr><th>撤収</th><td class="mN">1 時間</td></tr>
+    <tr><th>社内に残る作業</th><td>すべて任せても、お客さまの社内に残る時間（新郎新婦との打ち合わせ、こちらとの連絡・確認など）。婚礼1件あたり。</td><td class="mN">2 時間</td></tr>
+    <tr><th>時給</th><td>空いた時間を、お金に直すときに使う1時間あたりの金額。</td><td class="mN">1,500 円</td></tr>
+  </tbody>
+</table></div>
+
+<h3>ページでの計算のしかた</h3>
+<p>お客さまは、ページで「婚礼単価」「バックマージン」「月の件数」と「任せ方」を選びます。結果は次のように出します。</p>
+<div class="mTableWrap"><table>
+  <thead><tr><th>ページに出るもの</th><th>計算</th></tr></thead>
+  <tbody>
+    <tr><th>毎月、空く時間</th><td>任せた工程の時間の合計 × 月の件数</td></tr>
+    <tr><th>約◯人日分</th><td>空く時間 ÷ 8時間</td></tr>
+    <tr><th>社内の作業時間 ◯%削減</th><td>任せた工程の時間 ÷（5つの工程の合計 ＋ 社内に残る作業）</td></tr>
+    <tr><th>人件費にすると</th><td>空く時間 × 時給</td></tr>
+    <tr><th>婚礼 約◯件分</th><td>空く時間 ÷ 5つの工程の合計</td></tr>
+  </tbody>
+</table></div>
+<p>任せ方は4つです：<b>すべて任せる</b>（5工程）／<b>仕入れから納品まで</b>（仕入れ・制作・納品）／<b>仕入れから制作まで</b>（仕入れ・制作）／<b>制作だけ</b>。<br>
+<span class="mSmall mMuted">「婚礼単価」と「バックマージン」は、計算には使っていません。ページでは条件として表示し、「試算の記録」でどんなお客さまが試したかを知るために残しています（料金や売上の金額は、ページには出しません）。</span></p>
+
+<div class="mBox">
+  <h4>最初の仮の数字で、月10件のとき</h4>
+  <div class="mTableWrap"><table>
+    <thead><tr><th>任せ方</th><th>1件で空く時間</th><th>空く時間（月）</th><th>削減</th><th>人件費にすると</th></tr></thead>
+    <tbody>
+      <tr><th>すべて任せる</th><td class="mN">11 時間</td><td class="mN">110 時間</td><td class="mN">約85%</td><td class="mN">16.5万円</td></tr>
+      <tr><th>仕入れから納品まで</th><td class="mN">8 時間</td><td class="mN">80 時間</td><td class="mN">約62%</td><td class="mN">12万円</td></tr>
+      <tr><th>仕入れから制作まで</th><td class="mN">7 時間</td><td class="mN">70 時間</td><td class="mN">約54%</td><td class="mN">10.5万円</td></tr>
+      <tr><th>制作だけ</th><td class="mN">5 時間</td><td class="mN">50 時間</td><td class="mN">約38%</td><td class="mN">7.5万円</td></tr>
+    </tbody>
+  </table></div>
+  <p class="mSmall mMuted">削減の分母は、5つの工程の合計 11時間 ＋ 社内に残る作業 2時間 ＝ 13時間です（すべて任せる：11 ÷ 13 ≒ 85%）。
+  試算の設定の画面の下の「いまの設定での見本」に、いま保存してある数字での月10件の結果が出ます。数字を変えて保存したら、そこで確かめてください。</p>
+</div>
+
+<h3>数字の決め方</h3>
+<ul>
+  <li><b>工程ごとの時間は、実際の平均で。</b>giraflower がこれまで請け負ってきた婚礼で、1件あたり各工程に何時間かかっているかを、スタッフの延べ時間（2人で2時間なら4時間）で出します。
+    お客さまが自分でやるときの時間に近いほど、ページの結果が信用されます。</li>
+  <li><b>多めにしない。</b>時間を大きくすると効果が大きく見えますが、実際に任せたときに「試算ほど空かない」となり、信用を失います。迷ったら<b>控えめ</b>にします。</li>
+  <li><b>社内に残る作業は 0 にしない。</b>0 にすると「すべて任せる」が100%削減になり、現実的ではありません。任せても必ず残る打ち合わせ・連絡の時間を入れます。</li>
+  <li><b>時給は、お客さま側のスタッフの時給で。</b>式場・花店の装花スタッフに払っている、平均的な時給を入れます。社会保険などを含めた「1時間あたりの人件費」にすると金額は大きくなりますが、その分ページの説得力が下がることもあるので、ふつうの時給にするのが無難です。</li>
+  <li>決めた数字と、その根拠（何件の平均か、いつの数字か）は、社内に記録しておきます。<b>年に1回</b>（最低賃金が上がる10月ごろ）見直すのがおすすめです。</li>
+  <li>入れられる範囲：時間は 0〜100時間（0.5きざみ）、時給は 0〜100,000円（10円きざみ）。</li>
+  <li>直した値を捨てたいときは<span class="mBtn">最初の値に戻す</span>で、上の仮の数字に戻ります。</li>
+</ul>
+
+
+<h2 id="trouble">困ったとき</h2>
+<div class="mTableWrap"><table>
+  <thead><tr><th>こんなとき</th><th>こうしてください</th></tr></thead>
+  <tbody>
+    <tr><th>ログインのコードが届かない</th><td>迷惑メールのフォルダを見る → <span class="mBtn">コードを送り直す</span>。登録していないアドレスには届きません（画面はふつうに進むように見えます）。アドレスの登録・変更は管理者に頼みます。</td></tr>
+    <tr><th>「コードが違う」と出る</th><td>いちばん新しいメールのコードか、10分以内か、頼んだのと同じブラウザか、を確かめます。</td></tr>
+    <tr><th>急にログイン画面に戻った</th><td>2時間何もしなかったか、ログインから12時間たったため。もう一度ログインします。</td></tr>
+    <tr><th>求人が公開できない</th><td>画面の上に、足りない項目が出ます。オレンジの枠の項目を埋めてください。期間の定めが無い募集は「<a href="#jobs">求人の掲載</a>」の書き方を見てください。</td></tr>
+    <tr><th>公開した求人・お知らせがサイトに出ない</th><td>状態が「公開中」か、お知らせの日付が先の日になっていないかを見ます。ブラウザの再読み込みもしてみてください。</td></tr>
+    <tr><th>フォームで「短い時間に何度も送信されたため、受け付けを止めています」と出る</th><td>同じ回線から、お問い合わせ・応募はそれぞれ<b>1時間に5回・24時間で10回</b>までです（いたずら対策）。会社の同じ回線から何人も試すと、すぐに上限になります。時間をおいて試してください。</td></tr>
+    <tr><th>フォームで「送信しました」と出たのに、管理画面に無い・メールも来ない</th><td>いたずら対策で、機械が送ったように見えるものは、何も言わずに捨てています。次のときに起きます。
+      <ul>
+        <li>ページを開いてから3秒以内に送った</li>
+        <li>名前や本文に日本語（ひらがな・カタカナ・漢字）が1文字も無い（「test」「Taro」など）</li>
+        <li>URL が3つ以上ある、名前・会社名に URL がある</li>
+        <li>送ったあと「戻る」で戻り、同じ画面からもう一度送った（一度送った画面の再送）</li>
+      </ul>
+      試しに送るときは、ふつうに日本語で入れてください。</td></tr>
+    <tr><th>ホームに「メールを送れなかったことがあります」と出た</th><td>「<a href="#screen">画面の見方と権限</a>」の「ホームに出る注意」を見てください。</td></tr>
+    <tr><th>お問い合わせ・応募を間違えて「終わり」の状態にした</th><td>元の状態に戻せば、個人情報が消える予定も取り消されます。</td></tr>
+  </tbody>
+</table></div>
+
+
+<h2 id="test">DEV で確かめていただきたいこと</h2>
+
+<div class="mBox mBox--ok">
+  <h4>DEV で試すときの注意</h4>
+  <ul>
+    <li>DEV のフォームから送ると、<b>本当にメールが届きます</b>。試しのお問い合わせ・応募では、<b>自分のメールアドレス</b>を入れてください。社内の通知の宛先にも知らせが届きます。</li>
+    <li>お名前などは「テスト 花子」のように、<b>日本語で</b>入れてください（英字だけだと、いたずらとして捨てられます）。</li>
+    <li>お問い合わせの本文に「SEO」「集客」「補助金」などの言葉を入れると、営業とみなされて受付のメールが届きません（応募は届きます）。</li>
+    <li>フォームは同じ回線から1時間に5回・24時間で10回までです（お問い合わせ・応募それぞれ）。何人かで試すときは、だれが何回送るかを決めておくと安心です。</li>
+    <li>DEV で入れた求人・お知らせ・お問い合わせ・応募は、試しのデータです。</li>
+  </ul>
+</div>
+
+<p>次のことを一通り試し、分かりにくかったところ・足りないところ・言葉づかいの気になるところをメモしてください。</p>
+<ul class="mCheck">
+  <li>DEV に ID とパスワードで入れる</li>
+  <li>自分のメールアドレスでログインできる（コードが届く・入れる）</li>
+  <li>お問い合わせフォームから試しに送り、受付のメールと、社内への知らせのメールが届く</li>
+  <li>管理画面でそのお問い合わせを開き、状態を変える・メモを残す</li>
+  <li>応募フォームから試しに応募し、同じように確かめる</li>
+  <li>求人を1つ作り、下書きで保存 → 確認する → 公開 → 採用ページで見る → 募集を終える</li>
+  <li>お知らせを1つ書いて公開し、トップページで見る → 下書きに戻す</li>
+  <li>よくある質問を1つ足して公開し、ページで見る → 非公開にする</li>
+  <li>（管理者）通知の設定で宛先を入れ、試しのメールを送る</li>
+  <li>（管理者）試算の設定の数字を決めて入れ、HANABASE のページで試算してみる</li>
+  <li>（管理者）メールの文面を開き、受付のメールの言葉づかいを確かめる</li>
+  <li>スマホでも、上のことができる</li>
+</ul>
+
+
+</div>
+
+<footer class="mPageFoot">giraflower 管理画面の使い方 ／ 株式会社笑人 ジラフラワー事業部<br>
+この資料には DEV に入るための ID とパスワードを書きます。社外に出さないでください。管理画面の中の「使い方」にも、同じ説明があります（DEV の入り方を除く）。</footer>
+</div>
+</body>
+</html>
