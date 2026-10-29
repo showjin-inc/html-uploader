@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>派遣先向け事前説明マニュアル｜始業・終業時刻と準備作業に関する勤怠管理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F7F4; --surface:#FFFFFF; --ink:#1F2A24; --muted:#5A665F; --line:#D9DED8;
+  --leaf:#2F5A43; --leaf-soft:#E6EEE8; --petal:#B44D6E; --petal-soft:#F7E8EE; --note:#F2F0E6;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151B17; --surface:#1C241F; --ink:#E6ECE7; --muted:#A3B0A8; --line:#33403A;
+    --leaf:#8CC4A3; --leaf-soft:#22332A; --petal:#E592AE; --petal-soft:#3A2430; --note:#2A2A22;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151B17; --surface:#1C241F; --ink:#E6ECE7; --muted:#A3B0A8; --line:#33403A;
+  --leaf:#8CC4A3; --leaf-soft:#22332A; --petal:#E592AE; --petal-soft:#3A2430; --note:#2A2A22;
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 1rem);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  font-size:16px; line-height:1.9; letter-spacing:.02em;
+}
+h1,h2,h3{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;line-height:1.45;letter-spacing:.03em}
+a{color:var(--leaf)}
+:focus-visible{outline:2px solid var(--petal);outline-offset:2px}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.25rem;display:grid;grid-template-columns:220px minmax(0,1fr);gap:3rem}
+@media (max-width:860px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}}
+
+/* Header */
+.masthead{padding:3.5rem 0 2.5rem;border-bottom:1px solid var(--line);margin-bottom:2.5rem}
+.org{color:var(--muted);font-size:.875rem;margin:0 0 1rem}
+.masthead h1{font-size:clamp(1.75rem,4.5vw,2.6rem);margin:0 0 .5rem;color:var(--ink)}
+.masthead .sub{font-size:1.125rem;color:var(--leaf);margin:0;font-weight:500}
+
+/* TOC */
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 2rem);align-self:start;padding-top:3.5rem;font-size:.875rem}
+nav.toc p{margin:0 0 .75rem;color:var(--muted)}
+nav.toc ol{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+nav.toc li a{display:block;padding:.3rem 0 .3rem 1rem;margin-left:-2px;border-left:2px solid transparent;color:var(--muted);text-decoration:none;line-height:1.5}
+nav.toc li a:hover{color:var(--leaf);border-left-color:var(--leaf)}
+@media (max-width:860px){nav.toc{display:none}}
+
+main{max-width:42em;padding-bottom:5rem}
+section{margin:0 0 3.5rem}
+h2{font-size:1.5rem;margin:0 0 1.25rem;padding-bottom:.5rem;border-bottom:2px solid var(--leaf);display:flex;gap:.75rem;align-items:baseline}
+h2 .n{color:var(--leaf);font-size:1.1rem}
+h3{font-size:1.15rem;margin:2rem 0 .75rem;color:var(--leaf)}
+p{margin:0 0 1rem}
+ul{margin:0 0 1rem;padding-left:1.4em}
+li{margin:.25rem 0}
+
+/* Summary: three axes */
+.axes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:1.5rem 0}
+.axes div{background:var(--surface);padding:1.1rem 1.1rem 1rem}
+.axes b{display:block;color:var(--leaf);font-size:.95rem;margin-bottom:.35rem}
+.axes span{font-size:.9rem;line-height:1.7;display:block}
+@media (max-width:640px){.axes{grid-template-columns:minmax(0,1fr)}}
+
+.key{background:var(--petal-soft);border-left:4px solid var(--petal);padding:1rem 1.25rem;border-radius:0 6px 6px 0;margin:1.25rem 0}
+.key p:last-child{margin:0}
+.key strong{color:var(--petal)}
+.note{background:var(--note);padding:1rem 1.25rem;border-radius:6px;margin:1.25rem 0;font-size:.95rem}
+.note p:last-child{margin:0}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:1rem 0;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.checklist li{margin:0;border-top:1px solid var(--line)}
+.checklist li:first-child{border-top:0}
+.checklist label{display:flex;gap:.85rem;align-items:flex-start;padding:.75rem 1rem;cursor:pointer;line-height:1.7}
+.checklist input{appearance:none;flex:none;width:1.15rem;height:1.15rem;margin-top:.3rem;border:2px solid var(--leaf);border-radius:3px;background:var(--surface);display:grid;place-content:center;cursor:pointer}
+.checklist input:checked{background:var(--leaf)}
+.checklist input:checked::after{content:"";width:.32rem;height:.6rem;border:solid var(--surface);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.checklist input:checked + span{color:var(--muted)}
+.cl-foot{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--muted);gap:1rem;flex-wrap:wrap}
+button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.35rem .9rem;border-radius:4px;cursor:pointer}
+button:hover{border-color:var(--leaf);color:var(--leaf)}
+
+/* Script */
+.script{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1.5rem 1.5rem 1rem;position:relative}
+.script p{font-size:.98rem}
+.script-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;font-size:.85rem;color:var(--muted)}
+
+/* Steps */
+.steps{list-style:none;padding:0;margin:1rem 0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2.25rem minmax(0,1fr);gap:.75rem;margin:0 0 1rem;align-items:start}
+.steps li::before{content:counter(s);width:2.25rem;height:2.25rem;border-radius:50%;background:var(--leaf-soft);color:var(--leaf);font-weight:700;display:grid;place-items:center;font-family:"Shippori Mincho",serif}
+.steps b{display:block;color:var(--ink)}
+
+.cautions li{margin:.5rem 0}
+.next{border:1px dashed var(--leaf);border-radius:6px;padding:1.25rem 1.5rem;background:var(--leaf-soft)}
+.next h3{margin-top:0}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:1.25rem}
+
+@media print{
+  nav.toc,button,.cl-foot{display:none!important}
+  .wrap{display:block}
+  body{background:#fff;color:#000;font-size:11pt}
+  section{break-inside:auto}
+  .script,.checklist,.key{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc" aria-label="目次">
+    <p>目次</p>
+    <ol>
+      <li><a href="#overview">このマニュアルの考え方</a></li>
+      <li><a href="#purpose">1. 目的</a></li>
+      <li><a href="#explain">2. 派遣先への説明事項</a></li>
+      <li><a href="#checklist">3. 契約開始前の確認手順</a></li>
+      <li><a href="#talk">4. 説明トーク例</a></li>
+      <li><a href="#response">5. 作業が判明した場合</a></li>
+      <li><a href="#cautions">6. 運用上の注意事項</a></li>
+      <li><a href="#position">7. 本マニュアルの位置づけ</a></li>
+      <li><a href="#next">今後の整備事項</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="masthead">
+      <p class="org">株式会社コパン｜社内運用マニュアル</p>
+      <h1>派遣先向け事前説明マニュアル</h1>
+      <p class="sub">始業・終業時刻と準備作業に関する勤怠管理</p>
+    </header>
+
+    <section id="overview">
+      <h2>このマニュアルの考え方</h2>
+      <p>本マニュアルは、派遣先に単に「早出を禁止してください」と伝えるためのものではありません。始業前・終業後の準備作業と労働時間の関係を派遣先に理解していただき、<strong>契約開始前に認識をそろえる</strong>ための説明マニュアルです。</p>
+      <p>花屋などの店舗業務では、開店準備・制服への着替え・清掃・レジ準備などが発生することがあります。派遣先が「始業時刻には働ける状態にしておいて」と伝えただけでも、スタッフがその指示を受けて始業前に作業してしまうことがあります。</p>
+      <div class="axes" role="list">
+        <div role="listitem"><b>契約開始前</b><span>始業・終業時刻と、準備作業の取り扱いを派遣先と確認する</span></div>
+        <div role="listitem"><b>勤務開始後</b><span>始業前・終業後の作業が発生した場合の報告方法を明確にする</span></div>
+        <div role="listitem"><b>問題発生時</b><span>実際に働いた時間を確認し、勤怠記録と賃金を適切に処理する</span></div>
+      </div>
+    </section>
+
+    <section id="purpose">
+      <h2><span class="n">1</span>目的</h2>
+      <p>派遣スタッフ・派遣先・派遣元であるコパンの三者間で、勤務開始時刻、勤務終了時刻および準備作業の取り扱いに関する認識の相違を防ぎ、適正な労働時間管理と勤怠処理を行うことを目的とします。</p>
+      <p>派遣先には、スタッフの始業前・終業後に発生する作業について事前に確認いただき、契約上の勤務時間内で業務を行えるよう、運用の調整をお願いします。</p>
+      <div class="key"><p><strong>重要</strong>　始業前・終業後に実際に行われた業務については、契約上の勤務時間外であることや、早出を認めていないことのみを理由に、労働時間から除外することはできません。</p></div>
+    </section>
+
+    <section id="explain">
+      <h2><span class="n">2</span>派遣先への説明事項</h2>
+
+      <h3>① 始業・終業時刻の考え方</h3>
+      <p>派遣スタッフの始業・終業時刻は、派遣契約および労働条件通知書に定めた時間を基本とします。</p>
+      <p>始業時刻までに業務を開始できる状態にしておく必要がある場合は、そのために必要な準備作業の内容と所要時間を事前に確認してください。</p>
+      <div class="note"><p>例：10:30始業のスタッフに対して、10:30には開店準備を終えておくよう求める場合、準備作業を10:30より前に行う必要がないか確認が必要です。</p></div>
+      <p>業務上必要な準備を始業前に行わせるのではなく、原則として、所定の勤務時間内に準備作業を行えるよう業務の開始時刻や段取りを調整してください。</p>
+
+      <h3>② 始業前・終業後に発生する作業</h3>
+      <p>以下のような作業が発生する場合は、契約開始前に確認してください。</p>
+      <ul>
+        <li>制服・作業着への着替え</li>
+        <li>開店準備、商品陳列、品出し</li>
+        <li>レジ・端末・機材などの準備</li>
+        <li>清掃、朝礼、引き継ぎ</li>
+        <li>閉店後の片付け、清掃、売上集計</li>
+        <li>その他、業務上必要な準備や後処理</li>
+      </ul>
+      <p>これらの作業が必ず労働時間になる、または必ず労働時間にならないということではありません。業務上の必要性、指示の有無、着替え場所の指定など、実態に応じて判断します。</p>
+      <p>特に、派遣先が作業を指示している場合や、業務上その作業を行う必要がある場合は、労働時間に該当する可能性があるため、事前にコパンへ相談してください。</p>
+
+      <h3>③「勤務できる状態にしておく」という指示について</h3>
+      <p>「始業時刻には勤務できる状態にしておいてください」という表現は、スタッフが始業前に着替えや開店準備などを行う必要があると受け取る可能性があります。そのため、派遣先には次の点を明確に伝えるようお願いします。</p>
+      <ul>
+        <li>始業時刻より前に出勤することを求めているか</li>
+        <li>始業前に着替えや準備作業を行うことを求めているか</li>
+        <li>その作業は勤務時間内に行えるか</li>
+        <li>制服の着用や着替え場所について指定があるか</li>
+      </ul>
+      <p>始業前の作業が必要となる場合は、実態を確認したうえで、勤務時間や勤怠管理の方法をコパンと協議してください。</p>
+
+      <h3>④ 早出・残業が発生した場合の対応</h3>
+      <p>コパンでは、三者間で勤怠に関する認識の相違が生じないよう、予定シフトより早く勤務を開始する場合や残業となる場合は、派遣先担当者への確認と勤怠コメントへの理由入力を基本としています。</p>
+      <div class="key"><p><strong>重要</strong>　事前の申請や承認がなかったことだけを理由に、実際に行われた労働を労働時間から除外することはできません。</p></div>
+      <p>早出・残業が発生した場合は、実際の勤務状況を確認し、勤怠記録と賃金計算に適切に反映できるよう、速やかにコパンへ連絡してください。</p>
+    </section>
+
+    <section id="checklist">
+      <h2><span class="n">3</span>契約開始前の確認手順</h2>
+      <p>営業担当者は、派遣契約の開始前に以下の項目を確認します。</p>
+      <ul class="checklist" id="cl">
+        <li><label><input type="checkbox"><span>始業・終業時刻を派遣先と確認した</span></label></li>
+        <li><label><input type="checkbox"><span>始業時刻までに完了しておく必要がある作業を確認した</span></label></li>
+        <li><label><input type="checkbox"><span>開店準備・清掃・レジ準備などの開始時刻を確認した</span></label></li>
+        <li><label><input type="checkbox"><span>制服・作業着の着用義務と着替え場所を確認した</span></label></li>
+        <li><label><input type="checkbox"><span>着替えや準備作業を勤務時間内に行えるか確認した</span></label></li>
+        <li><label><input type="checkbox"><span>終業後に片付けや集計などの作業が発生するか確認した</span></label></li>
+        <li><label><input type="checkbox"><span>早出・残業が発生した場合の連絡先と勤怠入力方法を説明した</span></label></li>
+        <li><label><input type="checkbox"><span>始業前・終業後の作業が必要な場合、コパンへ相談することを説明した</span></label></li>
+      </ul>
+      <div class="cl-foot"><span id="cl-count">0 / 8 項目確認済み</span><button type="button" id="cl-reset">チェックをすべて外す</button></div>
+      <p style="margin-top:1rem">確認した内容は、社内の営業記録や案件管理情報に残します。契約内容や労働条件の変更が必要となる場合は、必要な手続きを行います。</p>
+    </section>
+
+    <section id="talk">
+      <h2><span class="n">4</span>派遣先への説明トーク例</h2>
+      <div class="script">
+        <div class="script-head"><span>営業担当者が派遣先へそのまま使える文例</span><button type="button" id="copy">文例をコピー</button></div>
+        <div id="script-text">
+          <p>勤怠管理について、事前に確認させてください。</p>
+          <p>コパンでは、スタッフさん・派遣先様・コパンの三者間で勤怠に関する認識の相違が生じないよう、始業・終業時刻と、準備作業などの取り扱いを事前に確認しております。</p>
+          <p>例えば、始業時刻までに開店準備や着替えを終えておく必要がある場合、始業前の作業が発生する可能性があります。</p>
+          <p>実際に業務上必要な準備を行っている時間は、労働時間に該当する場合があるため、契約上の勤務時間内に準備を行えるかも含めて、事前に確認させていただいております。</p>
+          <p>もし始業前や終業後に作業が発生する場合は、スタッフさんに個別に対応していただくのではなく、まずはコパンまでご相談ください。</p>
+          <p>適切な勤怠管理のため、ご協力をお願いいたします。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="response">
+      <h2><span class="n">5</span>始業前・終業後の作業が判明した場合</h2>
+      <p>スタッフから始業前・終業後の作業について申告があった場合、営業担当者は以下の手順で対応します。</p>
+      <ol class="steps">
+        <li><div><b>事実確認</b>作業内容、開始・終了時刻、指示の有無、発生頻度を確認する。</div></li>
+        <li><div><b>勤怠確認</b>本人の申告と勤怠記録を照合する。</div></li>
+        <li><div><b>労働時間の判断</b>必要に応じて社内担当者・顧問社労士に確認する。</div></li>
+        <li><div><b>賃金の確認</b>労働時間に該当する時間が賃金計算に反映されているか確認し、必要な精算を行う。</div></li>
+        <li><div><b>再発防止</b>派遣先と準備作業の時間帯、業務手順、指示方法を確認し、必要に応じて契約や勤怠管理の運用を見直す。</div></li>
+      </ol>
+    </section>
+
+    <section id="cautions">
+      <h2><span class="n">6</span>運用上の注意事項</h2>
+      <ul class="cautions">
+        <li>「早出を認めない」というルールは、実際に行われた労働時間の取り扱いとは分けて考えます。</li>
+        <li>始業前の作業を禁止する場合は、禁止する旨を伝えるだけでなく、始業前に作業する必要が生じない業務手順を整えます。</li>
+        <li>勤怠システムの自動修正により実際の勤務時間が記録・計算に反映されない場合は、設定や処理方法を確認します。</li>
+        <li>始業前・終業後の作業が恒常的に発生する場合は、契約上の勤務時間や業務設計の見直しを検討します。</li>
+        <li>判断に迷う場合は、営業担当者だけで判断せず、社内責任者または顧問社労士に確認します。</li>
+      </ul>
+    </section>
+
+    <section id="position">
+      <h2><span class="n">7</span>本マニュアルの位置づけ</h2>
+      <p>本マニュアルは、派遣先への事前説明と社内対応の統一を目的としたものです。個別案件における労働時間の該当性や賃金の取り扱いについては、実際の勤務状況と関係法令に基づいて判断します。</p>
+    </section>
+
+    <section id="next" class="next">
+      <h3>今後の整備事項</h3>
+      <p>本マニュアルを実務で運用するにあたり、以下の3点をあわせて整備します。</p>
+      <ul>
+        <li><b>派遣先向け確認シート</b>：契約開始前に営業担当者が確認する項目を1枚にまとめる。</li>
+        <li><b>派遣先への説明資料</b>：契約時に渡せる、準備作業と勤怠管理の説明文書。</li>
+        <li><b>社内対応フロー</b>：スタッフから申告があった場合の確認・精算・報告手順。</li>
+      </ul>
+      <p style="margin:0">あわせて、現行の「始業時間　1分（切り上げ）」という記載と勤怠システムの自動修正について、実際の労働時間の把握・賃金計算との整合性を顧問社労士に確認したうえで、本マニュアルの正式運用を開始します。</p>
+    </section>
+
+    <footer>株式会社コパン｜社内運用マニュアル　派遣先向け事前説明マニュアル（始業・終業時刻と準備作業に関する勤怠管理）</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  var KEY='copain-prework-checklist';
+  var boxes=[].slice.call(document.querySelectorAll('#cl input'));
+  var count=document.getElementById('cl-count');
+  function update(){
+    var n=boxes.filter(function(b){return b.checked}).length;
+    count.textContent=n+' / '+boxes.length+' 項目確認済み';
+    try{localStorage.setItem(KEY,JSON.stringify(boxes.map(function(b){return b.checked})))}catch(e){}
+  }
+  try{
+    var saved=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(Array.isArray(saved)) boxes.forEach(function(b,i){b.checked=!!saved[i]});
+  }catch(e){}
+  boxes.forEach(function(b){b.addEventListener('change',update)});
+  document.getElementById('cl-reset').addEventListener('click',function(){boxes.forEach(function(b){b.checked=false});update()});
+  update();
+
+  var btn=document.getElementById('copy');
+  btn.addEventListener('click',function(){
+    var text=[].slice.call(document.querySelectorAll('#script-text p')).map(function(p){return p.textContent}).join('\n\n');
+    var done=function(){btn.textContent='コピーしました';setTimeout(function(){btn.textContent='文例をコピー'},1800)};
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText('「'+text+'」').then(done,function(){fallback(text);done()});
+    }else{fallback(text);done()}
+  });
+  function fallback(t){var ta=document.createElement('textarea');ta.value='「'+t+'」';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}
+})();
+</script>
+</body>
+</html>
