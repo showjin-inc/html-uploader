@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>令和8年分 年末調整対象者の判定ルール｜株式会社コパン</title>
+<style>
+:root {
+  --navy: #263b50;
+  --blue: #426b8a;
+  --yellow: #f4d66d;
+  --bg: #f5f6f8;
+  --text: #333b43;
+  --muted: #6d7882;
+  --green: #e7f3eb;
+  --red: #f9e9e7;
+  --orange: #fff2df;
+  --line: #e1e5e9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Noto Sans JP", "Hiragino Kaku Gothic ProN",
+    "Yu Gothic", Meiryo, sans-serif;
+  line-height: 1.8;
+  font-size: 14px;
+}
+.container {
+  max-width: 920px;
+  margin: 35px auto;
+  background: white;
+  padding: 45px 55px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.05);
+}
+.header {
+  border-bottom: 4px solid var(--yellow);
+  padding-bottom: 23px;
+  margin-bottom: 30px;
+}
+.company {
+  font-size: 12px;
+  letter-spacing: .12em;
+  color: var(--muted);
+  font-weight: bold;
+}
+h1 {
+  font-size: 27px;
+  line-height: 1.5;
+  color: var(--navy);
+  margin: 12px 0 5px;
+}
+.subtitle { color: var(--muted); }
+h2 {
+  font-size: 19px;
+  color: var(--navy);
+  border-left: 5px solid var(--yellow);
+  padding-left: 13px;
+  margin: 38px 0 17px;
+}
+h3 {
+  font-size: 15px;
+  color: var(--blue);
+  margin: 20px 0 8px;
+}
+p { margin: 9px 0; }
+ul, ol { padding-left: 23px; }
+li { margin: 5px 0; }
+.intro {
+  background: #f0f4f7;
+  padding: 20px 23px;
+  border-radius: 8px;
+}
+.intro strong { color: var(--navy); }
+.note {
+  background: var(--orange);
+  border-left: 4px solid #e5a33b;
+  padding: 13px 17px;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+.good {
+  background: var(--green);
+  border-left: 4px solid #559b6d;
+  padding: 13px 17px;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+.bad {
+  background: var(--red);
+  border-left: 4px solid #c96b62;
+  padding: 13px 17px;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 13px 0 20px;
+  font-size: 13px;
+}
+th, td {
+  border: 1px solid var(--line);
+  padding: 11px 13px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: #eef2f5;
+  color: var(--navy);
+  font-weight: bold;
+}
+.tag {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.target { background: #dcefe2; color: #28603c; }
+.out { background: #f5dfdc; color: #963f36; }
+.check { background: #ffedcf; color: #8a5a17; }
+.flow {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 17px;
+  margin: 13px 0;
+  background: #fff;
+}
+.step {
+  padding: 13px 15px;
+  border-radius: 6px;
+  background: #eef3f7;
+  font-weight: bold;
+  text-align: center;
+}
+.arrow {
+  text-align: center;
+  color: var(--blue);
+  font-size: 20px;
+  line-height: 1.7;
+}
+.branch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.branch > div {
+  padding: 13px;
+  border-radius: 6px;
+  text-align: center;
+}
+.branch .yes { background: var(--green); }
+.branch .no { background: var(--red); }
+.checklist {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 17px 20px;
+}
+.checklist label {
+  display: block;
+  padding: 7px 0;
+  border-bottom: 1px solid #eee;
+}
+.checklist label:last-child { border: none; }
+input[type=checkbox] { margin-right: 9px; }
+.footer {
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+  padding-top: 18px;
+  color: var(--muted);
+  font-size: 11px;
+}
+a { color: #376e9b; }
+@media(max-width:650px) {
+  .container { margin: 0; padding: 25px 18px; border-radius: 0; }
+  h1 { font-size: 22px; }
+  table { font-size: 12px; }
+  th, td { padding: 8px; }
+  .branch { grid-template-columns: 1fr; }
+}
+@media print {
+  body { background: white; }
+  .container { margin: 0; padding: 20px; box-shadow: none; }
+  .checklist input { appearance: none; }
+  h2 { break-after: avoid; }
+  tr { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="header">
+  <div class="company">株式会社コパン｜社内業務資料</div>
+  <h1>令和8年分<br>年末調整対象者の判定ルール</h1>
+  <div class="subtitle">
+    派遣スタッフ・直接雇用スタッフ共通の社内判定基準
+  </div>
+</header>
+
+<div class="intro">
+  <strong>この資料の目的</strong>
+  <p>
+    年末調整の対象となるスタッフを正しく抽出し、
+    担当者による判断のばらつきをなくすことを目的とします。
+  </p>
+  <p>
+    コパンではスタッフエクスプレスの登録情報・雇用契約情報・
+    扶養控除等申告書の提出状況を確認し、対象者を判定します。
+  </p>
+</div>
+
+<h2>01｜年末調整の基本ルール</h2>
+
+<p>
+  年末調整は、原則として、その年の最後の給与支払時までに
+  「給与所得者の扶養控除等（異動）申告書」を提出している人を対象に行います。
+</p>
+
+<p>令和8年分の通常の年末調整では、次の条件を確認します。</p>
+
+<table>
+  <tr><th style="width:30%">確認項目</th><th>判定基準</th></tr>
+  <tr>
+    <td>雇用状況</td>
+    <td>原則として令和8年12月31日時点でコパンに在職していること。</td>
+  </tr>
+  <tr>
+    <td>申告書</td>
+    <td>コパンに扶養控除等（異動）申告書を提出していること。</td>
+  </tr>
+  <tr>
+    <td>給与収入</td>
+    <td>令和8年中に支払うことが確定した給与総額が2,000万円以下であること。</td>
+  </tr>
+  <tr>
+    <td>主たる勤務先</td>
+    <td>コパンが主たる給与の支払者であり、原則として甲欄適用であること。</td>
+  </tr>
+</table>
+
+<div class="note">
+  <strong>重要：</strong>
+  実際に12月に勤務しているかどうかだけでは判断しません。
+  雇用契約が12月31日まで継続している場合は、
+  12月の勤務実績がなくても対象となる可能性があります。
+</div>
+
+<h2>02｜対象者・対象外の判定基準</h2>
+
+<h3><span class="tag target">対象</span> 年末調整を実施する人</h3>
+<ul>
+  <li>令和8年12月31日時点でコパンとの雇用契約が継続している。</li>
+  <li>コパンに扶養控除等申告書を提出している。</li>
+  <li>年間給与総額が2,000万円以下である。</li>
+  <li>コパンが主たる給与の支払者である。</li>
+</ul>
+
+<h3><span class="tag out">対象外</span> 原則として年末調整を実施しない人</h3>
+<ul>
+  <li>令和8年12月31日より前に雇用契約が終了している人。</li>
+  <li>扶養控除等申告書をコパンに提出していない人。</li>
+  <li>他社を主たる勤務先としており、コパンが乙欄適用となっている人。</li>
+  <li>年間給与総額が2,000万円を超える人。</li>
+</ul>
+
+<h3><span class="tag check">要確認</span> 個別に確認する人</h3>
+<ul>
+  <li>契約更新の手続き中で、12月31日時点の雇用状況が確定していない人。</li>
+  <li>扶養控除等申告書の提出状況が確認できない人。</li>
+  <li>年内に他社から給与を受け取っている人。</li>
+  <li>年内に転職・入社した人で、前職の源泉徴収票が未回収の人。</li>
+  <li>年内退職者で、年の中途で年末調整を行う例外に該当する可能性がある人。</li>
+</ul>
+
+<h2>03｜派遣スタッフ特有の判断例</h2>
+
+<p>
+  派遣スタッフは、スタッフ登録の有無や勤務実績だけで判断せず、
+  実際の雇用契約期間を確認します。
+</p>
+
+<table>
+  <tr>
+    <th>スタッフの状況</th>
+    <th>判定の目安</th>
+  </tr>
+  <tr>
+    <td>12月31日まで雇用契約が継続している</td>
+    <td><span class="tag target">対象候補</span><br>申告書など他の条件も確認。</td>
+  </tr>
+  <tr>
+    <td>11月末で雇用契約が終了している</td>
+    <td><span class="tag out">原則対象外</span></td>
+  </tr>
+  <tr>
+    <td>12月は勤務予定がないが、雇用契約は継続中</td>
+    <td><span class="tag target">対象候補</span><br>勤務実績がないことだけで除外しない。</td>
+  </tr>
+  <tr>
+    <td>登録は残っているが、雇用契約が終了している</td>
+    <td><span class="tag out">原則対象外</span></td>
+  </tr>
+  <tr>
+    <td>12月中に契約更新を予定している</td>
+    <td><span class="tag check">要確認</span><br>更新後の契約期間を確認。</td>
+  </tr>
+  <tr>
+    <td>他社でも勤務している</td>
+    <td><span class="tag check">要確認</span><br>扶養控除等申告書の提出先を確認。</td>
+  </tr>
+</table>
+
+<div class="note">
+  <strong>注意：</strong>
+  雇用契約が年内に終了した人は原則対象外ですが、
+  死亡退職、一定の障害による退職、12月給与支給後の退職、
+  一定のパートタイマーの退職など、例外的に年の中途で
+  年末調整を行うケースがあります。
+  該当する可能性がある場合は個別に確認してください。
+</div>
+
+<h2>04｜年末調整対象者の判定フロー</h2>
+
+<div class="flow">
+  <div class="step">① 令和8年12月31日時点でコパンに在職しているか？</div>
+  <div class="arrow">↓</div>
+  <div class="branch">
+    <div class="yes"><strong>YES</strong><br>②へ進む</div>
+    <div class="no"><strong>NO</strong><br>原則対象外<br>退職者の例外を確認</div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="step">② 扶養控除等申告書をコパンに提出しているか？</div>
+  <div class="arrow">↓</div>
+  <div class="branch">
+    <div class="yes"><strong>YES</strong><br>③へ進む</div>
+    <div class="no"><strong>NO</strong><br>原則対象外<br>提出状況を確認</div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="step">③ 年間給与総額が2,000万円以下か？</div>
+  <div class="arrow">↓</div>
+  <div class="branch">
+    <div class="yes"><strong>YES</strong><br>④へ進む</div>
+    <div class="no"><strong>NO</strong><br>対象外</div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="step">④ コパンが主たる給与の支払者か？</div>
+  <div class="arrow">↓</div>
+  <div class="branch">
+    <div class="yes"><strong>YES</strong><br>年末調整対象</div>
+    <div class="no"><strong>NO</strong><br>原則対象外・要確認</div>
+  </div>
+</div>
+
+<h2>05｜中途入社スタッフの確認事項</h2>
+
+<p>
+  令和8年の途中でコパンに入社したスタッフについては、
+  前職の給与の有無を確認します。
+</p>
+
+<table>
+  <tr><th>状況</th><th>対応</th></tr>
+  <tr>
+    <td>前職なし</td>
+    <td>コパンの給与をもとに年末調整。</td>
+  </tr>
+  <tr>
+    <td>前職あり・源泉徴収票あり</td>
+    <td>前職の給与・源泉徴収税額・社会保険料等を含めて年末調整。</td>
+  </tr>
+  <tr>
+    <td>前職あり・源泉徴収票なし</td>
+    <td>前職分の確認ができないため、原則としてコパンで年末調整を完了できない。本人に確認を依頼。</td>
+  </tr>
+</table>
+
+<h2>06｜スタッフエクスプレスでの抽出・確認項目</h2>
+
+<p>
+  スタッフエクスプレスからスタッフ情報を出力し、
+  以下の項目を確認して対象者を分類します。
+</p>
+
+<table>
+  <tr><th>確認項目</th><th>確認内容</th></tr>
+  <tr><td>スタッフコード・氏名</td><td>スタッフの特定</td></tr>
+  <tr><td>雇用開始日</td><td>雇用開始時期</td></tr>
+  <tr><td>雇用終了日</td><td>12月31日時点の契約状況</td></tr>
+  <tr><td>扶養控除等申告書</td><td>提出済・未提出</td></tr>
+  <tr><td>源泉徴収区分</td><td>甲欄・乙欄</td></tr>
+  <tr><td>令和8年給与累計</td><td>年間給与総額</td></tr>
+  <tr><td>前職の源泉徴収票</td><td>中途入社者の前職給与確認</td></tr>
+</table>
+
+<p>
+  抽出後は、以下の3区分で管理します。
+</p>
+
+<table>
+  <tr><th>区分</th><th>対応</th></tr>
+  <tr><td><span class="tag target">対象</span></td><td>年末調整の書類回収・計算へ進む。</td></tr>
+  <tr><td><span class="tag out">対象外</span></td><td>対象外理由を記録し、必要な源泉徴収票を発行する。</td></tr>
+  <tr><td><span class="tag check">要確認</span></td><td>契約状況・申告書・前職情報などを確認してから最終判定する。</td></tr>
+</table>
+
+<h2>07｜担当者用 最終確認チェックリスト</h2>
+
+<div class="checklist">
+  <label><input type="checkbox">12月31日時点の雇用契約状況を確認した</label>
+  <label><input type="checkbox">扶養控除等申告書の提出状況を確認した</label>
+  <label><input type="checkbox">甲欄・乙欄の適用状況を確認した</label>
+  <label><input type="checkbox">年間給与総額を確認した</label>
+  <label><input type="checkbox">中途入社者の前職給与・源泉徴収票を確認した</label>
+  <label><input type="checkbox">退職者の例外該当の有無を確認した</label>
+  <label><input type="checkbox">対象・対象外・要確認の3区分に分類した</label>
+  <label><input type="checkbox">要確認者について個別確認を完了した</label>
+</div>
+
+<h2>08｜参考資料・確認先</h2>
+
+<ul>
+  <li>
+    <a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/gensen/2665.htm" target="_blank" rel="noopener">
+      国税庁：年末調整の対象となる人
+    </a>
+  </li>
+  <li>
+    <a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/gensen/2674.htm" target="_blank" rel="noopener">
+      国税庁：中途就職者の年末調整
+    </a>
+  </li>
+  <li>
+    <a href="https://www.nta.go.jp/users/gensen/nencho/index/shikata.htm" target="_blank" rel="noopener">
+      国税庁：令和8年分 年末調整のしかた
+    </a>
+  </li>
+</ul>
+
+<div class="good">
+  <strong>社内運用上の基本方針</strong>
+  <p>
+    スタッフ登録の有無や勤務実績のみで判断せず、
+    雇用契約・扶養控除等申告書・給与情報を確認したうえで、
+    年末調整対象者を確定します。
+  </p>
+  <p>
+    判断に迷うケースは自己判断で除外せず、
+    要確認として担当者間で確認・共有してください。
+  </p>
+</div>
+
+<footer class="footer">
+  株式会社コパン｜社内共有用資料<br>
+  対象年度：令和8年（2026年）分<br>
+  ※本資料は社内の一次判定用です。個別の例外や税制改正については、
+  国税庁の最新情報および顧問税理士等の確認を優先してください。
+</footer>
+
+</div>
+</body>
+</html>
