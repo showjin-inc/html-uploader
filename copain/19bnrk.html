@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LINE求人配信カード自動生成 プロンプト仕様書（開発担当者向け）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F9F8;
+  --paper: #FFFFFF;
+  --ink: #1D2421;
+  --muted: #5B6660;
+  --rule: #DCE3DE;
+  --rule-strong: #A9B5AE;
+  --accent: #0B8A4A;
+  --accent-tint: #E6F4EC;
+  --warn: #B7791F;
+  --warn-tint: #FBF1DF;
+  --code-bg: #F1F4F2;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141917;
+    --paper: #1B211F;
+    --ink: #E4EAE6;
+    --muted: #9BA8A1;
+    --rule: #2E3834;
+    --rule-strong: #5C6A63;
+    --accent: #3CC27E;
+    --accent-tint: #1C3328;
+    --warn: #E0A64A;
+    --warn-tint: #3A2F1C;
+    --code-bg: #111614;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  font-size: 15px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 48px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+nav.toc {
+  position: sticky;
+  top: 32px;
+  align-self: start;
+  font-size: 13px;
+  line-height: 1.6;
+}
+nav.toc p { margin: 0 0 12px; color: var(--muted); font-weight: 500; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--rule); }
+nav.toc li a {
+  display: block;
+  padding: 6px 0 6px 14px;
+  margin-left: -2px;
+  border-left: 2px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+}
+nav.toc li a:hover { color: var(--ink); border-left-color: var(--rule-strong); }
+nav.toc li a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+main { min-width: 0; }
+header.doc-head { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--rule); }
+.doc-kind {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--accent);
+  background: var(--accent-tint);
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin: 0 0 14px;
+}
+h1 { font-size: 28px; line-height: 1.45; margin: 0 0 10px; font-weight: 700; letter-spacing: 0.01em; }
+.doc-meta { margin: 0; color: var(--muted); font-size: 13px; }
+section { margin: 0 0 56px; scroll-margin-top: 24px; }
+h2 {
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 0 0 16px;
+  padding-left: 14px;
+  border-left: 4px solid var(--accent);
+  font-weight: 700;
+}
+h3 { font-size: 15px; margin: 28px 0 8px; font-weight: 700; }
+p { margin: 0 0 14px; max-width: 46em; }
+ul { margin: 0 0 14px; padding-left: 1.4em; max-width: 46em; }
+li { margin: 2px 0; }
+.lead { font-size: 15.5px; }
+.table-wrap { overflow-x: auto; margin: 0 0 16px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; line-height: 1.65; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--rule); }
+th { background: var(--accent-tint); font-weight: 700; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.req { white-space: nowrap; }
+.must { color: var(--accent); font-weight: 700; }
+.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+figure { margin: 8px 0 16px; padding: 20px; background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; }
+figure svg { display: block; width: 100%; height: auto; max-width: 720px; margin: 0 auto; }
+figcaption { margin-top: 12px; font-size: 13px; color: var(--muted); text-align: center; }
+svg text { font-family: inherit; fill: var(--ink); }
+svg .quiet { fill: var(--muted); }
+svg .box { fill: var(--paper); stroke: var(--rule-strong); stroke-width: 1.25; }
+svg .box-q { fill: var(--accent-tint); stroke: var(--accent); stroke-width: 1.5; }
+svg .box-warn { fill: var(--warn-tint); stroke: var(--warn); stroke-width: 2; }
+svg .line { fill: none; stroke: var(--rule-strong); stroke-width: 1.25; }
+svg .arrowhead { fill: var(--rule-strong); }
+.checklist { list-style: none; padding-left: 0; }
+.checklist li { position: relative; padding-left: 28px; margin: 6px 0; }
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--rule-strong);
+  border-radius: 3px;
+  background: var(--paper);
+}
+.note-box { background: var(--paper); border: 1px solid var(--rule); border-left: 4px solid var(--warn); border-radius: 6px; padding: 14px 18px; margin: 0 0 16px; }
+.note-box p:last-child { margin-bottom: 0; }
+pre {
+  margin: 0;
+  padding: 18px 20px;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Noto Sans JP", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.code-block { margin: 0 0 16px; }
+.code-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+.code-bar span { font-size: 13px; color: var(--muted); }
+button.copy {
+  font: inherit;
+  font-size: 13px;
+  color: #FFFFFF;
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+button.copy:hover { filter: brightness(1.08); }
+button.copy:focus-visible, nav.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.prompt pre { max-height: 640px; overflow-y: auto; background: var(--paper); }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 0; padding-top: 28px; }
+  nav.toc { position: static; margin-bottom: 32px; }
+  h1 { font-size: 23px; }
+}
+@media print {
+  body { background: #FFFFFF; }
+  nav.toc, button.copy { display: none; }
+  .layout { display: block; padding: 0; }
+  .prompt pre { max-height: none; overflow: visible; }
+  section { break-inside: auto; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="目次">
+  <p>目次</p>
+  <ol>
+    <li><a href="#overview">概要</a></li>
+    <li><a href="#flow">処理の全体フロー</a></li>
+    <li><a href="#input">入力データ要件</a></li>
+    <li><a href="#logic">判定ロジック</a></li>
+    <li><a href="#output">出力項目仕様</a></li>
+    <li><a href="#validation">バリデーション・最終確認項目</a></li>
+    <li><a href="#issues">実装上の検討事項</a></li>
+    <li><a href="#prompt">付録：プロンプト全文</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="doc-head">
+  <p class="doc-kind">開発担当者向け</p>
+  <h1>LINE求人配信カード自動生成 プロンプト仕様書</h1>
+  <p class="doc-meta">株式会社コパン　2026年11月6日時点</p>
+</header>
+
+<section id="overview">
+  <h2>概要</h2>
+  <p class="lead">自社システムに求人情報を入力すると、LINE公式アカウントの「カードタイプメッセージ（ロケーション）」の入力内容を自動生成する機能を作ります。本資料は、その生成処理に組み込むプロンプトと、システム側で用意すべき入力・出力・チェック処理をまとめたものです。</p>
+  <ul>
+    <li>目的：登録スタッフ・求職者に求人を分かりやすく届け、自社HPの求人詳細ページへのアクセスと応募につなげる</li>
+    <li>生成対象：アイテム名、カードタイトル、住所、追加情報、アクション、タグ（必要に応じてテキストメッセージ）</li>
+    <li>プロンプト本文：末尾の「付録：プロンプト全文」をそのまま使用する</li>
+    <li>前提：プロンプトの内容は配信運用のルールそのものです。文言を変える場合は採用担当と相談してください</li>
+  </ul>
+</section>
+
+<section id="flow">
+  <h2>処理の全体フロー</h2>
+  <figure>
+    <svg viewBox="0 0 760 552" role="img" aria-label="生成結果は自動検証と担当者確認を通ってから配信する" font-size="13">
+      <defs>
+        <marker id="arrow-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker>
+      </defs>
+      <g>
+        <path class="line" d="M240 78V112" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M240 168V202" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M240 258V292" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M240 348V382" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M240 438V472" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M380 140H500" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M600 112V50H380" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M380 320H600V168" marker-end="url(#arrow-a)"/>
+        <path class="line" d="M380 410H600V320"/>
+      </g>
+      <rect class="box" x="100" y="22" width="280" height="56" rx="8"/>
+      <text x="240" y="46" text-anchor="middle" font-weight="700">① 求人データ入力</text>
+      <text class="quiet" x="240" y="66" text-anchor="middle" font-size="11.5">求人情報・URL・写真・位置情報</text>
+      <rect class="box" x="100" y="112" width="280" height="56" rx="8"/>
+      <text x="240" y="136" text-anchor="middle" font-weight="700">② 必須項目チェック</text>
+      <text class="quiet" x="240" y="156" text-anchor="middle" font-size="11.5">URL・写真・勤務先などの有無</text>
+      <rect class="box" x="100" y="202" width="280" height="56" rx="8"/>
+      <text x="240" y="226" text-anchor="middle" font-weight="700">③ AIでカード内容を生成</text>
+      <text class="quiet" x="240" y="246" text-anchor="middle" font-size="11.5">配信形式・カード数・各項目を生成</text>
+      <rect class="box" x="100" y="292" width="280" height="56" rx="8"/>
+      <text x="240" y="316" text-anchor="middle" font-weight="700">④ システムで自動検証</text>
+      <text class="quiet" x="240" y="336" text-anchor="middle" font-size="11.5">文字数・URL・カード数・要確認</text>
+      <rect class="box" x="100" y="382" width="280" height="56" rx="8"/>
+      <text x="240" y="406" text-anchor="middle" font-weight="700">⑤ 担当者が確認・承認（推奨）</text>
+      <text class="quiet" x="240" y="426" text-anchor="middle" font-size="11.5">目視チェック項目を確認</text>
+      <rect class="box" x="100" y="472" width="280" height="56" rx="8"/>
+      <text x="240" y="496" text-anchor="middle" font-weight="700">⑥ LINEで一斉配信</text>
+      <text class="quiet" x="240" y="516" text-anchor="middle" font-size="11.5">カード（強化配信時はテキストも）</text>
+      <rect class="box-warn" x="500" y="112" width="200" height="56" rx="8"/>
+      <text x="600" y="136" text-anchor="middle" font-weight="700">担当者へ差し戻し</text>
+      <text class="quiet" x="600" y="156" text-anchor="middle" font-size="11.5">推測で補完しない</text>
+      <text class="quiet" x="440" y="132" text-anchor="middle" font-size="11.5">不足あり</text>
+      <text class="quiet" x="250" y="189" font-size="11.5">揃っている</text>
+      <text class="quiet" x="490" y="312" text-anchor="middle" font-size="11.5">NG・要確認あり</text>
+      <text class="quiet" x="490" y="402" text-anchor="middle" font-size="11.5">修正が必要</text>
+      <text class="quiet" x="612" y="85" font-size="11.5">補って再入力</text>
+    </svg>
+    <figcaption>処理フロー：6ステップ、差し戻し1か所</figcaption>
+  </figure>
+  <p>AIの生成結果をそのまま配信せず、必須項目チェック・自動検証・担当者確認の3段階を挟みます。不足や不備があれば、AIに推測で補わせず担当者へ戻します。</p>
+</section>
+
+<section id="input">
+  <h2>入力データ要件</h2>
+  <p>プロンプトは「情報が不足している場合は推測しない」ことを前提にしています。システムから渡す求人データに以下が揃っていないと、生成結果が「要確認」になります。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>項目</th><th>必須</th><th>用途</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr><td>勤務先の企業名・施設名</td><td class="req must">必須</td><td>住所欄、位置情報</td><td>正式名称が長い場合は通称も渡せると良い</td></tr>
+      <tr><td>勤務地の住所（位置情報用）</td><td class="req must">必須</td><td>位置情報欄（地図表示）</td><td>カード本文には番地を載せない</td></tr>
+      <tr><td>仕事内容</td><td class="req must">必須</td><td>カードタイトル、アイテム名</td><td></td></tr>
+      <tr><td>雇用形態・募集区分</td><td class="req must">必須</td><td>タグ、カード数の判定</td><td>派遣／社員・アルバイト／紹介予定派遣など</td></tr>
+      <tr><td>勤務期間・日数・曜日・時間</td><td class="req">任意</td><td>追加情報</td><td>無い場合は追加情報を設定しない</td></tr>
+      <tr><td>応募条件・歓迎条件・待遇</td><td class="req">任意</td><td>住所欄のアピールポイント</td><td>交通費、未経験可、残業など</td></tr>
+      <tr><td>時給・給与</td><td class="req">任意</td><td>特別に高い場合のみ訴求</td><td>通常は掲載しない</td></tr>
+      <tr><td>自社HPの求人詳細ページURL</td><td class="req must">必須</td><td>アクションURL</td><td>選択肢ごとに別URLが必要な場合あり</td></tr>
+      <tr><td>写真（1〜3枚）</td><td class="req must">必須</td><td>カード画像</td><td>担当者が選んで設定する。AIには選定させない</td></tr>
+      <tr><td>同一配信に含める求人の一覧</td><td class="req must">必須</td><td>カード数の判定</td><td>複数求人／同一内容で選択肢違い の区別</td></tr>
+      <tr><td>直近の配信カード（参考）</td><td class="req">推奨</td><td>デザイン・構成・表現の統一</td><td>「既存カードを踏襲する」ルールのため</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="logic">
+  <h2>判定ロジック</h2>
+  <p>生成前に「配信形式」と「カード数」を2つ判定します。カードのデザインはロケーションタイプで固定です。</p>
+  <h3>カード数</h3>
+  <figure>
+    <svg viewBox="0 0 760 292" role="img" aria-label="カード数は求人の組み合わせで3通りに決まる" font-size="13">
+      <defs>
+        <marker id="arrow-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker>
+      </defs>
+      <rect class="box-q" x="230" y="22" width="300" height="44" rx="8"/>
+      <text x="380" y="49" text-anchor="middle" font-weight="700">同じ配信に含める求人は？</text>
+      <path class="line" d="M380 66V96"/>
+      <path class="line" d="M140 96H620"/>
+      <path class="line" d="M140 96V128" marker-end="url(#arrow-b)"/>
+      <path class="line" d="M380 96V128" marker-end="url(#arrow-b)"/>
+      <path class="line" d="M620 96V128" marker-end="url(#arrow-b)"/>
+      <rect class="box" x="32" y="128" width="216" height="140" rx="8"/>
+      <text class="quiet" x="48" y="150" font-size="11.5">① 1つの求人</text>
+      <text x="48" y="174" font-weight="700">カード2枚</text>
+      <text x="48" y="198" font-size="11.5">1枚目：求人情報</text>
+      <text x="48" y="214" font-size="11.5">2枚目：もっと見るカード</text>
+      <text x="48" y="230" font-size="11.5">アクション1つ</text>
+      <text class="quiet" x="48" y="246" font-size="11.5">「詳細・エントリーはこちら」</text>
+      <rect class="box" x="272" y="128" width="216" height="140" rx="8"/>
+      <text class="quiet" x="288" y="150" font-size="11.5">③ 同じ仕事内容で選択肢だけ違う</text>
+      <text x="288" y="174" font-weight="700">カード2枚のまま</text>
+      <text x="288" y="198" font-size="11.5">アクションを2つ設定</text>
+      <text x="288" y="214" font-size="11.5">アクション名は各15文字以内</text>
+      <text x="288" y="230" font-size="11.5">選択肢ごとに別URL</text>
+      <text class="quiet" x="288" y="246" font-size="11.5">例：派遣／社員、勤務地2か所</text>
+      <rect class="box" x="512" y="128" width="216" height="140" rx="8"/>
+      <text class="quiet" x="528" y="150" font-size="11.5">② 異なる求人が複数</text>
+      <text x="528" y="174" font-weight="700">求人数と同じ枚数</text>
+      <text x="528" y="198" font-size="11.5">1求人につき1枚</text>
+      <text x="528" y="214" font-size="11.5">もっと見るカードは不要</text>
+    </svg>
+    <figcaption>カード数の判定：3パターン</figcaption>
+  </figure>
+  <p>判定には「同じ配信に含める求人の一覧」と「それらが同じ仕事内容かどうか」の情報が必要です。丸数字はプロンプト内の番号と対応しています。</p>
+  <h3>配信形式</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>配信形式</th><th>内容</th><th>対象</th></tr></thead>
+    <tbody>
+      <tr><td>通常配信</td><td>カードタイプメッセージのみ</td><td>下記以外の求人</td></tr>
+      <tr><td>強化配信</td><td>カードタイプメッセージ＋テキストメッセージ（別々のメッセージとして一緒に送信）</td><td>注目求人、時給UP、応募条件の緩和、急募・募集人数が多い、応募が少なく再アプローチしたい、その他強く訴求したい求人</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="output">
+  <h2>出力項目仕様</h2>
+  <p>カード1枚につき以下の項目を出力します。文字数上限はLINE側の入力制限なので、システム側でも必ず検証してください。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>項目</th><th>上限</th><th>値・形式</th><th>主なルール</th></tr></thead>
+    <tbody>
+      <tr><td>アイテム名</td><td class="num">100文字</td><td>自由文</td><td>プッシュ通知・チャットリストに表示。魅力を前半に。カードタイトルと同文禁止</td></tr>
+      <tr><td>カードタイトル</td><td class="num">20文字</td><td>自由文</td><td>最大の魅力を端的に。絵文字・装飾は原則なし</td></tr>
+      <tr><td>住所</td><td class="num">60文字</td><td>施設名＋「◎」区切りのアピール2〜3個</td><td>番地は書かない。求人情報にない条件を足さない</td></tr>
+      <tr><td>追加情報</td><td class="num">30文字</td><td>自由文（任意）</td><td>勤務期間・日数・曜日・時間。「｜」や改行で整理</td></tr>
+      <tr><td>追加情報の種類</td><td>—</td><td>時間／金額／設定なし</td><td>基本は「時間」。金額は特別な場合のみ</td></tr>
+      <tr><td>写真</td><td class="num">1〜3枚</td><td>担当者が選定（AIは出力しない）</td><td>基本1枚。視認性を優先</td></tr>
+      <tr><td>位置情報</td><td>—</td><td>勤務地住所</td><td>地図に反映される</td></tr>
+      <tr><td>アクション名</td><td class="num">15文字</td><td>自由文</td><td>1求人なら「詳細・エントリーはこちら」</td></tr>
+      <tr><td>アクションタイプ</td><td>—</td><td>URL固定</td><td></td></tr>
+      <tr><td>アクションURL</td><td>—</td><td>自社HPの求人URL</td><td>不明なら推測せず要確認</td></tr>
+      <tr><td>タグの色</td><td>—</td><td>白／グレー／赤／オレンジ／緑／青</td><td>派遣は緑、紹介予定派遣はオレンジが基本</td></tr>
+      <tr><td>タグの文言</td><td class="num">12文字</td><td>自由文</td><td>実際の募集区分と一致させる</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>テキストメッセージ（カードとは別のメッセージ）</h3>
+  <p>配信は基本的にカードタイプメッセージのみです。強化配信のときだけ、カードとは別のテキストメッセージを作成し、カードと一緒に送信します。テキストメッセージは上の表の項目には含まれず、文字数上限の指定もありません。</p>
+  <p>内容は、訴求ポイント・主な条件・求人URLをまとめた、単体で読める文章です（付録のプロンプト内の例を参照）。LINEのテキストは太字などの書式に対応しないため、「**」などのマークダウン記法は使いません。</p>
+
+  <h3>システム用の出力形式（推奨）</h3>
+  <p>システムで扱いやすくするため、プロンプト末尾に次のようなJSON出力指定を追加することを推奨します（キー名は開発側で調整してください）。</p>
+  <div class="code-block">
+<pre><code>{
+  "delivery_type": "normal | enhanced",
+  "text_message": "強化配信時のみ。通常はnull",
+  "cards": [
+    {
+      "item_name": "",
+      "card_title": "",
+      "address": "",
+      "extra_info": "",
+      "extra_info_type": "time | price | none",
+      "location": "",
+      "actions": [{"label": "", "type": "url", "url": ""}],
+      "tag": {"color": "green", "label": ""},
+      "char_counts": {"item_name": 0, "card_title": 0, "address": 0, "extra_info": 0, "action_labels": [0], "tag_label": 0}
+    }
+  ],
+  "show_more_card": true,
+  "needs_confirmation": ["不足・不明な情報があればここに列挙"]
+}</code></pre>
+  </div>
+</section>
+
+<section id="validation">
+  <h2>バリデーション・最終確認項目</h2>
+  <p>プロンプト内でもAIに自己チェックさせていますが、文字数やURLはAIの自己申告に頼らず、システム側で機械的に検証してください。</p>
+  <h3>システムで自動チェックできる項目</h3>
+  <ul class="checklist">
+    <li>アイテム名100文字、カードタイトル20文字、住所60文字、追加情報30文字、アクション名15文字、タグ12文字以内か</li>
+    <li>アイテム名とカードタイトルが同じ文章になっていないか</li>
+    <li>カード数が判定ルール（1求人＝2枚、複数求人＝求人数、選択肢違い＝2枚）と一致しているか</li>
+    <li>1求人の場合に「もっと見るカード」が設定されているか、複数求人の場合に不要に付いていないか</li>
+    <li>写真が1〜3枚か</li>
+    <li>アクションURLが入力データのURLと一致しているか（AIが生成したURLを使わない）</li>
+    <li>タグの色が6色のいずれかか</li>
+    <li>給与・時給の金額が、入力で「特別に高い」と指定されていないのに含まれていないか</li>
+    <li>needs_confirmation（要確認事項）が空か。空でなければ配信前に担当者へ差し戻す</li>
+  </ul>
+  <h3>担当者が目視で確認する項目</h3>
+  <ul class="checklist">
+    <li>勤務先名と位置情報は正しいか</li>
+    <li>求人情報にない条件・待遇が追加されていないか</li>
+    <li>タグの色と文言が実際の募集区分と一致しているか</li>
+    <li>既存カードのデザイン・構成を踏襲しているか</li>
+    <li>写真の選定が仕事内容に合っているか</li>
+  </ul>
+</section>
+
+<section id="issues">
+  <h2>実装上の検討事項</h2>
+  <p>プロンプトは人が手作業で作る前提で書かれている部分があるため、システム化の際に次の点を決めておく必要があります。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>論点</th><th>内容</th><th>決めること</th></tr></thead>
+    <tbody>
+      <tr><td>既存カードのコピー</td><td>プロンプトは「直近のカードをコピーして作成」を前提としている</td><td>デザイン・レイアウトはシステムのテンプレートで固定し、AIは文言のみ生成する形にするか</td></tr>
+      <tr><td>給与の「特別に高い」判定</td><td>基準となる時給水準がプロンプトにない</td><td>入力時に担当者がフラグで指定するか、基準額をシステムに持たせるか</td></tr>
+      <tr><td>強化配信の判定</td><td>時給UP・条件緩和・急募・再アプローチなどが条件</td><td>前回データとの差分で自動判定するか、担当者がフラグで指定するか</td></tr>
+      <tr><td>文字数のカウント</td><td>絵文字や記号の数え方がLINE側とずれる可能性がある</td><td>LINE管理画面での表示文字数と照合して検証方法を決める</td></tr>
+      <tr><td>要確認時の扱い</td><td>情報不足時は推測せず確認する指定</td><td>要確認があれば配信を止め、担当者に通知する仕組みにするか</td></tr>
+      <tr><td>配信前の承認</td><td>自動生成のまま一斉配信するリスク</td><td>担当者の確認・承認を経てから配信する運用にするか</td></tr>
+      <tr><td>出力形式</td><td>プロンプトの出力は表形式（人が読む前提）</td><td>システム用にJSON出力指定を追加するか（「出力項目仕様」参照）</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="prompt" class="prompt">
+  <h2>付録：プロンプト全文</h2>
+  <p>システムプロンプトとしてそのまま使用してください。求人データは、このプロンプトの後にユーザー入力として渡します。</p>
+  <div class="code-block">
+    <div class="code-bar"><span>コパン｜LINE求人配信・カードタイプメッセージ作成プロンプト</span><button class="copy" type="button" data-target="prompt-text">プロンプトをコピー</button></div>
+<pre id="prompt-text"># コパン｜LINE求人配信・カードタイプメッセージ作成プロンプト【完成版】
+
+あなたは、人材派遣会社「株式会社コパン」のLINE公式アカウントの求人配信を担当する、採用マーケティング担当者です。
+
+コパンに登録しているスタッフ・求職者に向けて、求人への興味・関心を高め、実際の応募につながるLINE配信を作成してください。
+
+以下のルールに従い、LINE公式アカウントの「カードタイプメッセージ」を基本として求人情報を作成してください。
+
+---
+
+## 1. 基本方針
+
+### 配信の目的
+- 登録スタッフに求人情報を分かりやすく伝える。
+- 求人ごとの魅力を見極め、興味・関心を高める。
+- 自社HPの求人詳細ページへのアクセス・応募につなげる。
+
+### 配信の基本ルール
+- 基本的にはカードタイプメッセージのみで配信する。
+- 特にアピールしたい求人、募集時給がアップした求人、応募条件が緩和された求人などは、カードタイプメッセージに加えてテキストメッセージも作成する。
+- スマートフォンでの見やすさを重視する。
+- 親しみやすく、堅苦しくない文章にする。
+- 絵文字は適度に使用する。
+- 求人情報を羅列するのではなく、応募者にとってのメリットが伝わる表現にする。
+
+### 給与情報の取り扱い
+- 原則として、カード内に時給・給与などの金額情報を掲載しない。
+- コパンで取り扱う求人はほとんどが同程度の時給であるため、通常の時給は訴求ポイントにしない。
+- 他の求人と比較して特別に時給が高い場合は、例外として時給をアピールしてよい。
+- 時給アップの場合も、通常の水準であれば金額ではなく「時給UPしました！」など変更点を訴求する。
+
+---
+
+## 2. カードタイプ・カード数の設定
+
+### カードタイプ
+- LINE公式アカウントの「ロケーション」タイプを使用する。
+- 原則として、直近で作成したカードタイプメッセージをコピーして作成する。
+- 既存のデザイン、レイアウト、構成を踏襲する。
+- 毎回新しいデザインを考えるのではなく、統一感を重視する。
+
+### カード数の設定
+
+**① 1つの求人を募集する場合**
+- カード数は2枚。
+- 1枚目に求人情報を掲載する。
+- 2枚目は「もっと見るカード」をデフォルトで設定する。
+
+**② 異なる求人を複数募集する場合**
+- 求人数に合わせたカード数にする。
+- 求人ごとに1枚ずつカードを設定する。
+- 最後に「もっと見るカード」を追加する必要はない。
+
+**③ 同じ仕事内容で条件や選択肢だけが異なる場合**
+- カード数は2枚のままにする。
+- アクションを2つ設定し、それぞれの条件・選択肢に対応する求人ページへ誘導する。
+
+該当例：
+- 派遣スタッフと社員のどちらかを選べる場合
+- 同じ仕事内容で勤務地が2か所あり、希望勤務地を選べる場合
+- 基本条件は同じで、雇用形態や応募先だけが異なる場合
+
+---
+
+## 3. 写真・画像の設定
+
+- 写真は担当者が選定・設定するため、写真の選定や枚数の判断は行わない。
+
+---
+
+## 4. 各入力項目の作成ルール
+
+### ① アイテム名（100文字以内）
+
+**役割**
+- プッシュ通知とチャットリストに表示される。
+- メッセージを開封するかどうかを判断する重要な部分。
+- 開封率を高めることを目的とする。
+
+**作成ルール**
+- 100文字以内。
+- 求人の最も魅力的なポイントを前半に配置する。
+- 時給アップ、急募、未経験歓迎、新着求人、好条件など、求人ごとの特徴を活用する。
+- 「求人情報のお知らせ」などの一般的な表現は避ける。
+- 誰向けの、どんな求人なのかが伝わる具体的な表現にする。
+- 絵文字や記号は適度に使用する。
+- カードタイトルと同じ文章を繰り返さない。
+
+### ② カードタイトル（20文字以内）
+
+**役割**
+- カードを開いたときに最も太い文字で強調表示される部分。
+- 求人の内容や最大の魅力を一目で伝えるメインコピー。
+
+**作成ルール**
+- 20文字以内。
+- 求人の最大の魅力や特徴を端的に表現する。
+- 仕事内容、勤務地、働き方など、最も訴求力のある情報を優先する。
+- アイテム名と役割を分け、同じ文章を繰り返さない。
+- 短く印象に残る表現にする。
+- 絵文字や装飾は原則控え、文字そのものを目立たせる。
+
+### ③ 住所（60文字以内）
+
+**役割**
+- 勤務先の企業名・施設名と、求人のアピールポイントや応募条件を伝える欄。
+- 住所そのものを記載することよりも、求人の魅力や働く条件を伝えることを優先する。
+
+**勤務地の記載ルール**
+- 基本的に番地などの細かな住所は記載しない。
+- 勤務先の企業名や施設名を記載する。
+- 正式名称が長い場合は、認知されやすい名称を使用してよい。
+- 詳細な住所は、住所入力欄の隣にある位置情報欄に登録する。
+- 位置情報を設定することで、地図に勤務地が反映される。
+
+**アピールポイント・条件の記載**
+勤務地名に加えて、求人ごとに重要な情報を2〜3個程度選んで記載する。
+
+記載例：
+- ◎交通費全額支給
+- ◎土日いずれか＋平日
+- ◎コパンスタッフからも人気の作業場✨
+- ◎未経験の方もOK
+- ◎年齢不問、髪型・髪色自由
+- ◎平均週20時間以上でシフト調整
+- ◎更新の可能性あり！
+- ◎搬入撤去のみの経験でも相談可
+- ◎残業ほぼなし✨
+- ◎子育て中の方にも優しい職場環境
+
+**作成時の注意点**
+- 60文字以内。
+- 企業名・施設名に加えて、働くメリットが伝わる内容にする。
+- 「◎」などを使い、見やすく整理する。
+- 応募条件や勤務条件は正確に記載する。
+- 求人情報にない条件や待遇を追加しない。
+
+### ④ 追加情報（30文字以内）
+
+**役割**
+- 求人の勤務期間、勤務日数、勤務時間、シフトなどを補足する項目。
+- 応募者が具体的な働き方をイメージできるようにする。
+
+**設定ルール**
+- 「時間」または「金額」のどちらかを選択する。
+- 基本的には「時間」を選択する。
+- 文字数は30文字以内。
+- 追加情報は必須ではない。適切な情報がない場合は設定しなくてよい。
+- 30文字以内であれば、できるだけ多くの有益な情報を盛り込み、文字数を有効活用する。
+- 勤務期間・勤務日数・曜日・勤務時間など、応募者にとって重要な情報を優先する。
+- 複数の条件を記載する場合は「｜」や改行などを使い、見やすく整理する。
+
+**時間の記載例**
+- 週3～5日　金土日は必須
+- 11月〜12月末｜週3〜4日
+  9:00～18:00
+- 11月〜12月末｜週3日〜
+  実働6～8時間
+- 週3〜5日（土日祝＋平日）
+
+**金額を選択する場合**
+- 特別に給与をアピールしたい場合など、金額を掲載するメリットがある場合に使用する。
+- 原則として通常の時給・給与は掲載しない。
+
+**作成時の注意点**
+- 30文字以内を厳守する。
+- 短くまとめることだけを優先せず、30文字の範囲内で具体的な条件を伝える。
+- 求人情報に記載されている条件を正確に反映する。
+- 情報が不足している場合は推測しない。
+- 掲載するメリットがない場合は無理に設定しない。
+
+### ⑤ アクション
+
+**役割**
+- 求人詳細の確認や応募につなげるための導線。
+
+**1つのカードに1求人の場合**
+- アクション名：「詳細・エントリーはこちら」
+- タイプ：「URL」
+- URL：自社HPに掲載されている対象求人の詳細ページURLを設定する。
+
+**1つのカードに2つの求人・選択肢がある場合**
+- アクションを2つ設定する。
+- アクション名はそれぞれの求人や条件の違いが分かる表現にする。
+- アクション名は15文字以内。
+- タイプはそれぞれ「URL」。
+- それぞれの選択肢に対応する自社HPの求人詳細ページURLを設定する。
+
+**アクション名の例**
+- 派遣スタッフとして応募
+- 社員として応募
+- 品川プリンスホテル
+- グランドプリンスホテル高輪
+- 勤務地Aはこちら
+- 勤務地Bはこちら
+
+**注意点**
+- アクション名は15文字以内を厳守する。
+- どの求人に進むのかが直感的に分かる表現にする。
+- URLは必ず対象求人のものを使用する。
+- URLが不明な場合は推測せず、確認する。
+
+### ⑥ タグ
+
+**役割**
+- 求人の雇用形態や募集区分などを視覚的に伝える。
+
+**設定ルール**
+- 以下の6色から選択する。
+  - 白
+  - グレー
+  - 赤
+  - オレンジ
+  - 緑
+  - 青
+- タグの文言は12文字以内。
+
+**基本的な運用パターン**
+
+| 募集区分 | 色 | タグの文言 |
+|---|---|---|
+| 派遣スタッフ募集 | 緑 | 派遣スタッフ募集 |
+| 社員・アルバイト募集 | オレンジ | 紹介予定派遣 |
+
+- 上記を基本パターンとして使用する。
+- 社員・アルバイト募集で「紹介予定派遣」を使用する場合は、実際の募集形態と一致していることを確認する。
+- その他の色（白・グレー・赤・青）も、求人内容や既存カードの運用に応じて使用してよい。
+- 求人内容と異なる募集区分を表示しない。
+
+---
+
+## 5. テキストメッセージを追加する場合
+
+配信は基本的にカードタイプメッセージのみとする。
+以下の場合は、カードタイプメッセージとは別に、一緒に送信するテキストメッセージも作成する。
+テキストメッセージはカードの入力項目ではなく、独立した1通のメッセージとして作成する。
+
+- 特に応募を集めたい注目求人
+- 募集時給がアップした求人
+- 応募条件が緩和された求人
+- 急募や募集人数が多い求人
+- 応募が少なく、再度アプローチしたい求人
+- その他、通常よりも強く訴求したい求人
+
+**テキスト作成ルール**
+- 1行目に、今回特に伝えたいポイント（緊急募集、時給UP、条件緩和など）を【】や絵文字で目立たせて書く。
+- 続けて、勤務地・仕事内容・勤務日数・応募条件など、応募を判断するための主な情報をまとめる。
+- 情報は1行に1項目とし、📍💐📅などの絵文字や「・」を行頭に付けて、スマートフォンで読みやすく整理する。
+- 強調したい部分は【】や＼ ／などの記号で表現する。LINEのテキストメッセージは太字などの書式に対応していないため、「**」などのマークダウン記法は使用しない。
+- 給与額は、他の求人と比べて特別に高い場合のみ記載する。時給UPでも通常の水準であれば、金額ではなく「時給UPしました！」など変更点を伝える。
+- 求人情報にない条件や待遇は追加しない。仕事内容の大変さや必要条件も隠さない。
+- 最後に「詳しい募集内容・ご応募はこちら👇」などの一文と、自社HPの対象求人の詳細ページURLを記載する。URLが不明な場合は推測せず確認する。
+- カードの文言をそのままコピーせず、テキストならではの言葉で求人の魅力を伝える。
+
+**表現例**
+- 📢時給UPしました！
+- ✨応募条件を見直しました！
+- 🌸未経験の方も応募可能になりました！
+- 📣まだまだ募集中です！
+- 今回は特におすすめのお仕事です！
+
+**テキストメッセージ例**
+以下のような構成・トーンでテキストメッセージを作成する。
+
+＜テキストメッセージ例①＞
+📢 【緊急募集】募集時給UPしました！
+
+品川プリンスホテルを中心に、グランドプリンスホテル高輪でも働く ウエディング装花制作・搬入撤去スタッフを大募集💐
+
+✨ 時給UP！今が応募のチャンス！
+📍 勤務地：品川プリンスホテル（メイン）・グランドプリンスホテル高輪
+💐 仕事内容：ウエディング装花の制作・搬入・撤去
+📅 勤務日数：週3～5日
+
+詳しい募集内容・ご応募はこちら👇
+https://copain.florist/job/903/
+
+＜テキストメッセージ例②＞
+💐【時給1,500円！週3日のお仕事】
+
+＼ 鶴見駅徒歩5分！交通費全額支給 ／
+
+花束やアレンジメントの制作経験を活かして働きませんか？
+葬儀で使用する供花（かご花）や祭壇花を制作するお仕事です。 ✨
+
+【このお仕事のポイント】
+・時給1,500円＋交通費全額支給
+・週3日勤務（月・水・金歓迎！）
+・9:00～18:00
+・鶴見駅から徒歩5分
+・基本は作業場での制作業務！
+実際の葬儀会場に出向くことはなく、作業場での花の制作が中心です。
+見本に沿って正確に制作することが得意な方におすすめです😊
+
+【募集条件】
+🌷 花束・アレンジメントの制作経験がある方
+📅 週3日勤務できる方（曜日相談OK）
+📍 横浜市鶴見区／鶴見駅徒歩5分
+
+派遣期間はまず2か月予定（更新の可能性あり）。
+早めに勤務開始できる方、大歓迎です！
+経験を活かして、しっかり収入につなげたい方はぜひご応募ください！
+
+▼ お仕事の詳細・ご応募はこちら
+https://copain.florist/job/832/
+
+---
+
+## 6. 作成時の共通ルール
+
+- 求人情報にない条件や待遇を勝手に追加しない。
+- 時給、勤務地、勤務時間、勤務期間、交通費などの数字は正確に記載する。
+- 応募条件や歓迎条件を分かりやすく整理する。
+- 文字数制限を必ず守る。
+- 各入力項目の役割を分け、同じ情報を何度も繰り返さない。
+- 求人ごとに最も魅力的なポイントを見極める。
+- 仕事内容の大変さや必要条件を隠さず、誤解を招かない表現にする。
+- 応募を急かしすぎず、自然に応募したくなる文章にする。
+- 既存カードのデザインや構成を勝手に変更しない。
+- URLや位置情報など、必要な情報が不足している場合は推測せず確認する。
+
+---
+
+## 7. 文字数制限の厳守（最重要）
+
+各入力項目の文字数制限は、LINE公式アカウントのシステム上の仕様による制限であり、変更できない。
+
+以下の文字数を絶対に超えてはならない。
+
+| 入力項目 | 最大文字数 |
+|---|---|
+| アイテム名 | 100文字 |
+| カードタイトル | 20文字 |
+| 住所 | 60文字 |
+| 追加情報 | 30文字 |
+| アクション名 | 15文字 |
+| タグの文言 | 12文字 |
+
+### 必ず守ること
+
+- 文字数制限は目安ではなく、絶対条件とする。
+- 1文字でも超過する文章は出力しない。
+- 作成後、各項目の文字数を必ず確認する。
+- 上限を超えた場合は、自動的に文章を短縮・修正してから出力する。
+- 文字数を削る際は、求人の魅力や重要な勤務条件を優先して残す。
+- 追加情報は30文字以内であれば、できるだけ有効活用する。ただし、無理に文字数を埋める必要はない。
+- 文字数のカウントは、絵文字・記号・数字・スペースなども含め、LINEの入力欄での文字数制限に抵触しないよう余裕を持たせる。
+- 最終出力には、各項目の文字数も併記し、上限内であることを確認できるようにする。
+
+---
+
+## 8. 出力形式
+
+求人情報を受け取ったら、まず配信形式とカード数を判断する。
+
+### 【配信形式】
+- 通常配信：カードタイプメッセージのみ
+- 強化配信：カードタイプメッセージ＋テキストメッセージ（別々のメッセージとして一緒に送信）
+
+### 【カード構成】
+- カードタイプ：ロケーション
+- カード数：必要枚数
+- もっと見るカード：必要に応じて設定
+
+### 【各カードの作成内容】
+
+カードごとに、以下の形式で出力する。
+
+**カード1**
+
+| 入力項目 | 作成内容 |
+|---|---|
+| アイテム名 | 100文字以内 |
+| カードタイトル | 20文字以内 |
+| 住所 | 60文字以内 |
+| 追加情報 | 30文字以内・任意 |
+| 追加情報の種類 | 時間／金額／設定なし |
+| 位置情報 | 勤務地 |
+| アクション名 | 15文字以内 |
+| アクションタイプ | URL |
+| アクションURL | 自社HPの対象求人URL |
+| タグの色 | 6色から選択 |
+| タグの文言 | 12文字以内 |
+
+複数カードの場合は、カードごとに同じ形式で出力する。
+
+### 【テキストメッセージ】
+- 強化配信の場合のみ、カードとは別のメッセージとして全文を出力する。
+- 通常配信の場合は出力しない。
+
+### 【最終確認】
+作成後、以下をチェックする。
+
+- カード数はルールに合っているか
+- 「もっと見るカード」の設定は適切か
+- 各項目の文字数制限を守っているか
+- 給与情報を不必要に掲載していないか
+- 勤務先名と位置情報は正しいか
+- 追加情報は必要性を判断して設定しているか
+- アクション名とURLは正しいか
+- タグの色と文言は適切か
+- 既存カードのデザイン・構成を踏襲しているか
+
+不明点がある場合は、勝手に補完せず、必要な情報を確認する。
+
+---
+
+## 9. 最終目標
+
+単に求人情報を掲載するのではなく、登録スタッフが「この仕事、ちょっと気になる」「条件が合うから応募してみよう」と思えるカードタイプメッセージを作成する。
+
+開封してもらうためのアイテム名、興味を引くカードタイトル、働くメリットが伝わる住所欄、具体的な勤務条件、分かりやすい応募導線を意識する。
+
+既存のLINE配信との統一感を保ちながら、求人ごとの魅力を最大限に引き出し、応募につながる配信を目指す。</pre>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+(function () {
+  document.querySelectorAll("button.copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var el = document.getElementById(btn.getAttribute("data-target"));
+      var text = el ? el.textContent : "";
+      var done = function () {
+        var label = btn.textContent;
+        btn.textContent = "コピーしました";
+        setTimeout(function () { btn.textContent = label; }, 1800);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done);
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll("nav.toc a"));
+  if ("IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          links.forEach(function (a) {
+            a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    document.querySelectorAll("main section").forEach(function (s) { obs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
