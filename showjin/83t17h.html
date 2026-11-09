@@ -1,0 +1,171 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>コパン求人サイト週報 11/2–11/8</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+/* Layout: 1カラムの社内報。上に「今週の良かったこと」の要点、下に根拠の数字と小さな棒グラフ。花の茎の緑を地色に、コパンのオレンジを強調色に。 */
+:root{
+  --bg:#f6f8f4; --surface:#ffffff; --fg:#1d2a21; --sub:#5a6a5f; --line:#dde4da;
+  --accent:#d45f0b; --accent-soft:#fbe9db; --leaf:#2f7a4c; --leaf-soft:#e2f0e6; --bar-prev:#c9d3cb;
+  --f-head:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+  --f-body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131a15; --surface:#1b241e; --fg:#e6ede7; --sub:#9fb0a4; --line:#2c3a30;
+  --accent:#f08a3c; --accent-soft:#3a2716; --leaf:#6cc391; --leaf-soft:#1e3326; --bar-prev:#3b4a40; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131a15; --surface:#1b241e; --fg:#e6ede7; --sub:#9fb0a4; --line:#2c3a30;
+  --accent:#f08a3c; --accent-soft:#3a2716; --leaf:#6cc391; --leaf-soft:#1e3326; --bar-prev:#3b4a40; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.8}
+.wrap{max-width:760px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-head);text-wrap:balance;line-height:1.4;margin:0}
+h1{font-size:1.9rem}
+h2{font-size:1.3rem;display:flex;align-items:baseline;gap:10px}
+h2 .no{font-size:.8rem;color:var(--accent);letter-spacing:.08em}
+h3{font-size:1.02rem}
+p{margin:0}
+.eyebrow{font-size:.78rem;letter-spacing:.12em;color:var(--leaf);font-weight:700}
+.lead{color:var(--sub);max-width:62ch}
+header{display:flex;flex-direction:column;gap:10px}
+.period{font-size:.85rem;color:var(--sub)}
+.num{font-variant-numeric:tabular-nums}
+
+.summary{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:14px}
+.summary ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.summary li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+.summary li::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--leaf);margin-top:.55em}
+.summary strong{color:var(--fg)}
+
+section{display:flex;flex-direction:column;gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .k{font-size:.8rem;color:var(--sub)}
+.kpi .v{font-size:1.55rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.3}
+.kpi .d{font-size:.8rem;font-variant-numeric:tabular-nums;color:var(--leaf);font-weight:700}
+.kpi .p{font-size:.78rem;color:var(--sub);font-variant-numeric:tabular-nums}
+@media (max-width:560px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.bars{display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.bar-row{display:grid;grid-template-columns:minmax(0,11em) 1fr;gap:12px;align-items:center}
+.bar-row .name{font-size:.86rem;line-height:1.4;min-width:0}
+.bar-row .name small{display:block;color:var(--sub);font-size:.75rem}
+.track{display:flex;flex-direction:column;gap:4px}
+.b{height:14px;border-radius:4px;display:flex;align-items:center}
+.b span{font-size:.75rem;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:calc(100% + 6px)}
+.b.now{background:var(--accent)}
+.b.prev{background:var(--bar-prev);height:8px}
+.b.prev span{color:var(--sub)}
+.legend{display:flex;gap:16px;font-size:.78rem;color:var(--sub);flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle}
+@media (max-width:480px){.bar-row{grid-template-columns:1fr}}
+
+.read{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.read-row{display:grid;grid-template-columns:5.5em 1fr;gap:10px;align-items:center;font-size:.86rem}
+.read-row .b{background:var(--leaf);height:20px}
+.read-row .b span{padding-left:8px;color:var(--surface);font-weight:700}
+
+.note{font-size:.82rem;color:var(--sub)}
+.next{background:var(--accent-soft);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.next ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.ask{border:1px dashed var(--accent);border-radius:12px;padding:16px 20px}
+footer{font-size:.78rem;color:var(--sub);border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">COPAIN 求人サイト（copain.florist）週報</span>
+    <h1>求人がしっかり読まれた1週間でした</h1>
+    <p class="period num">対象：2026年11月2日（月）〜11月8日（日）／比較：前週 10月26日〜11月1日／出典：Google アナリティクス</p>
+  </header>
+
+  <div class="summary">
+    <h3>今週の良かったこと</h3>
+    <ul>
+      <li><span>求人ページの<strong>表示回数が1,413回（前週比 +26%）</strong>に増えました。</span></li>
+      <li><span>1人あたりの<strong>滞在時間が1分40秒（+32%）</strong>に伸び、求人を読み込む人が増えています。</span></li>
+      <li><span><strong>麻布十番・花弘・品川プリンス</strong>の3求人が大きく伸び、どれも週100回前後見られました。</span></li>
+      <li><span><strong>応募フォームを開いた回数が20回→49回（2.5倍）</strong>になりました。</span></li>
+      <li><span>求人を開いた人の<strong>半分以上が最後まで読んでいる</strong>ことが、今週から数字で分かるようになりました。</span></li>
+    </ul>
+  </div>
+
+  <section>
+    <h2><span class="no">01</span>サイト全体の動き</h2>
+    <div class="kpis">
+      <div class="kpi"><span class="k">表示回数</span><span class="v">1,413</span><span class="d">+26%</span><span class="p">前週 1,118</span></div>
+      <div class="kpi"><span class="k">訪問者数</span><span class="v">400人</span><span class="d">+4%</span><span class="p">前週 386人</span></div>
+      <div class="kpi"><span class="k">1人あたりの滞在時間</span><span class="v">1分40秒</span><span class="d">+32%</span><span class="p">前週 1分16秒</span></div>
+      <div class="kpi"><span class="k">1人あたりの閲覧ページ数</span><span class="v">3.5</span><span class="d">+22%</span><span class="p">前週 2.9</span></div>
+      <div class="kpi"><span class="k">しっかり見た訪問の割合</span><span class="v">49%</span><span class="d">+6pt</span><span class="p">前週 43%</span></div>
+      <div class="kpi"><span class="k">応募フォームの表示</span><span class="v">49回</span><span class="d">+145%</span><span class="p">前週 20回</span></div>
+    </div>
+    <p class="note">「しっかり見た訪問」は、10秒以上滞在した・2ページ以上見た、などの条件を満たした訪問です（GAの「エンゲージメント率」）。</p>
+  </section>
+
+  <section>
+    <h2><span class="no">02</span>伸びた求人</h2>
+    <p class="lead">特に3つの求人が大きく伸びました。前週ほとんど見られていなかった求人が、1週間で上位に入っています。</p>
+    <div class="bars" role="img" aria-label="求人別の表示回数。今週と前週の比較">
+      <div class="legend"><span><i style="background:var(--accent)"></i>今週</span><span><i style="background:var(--bar-prev)"></i>前週</span></div>
+      <div class="bar-row">
+        <div class="name">品川プリンスホテル<small>ウエディング装花（/job/903）</small></div>
+        <div class="track"><div class="b now" style="width:70%"><span>102回</span></div><div class="b prev" style="width:40.5%"><span>59回</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="name">麻布十番エリア<small>販売制作・未経験OK（/job/593）</small></div>
+        <div class="track"><div class="b now" style="width:65.2%"><span>95回</span></div><div class="b prev" style="width:8.9%"><span>13回</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="name">花弘<small>作業場業務・12月末まで（/job/752）</small></div>
+        <div class="track"><div class="b now" style="width:65.2%"><span>95回</span></div><div class="b prev" style="width:1.4%"><span>2回</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="name">求人 /job/832<small>表示回数 約3倍</small></div>
+        <div class="track"><div class="b now" style="width:23.3%"><span>34回</span></div><div class="b prev" style="width:8.2%"><span>12回</span></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="name">求人 /job/852<small>1人平均 3分44秒 読まれた</small></div>
+        <div class="track"><div class="b now" style="width:21.3%"><span>31回</span></div><div class="b prev" style="width:11%"><span>16回</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="no">03</span>求人がどこまで読まれたか</h2>
+    <p class="lead">今週から、求人ページをどこまで読んだかを計測しています。求人を読み始めた155人のうち、85人（55%）が最後まで読んでいました。</p>
+    <div class="read" role="img" aria-label="求人ページの読了人数">
+      <div class="read-row"><span>25%まで</span><div class="b" style="width:100%"><span>155人</span></div></div>
+      <div class="read-row"><span>半分まで</span><div class="b" style="width:82%"><span>127人</span></div></div>
+      <div class="read-row"><span>75%まで</span><div class="b" style="width:65%"><span>100人</span></div></div>
+      <div class="read-row"><span>最後まで</span><div class="b" style="width:55%"><span>85人</span></div></div>
+    </div>
+    <p class="note">ほかにも「応募ボタンのクリック」の計測を始めました。今週は11人が合計23回押し、スマホ画面下の固定ボタンも7回使われました。</p>
+  </section>
+
+  <section>
+    <h2><span class="no">04</span>検索から来た人は熱心</h2>
+    <p class="lead">Google・Yahoo などの検索から来た訪問は65回でした。数は前週（98回）より少ないものの、<strong>1回あたり平均3分02秒</strong>（前週 1分32秒）と、他の経路よりずっと長く読まれています。仕事を探している人に届いているサインです。ほかに、他サイトからのリンク経由が7回→15回に増え、ChatGPT からの訪問も初めて3回ありました。</p>
+  </section>
+
+  <div class="ask">
+    <h3>教えてください</h3>
+    <p class="note" style="font-size:.9rem;margin-top:6px">麻布十番（/job/593）と花弘（/job/752）は、11月4日ごろに急に見られるようになりました。この頃にLINE配信や求人の共有など、何か発信をしていたら教えてください。効いた施策を次にも活かします。</p>
+  </div>
+
+  <div class="next">
+    <h3>次に伸ばしたいところ</h3>
+    <ul>
+      <li>応募フォームを開く人は増えましたが、<strong>応募完了は今週1人</strong>でした。フォームで止まっている理由を調べて改善します。</li>
+      <li>検索からの訪問数が前週より減りました。求人ページのタイトル変更の影響も含めて、2〜3週間様子を見ます。</li>
+      <li>派遣登録の件数をGAで数えられるよう、計測の準備を進めています。</li>
+    </ul>
+  </div>
+
+  <footer>
+    <p>数字には社内メンバーの閲覧も一部含まれます。社内から確認のためにサイトを見るときは、GA計測をオフにする方法を別途案内します。</p>
+  </footer>
+</div>
+
+</body></html>
