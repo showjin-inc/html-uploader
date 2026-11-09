@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>コパン 行動基準</title>
+<style>
+:root{
+  --bg:#f6f6f4;--card:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--line:#e4e3df;
+  --bar:#2a78d6;--bar-dim:#b9d2f1;--good:#008300;--good-bg:#e8f4e8;--bad:#c4302f;--bad-bg:#fbeaea;--warn:#a56a00;--warn-bg:#fdf3dc;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121211;--card:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#8f8e86;--line:#2e2e2b;
+    --bar:#3987e5;--bar-dim:#2b4a70;--good:#4cbf4c;--good-bg:#18301a;--bad:#e66767;--bad-bg:#3a1c1c;--warn:#e0a83a;--warn-bg:#3a2e14;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121211;--card:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#8f8e86;--line:#2e2e2b;
+  --bar:#3987e5;--bar-dim:#2b4a70;--good:#4cbf4c;--good-bg:#18301a;--bad:#e66767;--bad-bg:#3a1c1c;--warn:#e0a83a;--warn-bg:#3a2e14;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;line-height:1.7;font-size:15px}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}
+h2{font-size:19px;margin:40px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+h3{font-size:16px;margin:0 0 8px}
+.sub{color:var(--ink2);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:12px 0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.gw{grid-template-columns:repeat(auto-fit,minmax(440px,1fr))}
+@media (max-width:520px){.gw{grid-template-columns:1fr}}
+.gw td:first-child,.gw th:first-child{min-width:7.5em;white-space:nowrap}
+.tile .lbl{font-size:12px;color:var(--ink2)}
+.tile .val{font-size:26px;font-weight:700;margin:2px 0}
+.tile .cmp{font-size:12px;color:var(--ink2)}
+.verdict{border-left:5px solid var(--bar);padding:14px 18px;background:var(--card);border-radius:8px;margin:12px 0}
+.verdict p{margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+thead th{font-size:12px;color:var(--ink2);font-weight:600;background:var(--bg)}
+.tbl{overflow-x:auto}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.t-good{color:var(--good);background:var(--good-bg)}
+.t-bad{color:var(--bad);background:var(--bad-bg)}
+.t-warn{color:var(--warn);background:var(--warn-bg)}
+ul.eval{margin:0;padding-left:0;list-style:none}
+ul.eval li{padding:10px 0;border-bottom:1px solid var(--line)}
+ul.eval li:last-child{border-bottom:none}
+ul.eval b{display:block}
+ul.eval span.d{color:var(--ink2);font-size:14px}
+.note{font-size:13px;color:var(--ink2);background:var(--warn-bg);border-radius:8px;padding:10px 14px;margin:12px 0}
+/* bar chart */
+.chart{display:flex;align-items:flex-end;gap:18px;height:170px;padding:8px 4px 0;border-bottom:1px solid var(--line)}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
+.bar{width:60%;max-width:64px;background:var(--bar);border-radius:4px 4px 0 0;min-height:2px;cursor:default}
+.bar.dim{background:var(--bar-dim)}
+.col .v{font-size:12px;color:var(--ink);margin-bottom:4px;white-space:nowrap}
+.xl{display:flex;gap:18px;padding:4px 4px 0}
+.xl div{flex:1;text-align:center;font-size:12px;color:var(--ink2)}
+.col:hover .bar{opacity:.8}
+.pending{border:2px dashed var(--line);color:var(--ink2)}
+</style>
+<style>h3.sub{font-size:13px;margin:0 0 4px}.wrapt th,.wrapt td{white-space:normal;text-align:left;vertical-align:top}.wrapt td:first-child{width:22%;min-width:8em}</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>コパン 稼働を増やすための行動基準</h1>
+<div class="sub">2026年11月〜｜対象：営業・社内オペ・システム（SHOWCASE開発）｜根拠：2026年10月評価・深掘り検証（SHOWCASE／キントーンの実データ）</div>
+
+<div class="verdict">
+  <p><b>コパンの稼働が伸びない理由は「決まらない」ことではなく、「声をかけていない」「つないでいない」「記録していない」ことです。</b></p>
+  <p class="sub">打診の候補はシステムが自動で選んでくれます。あとは配信するだけです。契約が終わったスタッフを次の派遣先につなぐこと、理由と反応を必ず残すこと。この3つを全員で徹底します。</p>
+</div>
+
+<!-- ===== 事実 ===== -->
+<h2>1. いまの事実（10月時点）</h2>
+<div class="grid g4">
+  <div class="card tile"><div class="lbl">候補が0人の依頼</div><div class="val" style="color:var(--bad)">49件</div><div class="cmp">人選中56件のうち</div></div>
+  <div class="card tile"><div class="lbl">選考に乗っていない待機スタッフ</div><div class="val" style="color:var(--bad)">13名</div><div class="cmp">待機中13名の全員</div></div>
+  <div class="card tile"><div class="lbl">別の派遣先へ移れたスタッフ</div><div class="val" style="color:var(--bad)">0名</div><div class="cmp">6〜10月に更新されず終了した5名中</div></div>
+  <div class="card tile"><div class="lbl">10月応募者の辞退率</div><div class="val" style="color:var(--bad)">38%</div><div class="cmp">21名中8名。理由は記録されていない</div></div>
+</div>
+<div class="grid g4">
+  <div class="card tile"><div class="lbl">人が配信した打診（導入後）</div><div class="val">10件</div><div class="cmp">約3か月の合計</div></div>
+  <div class="card tile"><div class="lbl">エントリー経由の決定率</div><div class="val">84.6%</div><div class="cmp">10月。声がかかれば決まる</div></div>
+  <div class="card tile"><div class="lbl">応募→面談の日数</div><div class="val">10日</div><div class="cmp">中央値（9月は6日）</div></div>
+  <div class="card tile"><div class="lbl">見積件数</div><div class="val">3件</div><div class="cmp">10月（導入前は月9〜12件）</div></div>
+</div>
+
+<!-- ===== 打診 ===== -->
+<h2>2. 打診の基準</h2>
+<div class="grid g3">
+<div class="card">
+  <h3><span class="tag t-bad">最低基準</span> 打診遅延ゼロ</h3>
+  <ul class="eval">
+    <li><b>自動候補が入ったら、その日のうちに配信する</b><span class="d">依頼の「スタッフ選考」に入った打診を「スタッフへ打診する」で送る。LINE・TEL・メールの例文はSHOWCASEに出ます。</span></li>
+    <li><b>「打診中・停滞◯日」の表示を毎日ゼロにする</b><span class="d">返事がなければ翌日にもう一度連絡し、それでも駄目なら「連絡がつかない」で見送り、次の候補を入れる。</span></li>
+    <li><b>候補0件の依頼をゼロにする</b><span class="d">人選中の依頼で候補がいなければ「今すぐ候補を入れる」を押す。</span></li>
+  </ul>
+</div>
+<div class="card">
+  <h3><span class="tag t-good">目標</span> 打診の量を最大にする</h3>
+  <ul class="eval">
+    <li><b>人選中の依頼すべてに、常に3名以上の打診中がいる状態</b><span class="d">見送りが出たら、空いた枠に次の自動候補が入るので、すぐ配信する。</span></li>
+    <li><b>待機中・案件検討中のスタッフ全員に、週1件以上の打診</b></li>
+    <li><b>週の目安を数で持つ</b><span class="d">人選中の依頼が約50件あるので、3名ずつ送れば週150件規模。週11件はあくまで「1名稼働に約9件」という最低ラインの目安です。</span></li>
+  </ul>
+</div>
+<div class="card">
+  <h3>打診の数字の見方</h3>
+  <ul class="eval">
+    <li><b>打診→双方OK：22%</b><span class="d">キントーン1〜4月の打診23件の実績。企業NG 48%、スタッフNG 30%。</span></li>
+    <li><b>候補→決定：49%</b><span class="d">SHOWCASEの候補47件の実績。</span></li>
+    <li><b>1名稼働に約9件の打診</b><span class="d">自動候補は質がばらつくので、実際はもっと多く必要になる可能性があります。だからこそ量を出します。</span></li>
+  </ul>
+</div>
+</div>
+
+<!-- ===== 役割別 ===== -->
+<h2>3. 役割ごとに「必ず記録する項目」と「重視する数字」</h2>
+
+<div class="card">
+<h3>営業（担当：佐田さん）</h3>
+<div class="grid g3">
+<div>
+  <h3 class="sub">必ず記録する項目</h3>
+  <ul class="eval">
+    <li><b>対応メモの「目的」「対応ツール」を毎回入れる</b><span class="d">新規獲得／既存：案件創出／単価UP／進行案件調整／トラブル。</span></li>
+    <li><b>クライアントの反応と次回アクション日を本文の先頭に書く</b><span class="d">システムに欄ができるまでの暫定ルール。書き方：「反応：前向き／検討中／条件次第／見送り／反応なし」「次回：11/15 TEL」。</span></li>
+    <li><b>打診した候補への企業の回答を、当日中に入れる</b><span class="d">見送りなら理由を必ず選ぶ。</span></li>
+    <li><b>更新確認の企業意向を、終了21日前までに入れる</b><span class="d">NGなら理由を選び、すぐオペに共有する。</span></li>
+    <li><b>見積はSHOWCASEで作る</b><span class="d">キントーンへの入力はやめる。</span></li>
+  </ul>
+</div>
+<div>
+  <h3 class="sub">重視する数字</h3>
+  <ul class="eval">
+    <li><b>見積件数</b><span class="d">10月3件 → 月10件（導入前の水準）</span></li>
+    <li><b>企業NG率</b><span class="d">打診の48%が企業NG。打診前に曜日・時間・経験の条件を企業に確認して下げる。</span></li>
+    <li><b>候補を提案してから企業が回答するまでの日数</b></li>
+    <li><b>新規獲得の対応件数</b><span class="d">10月：SHOWCASE 9件＋キントーン15件</span></li>
+  </ul>
+</div>
+<div>
+  <h3 class="sub">今月やること</h3>
+  <ul class="eval">
+    <li><b>60日を超えた人選中の依頼39件を企業に確認する</b><span class="d">続けるか、条件を変えるか、閉じるか。</span></li>
+    <li><b>AGENT依頼33件の正社員ニーズを確認する</b></li>
+    <li><b>待機スタッフが多い職種（ショップ・事務）の案件を取りに行く</b></li>
+  </ul>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>社内オペ（担当：浅古さん・本間さん）</h3>
+<div class="grid g3">
+<div>
+  <h3 class="sub">必ず記録する項目</h3>
+  <ul class="eval">
+    <li><b>打診したら「スタッフへ打診する」で連絡手段を記録</b><span class="d">記録しないと「遅延」として残り、誰が何をしたか分からなくなります。</span></li>
+    <li><b>見送りは理由を必ず選ぶ</b><span class="d">今は見送りの約3分の1しか理由が残っていません。</span></li>
+    <li><b>辞退・不採用の理由を対応履歴に書く</b><span class="d">システムに欄ができるまでの暫定ルール。書き方：「辞退理由：連絡不通／他社決定／条件不一致／面談不参加（無断）／本人都合」。</span></li>
+    <li><b>更新確認でスタッフに「次もコパンで働きたいか」を聞く</b><span class="d">備考に「次の派遣先：希望する／しない／時期／条件（エリア・曜日）」を書く。</span></li>
+    <li><b>応募経路と応募日を必ず入れる</b></li>
+  </ul>
+</div>
+<div>
+  <h3 class="sub">重視する数字</h3>
+  <ul class="eval">
+    <li><b>打診遅延：0件（毎日）</b><span class="d">自動候補が入ったまま配信していない件数。</span></li>
+    <li><b>打診の配信数（週）</b></li>
+    <li><b>応募から24時間以内の初回連絡</b><span class="d">応募→面談は10日 → 3日以内へ。</span></li>
+    <li><b>辞退率</b><span class="d">10月38% → 20%以下へ。</span></li>
+    <li><b>再稼働率</b><span class="d">契約が終わったスタッフが、終了後14日以内に次の派遣先に決まった割合。今は0%。</span></li>
+  </ul>
+</div>
+<div>
+  <h3 class="sub">今月やること</h3>
+  <ul class="eval">
+    <li><b>待機中13名に、今週中に1件以上打診する</b></li>
+    <li><b>更新されずに終わった5名と、11月に終わる2名に連絡する</b><span class="d">次も働きたいか、条件を聞いて、案件を打診する。</span></li>
+    <li><b>キントーンのスタッフ対応への入力をやめ、SHOWCASEに一本化する</b></li>
+  </ul>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>システム（SHOWCASE）：今は記録できない・見えない項目</h3>
+<div class="tbl">
+<table class="wrapt">
+<thead><tr><th>項目</th><th>今の状態</th><th>追加・修正したい内容</th><th>使う人</th></tr></thead>
+<tbody>
+<tr><td>打診遅延の件数</td><td>依頼ごとにしか見えない</td><td>「未配信の自動候補」「停滞◯日」の一覧と件数をダッシュボードに出す</td><td>オペ</td></tr>
+<tr><td>候補0件の依頼</td><td>49件が候補なしのまま</td><td>人選中になったら自動候補を必ず入れる。入らない原因を確認する</td><td>オペ</td></tr>
+<tr><td>打診の決定率</td><td>自動候補と配信済みが混ざる</td><td>「配信した打診」だけで回答率・決定率を出す</td><td>全員</td></tr>
+<tr><td>次の派遣先の希望</td><td>欄がない</td><td>更新確認に「次も働きたいか／時期／条件」を追加</td><td>オペ</td></tr>
+<tr><td>更新NG後の次の行動</td><td>保険手続きと派遣完了のタスクだけ</td><td>更新NGで「次の案件を打診」タスクを自動作成。終了予定スタッフ一覧を作る</td><td>オペ</td></tr>
+<tr><td>再稼働率</td><td>ない</td><td>終了後14日以内に次が決まった割合を毎月出す</td><td>全員</td></tr>
+<tr><td>辞退・不採用の理由</td><td>欄がない</td><td>ステータス変更時に理由の選択を必須にする。「面談不参加（無断）」を分ける</td><td>オペ</td></tr>
+<tr><td>応募→初回連絡の時間</td><td>取れない</td><td>初回連絡日時を記録し、応募からの時間を出す</td><td>オペ</td></tr>
+<tr><td>クライアントの反応・次回アクション日</td><td>対応メモに欄がない</td><td>選択式で追加。分析画面は「目的」別に集計する</td><td>営業</td></tr>
+<tr><td>月別売上</td><td>契約開始月に全期間分を計上</td><td>日割りの月次売上を出す</td><td>全員</td></tr>
+<tr><td>更新率</td><td>記録（8/9 OK）と画面（33.3%）が合わない</td><td>計算方法を確認する</td><td>全員</td></tr>
+<tr><td>キントーンの残り案件</td><td>PDP3店舗・ディーオーシー・花門がSHOWCASEにない</td><td>SHOWCASEに登録する（岐阜店は稼働を確認してから）</td><td>オペ・営業</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ===== 未来像 ===== -->
+<h2>4. やった結果、どうなるか（試算）</h2>
+<div class="note">試算の前提：10月に稼働している契約1件あたりの月売上は約¥27万、粗利は約¥10万（SHOWCASE 11契約の日割り平均）。打診→稼働は約10.7%（22%×49%）、自動候補の質のばらつきを見込んだ控えめなケースは5%。受注済みで人が決まっていない枠は61名分あり、上限はここです。</div>
+<div class="card tbl">
+<table class="wrapt">
+<thead><tr><th>やること</th><th>いま</th><th>3か月後の姿</th><th>月の売上インパクト</th></tr></thead>
+<tbody>
+<tr><td><b>打診遅延ゼロ＋量の最大化</b><br><span class="sub">依頼1件に常に3名配信（月200件規模）</span></td><td>配信 約3件/月<br>新規稼働 月1〜4名</td><td>新規稼働 <b>月10〜20名</b><br><span class="sub">控えめ5%〜標準10.7%</span></td><td><b>+¥270万〜¥530万</b><br><span class="sub">月10〜20名が稼働を続けた場合の1か月分</span></td></tr>
+<tr><td><b>次の派遣先につなぐ</b><br><span class="sub">再稼働率 0% → 50%</span></td><td>更新されなかった人は全員離脱（月1名ペース）</td><td>離脱が半分に。1年で6名分の稼働が残る</td><td><b>1年後 +¥160万/月</b></td></tr>
+<tr><td><b>応募に24時間以内に連絡</b><br><span class="sub">辞退率 38% → 20%</span></td><td>応募21名中、面談12名</td><td>面談 月4名増</td><td>稼働 月約1名増（面談→稼働24%）<br><b>+¥27万/月ずつ積み上がる</b></td></tr>
+<tr><td><b>理由と反応を記録する</b></td><td>見送り理由は約3分の1、辞退理由・反応は0</td><td>なぜ決まらないかが毎月数字で分かる</td><td>企業NG 48%を下げる・条件を見直す材料になる</td></tr>
+<tr><td><b>見積を導入前の水準に戻す</b></td><td>月3件</td><td>月10件</td><td>12月以降の新規稼働の元になる</td></tr>
+</tbody>
+</table>
+</div>
+<div class="verdict">
+  <p><b>3か月後の目標の姿：候補0件の依頼ゼロ、打診遅延ゼロ。契約が終わるスタッフには全員、終了前に次の案件が届いている。</b></p>
+  <p class="sub">10月の推計売上は約¥443万です。打診とつなぎ直しが回れば、月¥700万〜¥1,000万が視野に入ります（受注済みで人が決まっていない61名分が埋まっていく前提）。</p>
+</div>
+
+<!-- ===== チェックリスト ===== -->
+<h2>5. 毎日・毎週のチェック</h2>
+<div class="grid g3">
+<div class="card">
+  <h3>毎朝（オペ）</h3>
+  <ul class="eval">
+    <li><b>打診遅延 0件か</b></li>
+    <li><b>候補0件の依頼 0件か</b></li>
+    <li><b>前日の応募に全員連絡したか</b></li>
+  </ul>
+</div>
+<div class="card">
+  <h3>毎週（全員）</h3>
+  <ul class="eval">
+    <li><b>打診の配信数・回答数・決定数</b></li>
+    <li><b>30日以内に終わるスタッフと、次の案件の打診状況</b></li>
+    <li><b>見積件数・新規獲得件数・企業NGの理由</b></li>
+  </ul>
+</div>
+<div class="card">
+  <h3>毎月（マネージャー）</h3>
+  <ul class="eval">
+    <li><b>再稼働率・辞退率と辞退理由</b></li>
+    <li><b>日割りの月次売上・粗利</b></li>
+    <li><b>システム追加項目の進み具合</b></li>
+  </ul>
+</div>
+</div>
+
+</div>
+</body>
+</html>
