@@ -262,5 +262,16 @@
     "createdAt": "2026-11-09",
     "expiresAt": "2026-12-09",
     "pageUrl": "https://share.showjin.co.jp/showjin/arq682.html"
+  },
+  {
+    "id": "2026-11-09T23-42-23",
+    "brand": "sj",
+    "title": "自社サイト、花JOBプロンプト修正内容",
+    "author": "萩原",
+    "fileName": "flgau6.html",
+    "filePath": "showjin/flgau6.html",
+    "createdAt": "2026-11-09",
+    "expiresAt": "2026-11-16",
+    "pageUrl": "https://share.showjin.co.jp/showjin/flgau6.html"
   }
 ]
