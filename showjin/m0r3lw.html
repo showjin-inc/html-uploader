@@ -1,0 +1,244 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>コパン・ジラフラワー計測ガイド</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: 作業手順書。左に「状態」チップ、本文は1カラム。コードは等幅のブロックにコピーボタン付き。 */
+:root{
+  --bg:#f5f7f6; --surface:#ffffff; --fg:#1c2622; --sub:#5b6a64; --line:#dbe3df;
+  --accent:#c9590a; --done:#2f7a4c; --done-soft:#e1efe6; --todo:#8a5a00; --todo-soft:#fbefd6; --code-bg:#1f2a26; --code-fg:#e8efe9;
+  --f-head:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+  --f-body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121916; --surface:#1a231f; --fg:#e4ece7; --sub:#9db0a7; --line:#2b3a33;
+  --accent:#f08a3c; --done:#6cc391; --done-soft:#1d3327; --todo:#e8b65a; --todo-soft:#3a2d12; --code-bg:#0c110f; --code-fg:#e8efe9; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121916; --surface:#1a231f; --fg:#e4ece7; --sub:#9db0a7; --line:#2b3a33;
+  --accent:#f08a3c; --done:#6cc391; --done-soft:#1d3327; --todo:#e8b65a; --todo-soft:#3a2d12; --code-bg:#0c110f; --code-fg:#e8efe9; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.8}
+.wrap{max-width:780px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-head);text-wrap:balance;line-height:1.45;margin:0}
+h1{font-size:1.75rem} h2{font-size:1.25rem} h3{font-size:1rem}
+p,ul,ol{margin:0}
+ul,ol{padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.sub{color:var(--sub);font-size:.88rem}
+header{display:flex;flex-direction:column;gap:8px}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.chip{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:999px;vertical-align:middle;margin-right:8px}
+.chip.done{background:var(--done-soft);color:var(--done)}
+.chip.todo{background:var(--todo-soft);color:var(--todo)}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+.tbl{overflow-x:auto}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:700;white-space:nowrap}
+code{font-family:var(--f-mono);font-size:.85em;background:var(--done-soft);padding:1px 5px;border-radius:4px;word-break:break-all}
+.code{position:relative;min-width:0}
+.code pre{margin:0;background:var(--code-bg);color:var(--code-fg);border-radius:10px;padding:16px;overflow-x:auto;font-family:var(--f-mono);font-size:.8rem;line-height:1.65}
+.code button{position:absolute;top:8px;right:8px;font:inherit;font-size:.75rem;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.code button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.where{font-size:.85rem;background:var(--todo-soft);border-radius:8px;padding:10px 14px}
+.warn{border-left:3px solid var(--accent);padding-left:12px;font-size:.88rem}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="sub">2026年11月9日 作成 ／ Google アナリティクス（GA4）</span>
+    <h1>コパン・ジラフラワー計測ガイド</h1>
+    <p>応募・派遣登録・問い合わせを正しく数えるための設定内容と、残りの作業をまとめました。</p>
+  </header>
+
+  <section>
+    <h2>1. 設定済みの内容</h2>
+    <div class="box tbl">
+      <table>
+        <thead><tr><th>サイト</th><th>設定</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>ジラフラワー</td><td><span class="chip done">完了</span>拡張計測機能</td><td>スクロール・離脱クリック・サイト内検索・フォーム操作・動画・ファイルDLを自動計測</td></tr>
+          <tr><td>ジラフラワー</td><td><span class="chip done">完了</span>キーイベント <code>contact_complete</code></td><td><code>/contact/thanks/</code> が表示されたら「問い合わせ1件」。セッションごとに1回</td></tr>
+          <tr><td>ジラフラワー</td><td><span class="chip done">完了</span>キーイベント <code>recruit_entry_complete</code></td><td><code>/recruit/entry/thanks/</code> が表示されたら「採用応募1件」。セッションごとに1回</td></tr>
+          <tr><td>コパン</td><td><span class="chip done">完了</span><code>job_apply_complete</code> の数え方</td><td>「イベントごと」→「セッションごとに1回」へ変更（同じ人の重複カウントを防ぐ）</td></tr>
+          <tr><td>コパン</td><td><span class="chip done">完了</span>キーイベント <code>register_complete</code></td><td>派遣登録フォームの送信完了（copain.jp 側の実装待ち）</td></tr>
+          <tr><td>コパン</td><td><span class="chip done">完了</span>キーイベント <code>register_line_click</code></td><td>派遣登録ページで「LINEで友だち追加する」を押した（copain.jp 側の実装待ち）</td></tr>
+          <tr><td>コパン</td><td><span class="chip done">完了</span><code>register_click</code> をキーイベントから外す</td><td>登録ページへ移動しただけのクリックなので、成果からは外して通常イベントとして記録</td></tr>
+          <tr><td>コパン</td><td><span class="chip done">完了</span>カスタムディメンション3つ</td><td>応募エラー種別（<code>error_type</code>）、応募エラー項目（<code>error_fields</code>）、クリック位置（<code>link_location</code>）。登録日以降のデータから見られます</td></tr>
+          <tr><td>コパン</td><td><span class="chip done">完了</span>クロスドメイン設定</td><td>copain.florist → copain.jp に移っても同じ訪問として追えるようにしました</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. 派遣登録の計測 ① copain.florist 側<span class="chip todo" style="margin-left:8px">要作業：広さん</span></h2>
+    <p>ヘッダー・フッターの「派遣登録」ボタン（リンク先 copain.jp/apply）が押されたら、<code>register_click</code> を送ります。11/3 に追加した応募導線のスニペットと同じ方法です。</p>
+    <div class="where">
+      <strong>入れる場所：</strong>WordPress 管理画面 → WPCode → 「スニペットを追加」→ 新規作成<br>
+      コードタイプ「JavaScript スニペット」／挿入方法「自動挿入」／場所「サイト全体のフッター」／タイトル「派遣登録ボタンのクリック計測」
+    </div>
+    <div class="code"><button type="button" id="copy-wpcode" data-target="code-wpcode">コピー</button><pre id="code-wpcode">/* 派遣登録ボタンのクリック計測（2026-11-09 追加）
+ * WPCode：コードタイプ「JavaScript スニペット」／挿入方法「自動挿入」／場所「サイト全体のフッター」
+ * copain.jp/apply（派遣登録ページ）へのリンクが押されたら、GA4 に register_click を送る
+ */
+(function () {
+  document.addEventListener('click', function (e) {
+    if (typeof gtag !== 'function' || !e.target.closest) return;
+    var a = e.target.closest('a[href*="copain.jp/apply"]');
+    if (!a) return;
+    var loc = a.closest('.header-dialog') ? 'header_menu'
+            : a.closest('header') ? 'header'
+            : a.closest('.footer-cta') ? 'footer_cta'
+            : a.closest('footer') ? 'footer'
+            : 'page_body';
+    var m = window.location.pathname.match(/^\/job\/(\d+)\/?$/);
+    gtag('event', 'register_click', {
+      link_location: loc,
+      job_id: m ? m[1] : ''
+    });
+  });
+})();</pre></div>
+    <p class="sub">クリック位置の値：<code>header</code>（PCヘッダー）、<code>header_menu</code>（スマホのメニュー内）、<code>footer_cta</code>（ページ下部の大きいバナー）、<code>footer</code>（フッター）。求人ページで押された場合は <code>job_id</code> も記録します。</p>
+  </section>
+
+  <section>
+    <h2>3. 派遣登録の計測 ② copain.jp 側<span class="chip todo" style="margin-left:8px">要作業：copain.jp の開発担当</span></h2>
+    <p>派遣登録ページ（copain.jp/apply）は受発注管理システムと同じ copain.jp 上にあり、今は GA が入っていません。登録の完了は copain.jp でしか分からないため、こちらにも計測を入れる必要があります。</p>
+    <div class="warn">ファイル名・画面名は実際の構成を確認してから決めてください。以下は「何をどこで送るか」の仕様と見本です。</div>
+
+    <div class="box">
+      <h3>3-1. GAタグを入れる（/apply 配下の画面だけ）</h3>
+      <p>コパン求人サイトと<strong>同じ測定ID（G-X8YLMNBMSL）</strong>を使います。こうすると「求人を見た → 登録した」の流れを1つのレポートで追えます。受発注管理のログイン後の画面には入れません。</p>
+      <div class="code"><button type="button" id="copy-tag" data-target="code-tag">コピー</button><pre id="code-tag">&lt;!-- Google tag (gtag.js)：派遣登録ページ（/apply 配下）の &lt;head&gt; に入れる --&gt;
+&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-X8YLMNBMSL"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X8YLMNBMSL');
+&lt;/script&gt;</pre></div>
+    </div>
+
+    <div class="box">
+      <h3>3-2. 「LINEで友だち追加する」のクリック</h3>
+      <p>/apply の画面（LINEボタンがある画面）に入れます。</p>
+      <div class="code"><button type="button" id="copy-line" data-target="code-line">コピー</button><pre id="code-line">&lt;script&gt;
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest &amp;&amp; e.target.closest('a[href*="lin.ee"]');
+    if (a &amp;&amp; typeof gtag === 'function') {
+      gtag('event', 'register_line_click');
+    }
+  });
+&lt;/script&gt;</pre></div>
+    </div>
+
+    <div class="box">
+      <h3>3-3. 登録フォームの送信完了</h3>
+      <p>/apply/form の送信が<strong>成功した直後に表示する画面だけ</strong>で1回送ります。</p>
+      <div class="code"><button type="button" id="copy-complete" data-target="code-complete">コピー</button><pre id="code-complete">&lt;script&gt;
+  if (typeof gtag === 'function') {
+    gtag('event', 'register_complete');
+  }
+&lt;/script&gt;</pre></div>
+      <ul class="sub">
+        <li>完了画面を再読み込みしても再送しないよう、送信直後だけ出力してください（Laravel なら <code>redirect()->with()</code> のフラッシュ値があるときだけ出す、など）。</li>
+        <li>画面遷移せずに JavaScript で送信している作りなら、送信成功時の処理の中で <code>gtag('event', 'register_complete')</code> を呼んでください。</li>
+        <li>氏名・電話番号・メールアドレスなどの個人情報は、GA に送らないでください（GAの規約で禁止されています）。</li>
+        <li>copain.florist から移動すると、URL の末尾に <code>?_gl=…</code> が付きます。<code>copain.jp/apply?_gl=test</code> を開いて、エラーにならないことを確認してください。</li>
+      </ul>
+    </div>
+    <p class="sub">これで「派遣登録数 ＝ <code>register_complete</code>（フォーム）＋ <code>register_line_click</code>（LINE経由）」として数えられます。LINE経由の実際の友だち追加数は、LINE公式アカウントの管理画面の数字と突き合わせてください。</p>
+  </section>
+
+  <section>
+    <h2>4. 応募フォームのエラー確認とテスト（⑥）</h2>
+    <p>応募フォーム（/job-entry/）では、入力エラーが出ると <code>job_apply_error</code> が送られ、<strong>どの項目でエラーになったか</strong>も記録されています。今日その項目をGAで見られるように登録しました。登録前の2件は項目まで分かりませんが、今日以降の分は分かります。</p>
+
+    <div class="box">
+      <h3>テスト手順（PCで約15分）</h3>
+      <ol>
+        <li>Chrome で <code>tagassistant.google.com</code> を開き、<code>https://copain.florist/job-entry/?job_id=593</code> を入力して「接続」。別タブで応募フォームが開きます。</li>
+        <li>別のタブで GA を開き、<strong>管理 → DebugView</strong> を表示しておきます（自分のテストだけがリアルタイムで流れます）。</li>
+        <li><strong>空欄テスト：</strong>何も入れずに同意にチェックして「送信」。<code>job_apply_error</code> が出て、<code>error_fields</code> にエラー項目が並べばOK。</li>
+        <li><strong>形式エラーテスト：</strong>メールに <code>test</code>、電話番号に文字を入れて送信。<code>error_fields</code> に <code>email</code>・<code>tel</code> が出るか確認。</li>
+        <li><strong>生年月日：</strong>カレンダーで年を選べるか、エラー後にもう一度カレンダーが開くかを確認。</li>
+        <li>ここで止めれば、実際の応募は送られません。</li>
+      </ol>
+    </div>
+
+    <div class="box">
+      <h3>スマホでのテスト（重要）</h3>
+      <p>求人ページへの訪問の多くは、LINEアプリなどから開かれています。<strong>LINEで自分に求人URLを送り、LINEの中で開いて</strong>、次の点を確認してください。</p>
+      <ul>
+        <li>生年月日のカレンダーが開くか、年を選べるか</li>
+        <li>同意にチェックすると送信ボタンが押せるようになるか</li>
+        <li>入力欄が画面からはみ出していないか、キーボードでボタンが隠れないか</li>
+      </ul>
+      <p class="sub">iPhone（Safari・LINE）と Android（Chrome・LINE）の4通りで確認するのが理想です。</p>
+    </div>
+
+    <div class="box">
+      <h3>送信完了のテスト（実際に応募が届きます）</h3>
+      <ul>
+        <li>事前に応募の受付担当へ「テスト送信します」と伝え、氏名を「テスト 送信」にして送信します。</li>
+        <li>DebugView に <code>job_apply_complete</code> が<strong>1回だけ</strong>出ればOK。完了画面を再読み込みしても、キーイベントは1回のままのはずです。</li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h3>毎週の見方（GA）</h3>
+      <ol>
+        <li>左メニュー「探索」→「自由形式」を新規作成</li>
+        <li>ディメンションに「応募エラー項目」「応募エラー種別」「求人ID」を追加し、行に入れる</li>
+        <li>指標に「イベント数」を入れる</li>
+        <li>フィルタで「イベント名 ＝ job_apply_error」</li>
+      </ol>
+      <p class="sub">同じ項目が何度もエラーになっていれば、その入力欄の説明や形式を見直すのが一番効く改善です。通常のレポートへの反映には24〜48時間かかります。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>5. 社内アクセスの除外（固定IPなしの場合）</h2>
+    <div class="warn">シークレットウィンドウでも GA には記録されます。しかも開くたびに「新しい人」として数えられるため、新規ユーザー数がかえって増えてしまいます。</div>
+    <div class="box">
+      <h3>PC：Google 公式の拡張機能を入れる（おすすめ）</h3>
+      <p>Chrome ウェブストアで「Google Analytics オプトアウト アドオン（Google 提供）」を社内PCに入れてもらいます。そのブラウザからは GA に一切記録されなくなります。設定は1回、約1分です。</p>
+    </div>
+    <div class="box">
+      <h3>スマホ：社内用の合図URLを開いておく（次の段階）</h3>
+      <p>社員だけが知っているURL（例：<code>copain.florist/?staff=1</code>）を一度開くと、その端末では記録しない仕組みをサイトに入れる方法です。GAタグより先に動かす必要があるため、タグの読み込み順を確認してから実装します。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>6. LINE配信などのリンクに目印（UTM）を付ける</h2>
+    <p>LINEアプリ内で開かれた訪問は「どこから来たか」が残らず、GAでは「Direct（直接）」にまとめられてしまいます。リンクの末尾に目印を付けると、配信ごとの効果が分かるようになります。</p>
+    <div class="box">
+      <p><strong>例：</strong>11/4 のLINE配信で麻布十番の求人を送る場合</p>
+      <div class="code"><button type="button" id="copy-utm" data-target="code-utm">コピー</button><pre id="code-utm">https://copain.florist/job/593/?utm_source=line&amp;utm_medium=social&amp;utm_campaign=20261104_job593</pre></div>
+      <div class="tbl"><table>
+        <tr><th>utm_source</th><td>どこで配ったか：<code>line</code> / <code>instagram</code> / <code>kintone</code> など</td></tr>
+        <tr><th>utm_medium</th><td>種類：SNS・LINEは <code>social</code>、メールは <code>email</code></td></tr>
+        <tr><th>utm_campaign</th><td>配信の名前：<code>日付_内容</code>（例 <code>20261104_job593</code>）</td></tr>
+      </table></div>
+      <p class="sub">結果は GA「集客 → トラフィック獲得」で、表の見出しを「セッションのキャンペーン」に切り替えると見られます。</p>
+    </div>
+  </section>
+</div>
+
+<script>
+document.querySelectorAll('.code button').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var pre=document.getElementById(btn.dataset.target);
+    var text=pre.textContent;
+    function selectIt(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='選択しました';}
+    try{
+      navigator.clipboard.writeText(text).then(function(){btn.textContent='コピーしました';setTimeout(function(){btn.textContent='コピー'},1800)},selectIt);
+    }catch(e){selectIt()}
+  });
+});
+</script>
+
+</body></html>
