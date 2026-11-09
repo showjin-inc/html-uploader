@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ハナワク｜退会申請時のアカウント・個人情報の取扱い 社内共有資料</title>
+<style>
+:root{--ink:#263238;--muted:#607078;--line:#dce4e7;--bg:#f4f7f7;--accent:#e3b928;--accent2:#fff6d7;--blue:#eaf3f7;--red:#fff0ed}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.75}
+.wrap{max-width:980px;margin:32px auto;padding:0 20px 48px}.sheet{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(22px,4vw,44px);box-shadow:0 8px 30px rgba(30,50,60,.06)}
+.kicker{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:700}.topline{height:7px;background:var(--accent);border-radius:10px;margin-bottom:24px}
+h1{font-size:clamp(25px,4vw,34px);line-height:1.35;margin:8px 0 12px}h2{font-size:21px;margin:38px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--accent)}h3{font-size:16px;margin:20px 0 8px}
+p{margin:8px 0 14px}.lead{font-size:17px}.muted{color:var(--muted);font-size:13px}.callout{background:var(--accent2);border-left:5px solid var(--accent);padding:16px 18px;border-radius:8px;margin:20px 0}.note{background:var(--blue);padding:14px 16px;border-radius:8px;margin:14px 0}.warning{background:var(--red);padding:14px 16px;border-radius:8px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tile{border:1px solid var(--line);border-radius:10px;padding:14px}.tile b{display:block;margin-bottom:5px}
+table{width:100%;border-collapse:collapse;margin:12px 0 18px;font-size:14px}th,td{border:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}th{background:#f1f5f5;font-weight:700}ul,ol{padding-left:1.35em}li{margin:5px 0}.steps{counter-reset:step;list-style:none;padding:0}.steps li{counter-increment:step;position:relative;padding:0 0 16px 48px;margin:0}.steps li:before{content:counter(step);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--accent2);display:grid;place-items:center;font-weight:700}
+.small{font-size:13px}.source a{color:#245c78;overflow-wrap:anywhere}.footer{border-top:1px solid var(--line);margin-top:32px;padding-top:16px;color:var(--muted);font-size:12px}
+.tag{display:inline-block;background:#edf1f2;border-radius:20px;padding:2px 9px;font-size:12px;margin-right:5px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}table{font-size:12px}th,td{padding:8px}}
+@media print{body{background:#fff}.wrap{margin:0;max-width:none;padding:0}.sheet{box-shadow:none;border:0;padding:0}.tile,.callout,.note,.warning{break-inside:avoid}h2{break-after:avoid}a{color:inherit;text-decoration:none}}
+</style>
+</head>
+<body>
+<div class="wrap"><main class="sheet">
+<div class="topline"></div>
+<div class="kicker">HANAWAKU / INTERNAL GUIDANCE</div>
+<h1>退会申請時のアカウント・個人情報の取扱い</h1>
+<p class="lead">ワーカーから退会・アカウント削除の申し出があった場合の、社内対応方針をまとめた資料です。</p>
+<p class="muted">目的：退会希望に適切に対応しながら、給与支払・税務・労務上必要な記録を適切に保存する。</p>
+
+<div class="callout"><strong>基本方針</strong><br>
+アカウントの利用停止は速やかに行う。一方、法令上保存が必要な記録は、必要な範囲・期間に限って保管する。保存する必要がなくなった個人情報は、遅滞なく削除するよう努める。</div>
+
+<h2>1. まず押さえること</h2>
+<div class="grid">
+<div class="tile"><b>退会＝全データの即時消去ではない</b>給与・勤務実績・税務書類などは、法令上の保存義務や税務調査・労務対応のため、一定期間の保存が必要になる。</div>
+<div class="tile"><b>保存義務＝全情報を残してよい、ではない</b>保存目的に必要な項目だけを残し、求人案内・通常運用などの利用は停止する。不要なプロフィール情報等は削除対象。</div>
+<div class="tile"><b>「7年間」は全データ共通の法定期間ではない</b>書類の種類ごとに根拠と起算日が異なる。社内で一律7年と説明しない。</div>
+<div class="tile"><b>保管中のデータも個人情報</b>アクセス権限を絞り、通常のワーカー管理・検索画面から分離できる運用を検討する。</div>
+</div>
+
+<h2>2. 保存期間の考え方</h2>
+<p>下表は主な記録の整理です。ハナワクのシステム上の項目名と、実際に誰が雇用主・給与支払者となるかにより適用関係が変わるため、最終的には社労士・税理士に確認してください。</p>
+<table>
+<thead><tr><th style="width:25%">記録の種類</th><th style="width:28%">法令上の保存期間・考え方</th><th>ハナワクでの対応方針</th></tr></thead>
+<tbody>
+<tr><td>労働者名簿</td><td>労働基準法上、原則5年。現在は経過措置により当分の間3年。退職等の日が起算点。</td><td>雇用主として作成・保存義務を負う場合、法定期間を管理して保存。</td></tr>
+<tr><td>賃金台帳・勤怠・労働時間等の労務記録</td><td>労働関係書類は原則5年。現在は経過措置により当分の間3年。記録ごとに起算点が異なる場合がある。</td><td>賃金計算・支払の根拠となる記録を保存。退会したことだけを理由に削除しない。</td></tr>
+<tr><td>扶養控除等申告書など</td><td>提出期限の属する年の翌年1月10日の翌日から7年間。</td><td>給与支払者として保管義務がある書類は、書類単位で期限を管理。</td></tr>
+<tr><td>源泉徴収・年末調整・税務帳簿等</td><td>書類の種類・税法上の位置付けにより異なる。税務上7年保存が必要となる帳簿・書類がある。</td><td>「給与データ一式」とまとめず、税理士に対象データと起算日を確認して保存期間表を作る。</td></tr>
+<tr><td>プロフィール写真・自己紹介・希望条件等</td><td>一律の法定保存期間は通常ない。利用目的がなくなれば、遅滞なく消去するよう努める。</td><td>退会処理後、業務上不要なら削除。</td></tr>
+<tr><td>住所・電話番号・メールアドレス</td><td>保存が必要な記録に含まれる範囲を除き、利用目的・必要性を確認。</td><td>連絡・法定帳簿等に必要な範囲だけ保管。不要なら削除・マスキングを検討。</td></tr>
+<tr><td>銀行口座情報</td><td>一律の保存年数ではなく、支払・会計・紛争対応上の必要性による。</td><td>未払い・返金・組戻し等が解消し、保存根拠がなくなれば削除。給与記録に口座番号を残す必要があるか別途確認。</td></tr>
+<tr><td>ログイン情報・認証情報</td><td>退会後の利用目的がない。</td><td>速やかに無効化・削除。パスワード等を保存し続けない。</td></tr>
+</tbody></table>
+<div class="warning"><strong>重要：</strong>労働基準法の保存期間は「原則5年」へ改正されていますが、現時点では経過措置として「当分の間3年」です。したがって「法律で一律5年」または「給与データはすべて7年」と断定しないでください。</div>
+
+<h2>3. 退会申請を受けたときの標準フロー</h2>
+<ol class="steps">
+<li><strong>本人確認・申請受付</strong><br>登録情報等で本人確認を行い、退会希望を記録する。</li>
+<li><strong>アカウントを停止</strong><br>ログイン、求人応募、マッチング、今後の案内配信を停止する。未払い給与・精算がないか確認する。</li>
+<li><strong>データを分類</strong><br>①法令・税務・労務上保存が必要な記録、②業務上まだ必要な情報、③不要となった情報に分ける。</li>
+<li><strong>不要情報を削除</strong><br>プロフィール写真、公開プロフィール、希望条件、不要な連絡先等を削除。保存が必要な情報は必要最小限にする。</li>
+<li><strong>保存データを限定管理</strong><br>退会者の情報を通常の運用画面から分離、または閲覧権限を必要担当者に限定する。利用目的外の閲覧・利用をしない。</li>
+<li><strong>保存期限を記録・定期確認</strong><br>書類ごとに起算日・保存期限・削除予定日を記録し、期限到来後に削除する。</li>
+</ol>
+
+<h2>4. 社内で決めておく管理ルール</h2>
+<table>
+<thead><tr><th>項目</th><th>推奨ルール</th></tr></thead>
+<tbody>
+<tr><td>退会受付日</td><td>申請を受け付けた日を記録する。</td></tr>
+<tr><td>アカウント状態</td><td>「退会・利用停止」とし、再応募・配信対象から除外する。</td></tr>
+<tr><td>保存対象</td><td>給与支払、勤務実績、労務、税務等、保存根拠のある記録に限定する。</td></tr>
+<tr><td>保存期限</td><td>データ一括ではなく、書類の種類ごとに起算日・期限を設定する。</td></tr>
+<tr><td>アクセス権限</td><td>人事・給与・経理等の必要担当者に限定。閲覧・出力履歴を確認できる仕組みが望ましい。</td></tr>
+<tr><td>削除</td><td>保存期限経過後、システム本体・出力ファイル・共有フォルダ等を確認して削除する。バックアップは更新サイクルも含めて運用を定める。</td></tr>
+<tr><td>例外</td><td>未払い・返金・労務紛争・税務調査・行政照会等がある場合は、必要な範囲で削除を保留し、理由と見直し日を記録する。</td></tr>
+</tbody></table>
+
+<h2>5. ワーカーへの返信例</h2>
+<div class="note">
+ご連絡ありがとうございます。<br><br>
+アカウント削除のご希望について承知いたしました。<br><br>
+アカウントの利用停止および今後の求人案内等の停止を行います。なお、給与支払・税務申告・労務管理に関する記録については、法令上保存が必要なものがあるため、該当する記録に限り、所定の期間、適切に管理・保管いたします。<br><br>
+一方、保存の必要がなくなった登録情報等については、順次削除いたします。<br><br>
+何卒ご理解いただけますと幸いです。
+</div>
+<p class="small muted">※「アカウント削除」がどの範囲を指すか（ログイン停止、プロフィール削除、保存記録の消去）を分けて説明する。実際に削除・停止を完了した範囲に合わせて文面を調整する。</p>
+
+<h2>6. 今回の対応で確認すること</h2>
+<ul>
+<li>ハナワクの運営会社と、ワーカーを雇用する事業者・給与支払者が誰か。</li>
+<li>ハナワクの利用規約・プライバシーポリシーに、退会後の保存目的・保存期間・削除について記載があるか。</li>
+<li>給与・勤怠・源泉徴収・年末調整データのうち、どの情報をどのシステムに保管しているか。</li>
+<li>退会後にアカウントを無効化できるか、プロフィール等だけを削除できるか、保存データを分離できるか。</li>
+<li>マイナンバーを取得・保管している場合、番号法上の廃棄要件・安全管理措置を別途確認しているか。</li>
+</ul>
+
+<div class="callout"><strong>今回の結論</strong><br>
+今回のワーカーについては、まずアカウントを利用停止し、求人案内等を止める。保存義務のある給与・労務・税務記録は、該当する書類と保存期限を確認したうえで必要最小限を保管し、それ以外の不要な個人情報は削除する。<br><br>
+「全データを7年間保管」ではなく、「必要な記録だけを、それぞれの法定期間に従って保管」が基本方針。</div>
+
+<h2>参考資料（公的機関）</h2>
+<ul class="source small">
+<li>厚生労働省「賃金台帳等の労働契約関係の書類の保存期間」<br><a href="https://www.startup-roudou.mhlw.go.jp/qa/zigyonushi/syuugyoukisoku/q6.html" target="_blank" rel="noopener">https://www.startup-roudou.mhlw.go.jp/qa/zigyonushi/syuugyoukisoku/q6.html</a></li>
+<li>e-Gov法令検索「労働基準法」第109条・第143条<br><a href="https://laws.e-gov.go.jp/document?law_unique_id=322AC0000000049" target="_blank" rel="noopener">https://laws.e-gov.go.jp/document?law_unique_id=322AC0000000049</a></li>
+<li>国税庁「源泉所得税関係に関するFAQ」Q1-16（扶養控除等申告書の保存期間）<br><a href="https://www.nta.go.jp/taxes/tetsuzuki/mynumberinfo/FAQ/gensen_qa.htm" target="_blank" rel="noopener">https://www.nta.go.jp/taxes/tetsuzuki/mynumberinfo/FAQ/gensen_qa.htm</a></li>
+<li>個人情報保護委員会「取得した個人情報は、いつ廃棄しなければなりませんか」<br><a href="https://www.ppc.go.jp/all_faq_index/faq1-q5-2/" target="_blank" rel="noopener">https://www.ppc.go.jp/all_faq_index/faq1-q5-2/</a></li>
+</ul>
+<div class="footer">社内共有用たたき台｜2026年11月作成<br>※一般的な制度整理であり、個別案件に対する法律意見ではありません。雇用・給与支払の主体、保存対象書類、利用規約・プライバシーポリシーとの整合性を確認し、社労士・税理士等に最終確認してください。</div>
+</main></div>
+</body></html>
