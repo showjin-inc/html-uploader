@@ -229,5 +229,16 @@
     "createdAt": "2026-11-09",
     "expiresAt": null,
     "pageUrl": "https://share.showjin.co.jp/showjin/azxjgt.html"
+  },
+  {
+    "id": "2026-11-09T08-31-43",
+    "brand": "sj",
+    "title": "コパンサイト分析",
+    "author": "萩原",
+    "fileName": "83t17h.html",
+    "filePath": "showjin/83t17h.html",
+    "createdAt": "2026-11-09",
+    "expiresAt": "2026-11-16",
+    "pageUrl": "https://share.showjin.co.jp/showjin/83t17h.html"
   }
 ]
