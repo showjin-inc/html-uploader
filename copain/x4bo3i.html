@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LINE配信 × 求人サイト週報 検証レポート（臨時版）</title>
+<style>
+:root{
+  --bg:#ffffff; --surface:#f3f6f4; --ink:#1d2925; --muted:#5f6d68; --line:#d9e1dd;
+  --leaf:#3b6e5a; --petal:#c2547a; --petal-soft:#f6e3ea; --pr:#a7b3ae; --band0:#f5f7f6; --band7:#fbf1f4;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#151b19; --surface:#1d2522; --ink:#e6ece9; --muted:#9fb0a9; --line:#33403b;
+    --leaf:#7fb59c; --petal:#e88aa9; --petal-soft:#3a2730; --pr:#5f6d68; --band0:#1a211e; --band7:#241c20;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151b19; --surface:#1d2522; --ink:#e6ece9; --muted:#9fb0a9; --line:#33403b;
+  --leaf:#7fb59c; --petal:#e88aa9; --petal-soft:#3a2730; --pr:#5f6d68; --band0:#1a211e; --band7:#241c20;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;
+  font-size:15px;line-height:1.85;-webkit-text-size-adjust:100%}
+main{max-width:860px;margin:0 auto;padding:40px 20px 72px}
+h1{font-size:1.65rem;line-height:1.45;margin:0 0 8px;font-weight:700;letter-spacing:.01em}
+.meta{color:var(--muted);font-size:.86rem;margin:0}
+h2{font-size:1.18rem;margin:56px 0 12px;padding-left:12px;border-left:4px solid var(--leaf);line-height:1.5}
+p{margin:0 0 12px;max-width:42em}
+.lead{background:var(--petal-soft);border-radius:6px;padding:20px 22px;margin:28px 0 8px}
+.lead p{margin:0;font-size:1.06rem;max-width:none}
+.lead strong{color:var(--petal)}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:20px 0}
+.figs div{background:var(--bg);padding:12px 14px}
+.figs b{display:block;font-size:1.35rem;font-variant-numeric:tabular-nums}
+.figs span{color:var(--muted);font-size:.82rem}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0 6px}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:560px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:.8rem;background:var(--surface)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hi td:first-child{box-shadow:inset 3px 0 0 var(--petal)}
+tr.pr td,tr.other td{color:var(--muted)}
+tr.total td{font-weight:700}
+.sub{display:block;color:var(--muted);font-size:.78rem}
+.note{color:var(--muted);font-size:.82rem;max-width:none}
+svg{width:100%;min-width:640px;height:auto;display:block}
+svg text{fill:var(--muted);font-size:11px;font-family:inherit}
+svg .val{fill:var(--ink);font-size:10.5px}
+svg .bandlab{font-size:11px;fill:var(--muted)}
+svg .band0{fill:var(--band0)} svg .band7{fill:var(--band7)}
+svg .grid{stroke:var(--line);stroke-width:1} svg .axis{stroke:var(--muted);stroke-width:1}
+svg .bar.hi{fill:var(--petal)} svg .bar.job{fill:var(--leaf)} svg .bar.pr{fill:var(--pr)}
+svg .miss{fill:none;stroke:var(--muted);stroke-dasharray:2 2}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.8rem;color:var(--muted);margin:6px 0 0}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;border-radius:2px}
+.answer{border:1px solid var(--line);border-radius:6px;padding:16px 20px;background:var(--surface)}
+.answer p{max-width:none}
+ol.checks{padding-left:1.4em;margin:0}
+ol.checks li{margin-bottom:12px}
+ol.checks b{display:block}
+@media (max-width:560px){main{padding:28px 16px 56px}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<main>
+<h1>LINE配信 × 求人サイト週報 検証レポート（臨時版）</h1>
+<p class="meta">LINE配信期間：2026年10月26日〜11月10日 ／ 週報の対象：11月2日〜8日（比較：10月26日〜11月1日）／ 2026年11月10日作成</p>
+<p class="meta">出典：LINE公式アカウント「コパン【staff専用】」メッセージ配信分析（CSV・管理画面）、コパン求人サイト（copain.florist）週報 11/2〜11/8（Googleアナリティクス）</p>
+
+<div class="lead"><p>週報で大きく伸びた3求人（品川プリンス・麻布十番・花弘）は、<strong>どれもその週にLINEで配信した求人</strong>でした。3求人の表示回数は前週から合わせて218回増えており、これはサイト全体の増加（295回）の約74%にあたります。</p></div>
+
+<div class="figs">
+<div><b>220人</b><span>3求人へのLINEクリック人数（今週）</span></div>
+<div><b>+218回</b><span>3求人の表示回数の増加</span></div>
+<div><b>52%</b><span>＜新着＞配信のクリック率</span></div>
+<div><b>22%</b><span>再送・おすすめ配信のクリック率</span></div>
+</div>
+<p class="note">「クリック人数」はLINEの配信を開いてリンクを押した人の数、「表示回数」は求人ページが表示された回数です。1人が何度も見ると表示回数は増えるので、表示回数はクリック人数より多くなるのが普通です。また、週報の数字には社内メンバーの閲覧も一部含まれます。</p>
+
+<h2>配信ごとのクリック人数</h2>
+<p>今週（ピンクの帯）のクリックは、11/4〜11/5の3本（trèmolo・品川プリンス・花弘）に集中しています。前週はローズギャラリー、Umbra、ジラフ ブライダル装花など別の求人に分かれていました。</p>
+<div class="scroll"><svg viewBox="0 0 760 250" role="img" aria-label="LINE配信ごとのクリック人数（2026/10/26〜11/10）">
+<rect class="band0" x="44.0" y="18" width="308.0" height="176"/>
+<text class="bandlab" x="50.0" y="32">前週（週報の比較週）10/26〜11/1</text>
+<rect class="band7" x="352.0" y="18" width="308.0" height="176"/>
+<text class="bandlab" x="358.0" y="32">今週（週報の対象週）11/2〜11/8</text>
+<line class="grid" x1="44" x2="748" y1="194.0" y2="194.0"/><text class="ax" x="38" y="198.0" text-anchor="end">0</text>
+<line class="grid" x1="44" x2="748" y1="154.0" y2="154.0"/><text class="ax" x="38" y="158.0" text-anchor="end">25</text>
+<line class="grid" x1="44" x2="748" y1="114.0" y2="114.0"/><text class="ax" x="38" y="118.0" text-anchor="end">50</text>
+<line class="grid" x1="44" x2="748" y1="74.0" y2="74.0"/><text class="ax" x="38" y="78.0" text-anchor="end">75</text>
+<line class="grid" x1="44" x2="748" y1="34.0" y2="34.0"/><text class="ax" x="38" y="38.0" text-anchor="end">100</text>
+<text class="ax" x="66.0" y="210" text-anchor="middle">10/26</text><text class="ax sm" x="66.0" y="223" text-anchor="middle">月</text>
+<rect class="bar job" x="60.0" y="93.2" width="12.0" height="100.8"><title>10/26 13:37 ローズギャラリー クリック63人</title></rect>
+<text class="val" x="66.0" y="89.2" text-anchor="middle">63</text>
+<text class="ax" x="110.0" y="210" text-anchor="middle">10/27</text><text class="ax sm" x="110.0" y="223" text-anchor="middle">火</text>
+<rect class="miss job" x="92.0" y="189" width="10.7" height="5"><title>10/27 16:59 花芳 クリック非表示人</title></rect>
+<rect class="miss other" x="104.7" y="189" width="10.7" height="5"><title>10/27 17:53 花芳 クリック非表示人</title></rect>
+<rect class="bar pr" x="117.3" y="50.0" width="10.7" height="144.0"><title>10/27 18:07 【PR】ハナワク クリック90人</title></rect>
+<text class="val" x="122.7" y="46.0" text-anchor="middle">90</text>
+<text class="ax" x="154.0" y="210" text-anchor="middle">10/28</text><text class="ax sm" x="154.0" y="223" text-anchor="middle">水</text>
+<rect class="miss other" x="136.0" y="189" width="10.7" height="5"><title>10/28 09:45 （求人以外） クリック非表示人</title></rect>
+<rect class="bar job" x="148.7" y="126.8" width="10.7" height="67.2"><title>10/28 14:48 Umbra クリック42人</title></rect>
+<text class="val" x="154.0" y="122.8" text-anchor="middle">42</text>
+<rect class="miss other" x="161.3" y="189" width="10.7" height="5"><title>10/28 18:07 （求人以外） クリック非表示人</title></rect>
+<text class="ax" x="198.0" y="210" text-anchor="middle">10/29</text><text class="ax sm" x="198.0" y="223" text-anchor="middle">木</text>
+<rect class="bar hi" x="185.0" y="136.4" width="12.0" height="57.6"><title>10/29 17:44 三田ハナモ 品川プリンス クリック36人</title></rect>
+<text class="val" x="191.0" y="132.4" text-anchor="middle">36</text>
+<rect class="bar job" x="199.0" y="152.4" width="12.0" height="41.6"><title>10/29 21:52 ジラフ ブライダル装花 クリック26人</title></rect>
+<text class="val" x="205.0" y="148.4" text-anchor="middle">26</text>
+<text class="ax" x="242.0" y="210" text-anchor="middle">10/30</text><text class="ax sm" x="242.0" y="223" text-anchor="middle">金</text>
+<rect class="bar job" x="236.0" y="101.2" width="12.0" height="92.8"><title>10/30 17:42 ジラフ ブライダル装花 クリック58人</title></rect>
+<text class="val" x="242.0" y="97.2" text-anchor="middle">58</text>
+<text class="ax" x="286.0" y="210" text-anchor="middle">10/31</text><text class="ax sm" x="286.0" y="223" text-anchor="middle">土</text>
+<text class="ax" x="330.0" y="210" text-anchor="middle">11/1</text><text class="ax sm" x="330.0" y="223" text-anchor="middle">日</text>
+<text class="ax" x="374.0" y="210" text-anchor="middle">11/2</text><text class="ax sm" x="374.0" y="223" text-anchor="middle">月</text>
+<rect class="bar hi" x="368.0" y="150.8" width="12.0" height="43.2"><title>11/2 17:17 三田ハナモ 品川プリンス クリック27人</title></rect>
+<text class="val" x="374.0" y="146.8" text-anchor="middle">27</text>
+<text class="ax" x="418.0" y="210" text-anchor="middle">11/3</text><text class="ax sm" x="418.0" y="223" text-anchor="middle">火</text>
+<rect class="bar job" x="412.0" y="141.2" width="12.0" height="52.8"><title>11/3 13:48 ジラフ ブライダル装花 クリック33人</title></rect>
+<text class="val" x="418.0" y="137.2" text-anchor="middle">33</text>
+<text class="ax" x="462.0" y="210" text-anchor="middle">11/4</text><text class="ax sm" x="462.0" y="223" text-anchor="middle">水</text>
+<rect class="bar hi" x="449.0" y="77.2" width="12.0" height="116.8"><title>11/4 14:11 trèmolo クリック73人</title></rect>
+<text class="val" x="455.0" y="73.2" text-anchor="middle">73</text>
+<rect class="bar hi" x="463.0" y="125.2" width="12.0" height="68.8"><title>11/4 19:05 三田ハナモ 品川プリンス クリック43人</title></rect>
+<text class="val" x="469.0" y="121.2" text-anchor="middle">43</text>
+<text class="ax" x="506.0" y="210" text-anchor="middle">11/5</text><text class="ax sm" x="506.0" y="223" text-anchor="middle">木</text>
+<rect class="bar hi" x="500.0" y="70.8" width="12.0" height="123.2"><title>11/5 17:28 株式会社花弘 サポートセンター クリック77人</title></rect>
+<text class="val" x="506.0" y="66.8" text-anchor="middle">77</text>
+<text class="ax" x="550.0" y="210" text-anchor="middle">11/6</text><text class="ax sm" x="550.0" y="223" text-anchor="middle">金</text>
+<rect class="bar job" x="544.0" y="158.8" width="12.0" height="35.2"><title>11/6 11:36 花芳 クリック22人</title></rect>
+<text class="val" x="550.0" y="154.8" text-anchor="middle">22</text>
+<text class="ax" x="594.0" y="210" text-anchor="middle">11/7</text><text class="ax sm" x="594.0" y="223" text-anchor="middle">土</text>
+<text class="ax" x="638.0" y="210" text-anchor="middle">11/8</text><text class="ax sm" x="638.0" y="223" text-anchor="middle">日</text>
+<text class="ax" x="682.0" y="210" text-anchor="middle">11/9</text><text class="ax sm" x="682.0" y="223" text-anchor="middle">月</text>
+<rect class="bar pr" x="664.0" y="128.4" width="10.7" height="65.6"><title>11/9 13:21 【PR】ハナワク クリック41人</title></rect>
+<text class="val" x="669.3" y="124.4" text-anchor="middle">41</text>
+<rect class="miss job" x="676.7" y="189" width="10.7" height="5"><title>11/9 14:34 ジラフ ノートルダム クリック非表示人</title></rect>
+<rect class="bar job" x="689.3" y="142.8" width="10.7" height="51.2"><title>11/9 14:50 ジラフ オークラ クリック32人</title></rect>
+<text class="val" x="694.7" y="138.8" text-anchor="middle">32</text>
+<text class="ax" x="726.0" y="210" text-anchor="middle">11/10</text><text class="ax sm" x="726.0" y="223" text-anchor="middle">火</text>
+<line class="axis" x1="44" x2="748" y1="194" y2="194"/>
+</svg></div>
+<div class="legend">
+<span><i style="background:var(--petal)"></i>週報で伸びた3求人の配信</span>
+<span><i style="background:var(--leaf)"></i>そのほかの求人配信</span>
+<span><i style="background:var(--pr)"></i>ハナワクPR（copainサイト外）</span>
+<span><i style="border:1px dashed var(--muted)"></i>クリック人数が非表示（少数）</span>
+</div>
+<p class="note">クリック人数が少ない配信は、LINEの管理画面でもCSVでも数字が表示されません（0人とは限りません）。</p>
+
+<h2>週ごとに並べると</h2>
+<p>求人配信のクリック人数は前週から22%増え、表示回数の伸び（26%）とほぼ同じ幅でした。配信件数と配信数は2週でほぼ同じなので、違いは「どの求人を配信したか」と「開いた人がリンクを押したか」にあります。</p>
+<div class="scroll"><table>
+<thead><tr><th></th><th class="n">前週 10/26〜11/1</th><th class="n">今週 11/2〜11/8</th><th class="n">増減</th></tr></thead>
+<tbody>
+<tr><td>LINE 求人配信の件数</td><td class="n">6件</td><td class="n">6件</td><td class="n">±0</td></tr>
+<tr><td>LINE 配信数（合計）</td><td class="n">3,869</td><td class="n">3,872</td><td class="n">+3</td></tr>
+<tr><td>LINE 開封数（合計）</td><td class="n">847</td><td class="n">785</td><td class="n">−7%</td></tr>
+<tr><td>LINE クリック人数（合計）</td><td class="n">225</td><td class="n">275</td><td class="n">+22%</td></tr>
+<tr><td>サイト 表示回数</td><td class="n">1,118</td><td class="n">1,413</td><td class="n">+26%</td></tr>
+<tr><td>サイト 訪問者数</td><td class="n">386人</td><td class="n">400人</td><td class="n">+4%</td></tr>
+<tr><td>サイト 応募フォームの表示</td><td class="n">20回</td><td class="n">49回</td><td class="n">+145%</td></tr>
+</tbody></table></div>
+<p class="note">LINEの数字は求人の配信だけを合計しています。ハナワクPR（10/27）、配信地域の選択・アンケート（10/28）、花芳のリンク訂正（10/27）は除いています。クリック人数は配信ごとの人数の合計なので、同じ人が複数の配信でクリックしていれば重なって数えられています。</p>
+
+<h2>求人ごとの突き合わせ</h2>
+<p>3求人とも、LINEのクリック人数と表示回数の増え方がよく合っています。特に花弘と麻布十番は前週ほとんど見られておらず、LINE配信のほかに大きな流入のきっかけは見当たりません。</p>
+<div class="scroll"><table>
+<thead><tr><th>求人（週報）</th><th>今週のLINE配信</th><th class="n">クリック人数</th><th class="n">表示回数 前週→今週</th><th class="n">増加</th></tr></thead>
+<tbody>
+<tr class="hi"><td>花弘 作業場業務・12月末まで<span class="sub">/job/752</span></td><td>11/5 17:28 株式会社花弘<span class="sub">＜新着＞</span></td><td class="n">77</td><td class="n">2 → 95</td><td class="n">+93</td></tr>
+<tr class="hi"><td>麻布十番エリア 販売制作・未経験OK<span class="sub">/job/593（trèmoloと推定）</span></td><td>11/4 14:11 trèmolo<span class="sub">＜新着＞東麻布デザ…</span></td><td class="n">73</td><td class="n">13 → 95</td><td class="n">+82</td></tr>
+<tr class="hi"><td>品川プリンスホテル ウエディング装花<span class="sub">/job/903</span></td><td>11/2 17:17、11/4 19:05 三田ハナモ<span class="sub">前週も10/29に配信（36人）</span></td><td class="n">70</td><td class="n">59 → 102</td><td class="n">+43</td></tr>
+<tr class="total"><td>3求人の合計</td><td></td><td class="n">220</td><td class="n">74 → 292</td><td class="n">+218</td></tr>
+</tbody></table></div>
+<p>週報に出ていない求人で気になるのは<b>ジラフ ブライダル装花</b>です。10/29〜11/3に3回配信し、クリック人数は合計117人（前週84人、今週33人）と最も多いのに、週報の「伸びた求人」には出てきません。リンク先が求人ページ以外（エントリーフォームなど）になっているか、前週の表示回数がすでに多かった可能性があります。今週11/6の花芳（22人）も、対応する求人ページの数字が週報にありません。</p>
+<p>反対に、週報で伸びた /job/832（12→34回）と /job/852（16→31回）は、対応するLINE配信が見つかりませんでした。LINE以外の経路で伸びたと考えられます。</p>
+
+<h2>配信のしかたで見えたこと</h2>
+<p><b>＜新着＞の配信は、再送の倍以上押されています。</b>＜新着＞と付いた5本はクリック率（クリック人数÷開封数）が52%でした。同じ求人の再送や＜おすすめ＞・＜緊急募集＞の7本は22%です。品川プリンスも、初回（36%）→2回目（28%）→3回目（23%）と下がっています。</p>
+<p><b>開封は多いのにクリックが少ない配信があります。</b>ジラフの＜緊急募集＞（10/30）は開封率42%と高い一方、クリック率は20%でした。見出しで目を引けても、カードの中身でリンクまで進ませられていない可能性があります。</p>
+<p><b>短い間隔で続けた配信は開封されにくい傾向です。</b>11/9は13:21〜14:50の約1.5時間に3本を配信し、ジラフ ノートルダム（14:34）の開封率は7.7%と期間中で最も低くなりました。</p>
+
+<h2>週報の「教えてください」への回答案</h2>
+<div class="answer">
+<p>麻布十番（/job/593）と花弘（/job/752）は、LINE公式アカウントで次のとおり配信しています。</p>
+<p>・11/4 14:11　trèmolo（東麻布）の求人を＜新着＞として配信（配信673、開封110、クリック73人）<br>
+・11/5 17:28　花弘の求人を＜新着＞として配信（配信634、開封121、クリック77人）<br>
+・あわせて、品川プリンス（/job/903）も11/2と11/4に配信しています（クリック計70人）。</p>
+<p>3求人の表示回数の増加（+218回）は、LINEのクリック人数（220人）とほぼ同じ規模です。今後はLINEのリンクにUTMパラメータを付け、GAでLINE経由を区別できるようにしたいと考えています。</p>
+</div>
+
+<h2>確認事項</h2>
+<ol class="checks">
+<li><b>trèmoloの求人は /job/593（麻布十番）で合っているか</b>LINEの見出しが「東麻布デザ…」で切れているため、推定で対応づけています。</li>
+<li><b>花弘の表示回数が伸び始めたのは11/4か11/5か</b>週報は「11月4日ごろ」、LINE配信は11/5 17:28です。11/4から伸びていたなら、LINE以外のきっかけもあったことになります。GAの日別の数字で確認が必要です。</li>
+<li><b>LINEのリンクにUTMパラメータが付いていない</b>週報の流入経路にLINEが出てこないため、LINE経由の訪問は「(direct)」などに含まれていると考えられます。今回の対応づけは、配信のタイミングと求人の一致から推定したものです。</li>
+<li><b>LINEのコンバージョンが計測されていない</b>コンバージョンのCSVは空でした。週報の応募完了1件、応募フォーム表示49回のうち、LINE経由がどれだけかは分かりません。</li>
+<li><b>ジラフ ブライダル装花のリンク先と、前週の表示回数</b>クリック人数が最も多い求人ですが、週報に数字がありません。前週分のGA求人別データがあれば突き合わせられます。</li>
+<li><b>10/27の花芳配信のリンク誤り</b>同日17:53に訂正配信が出ています。16:59の配信でクリックした人は、正しい求人ページに届いていない可能性があります。</li>
+<li><b>ハナワクPRの扱い</b>10/27（90人）と11/9（41人）のクリックはcopainサイト外へのリンクと考え、今回の集計から外しています。</li>
+</ol>
+
+<h2>LINE配信一覧（19件）</h2>
+<div class="scroll"><table>
+<thead><tr><th>配信日時</th><th>配信内容</th><th class="n">配信</th><th class="n">開封</th><th class="n">クリック人数</th><th class="n">開封率</th><th class="n">クリック率</th></tr></thead>
+<tbody>
+<tr class="job"><td>10/26 13:37</td><td>ローズギャラリー<span class="sub">＜新着派遣＞高級バ…</span></td><td class="n">623</td><td class="n">117</td><td class="n">63</td><td class="n">18.8%</td><td class="n">53.8%</td></tr>
+<tr class="job"><td>10/27 16:59</td><td>花芳<span class="sub">＜おすすめ＞人気の…</span></td><td class="n">625</td><td class="n">75</td><td class="n">－</td><td class="n">12.0%</td><td class="n">－</td></tr>
+<tr class="other"><td>10/27 17:53</td><td>花芳<span class="sub">リンク訂正のお知らせ</span></td><td class="n">625</td><td class="n">63</td><td class="n">－</td><td class="n">10.1%</td><td class="n">－</td></tr>
+<tr class="pr"><td>10/27 18:07</td><td>【PR】ハナワク<span class="sub">1日単位で応募できるハナワク</span></td><td class="n">695</td><td class="n">192</td><td class="n">90</td><td class="n">27.6%</td><td class="n">46.9%</td></tr>
+<tr class="other"><td>10/28 09:45</td><td>（求人以外）<span class="sub">配信地域の選択</span></td><td class="n">358</td><td class="n">44</td><td class="n">－</td><td class="n">12.3%</td><td class="n">－</td></tr>
+<tr class="job"><td>10/28 14:48</td><td>Umbra<span class="sub">＜新着求人＞Gigi Ve…</span></td><td class="n">625</td><td class="n">108</td><td class="n">42</td><td class="n">17.3%</td><td class="n">38.9%</td></tr>
+<tr class="other"><td>10/28 18:07</td><td>（求人以外）<span class="sub">お仕事探しアンケート</span></td><td class="n">699</td><td class="n">350</td><td class="n">－</td><td class="n">50.1%</td><td class="n">－</td></tr>
+<tr class="hi"><td>10/29 17:44</td><td>三田ハナモ 品川プリンス<span class="sub">＜新着派遣＞品川プ…</span></td><td class="n">646</td><td class="n">100</td><td class="n">36</td><td class="n">15.5%</td><td class="n">36.0%</td></tr>
+<tr class="job"><td>10/29 21:52</td><td>ジラフ ブライダル装花<span class="sub">＜先行エントリー受…</span></td><td class="n">675</td><td class="n">163</td><td class="n">26</td><td class="n">24.1%</td><td class="n">16.0%</td></tr>
+<tr class="job"><td>10/30 17:42</td><td>ジラフ ブライダル装花<span class="sub">＜緊急募集＞ジラフ…</span></td><td class="n">675</td><td class="n">284</td><td class="n">58</td><td class="n">42.1%</td><td class="n">20.4%</td></tr>
+<tr class="hi"><td>11/2 17:17</td><td>三田ハナモ 品川プリンス<span class="sub">＜派遣＞品川プリン…</span></td><td class="n">635</td><td class="n">97</td><td class="n">27</td><td class="n">15.3%</td><td class="n">27.8%</td></tr>
+<tr class="job"><td>11/3 13:48</td><td>ジラフ ブライダル装花<span class="sub">＜派遣＞ジラフラワ…</span></td><td class="n">675</td><td class="n">121</td><td class="n">33</td><td class="n">17.9%</td><td class="n">27.3%</td></tr>
+<tr class="hi"><td>11/4 14:11</td><td>trèmolo<span class="sub">＜新着＞東麻布デザ…</span></td><td class="n">673</td><td class="n">110</td><td class="n">73</td><td class="n">16.3%</td><td class="n">66.4%</td></tr>
+<tr class="hi"><td>11/4 19:05</td><td>三田ハナモ 品川プリンス<span class="sub">＜派遣＞品川プリン…</span></td><td class="n">634</td><td class="n">191</td><td class="n">43</td><td class="n">30.1%</td><td class="n">22.5%</td></tr>
+<tr class="hi"><td>11/5 17:28</td><td>株式会社花弘 サポートセンター<span class="sub">＜新着＞花弘｜12月…</span></td><td class="n">634</td><td class="n">121</td><td class="n">77</td><td class="n">19.1%</td><td class="n">63.6%</td></tr>
+<tr class="job"><td>11/6 11:36</td><td>花芳<span class="sub">＜おすすめ＞人気の…</span></td><td class="n">621</td><td class="n">145</td><td class="n">22</td><td class="n">23.3%</td><td class="n">15.2%</td></tr>
+<tr class="pr"><td>11/9 13:21</td><td>【PR】ハナワク<span class="sub">1日単位で応募できるハナワク</span></td><td class="n">698</td><td class="n">101</td><td class="n">41</td><td class="n">14.5%</td><td class="n">40.6%</td></tr>
+<tr class="job"><td>11/9 14:34</td><td>ジラフ ノートルダム<span class="sub">＜派遣＞未経験者も…</span></td><td class="n">675</td><td class="n">52</td><td class="n">－</td><td class="n">7.7%</td><td class="n">－</td></tr>
+<tr class="job"><td>11/9 14:50</td><td>ジラフ オークラ<span class="sub">＜派遣＞未経験者も…</span></td><td class="n">675</td><td class="n">106</td><td class="n">32</td><td class="n">15.7%</td><td class="n">30.2%</td></tr>
+</tbody></table></div>
+<p class="note">左端にピンクの線がある行は、週報で伸びた3求人の配信です。灰色の文字はハナワクPRと求人以外の配信です。配信内容は管理画面の表示どおりで、途中で切れている部分は「…」としています。</p>
+</main>
+</body>
+</html>
