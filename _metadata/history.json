@@ -317,5 +317,16 @@
     "createdAt": "2026-11-16",
     "expiresAt": null,
     "pageUrl": "https://share.showjin.co.jp/showjin/yef1np.html"
+  },
+  {
+    "id": "2026-11-16T08-23-38",
+    "brand": "sj",
+    "title": "hanabacca編集する人探し資料",
+    "author": "萩原",
+    "fileName": "43pykg.html",
+    "filePath": "showjin/43pykg.html",
+    "createdAt": "2026-11-16",
+    "expiresAt": "2026-12-16",
+    "pageUrl": "https://share.showjin.co.jp/showjin/43pykg.html"
   }
 ]
