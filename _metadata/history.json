@@ -306,5 +306,16 @@
     "createdAt": "2026-11-12",
     "expiresAt": "2026-12-12",
     "pageUrl": "https://share.showjin.co.jp/showjin/a4sn8y.html"
+  },
+  {
+    "id": "2026-11-16T05-05-42",
+    "brand": "sj",
+    "title": "ハナバッカ-ご相談のための紹介資料",
+    "author": "石井　愛",
+    "fileName": "yef1np.html",
+    "filePath": "showjin/yef1np.html",
+    "createdAt": "2026-11-16",
+    "expiresAt": null,
+    "pageUrl": "https://share.showjin.co.jp/showjin/yef1np.html"
   }
 ]
