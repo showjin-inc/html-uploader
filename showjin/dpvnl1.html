@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>撮影・動画制作の打ち合わせ報告（ハナバッカ）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Murecho:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #FFFFFF;
+    --ink: #2A2724;
+    --sub: #6B655E;
+    --rule: #E6E2DC;
+    --yellow: #F2C230;
+    --yellow-soft: #FDF4D3;
+    --panel: #FAF9F7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --paper: #1C1B19;
+      --ink: #EDEAE5;
+      --sub: #A8A29A;
+      --rule: #3A3733;
+      --yellow: #F2C230;
+      --yellow-soft: #3A3320;
+      --panel: #24231F;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Murecho", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+    font-size: 16px;
+    line-height: 1.85;
+    padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  }
+  main { max-width: 44rem; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+  header { margin-bottom: 2.5rem; }
+  .mark { display: flex; align-items: center; gap: 0; margin-bottom: 1.25rem; }
+  .mark .o { width: 12px; height: 12px; border: 2px solid var(--ink); border-radius: 50%; }
+  .mark .line { width: 56px; height: 2px; background: var(--ink); }
+  .mark .dot { width: 12px; height: 12px; background: var(--yellow); border-radius: 50%; }
+  h1 { font-size: 1.6rem; line-height: 1.45; font-weight: 700; margin: 0 0 .75rem; letter-spacing: .02em; }
+  .meta { color: var(--sub); font-size: .875rem; margin: 0; }
+
+  .lead {
+    background: var(--yellow-soft);
+    border-left: 4px solid var(--yellow);
+    padding: 1rem 1.25rem;
+    margin: 0 0 1rem;
+    font-weight: 500;
+  }
+  .note { color: var(--sub); font-size: .875rem; margin: 0; }
+
+  /* 辿る線：セクションを縦の線でつなぐ */
+  .trail { position: relative; padding-left: 2rem; margin-top: 3rem; }
+  .trail::before {
+    content: ""; position: absolute; left: 6px; top: .6rem; bottom: .6rem;
+    width: 2px; background: var(--rule);
+  }
+  section { position: relative; margin-bottom: 2.75rem; }
+  section::before {
+    content: ""; position: absolute; left: calc(-2rem + 1px); top: .55rem;
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--ink); background: var(--paper);
+  }
+  section.now::before { background: var(--yellow); border-color: var(--yellow); }
+  h2 { font-size: 1.2rem; font-weight: 700; margin: 0 0 .75rem; line-height: 1.5; }
+  p { margin: 0 0 .9rem; }
+  ul, ol { margin: 0 0 .9rem; padding-left: 1.4rem; }
+  li { margin-bottom: .35rem; }
+  li::marker { color: var(--sub); }
+
+  .table-wrap { overflow-x: auto; margin: 0 0 .9rem; }
+  table { border-collapse: collapse; width: 100%; min-width: 32rem; font-size: .92rem; }
+  th, td { text-align: left; vertical-align: top; padding: .6rem .75rem; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 500; color: var(--sub); font-size: .8rem; border-bottom: 2px solid var(--ink); }
+  td.price { white-space: nowrap; font-weight: 500; }
+
+  .flow { list-style: none; padding: 0; counter-reset: s; }
+  .flow li { counter-increment: s; position: relative; padding-left: 2.25rem; margin-bottom: .6rem; }
+  .flow li::before {
+    content: counter(s); position: absolute; left: 0; top: .2rem;
+    width: 1.5rem; height: 1.5rem; border-radius: 50%;
+    background: var(--panel); border: 1px solid var(--rule);
+    font-size: .8rem; line-height: 1.4rem; text-align: center; color: var(--ink);
+  }
+
+  .quote {
+    background: var(--panel);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 0 0 .9rem;
+  }
+  .quote p:last-child { margin-bottom: 0; }
+
+  a { color: var(--ink); text-decoration-color: var(--yellow); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+
+  .tasks { list-style: none; padding: 0; }
+  .tasks li { padding-left: 1.75rem; position: relative; }
+  .tasks li::before {
+    content: ""; position: absolute; left: 0; top: .45rem;
+    width: 1rem; height: 1rem; border: 1.5px solid var(--sub); border-radius: 3px;
+  }
+  .tasks li.done { color: var(--sub); }
+  .tasks li.done::before { background: var(--yellow); border-color: var(--yellow); }
+
+  footer { color: var(--sub); font-size: .8rem; border-top: 1px solid var(--rule); padding-top: 1rem; margin-top: 1rem; }
+
+  @media print {
+    body { font-size: 11pt; }
+    main { padding: 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="mark" aria-hidden="true"><span class="o"></span><span class="line"></span><span class="dot"></span></div>
+    <h1>撮影・動画制作の打ち合わせ報告<br>（ハナバッカ）</h1>
+    <p class="meta">2026年11月19日　報告：石井</p>
+  </header>
+
+  <p class="lead">動画制作は外注せず、AIを使ったキットで自社運用する方向になりました。打ち合わせ後、アサコさんから「インスタ発信キット」が届いています。</p>
+  <p class="note">打ち合わせは11月19日、アサコさんとの約8分の雑談です。店内での録音で音声認識の精度が低く、金額など一部に不確かな点があります。</p>
+
+  <div class="trail">
+    <section>
+      <h2>撮影・制作の相場感</h2>
+      <p>個人カメラマンなら1日撮影で約1.5万円が目安です。プロに依頼すると1日3〜5万円かかります。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>依頼先</th><th>金額</th><th>内容・備考</th></tr></thead>
+          <tbody>
+            <tr><td>個人（スクールでの目安）</td><td class="price">1日 税込1.5〜1.6万円前後</td><td>撮影1日分</td></tr>
+            <tr><td>プロ（アサコさんが最近組んだ方）</td><td class="price">1日 3〜5万円</td><td>1日あたりの納品枚数が決まっている</td></tr>
+            <tr><td>アサコさんの個人案件（参考）</td><td class="price">月3〜3.6万円</td><td>子ども向けお仕事体験イベント。月2本・撮影込みで、ほぼボランティア価格</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">個人案件の金額は、会話内で「4本で3万」「月2本で3.6万」などと揺れており、要確認です。</p>
+    </section>
+
+    <section>
+      <h2>撮影機材についての意見</h2>
+      <p>SNSの拡散用ならスマホ撮影で十分、というのがアサコさんの意見です。YouTubeや特集記事では、カメラマンを入れる選択肢もあります。</p>
+      <ul>
+        <li>プロ機材の素材はデータが重く、白飛びしやすく、修正に手間がかかった</li>
+        <li>クライアントの社員がスマホで撮ったインタビュー映像の方が、仕上がりとの相性が良かった</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>決定事項：自社運用キット</h2>
+      <p>動画の編集はアサコさんが作るキットを使って自社で回します。撮影だけは現地に人が行く必要があるため、当社で手配します。</p>
+      <ol class="flow">
+        <li>アサコさんが、自社で回せるキット（AI用のプロンプト一式）を作成する</li>
+        <li>当社が、撮影担当（現地に行く人）と制作担当を用意する</li>
+        <li>取材先の情報と「どんな編集にしたいか」をもとに、AIでプロンプトとキットを整える</li>
+        <li>運用しながら少しずつ修正していく</li>
+      </ol>
+      <p>これまでの「YouTube編集は外部の編集者に頼む」方針から、自社運用寄りに変わる点に注意が必要です。</p>
+    </section>
+
+    <section class="now">
+      <h2>その後：インスタ発信キットを受領</h2>
+      <p>打ち合わせ後、アサコさんからハナバッカのインスタ発信キットが届きました。<a href="https://app.notion.com/p/41d1a145c0ef8173b2fbf97911565281">キット（Notion）を開く</a></p>
+      <ol class="flow">
+        <li>キットをAIに貼り付けて「はじめて」と送る</li>
+        <li>AIが質問しながら、コンセプト決め、投稿づくり、取材の展開まで進める</li>
+        <li>資料が増えたらプロジェクトに入れて「資料追加」と送ると、AIが以前の成果物も作り直す</li>
+      </ol>
+      <div class="quote">
+        <p>最初にできるのは「今ある材料での仮版」です。投稿より前の"本家本元"の資料が入るほど、コンセプトも投稿も濃くなる仕組みになっています。使いながら育てていくキットという位置づけです。</p>
+        <p>入れるとよい資料の例：理念、笑人が花のメディアを始めた理由、アイさんがやりたいこと、会社の雰囲気、取材で聞いた話</p>
+      </div>
+      <p>操作で止まった場合は、スクリーンショットを送ればアサコさんが見てくれます。</p>
+    </section>
+
+    <section>
+      <h2>今後の対応・確認事項</h2>
+      <ul class="tasks">
+        <li class="done">アサコさんからキットを受け取る</li>
+        <li>"本家本元"の資料（理念、立ち上げの理由、アイさんの想い、会社の雰囲気など）を集めて、キットに入れる</li>
+        <li>キットで仮版のコンセプトと投稿を作ってみる</li>
+        <li>撮影担当（現地に行く人）を決めて手配する</li>
+        <li>キットの費用の扱いをアサコさんに確認する</li>
+        <li>外部編集者を探す予定（年内）を続けるか、見直すかを決める</li>
+        <li>12月中にまとめる動画構成・SNS運用方針に、自社運用の前提を反映する</li>
+      </ul>
+    </section>
+  </div>
+
+  <footer>株式会社笑人　ハナバッカ　社内共有資料</footer>
+</main>
+</body>
+</html>
