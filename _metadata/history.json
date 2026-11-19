@@ -77,17 +77,6 @@
     "pageUrl": "https://share.showjin.co.jp/showjin/tpsucp.html"
   },
   {
-    "id": "2026-10-17T12-19-20",
-    "brand": "sj",
-    "title": "ジラフサイトの評価",
-    "author": "萩原",
-    "fileName": "tdxecv.html",
-    "filePath": "showjin/tdxecv.html",
-    "createdAt": "2026-10-17",
-    "expiresAt": "2026-11-16",
-    "pageUrl": "https://share.showjin.co.jp/showjin/tdxecv.html"
-  },
-  {
     "id": "2026-10-26T05-07-05",
     "brand": "cp",
     "title": "求人別アナリティクス報告　2026年9月29日〜10月25日",
@@ -231,28 +220,6 @@
     "pageUrl": "https://share.showjin.co.jp/showjin/azxjgt.html"
   },
   {
-    "id": "2026-11-09T08-31-43",
-    "brand": "sj",
-    "title": "コパンサイト分析",
-    "author": "萩原",
-    "fileName": "83t17h.html",
-    "filePath": "showjin/83t17h.html",
-    "createdAt": "2026-11-09",
-    "expiresAt": "2026-11-16",
-    "pageUrl": "https://share.showjin.co.jp/showjin/83t17h.html"
-  },
-  {
-    "id": "2026-11-09T08-37-00",
-    "brand": "sj",
-    "title": "コパンサイトタグ構築",
-    "author": "萩原",
-    "fileName": "m0r3lw.html",
-    "filePath": "showjin/m0r3lw.html",
-    "createdAt": "2026-11-09",
-    "expiresAt": "2026-11-16",
-    "pageUrl": "https://share.showjin.co.jp/showjin/m0r3lw.html"
-  },
-  {
     "id": "2026-11-09T08-44-15",
     "brand": "sj",
     "title": "コパン2026年10月業績分析",
@@ -262,28 +229,6 @@
     "createdAt": "2026-11-09",
     "expiresAt": "2026-12-09",
     "pageUrl": "https://share.showjin.co.jp/showjin/arq682.html"
-  },
-  {
-    "id": "2026-11-09T23-42-23",
-    "brand": "sj",
-    "title": "自社サイト、花JOBプロンプト修正内容",
-    "author": "萩原",
-    "fileName": "flgau6.html",
-    "filePath": "showjin/flgau6.html",
-    "createdAt": "2026-11-09",
-    "expiresAt": "2026-11-16",
-    "pageUrl": "https://share.showjin.co.jp/showjin/flgau6.html"
-  },
-  {
-    "id": "2026-11-10T01-22-50",
-    "brand": "cp",
-    "title": "LINE配信検証レポート_臨時版_20261110",
-    "author": "石井　愛",
-    "fileName": "x4bo3i.html",
-    "filePath": "copain/x4bo3i.html",
-    "createdAt": "2026-11-10",
-    "expiresAt": "2026-11-17",
-    "pageUrl": "https://share.showjin.co.jp/copain/x4bo3i.html"
   },
   {
     "id": "2026-11-10T08-54-11",
@@ -328,5 +273,16 @@
     "createdAt": "2026-11-16",
     "expiresAt": "2026-12-16",
     "pageUrl": "https://share.showjin.co.jp/showjin/43pykg.html"
+  },
+  {
+    "id": "2026-11-19T05-27-30",
+    "brand": "sj",
+    "title": "ハナバッカ_撮影動画制作_打ち合わせ報告",
+    "author": "石井　愛",
+    "fileName": "dpvnl1.html",
+    "filePath": "showjin/dpvnl1.html",
+    "createdAt": "2026-11-19",
+    "expiresAt": null,
+    "pageUrl": "https://share.showjin.co.jp/showjin/dpvnl1.html"
   }
 ]
