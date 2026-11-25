@@ -350,5 +350,16 @@
     "createdAt": "2026-11-24",
     "expiresAt": null,
     "pageUrl": "https://share.showjin.co.jp/copain/y1x1wh.html"
+  },
+  {
+    "id": "2026-11-25T07-25-57",
+    "brand": "sj",
+    "title": "ハナバッカ撮影・編集リスト",
+    "author": "萩原",
+    "fileName": "etcsgh.html",
+    "filePath": "showjin/etcsgh.html",
+    "createdAt": "2026-11-25",
+    "expiresAt": "2026-12-25",
+    "pageUrl": "https://share.showjin.co.jp/showjin/etcsgh.html"
   }
 ]
