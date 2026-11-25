@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Copain 稼働状況レポート</title>
+<style>
+:root{
+  --bg:#f7f7f5; --card:#ffffff; --ink:#1d1d1b; --muted:#6b6b66; --line:#e4e3de;
+  --accent:#2f6f5e; --accent-soft:#e3f0ec; --warn:#b4541a; --warn-soft:#fbeee4;
+  --danger:#b3261e; --danger-soft:#fbe9e7; --info:#2a5a9e; --info-soft:#e6eefa;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161615; --card:#1f1f1d; --ink:#ececea; --muted:#a2a29c; --line:#34342f;
+    --accent:#7cc4ae; --accent-soft:#1f3530; --warn:#f0a56e; --warn-soft:#3a2a1e;
+    --danger:#f28b82; --danger-soft:#3b201e; --info:#8db4ec; --info-soft:#1d2a3d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161615; --card:#1f1f1d; --ink:#ececea; --muted:#a2a29c; --line:#34342f;
+  --accent:#7cc4ae; --accent-soft:#1f3530; --warn:#f0a56e; --warn-soft:#3a2a1e;
+  --danger:#f28b82; --danger-soft:#3b201e; --info:#8db4ec; --info-soft:#1d2a3d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif;line-height:1.65;font-size:15px}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:24px;margin:0 0 4px}
+h2{font-size:19px;margin:40px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+h3{font-size:16px;margin:24px 0 8px}
+.sub{color:var(--muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi .n{font-size:12px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin:12px 0}
+.tbl{width:100%;overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:600;white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.total td{font-weight:700;background:var(--accent-soft)}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.t-ok{background:var(--accent-soft);color:var(--accent)}
+.t-mid{background:var(--info-soft);color:var(--info)}
+.t-warn{background:var(--warn-soft);color:var(--warn)}
+.t-ng{background:var(--danger-soft);color:var(--danger)}
+.alert{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:6px;margin:10px 0}
+.alert.red{border-color:var(--danger);background:var(--danger-soft)}
+ol.act{padding-left:22px;margin:6px 0}
+ol.act li{margin:6px 0}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Copain 稼働状況レポート</h1>
+<div class="sub">データ取得日：2026/11/25（SHOWCASE を閲覧して集計。編集はしていません）</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">11月 売上見込み</div><div class="v">約384万円</div><div class="n">稼働15名</div></div>
+  <div class="kpi"><div class="l">12月 売上見込み（確定分）</div><div class="v">約428万円</div><div class="n">稼働16名／中村さん更新なら約467万円・17名</div></div>
+  <div class="kpi"><div class="l">1月 売上見込み（現実線）</div><div class="v">約359万円</div><div class="n">13名（確定7名のみだと約187万円）</div></div>
+  <div class="kpi"><div class="l">1月 上振れ</div><div class="v">約460万円</div><div class="n">16名（小河さん更新＋門倉・安田さん決定）</div></div>
+</div>
+
+<div class="card small muted">
+売上の計算方法：請求時給 × 1日の実働時間 × 週日数 × その月の暦日数 ÷ 7（交通費・消費税は含めない）。<br>
+新規案件の月額目安：請求時給 × 1日の実働時間 × 週日数 × 4.35週。
+</div>
+
+<!-- ===================== 1 ===================== -->
+<h2>1. 派遣中（14名）の終了日と更新状況</h2>
+<div class="tbl"><table>
+<tr><th>スタッフ</th><th>派遣先</th><th>契約終了日</th><th>更新状況</th><th>条件</th></tr>
+<tr><td>名久井 章宏</td><td>JFIプラス 物流部</td><td>2027/4/30</td><td><span class="tag t-ok">契約期間中</span></td><td>週5日×8h ¥2,100</td></tr>
+<tr><td>森 由加里</td><td>Riviera逗子マリーナ</td><td>12/31</td><td><span class="tag t-ok">更新契約あり</span> 1/1〜3/31、4/1〜12/31</td><td>週4日×8h ¥2,780（4月〜¥2,830）</td></tr>
+<tr><td>杉原 あおい</td><td>ベスト‐アニバーサリー 管理部人事</td><td>11/30</td><td><span class="tag t-ok">更新契約あり</span> 12/1〜5/31</td><td>週3日×8h ¥2,720</td></tr>
+<tr><td>森本 栄子</td><td>ベスト‐アニバーサリー 管理部人事</td><td>11/30</td><td><span class="tag t-ok">更新契約あり</span> 12/1〜5/31</td><td>週1日×8h ¥2,500（更新後）</td></tr>
+<tr><td>長野 なな</td><td>ユー花園 ホテルオークラ東京店</td><td>12/31</td><td><span class="tag t-mid">更新の確認は済み</span> 更新契約はまだ作られていない</td><td>週3日×8h ¥2,530</td></tr>
+<tr><td>阿部 恵</td><td>ユー花園 ホテルオークラ東京店</td><td>12/31</td><td><span class="tag t-mid">更新の確認は済み</span> 更新契約はまだ作られていない</td><td>週3日×8h ¥2,840</td></tr>
+<tr><td>大石 陽子</td><td>花弘 HANAHIRO CQ</td><td>12/31</td><td><span class="tag t-mid">更新の確認は済み</span> 更新契約はまだ作られていない</td><td>週2日×8h ¥2,480 ※週日数が入っていない</td></tr>
+<tr><td>中村 信子</td><td>レインボウ ニューオータニ（売店）</td><td><b>11/30</b></td><td><span class="tag t-warn">企業OK・期間の入力待ち</span></td><td>週4日×8h ¥2,750</td></tr>
+<tr><td>坪田 彩加</td><td>ニューウェーブ 花もよう屏風浦店</td><td>12/31</td><td><span class="tag t-mid">更新予定あり（確認前）</span></td><td>週3日×8h ¥2,530</td></tr>
+<tr><td>沖原 由佳</td><td>第一園芸 帝国ホテル東京店</td><td>12/31</td><td><span class="tag t-mid">更新予定あり（確認前）</span></td><td>週4日×7h ¥2,570</td></tr>
+<tr><td>小河 ひろみ</td><td>花弘 ホテル椿山荘東京</td><td>12/31</td><td><span class="tag t-warn">未定</span></td><td>週3日×8h ¥2,500</td></tr>
+<tr><td>原 宏行</td><td>クローバー</td><td>12/31</td><td><span class="tag t-ng">更新なし</span></td><td>週2日×6.5h ¥2,530</td></tr>
+<tr><td>越光 進</td><td>レインボウ ニューオータニ営業所</td><td>12/31</td><td><span class="tag t-ng">更新なし</span></td><td>週4日×7h ¥2,840</td></tr>
+<tr><td>末政 さやか</td><td>サポートセンター</td><td><b>11/30</b></td><td><span class="tag t-ng">更新なし（終了）</span></td><td>週3日×8h ¥2,600</td></tr>
+</table></div>
+
+<!-- ===================== 2 ===================== -->
+<h2>2. 派遣決定（4名）の派遣期間</h2>
+<div class="tbl"><table>
+<tr><th>スタッフ</th><th>派遣先</th><th>派遣期間</th><th>条件</th><th>備考</th></tr>
+<tr><td>山本 多麻</td><td>Umbra 本店（依頼#42）</td><td>11/27〜2027/1/31</td><td>週3日×8h ¥2,480</td><td>AGENT採用</td></tr>
+<tr><td>匝瑳 初惠</td><td>レインボウ 有明店（依頼#80）</td><td>12/1〜2027/2/28</td><td>週3日×7h ¥2,480</td><td></td></tr>
+<tr><td>酒井 華菜恵</td><td>第一園芸 浦安ブライトン（依頼#86）</td><td>12/2〜12/27</td><td>週5日×8h ¥2,770</td><td><span class="tag t-ng">⚠ 抵触日超過と表示</span></td></tr>
+<tr><td>長尾 由香</td><td>レインボウ 有明店（依頼#80）</td><td>12/14〜2027/2/28</td><td>週3日×7h ¥2,480</td><td></td></tr>
+</table></div>
+
+<!-- ===================== 3 ===================== -->
+<h2>3. 面談調整中の人が応募している案件</h2>
+<div class="tbl"><table>
+<tr><th>スタッフ</th><th>状態</th><th>応募日・経路</th><th>応募先の案件</th></tr>
+<tr><td>繁永 真沙子</td><td>面談日程調整中（28日経過）</td><td>10/27 indeed</td><td>レインボウ 博多事業部（依頼#76）</td></tr>
+<tr><td>和田 弥優希</td><td>面談日程調整中（20日経過）</td><td>11/5 indeed</td><td>ユー花園 本社 人財開発課（企業だけ指定、依頼は未設定）</td></tr>
+<tr><td>平間 美咲</td><td>面談日程調整中（16日経過）</td><td>11/8 自社HP</td><td class="muted">指定なし</td></tr>
+<tr><td>滝柳 萌</td><td>面談日程調整中・<b>非アクティブ</b></td><td class="muted">未入力</td><td class="muted">指定なし</td></tr>
+<tr><td>青戸 優子</td><td>面談日程調整中（9日経過）</td><td>11/16 indeed</td><td class="muted">指定なし</td></tr>
+<tr><td>丹治 玲子</td><td>面談日程調整中・<b>非アクティブ</b></td><td class="muted">未入力</td><td class="muted">指定なし</td></tr>
+<tr><td>黒田 智子</td><td>面談日程調整中</td><td>11/20 自社HP</td><td>東京生花 三田ハナモ（依頼#101）</td></tr>
+<tr><td>西田 弘子</td><td>面談日程調整中</td><td>11/22 Airワーク</td><td>レインボウ 大阪事業部（依頼#79）</td></tr>
+<tr><td>杉山 咲愛</td><td>面談予定 <b>12/1 14:00</b></td><td>11/25 自社HP</td><td class="muted">指定なし</td></tr>
+<tr><td>下川 浩</td><td>面談予定 <b>12/3 13:00</b>（本間）</td><td>11/17 自社HP</td><td class="muted">指定なし</td></tr>
+</table></div>
+
+<!-- ===================== 4 ===================== -->
+<h2>4. 職場見学・面接予定の2名（決まった場合の期間）</h2>
+<div class="tbl"><table>
+<tr><th>スタッフ</th><th>案件</th><th>予定</th><th>決まった場合の条件・期間</th><th>月額の目安</th></tr>
+<tr><td>安田 明美</td><td>花芳商店（依頼#57・葬儀）</td><td>職場見学 <b>11/27</b></td><td>週3日×8h、請求時給¥2,660（見積パターン1）、更新予定あり。本人は11/16から勤務可。<br><span class="tag t-warn">依頼の期間が10/1〜11/30のままで、もう過ぎている → 期間の設定し直しが必要</span></td><td class="num">約28万円<br><span class="small muted">12/15開始なら12月は約16万円</span></td></tr>
+<tr><td>門倉 直美</td><td>SHOJIRO YAMAGUCHI 本店（依頼#127・AGENT採用）</td><td>面接 11/24 実施済み</td><td>2027/1/1〜2/28、週5日×8h、請求時給¥2,570<br><span class="small muted">ほかにニューオータニ売店（依頼#109）からも打診中（本人確認中）</span></td><td class="num">約45万円</td></tr>
+</table></div>
+
+<!-- ===================== 5 ===================== -->
+<h2>5. 売上見込み</h2>
+<h3>月ごとの合計</h3>
+<div class="tbl"><table>
+<tr><th>月</th><th class="num">稼働人数</th><th class="num">売上見込み</th><th>内容</th></tr>
+<tr><td>2026年11月</td><td class="num">15名</td><td class="num"><b>約384万円</b></td><td>山本多麻さん（11/27開始）を含む</td></tr>
+<tr><td>2026年12月</td><td class="num">16名</td><td class="num"><b>約428万円</b></td><td>確定分のみ。中村さんが更新なら約467万円（17名）、安田さんが決まれば約483万円</td></tr>
+<tr><td>2027年1月</td><td class="num">7〜16名</td><td class="num">187〜460万円</td><td>下の表を参照</td></tr>
+<tr><td>2027年2月</td><td class="num">6名</td><td class="num">約145万円〜</td><td>確定分のみ（1/31に山本多麻さんが終了）</td></tr>
+<tr><td>2027年3月</td><td class="num">4名</td><td class="num">約114万円〜</td><td>確定分のみ（2/28に有明店の2名が終了）</td></tr>
+<tr><td>2027年4月</td><td class="num">4名</td><td class="num">約111万円〜</td><td>確定分のみ</td></tr>
+<tr><td>2027年5月</td><td class="num">3名</td><td class="num">約78万円〜</td><td>確定分のみ（4/30に名久井さんが終了）</td></tr>
+</table></div>
+
+<h3>1月の見込み（下の行ほど、上の行に人を足していった累計）</h3>
+<div class="tbl"><table>
+<tr><th>1月に含める人</th><th class="num">人数</th><th class="num">1月の売上</th></tr>
+<tr><td>契約が確定している人のみ（名久井・森・杉原・森本・山本多麻・匝瑳・長尾）</td><td class="num">7名</td><td class="num">約187万円</td></tr>
+<tr><td>＋更新の合意済み（長野・阿部・大石）</td><td class="num">10名</td><td class="num">約261万円</td></tr>
+<tr><td>＋更新予定あり（坪田・沖原）・中村</td><td class="num">13名</td><td class="num"><b>約359万円（現実線）</b></td></tr>
+<tr><td>＋小河（未定）</td><td class="num">14名</td><td class="num">約386万円</td></tr>
+<tr><td>＋新規（門倉・安田が決まった場合）</td><td class="num">16名</td><td class="num">約460万円</td></tr>
+</table></div>
+<p class="small muted">原さん・越光さんは12月末で終わるため、月あたり約50万円減ります。酒井さんは12/27で終了です。</p>
+
+<h3>スタッフごとの内訳（単位：万円）</h3>
+<div class="tbl"><table>
+<tr><th>スタッフ</th><th>区分</th><th class="num">11月</th><th class="num">12月</th><th class="num">1月</th></tr>
+<tr><td>名久井 章宏</td><td><span class="tag t-ok">確定</span></td><td class="num">36.0</td><td class="num">37.2</td><td class="num">37.2</td></tr>
+<tr><td>森 由加里</td><td><span class="tag t-ok">確定</span></td><td class="num">38.1</td><td class="num">39.4</td><td class="num">39.4</td></tr>
+<tr><td>杉原 あおい</td><td><span class="tag t-ok">確定</span></td><td class="num">28.0</td><td class="num">28.9</td><td class="num">28.9</td></tr>
+<tr><td>森本 栄子</td><td><span class="tag t-ok">確定</span></td><td class="num">17.1</td><td class="num">8.9</td><td class="num">8.9</td></tr>
+<tr><td>山本 多麻</td><td><span class="tag t-ok">確定</span></td><td class="num">3.4</td><td class="num">26.4</td><td class="num">26.4</td></tr>
+<tr><td>匝瑳 初惠</td><td><span class="tag t-ok">確定</span></td><td class="num">―</td><td class="num">23.1</td><td class="num">23.1</td></tr>
+<tr><td>長尾 由香</td><td><span class="tag t-ok">確定</span></td><td class="num">―</td><td class="num">13.4</td><td class="num">23.1</td></tr>
+<tr><td>酒井 華菜恵</td><td><span class="tag t-ok">確定</span>（12/27まで）</td><td class="num">―</td><td class="num">41.2</td><td class="num">―</td></tr>
+<tr><td>長野 なな</td><td><span class="tag t-mid">合意済み</span></td><td class="num">26.0</td><td class="num">26.9</td><td class="num">(26.9)</td></tr>
+<tr><td>阿部 恵</td><td><span class="tag t-mid">合意済み</span></td><td class="num">29.2</td><td class="num">30.2</td><td class="num">(30.2)</td></tr>
+<tr><td>大石 陽子</td><td><span class="tag t-mid">合意済み</span></td><td class="num">10.5</td><td class="num">17.6</td><td class="num">(17.6)</td></tr>
+<tr><td>中村 信子</td><td><span class="tag t-warn">企業OK</span></td><td class="num">37.7</td><td class="num">(39.0)</td><td class="num">(39.0)</td></tr>
+<tr><td>坪田 彩加</td><td><span class="tag t-mid">更新予定</span></td><td class="num">26.0</td><td class="num">26.9</td><td class="num">(26.9)</td></tr>
+<tr><td>沖原 由佳</td><td><span class="tag t-mid">更新予定</span></td><td class="num">30.8</td><td class="num">31.9</td><td class="num">(31.9)</td></tr>
+<tr><td>小河 ひろみ</td><td><span class="tag t-warn">未定</span></td><td class="num">25.7</td><td class="num">26.6</td><td class="num">(26.6)</td></tr>
+<tr><td>原 宏行</td><td><span class="tag t-ng">更新なし</span></td><td class="num">14.1</td><td class="num">14.6</td><td class="num">―</td></tr>
+<tr><td>越光 進</td><td><span class="tag t-ng">更新なし</span></td><td class="num">34.1</td><td class="num">35.2</td><td class="num">―</td></tr>
+<tr><td>末政 さやか</td><td><span class="tag t-ng">終了</span></td><td class="num">26.7</td><td class="num">―</td><td class="num">―</td></tr>
+<tr class="total"><td>合計（かっこ内を除く）</td><td></td><td class="num">383.6</td><td class="num">428.1</td><td class="num">186.9</td></tr>
+</table></div>
+<p class="small muted">かっこ内の数字は、契約がまだ確定していない見込みの金額です。</p>
+
+<!-- ===================== 6 ===================== -->
+<h2>6. 稼働につなげるためにやること</h2>
+
+<h3>A. 今週中にやる：今ある売上を守る（効果は月あたり約200万円）</h3>
+<div class="tbl"><table>
+<tr><th>#</th><th>やること</th><th>対象</th><th class="num">月額への影響</th><th>期限</th></tr>
+<tr><td>1</td><td><b>中村さんの更新期間を入力し、更新契約を作る</b>（企業OKで、期間の入力待ちのまま止まっている）</td><td>依頼#29 ニューオータニ売店</td><td class="num">約39万円</td><td><b>11/30</b></td></tr>
+<tr><td>2</td><td><b>長野・阿部・大石さんの更新契約を作る</b>（更新の確認は済んでいるのに、契約がまだ作られていない）</td><td>依頼#69・#68・#130</td><td class="num">約75万円</td><td>12月上旬</td></tr>
+<tr><td>3</td><td><b>坪田・沖原さんの更新確認を前倒しで始める</b>（自動で始まるのは12/10頃。店舗と本人の意思確認を先に済ませる）</td><td>依頼#88・#66</td><td class="num">約59万円</td><td>12/10まで</td></tr>
+<tr><td>4</td><td><b>小河さんの更新意思を確認する</b>（更新有無が「未定」）</td><td>依頼#97 椿山荘</td><td class="num">約27万円</td><td>12/10まで</td></tr>
+<tr><td>5</td><td><b>酒井さんの「抵触日超過」表示を確認する</b>（12/2開始の前に必須）。あわせて、同じ浦安ブライトンの見積#116（回答済み）を追いかけ、12/28以降の継続につなげる</td><td>依頼#86・見積#116</td><td class="num">約41万円</td><td><b>12/1</b></td></tr>
+</table></div>
+
+<h3>B. 新しい稼働を決めにいく：選考中の案件</h3>
+<div class="tbl"><table>
+<tr><th>#</th><th>やること</th><th>対象</th><th class="num">月額の目安</th></tr>
+<tr><td>6</td><td>安田さんの職場見学（11/27）のあと、すぐに確定させる。依頼#57の派遣期間（10/1〜11/30のまま）を設定し直す</td><td>花芳商店</td><td class="num">約28万円</td></tr>
+<tr><td>7</td><td>門倉さんの面接結果（11/24実施）を企業から回収する。#109と重なっているので、本人の第一希望を確認する</td><td>依頼#127 SHOJIRO YAMAGUCHI</td><td class="num">約45万円</td></tr>
+<tr><td>8</td><td><b>タスクボードの「自動で入った候補への連絡が未着手」3件</b>：黒川（マッチ率93%）・脇田（93%）・門倉（87%）が1週間放置されている → 本人に連絡する</td><td>依頼#109 ニューオータニ売店（12/1開始）</td><td class="num">―</td></tr>
+<tr><td>9</td><td>仮登録から3日を超えて、ヒアリングが未設定の6名に面談を設定する（繁永さんは28日経過）。滝柳・丹治さんは非アクティブなので、対応を決める</td><td>登録ボード</td><td class="num">―</td></tr>
+<tr><td>10</td><td>回答済みの見積5件を営業がフォローして受注につなげる（5件のうち4件が停滞）</td><td>ミナト園芸 能見台店 #119／第一園芸 浦安ブライトン #116／花判 プリンスパークタワー #110／グランセレモ東京 #109／よみうり ル・花フェ #102</td><td class="num">―</td></tr>
+<tr><td>11</td><td>労働者派遣基本契約書が未締結の企業と契約を結ぶ（未締結のままでは派遣できない）</td><td>LIVENT（#116・#123・#124）／セントラルフラワー（#129）</td><td class="num">LIVENT #116 約27万円</td></tr>
+</table></div>
+
+<h3>C. 打診するとよい人（待機中・まもなく契約が終わる人 × 人選中の案件）</h3>
+<p class="small muted">住んでいる場所・最寄り駅、希望の週日数、希望の職種、勤務を始められる時期を、案件の条件と突き合わせて選んだ候補です。本人の意向・スキルは打診のときに確認してください。</p>
+<div class="tbl"><table>
+<tr><th>スタッフ</th><th>状況・条件</th><th>打診するとよい案件</th><th class="num">月額の目安</th></tr>
+<tr><td><b>末政 さやか</b></td><td>11/30で終了・更新なし／南大沢／週4日／ショップ・ウエディング</td><td>ローズギャラリー伊勢丹新宿店（#91・週5日）、ユー花園 国立府中支社（#59）。<b>12月から稼働を切らさないことが最優先</b></td><td class="num">約50万円</td></tr>
+<tr><td><b>越光 進</b></td><td>12/31で終了・更新なし／中野／週5日／ショップ・ウエディング・葬儀</td><td>ローズギャラリー伊勢丹新宿店（#91・週5日×8h）を1月から</td><td class="num">約50万円</td></tr>
+<tr><td><b>秋吉 有紀</b></td><td>待機中／港区／週3日／ショップ／12/1から勤務可</td><td>ローズギャラリー銀座本店（#92・週3日×8h）</td><td class="num">約28万円</td></tr>
+<tr><td><b>朝井 裕子</b></td><td>待機中／笹塚・下北沢／週5日／ショップ・ウエディング・葬儀</td><td>ローズギャラリー伊勢丹新宿店（#91）</td><td class="num">約50万円</td></tr>
+<tr><td><b>北 稚佳子</b></td><td>待機中／妙典（東西線）／週3日／11/16から勤務可</td><td>竹中庭園緑化 シェラトン舞浜（#120・週3日、11/21〜12/21）</td><td class="num">約26万円</td></tr>
+<tr><td><b>田畑 ふじよ</b></td><td>待機中／高輪台／週4日／ウエディング</td><td>ユー花園 八芳園店（#36・#35・週3日）、東京生花 三田ハナモ（#101）</td><td class="num">約27〜28万円</td></tr>
+<tr><td><b>櫻本 直子</b></td><td>待機中／不動前（目黒）／週3日／ショップ・ウエディング</td><td>ユー花園 ウェスティンホテル東京店（#70・恵比寿）、八芳園店（#36）</td><td class="num">約28万円</td></tr>
+<tr><td><b>森下 真樹子</b></td><td>待機中／経堂／週3日／ウエディング・葬儀</td><td>ベスト‐アニバーサリー ザストリングス表参道（#22）・キンプトン新宿（#20）・青山セントグレース（#26）</td><td class="num">約26万円</td></tr>
+<tr><td><b>荒井 優子</b></td><td>待機中／府中・国分寺／週5日／12/12から勤務可</td><td>ユー花園 国立府中支社（#59・週5日）、伊勢丹新宿店（#91）</td><td class="num">約50万円</td></tr>
+<tr><td><b>阿部 貴子</b></td><td>待機中／立川／週4日／ショップ・ウエディング・葬儀／1/1から勤務可</td><td>ユー花園 国立府中支社（#59・葬儀）</td><td class="num">約40万円〜</td></tr>
+<tr><td><b>黒澤 美歩子・八木澤 愛美</b></td><td>待機中／取手・北柏（常磐線）／週3日</td><td>ユー花園 綾瀬支店（#62・週3日・葬儀）。常磐線で乗り換えなし</td><td class="num">約28万円</td></tr>
+<tr><td><b>澁木 久枝</b></td><td>待機中／一之江／週3日／ウエディング・葬儀</td><td>ユー花園 綾瀬支店（#62）、シェラトン舞浜（#120）</td><td class="num">約26〜28万円</td></tr>
+<tr><td><b>松田 由季</b></td><td>待機中／みなとみらい／週5日／正社員希望</td><td>第一園芸 ヨコハマグランドインターコンチネンタル（#99・AGENT採用）</td><td class="num">約45万円</td></tr>
+<tr><td><b>直井 優果</b></td><td>待機中／上大岡／正社員希望・ウエディング／1/1から勤務可</td><td>ユー花園 本社（#54・ウエディング正社員）、ホテルオークラ（#49）など。ヨコハマ案件は見送り済み</td><td class="num">―</td></tr>
+<tr><td><b>髙橋 七海</b></td><td>待機中／番田（相模線）／週4日／ウエディング・葬儀</td><td>ユー花園 大和支店（#53・葬儀）。週5日にできるか確認する</td><td class="num">―</td></tr>
+<tr><td><b>平野 博美</b></td><td>待機中／福岡市南区 平尾／週3日／ウエディング</td><td>レインボウ 博多事業部（#76・週4日×7h）</td><td class="num">約29万円</td></tr>
+<tr><td><b>梅田 瑞保・脇田 侑香</b></td><td>待機中／大阪（服部天神・高槻）</td><td>レインボウ 大阪事業部（#79・12/1開始）。脇田さんは#109の候補に入っているが、関西在住なので#79のほうが合う可能性がある</td><td class="num">約30万円</td></tr>
+<tr><td><b>内藤 浩美</b></td><td>待機中／蓮田／条件が未入力</td><td>ベスト‐アニバーサリー 大宮アートグレイス（#24・週3日）。条件を聞き取ったうえで打診する</td><td class="num">約26万円</td></tr>
+</table></div>
+<div class="alert">待機中でも、面談の条件（週日数・勤務を始められる時期・希望職種）が入っていない人がいます：百田 るみこ、山本 菜々恵、関本 夏海、梅田 瑞保、内藤 浩美。まず条件を聞き取ると、打診先を決められます。</div>
+
+<h3>D. 人選中の案件を整理する（人選中56件のうち48件が停滞）</h3>
+<ul class="small">
+<li><b>長いあいだ動いていない依頼</b>：ベスト‐アニバーサリーの婚礼会場8件（#20〜#27、8/12受付・105日停滞）、ユー花園の葬儀支店の契約社員7件（#53・#56・#58〜#61、40〜84日停滞）、八芳園の3件（#35〜#37、91日停滞）。<br>→ 企業に、今も募集しているか・条件を変えられるかを確認し、続けるか失注にするかを決める。これで人選の対象が本当に動いている案件だけになり、打診の効率が上がります。</li>
+<li><b>派遣期間がもう過ぎている依頼</b>：ストリングスホテル名古屋（#46、9/15〜10/15）、笑人 tokyo LAB（#107・#108、11/1〜12/31）→ 期間を設定し直すか、失注にする。</li>
+<li><b>単価の高い案件を優先する</b>：花弘 サポートセンター（#115・請求時給¥3,080・週3日）、ユー花園 本社・国立府中・所沢・江東・大和（AGENT採用・請求時給¥3,050）。</li>
+</ul>
+
+<!-- ===================== 7 ===================== -->
+<h2>7. データの確認が必要な点</h2>
+<ul class="small">
+<li>森本さん（11月の契約）と大石さん（#130）は週日数が入っていません。見積と前回の契約から、どちらも週2日として計算しました。</li>
+<li>有明店の2名（#80）は、SHOWCASEに出ている想定勤務日数（64日・55日）が、週3日で計算した日数より多くなっています。このレポートは週3日で計算しました。</li>
+<li>森さん（#98）は、想定勤務日数が261日と週4日の計算より多くなっています。実際の稼働日数を確認してください。</li>
+<li>タスクボードのスケジュールに、職場見学（11/27）・面談（12/1・12/3）が出ていません。登録の方法を確認してください。</li>
+</ul>
+
+</div>
+</body>
+</html>
