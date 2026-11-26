@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>保険書類の登録の流れ</title>
+<style>
+  :root{--ink:#1f2328;--sub:#5b6470;--line:#e3e6ea;--bg:#f6f7f9;--blue:#2f6fde;--green:#2e8b6e;--orange:#d9822b;--red:#e02828;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;line-height:1.75;font-size:16px}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 20px 80px}
+  h1{font-size:28px;margin:0 0 6px}
+  .to{color:var(--sub);margin:0 0 28px}
+  h2{font-size:21px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 28px;margin:0 0 24px}
+  .lead{color:var(--sub);margin:0 0 18px}
+  /* flow */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .step{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 14px 14px}
+  .step:not(:last-child)::after{content:"▶";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:#b7bec7;font-size:12px}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:700}
+  .who{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;margin-left:6px;vertical-align:2px}
+  .who.s{background:#e7f1fb;color:var(--blue)}
+  .who.n{background:#fdf0e3;color:var(--orange)}
+  .who.t{background:#e5f4e4;color:var(--green)}
+  .step p{margin:8px 0 0;font-size:14px}
+  .new{border:2px dashed var(--orange);background:#fffaf4}
+  .tag{font-size:11px;color:var(--orange);font-weight:700}
+  /* screenshots */
+  figure{margin:18px 0}
+  figure img{width:100%;border:1px solid var(--line);border-radius:10px;display:block}
+  figcaption{font-size:13px;color:var(--sub);margin-top:6px}
+  ol.marks{list-style:none;padding:0;margin:0}
+  ol.marks li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+  ol.marks li:first-child{border-top:none}
+  .rn{flex:0 0 28px;height:28px;border-radius:50%;background:var(--red);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;margin-top:2px}
+  .path{display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-size:14px}
+  .note{background:#fff8e6;border-left:4px solid #e9b32a;border-radius:8px;padding:12px 16px;margin:16px 0 0;font-size:15px}
+  .note b{color:#8a5a00}
+  .slack{background:#fff;border:1px solid var(--line);border-left:4px solid #4a154b;border-radius:8px;padding:12px 16px;font-size:15px;margin-top:12px}
+  .req{border:2px solid var(--blue)}
+  @media (max-width:720px){.flow{grid-template-columns:1fr 1fr}.step:nth-child(2)::after{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>保険書類の登録の流れ</h1>
+  <p class="to">担当者のみなさん・高原さんへ　｜　保険の手続きで発行された書類を、SHOWCASEに登録するまでの流れです。</p>
+
+  <!-- 全体の流れ -->
+  <section class="card">
+    <h2>全体の流れ</h2>
+    <p class="lead">書類の登録は下条さん、依頼へのひも付けは各担当者が行います。</p>
+    <div class="flow">
+      <div class="step"><span class="num">1</span><span class="who s">下条さん</span><p>書類が発行されたら、スタッフの［重要書類］に登録する</p></div>
+      <div class="step new"><span class="num">2</span><span class="who n">Slack</span><p>「書類がアップされました」と通知が届く<br><span class="tag">高原さんに追加を依頼中</span></p></div>
+      <div class="step"><span class="num">3</span><span class="who t">各担当者</span><p>依頼の［保険手続き］で「登録済みから選ぶ」から書類を選ぶ</p></div>
+      <div class="step"><span class="num">4</span><span class="who t">各担当者</span><p>［保険手続きを保存］を押して完了</p></div>
+    </div>
+  </section>
+
+  <!-- 下条さん -->
+  <section class="card">
+    <h2><span class="num">1</span>書類を登録する<span class="who s">下条さん</span></h2>
+    <p class="lead">開く画面：<span class="path">コパン ＞ スタッフ管理 ＞ 該当スタッフ</span></p>
+    <figure>
+      <img src="shimojo_upload.png" alt="スタッフ詳細の重要書類タブ。書類を登録するフォーム">
+      <figcaption>スタッフ詳細の［重要書類］タブ（スタッフ名はぼかしています）</figcaption>
+    </figure>
+    <ol class="marks">
+      <li><span class="rn">1</span><div>［重要書類］タブを開く</div></li>
+      <li><span class="rn">2</span><div>「種類」で書類の種類を選ぶ（雇用保険・社会保険のうち該当するもの）</div></li>
+      <li><span class="rn">3</span><div>「ファイルを選択」から書類をアップロードする（PDF・画像、20MBまで）。有効期限は空欄のままで大丈夫です</div></li>
+      <li><span class="rn">4</span><div>［登録する］を押す</div></li>
+    </ol>
+    <div class="note"><b>種類は必ず正しく選んでください。</b>担当者の画面には、種類が合う書類だけが表示されます。違う種類で登録すると、担当者が選べません。</div>
+  </section>
+
+  <!-- Slack -->
+  <section class="card">
+    <h2><span class="num">2</span>Slackに通知が届く</h2>
+    <p class="lead">下条さんが書類を登録すると、Slackに次のような通知が届きます（文面はイメージです）。</p>
+    <div class="slack">【保険書類】書類がアップされました</div>
+  </section>
+
+  <!-- 担当者 -->
+  <section class="card">
+    <h2><span class="num">3</span>依頼に書類をひも付ける<span class="who t">各担当者</span></h2>
+    <p class="lead">開く画面：<span class="path">コパン ＞ 依頼管理 ＞ 該当の依頼 ＞ 保険手続き</span></p>
+    <figure>
+      <img src="tanto_link.png" alt="依頼詳細の保険手続き欄。登録済みから選ぶと保存ボタン">
+      <figcaption>依頼詳細の［保険手続き］欄</figcaption>
+    </figure>
+    <ol class="marks">
+      <li><span class="rn">1</span><div>アップされた通知書の行で「登録済みから選ぶ」を選ぶ</div></li>
+      <li><span class="rn">2</span><div>プルダウンから、下条さんが登録した書類を選ぶ</div></li>
+      <li><span class="rn">3</span><div>［保険手続きを保存］を押す　<b>※押さないと保存されません</b></div></li>
+    </ol>
+    <div class="note"><b>プルダウンに書類が出てこないとき</b>　「このスタッフに『〇〇』の書類はまだありません」と表示される場合は、まだ登録されていないか、種類が違う可能性があります。下条さんに確認してください。</div>
+  </section>
+
+  <!-- 高原さん -->
+  <section class="card req">
+    <h2>高原さんへのお願い</h2>
+    <p>下条さんが書類をアップしたタイミングで、Slackに通知が届くようにしてください。文面は「書類がアップされました」のような内容でお願いします。</p>
+    <p style="margin-bottom:0">スタッフ名と書類の種類も入っていると、担当者が該当の依頼を探しやすくなります。</p>
+  </section>
+</div>
+</body>
+</html>
