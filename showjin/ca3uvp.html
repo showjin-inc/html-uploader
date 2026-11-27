@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>達人授業2026 起業家パネル レポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<style>
+/* Layout: 海図のように上から順に読む一列構成。各パートは番号つき帯で区切り、比較は2カラム、失敗は3枚のカード */
+:root{
+  --bg:#f4f7fb;
+  --surface:#ffffff;
+  --ink:#16243a;
+  --muted:#5a6a82;
+  --line:#d8e1ee;
+  --sea:#1f5fa8;
+  --sea-soft:#e3eefb;
+  --sun:#f2a516;
+  --sun-soft:#fdf1d8;
+  --tajima:#1f8a7a;
+  --tajima-soft:#ddf2ee;
+  --nozawa:#c2456a;
+  --nozawa-soft:#fbe4ec;
+  --display:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif;
+  --body:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1622;--surface:#16212f;--ink:#e6edf7;--muted:#9aabc2;--line:#2a3a4f;
+    --sea:#6fa8ec;--sea-soft:#1a2c44;--sun:#f5b941;--sun-soft:#3a2e15;
+    --tajima:#5cc8b5;--tajima-soft:#163731;--nozawa:#ec7fa0;--nozawa-soft:#3a1d28;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1622;--surface:#16212f;--ink:#e6edf7;--muted:#9aabc2;--line:#2a3a4f;
+  --sea:#6fa8ec;--sea-soft:#1a2c44;--sun:#f5b941;--sun-soft:#3a2e15;
+  --tajima:#5cc8b5;--tajima-soft:#163731;--nozawa:#ec7fa0;--nozawa-soft:#3a1d28;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.35;margin:0}
+p{margin:0}
+
+/* Hero */
+.hero{background:var(--sea);color:#fff;padding:44px 0 36px}
+.hero .tag{display:inline-block;background:#fff;color:var(--sea);font-weight:700;font-size:13px;padding:4px 12px;border-radius:4px;letter-spacing:.04em}
+.hero h1{font-size:clamp(26px,4.4vw,40px);font-weight:900;margin:14px 0 8px}
+.hero .sub{font-size:16px;opacity:.9}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:20px;font-size:14px;opacity:.95}
+.meta b{font-weight:700;margin-right:6px;opacity:.75}
+.speakers{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:26px}
+.sp{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:14px 16px;display:flex;gap:14px;align-items:center}
+.avatar{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:20px;color:#fff}
+.av-t{background:#1f8a7a}.av-n{background:#c2456a}
+.sp .name{font-family:var(--display);font-weight:700;font-size:18px}
+.sp .co{font-size:13px;opacity:.85}
+
+/* Sections */
+section{padding:40px 0 8px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;border-bottom:2px solid var(--line);padding-bottom:10px}
+.sec-head .no{font-family:var(--display);font-weight:900;color:var(--sea);font-size:14px;letter-spacing:.08em}
+.sec-head h2{font-size:24px}
+.lead{color:var(--muted);margin-bottom:18px;max-width:46em}
+
+/* Takeaways */
+.take{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tk{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--sea);border-radius:8px;padding:16px}
+.tk .n{font-family:var(--display);font-weight:900;font-size:28px;color:var(--sea);line-height:1}
+.tk h3{font-size:16px;margin:8px 0 6px}
+.tk p{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* Two-person compare */
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.who{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:3px 12px 3px 4px;border-radius:999px;margin-bottom:10px}
+.who .dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-family:var(--display)}
+.who.t{background:var(--tajima-soft);color:var(--tajima)}.who.t .dot{background:var(--tajima)}
+.who.n{background:var(--nozawa-soft);color:var(--nozawa)}.who.n .dot{background:var(--nozawa)}
+.card.t{border-left:5px solid var(--tajima)}.card.n{border-left:5px solid var(--nozawa)}
+.card .big{font-family:var(--display);font-weight:900;font-size:20px;margin-bottom:6px}
+.card p{font-size:15px}
+.card ul{margin:8px 0 0;padding-left:1.2em;font-size:15px}
+.card li+li{margin-top:6px}
+
+/* Failure cards */
+.fails{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.fail{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.fail .top{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fail .cat{font-family:var(--display);font-weight:900;font-size:22px}
+.fail .fig{font-family:var(--display);font-weight:900;font-size:15px;background:var(--sun-soft);color:var(--ink);padding:2px 10px;border-radius:4px;white-space:nowrap}
+.fail .body{padding:0 18px 16px;flex:1;display:flex;flex-direction:column;gap:10px}
+.fail .what{font-size:14.5px;line-height:1.7}
+.arrow{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.lesson{background:var(--sun-soft);border-radius:6px;padding:10px 12px;font-weight:700;font-size:14.5px;line-height:1.6;margin-top:auto}
+.lesson::before{content:"教訓  ";color:var(--sun);font-weight:900}
+
+/* Timeline */
+.tl{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-top:14px}
+.tl h3{font-size:15px;margin-bottom:14px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.steps::before{content:"";position:absolute;left:12px;right:12px;top:11px;height:3px;background:var(--line)}
+.st{position:relative;padding-right:10px}
+.st .pin{width:24px;height:24px;border-radius:50%;background:var(--surface);border:4px solid var(--tajima);position:relative;z-index:1}
+.st.bad .pin{border-color:var(--nozawa)}
+.st.good .pin{border-color:var(--sea)}
+.st .lbl{font-weight:700;font-size:14px;margin-top:8px}
+.st .d{font-size:13px;color:var(--muted);line-height:1.55}
+@media (max-width:640px){
+  .steps{grid-template-columns:1fr;gap:14px}
+  .steps::before{left:11px;right:auto;top:12px;bottom:12px;width:3px;height:auto}
+  .st{display:grid;grid-template-columns:24px 1fr;gap:0 12px}
+  .st .lbl{margin-top:0}
+  .st .d{grid-column:2}
+}
+.note{font-size:14px;color:var(--muted);margin-top:12px}
+
+/* Quotes */
+.voices{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.quote{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.5;padding:12px 0 10px;border-bottom:1px dashed var(--line);margin-bottom:10px}
+.quote::before{content:"“";color:var(--sun);font-size:30px;line-height:0;vertical-align:-8px;margin-right:2px}
+.v-item+.v-item{margin-top:14px}
+.v-item .ctx{font-size:13px;color:var(--muted)}
+.punch{margin-top:16px;background:var(--sea-soft);border-radius:10px;padding:16px 20px;display:flex;gap:14px;align-items:center}
+.punch .ic{flex:none;width:40px;height:40px;border-radius:50%;background:var(--sea);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:900}
+.punch p{font-size:15px}
+
+/* Q&A */
+.qa{display:grid;gap:10px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:10px;display:grid;grid-template-columns:200px 1fr;overflow:hidden}
+.q .qt{background:var(--sea-soft);padding:14px 16px;font-weight:700;font-size:15px;display:flex;gap:8px}
+.q .qt span{font-family:var(--display);font-weight:900;color:var(--sea)}
+.q .qa-a{padding:14px 18px;font-size:15px}
+.q .qa-a .who{margin:0 6px 0 0;font-size:12px;padding:1px 10px 1px 3px}
+.q .qa-a .who .dot{width:18px;height:18px;font-size:10px}
+.q .row+.row{margin-top:8px}
+@media (max-width:640px){.q{grid-template-columns:1fr}}
+
+/* Implications */
+.imp{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.ip{background:var(--surface);border:1px dashed var(--sea);border-radius:10px;padding:16px}
+.ip h3{font-size:16px;margin-bottom:6px;color:var(--sea)}
+.ip p{font-size:14px;line-height:1.65}
+.disclaimer{display:inline-block;font-size:12px;font-weight:700;background:var(--sun-soft);padding:2px 10px;border-radius:4px;margin-bottom:12px}
+
+footer{margin:40px 0 0;padding:20px 0 40px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">達人授業 2026 ／ 社内共有レポート</span>
+    <h1>自分の「やりたい」で、未来をつくれ！</h1>
+    <p class="sub">〜自分の想いが、誰かの役に立つまで〜　起業家パネル2本のまとめ</p>
+    <div class="meta">
+      <div><b>日時</b>2026年11月19日（木）13:10〜14:30</div>
+      <div><b>場所</b>湘南ホクレア学園 NHC</div>
+      <div><b>対象</b>同学園の生徒</div>
+      <div><b>内容</b>パネル「志と失敗談」約25分 ＋ Q&amp;A「ビジョンと採用」約8分</div>
+    </div>
+    <div class="speakers">
+      <div class="sp"><div class="avatar av-t">田</div><div><div class="name">田島 智也さん</div><div class="co">株式会社manebi 代表取締役CEO<br>企業向け教育システム／今年上場・13周年</div></div></div>
+      <div class="sp"><div class="avatar av-n">野</div><div><div class="name">野澤 比日樹さん</div><div class="co">株式会社ZENKIGEN 代表取締役CEO<br>採用支援</div></div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="sec-head"><span class="no">SUMMARY</span><h2>5つの要点</h2></div>
+  <p class="lead">2人が共通して強調したのは、志への共感で人を集めることと、思い込みではなく顧客の声で事業をつくることでした。</p>
+  <div class="take">
+    <div class="tk"><div class="n">1</div><h3>採用はビジョンマッチ最優先</h3><p>スキル優先で採用した時期に、2人とも組織が崩れた。</p></div>
+    <div class="tk"><div class="n">2</div><h3>思い先行の事業は失敗しやすい</h3><p>新規事業で約2〜3年と6億5,000万円を失った経験から、今は事前に顧客へヒアリング。</p></div>
+    <div class="tk"><div class="n">3</div><h3>お金の知識は早めに</h3><p>創業時の出資比率の低さで、株主との対立が3年続いた。</p></div>
+    <div class="tk"><div class="n">4</div><h3>喜びは顧客の声と仲間の成長</h3><p>一番嬉しいのは「仲間が顧客に褒められること」。</p></div>
+    <div class="tk"><div class="n">5</div><h3>AIに任せられないのは顧客の窓口</h3><p>人間性と対人コミュニケーション力の価値はむしろ高まる。</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="no">PART 1</span><h2>「もう無理だ」と思ったことはあるか</h2></div>
+  <p class="lead">2人とも、投げ出そうと思ったことはないと答えました。支えになっているのは志と仲間です。</p>
+  <div class="duo">
+    <div class="card n">
+      <div class="who n"><span class="dot">野</span>野澤さん</div>
+      <div class="big">一度もない</div>
+      <p>ビジョンに共感した優秀な社員と良いお客様がいる会社が、なくなるはずがないと信じていた。</p>
+      <ul><li>約半年前に「2週間後に資金が尽きる」状況に。1週間後には全員の給料を払えた</li></ul>
+    </div>
+    <div class="card t">
+      <div class="who t"><span class="dot">田</span>田島さん</div>
+      <div class="big">「無理かも」は毎日。でも投げ出さない</div>
+      <p>進む途中で「これは無理かも」と思うことは日々ある。それでも投げ出したことはない。</p>
+      <ul><li>仲間が自分以上に志を語ってくれると、自分ももっと燃える。チームの相乗効果は無限大</li></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="no">PART 2</span><h2>失敗談：お金・人・事業</h2></div>
+  <p class="lead">語られた失敗は3つ。どれも今の経営判断につながる具体的な教訓になっています。</p>
+  <div class="fails">
+    <div class="fail">
+      <div class="top"><span class="cat">お金</span><span class="fig">不毛な3年間</span></div>
+      <div class="body">
+        <div class="who t"><span class="dot">田</span>田島さん</div>
+        <p class="what">創業時（資本金は数百万円）の出資比率が低く、社長なのに他の株主の方が権利が強かった。買い戻しが進まず、事業不振の中で株主と争い続けた。最終的に個人で数千万円を借りて買い戻した。</p>
+        <p class="lesson">社長は最大出資者であるべき。資本政策の知識は早めに持つ</p>
+      </div>
+    </div>
+    <div class="fail">
+      <div class="top"><span class="cat">人</span><span class="fig">急成長期の採用</span></div>
+      <div class="body">
+        <div class="who t"><span class="dot">田</span>田島さん</div>
+        <p class="what">苦しい3年を抜けて事業が急成長したとき、志に共感しきれていない人を多く採用した。価値観の対立や社内の争いが起き、志の合う社員まで辞めてしまった。</p>
+        <p class="lesson">採用は志への共鳴・共感を基準にする</p>
+      </div>
+    </div>
+    <div class="fail">
+      <div class="top"><span class="cat">事業</span><span class="fig">6億5,000万円</span></div>
+      <div class="body">
+        <div class="who n"><span class="dot">野</span>野澤さん</div>
+        <p class="what">「世の中に必要なはず」という思い込みで新規事業をつくった。自分たちが欲しいものを作り、世の中には必要とされなかった。約2〜3年と社員の時間も失った。</p>
+        <p class="lesson">事業化の前に、見込み顧客へ本当にニーズがあるかを聞きに行く</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tl">
+    <h3>田島さんの創業期の流れ</h3>
+    <div class="steps">
+      <div class="st"><div class="pin"></div><div class="lbl">創業</div><div class="d">20代、少額の資本金で数名と設立。出資比率は少数</div></div>
+      <div class="st bad"><div class="pin"></div><div class="lbl">不毛な3年間</div><div class="d">思い先行でユーザーに支持されず、株主とも対立</div></div>
+      <div class="st good"><div class="pin"></div><div class="lbl">急成長</div><div class="d">事業が伸び、人を一気に増やす</div></div>
+      <div class="st bad"><div class="pin"></div><div class="lbl">組織の混乱</div><div class="d">共感しきれない人が増え、対立や離職が起きる</div></div>
+    </div>
+  </div>
+  <p class="note">2人とも「思い先行型」で始めてユーザーに支持されなかった経験があり、やりたいことと社会に求められていることを混ぜていく必要がある、という点で一致しました。</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="no">PART 3</span><h2>自分の夢と「誰かの幸せ」をつなぐ</h2></div>
+  <p class="lead">仕事の喜びは、顧客の具体的な声と、仲間が認められることから来ると2人は語りました。</p>
+  <div class="voices">
+    <div class="card t">
+      <div class="who t"><span class="dot">田</span>田島さん</div>
+      <div class="v-item">
+        <p class="quote">生きる勇気が湧きました</p>
+        <p class="ctx">コールセンターで働く派遣社員の受講者からの感想。想像を超える反応で、悩んでいる人の心に光を灯せたと感じた。ユーザーは100万人近く。</p>
+      </div>
+      <div class="v-item">
+        <p class="quote">いつも助かっています</p>
+        <p class="ctx">13周年・上場の感謝会で、企業の教育担当者から直接。</p>
+      </div>
+    </div>
+    <div class="card n">
+      <div class="who n"><span class="dot">野</span>野澤さん</div>
+      <div class="v-item">
+        <p class="quote">御社がなければ採用が成り立たない</p>
+        <p class="ctx">従業員約6万人の大手小売企業の人事から。人の就職という人生に関わる仕事ができていると実感。</p>
+      </div>
+      <div class="v-item">
+        <p class="quote">こんなに気持ちの綺麗な人たちの会社は初めて</p>
+        <p class="ctx">長年の顧客が、担当の若手社員を絶賛。初めてお客様の前で泣いた。</p>
+      </div>
+    </div>
+  </div>
+  <div class="punch"><div class="ic">!</div><p><b>自分が褒められるより、会社やプロダクトが褒められるより、一緒に働く仲間が褒められるのが一番嬉しい。</b>（野澤さん）</p></div>
+  <p class="note">このあと会場では、生徒が色紙に書いた夢・志について「実現したら誰がどう喜ぶか」「そのために今できることは何か」をペアで共有するワークが行われました。</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="no">PART 4</span><h2>Q&amp;A：ビジョンと採用</h2></div>
+  <p class="lead">採用の入口でビジョンへの共感を見極めることが、組織づくりの前提として繰り返し語られました。</p>
+  <div class="qa">
+    <div class="q"><div class="qt"><span>Q</span>採用で何を重視するか</div><div class="qa-a">2人ともビジョンマッチが最優先。熱量に濃淡はあってよいが、共感は必須。スキルマッチを優先した時期には組織が崩れた。</div></div>
+    <div class="q"><div class="qt"><span>Q</span>会社と考え方がずれたら</div><div class="qa-a"><div class="row"><span class="who t"><span class="dot">田</span>田島さん</span>折り合いはつけない。生き方が合う会社で働き、なければ移るか自分で起業する。</div><div class="row"><span class="who n"><span class="dot">野</span>野澤さん</span>トップが本気でビジョンを持っているか、自分の目で確かめる。</div></div></div>
+    <div class="q"><div class="qt"><span>Q</span>AIに絶対任せられない部分は</div><div class="qa-a"><span class="who n"><span class="dot">野</span>野澤さん</span>顧客の窓口になる人。ビジョンに共感し、人間性と対人コミュニケーション力のあるシニア人材の採用を強化中。「ラストワンマイルを埋めるのは人」。</div></div>
+    <div class="q"><div class="qt"><span>Q</span>志を共有できる仲間の探し方</div><div class="qa-a"><div class="row"><span class="who t"><span class="dot">田</span>田島さん</span>1社目は同じオフィスの先輩2人と100万円ずつ出資。2社目は前の顧客の社長の紹介。縁のある人にビジョンを語り続ける。</div><div class="row"><span class="who n"><span class="dot">野</span>野澤さん</span>まずビジョンを徹底的に考え、熱量を言い続ける。最初の顧客や応援者も仲間になる（「海賊王になる」と言い続けると仲間が集まる）。</div></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="no">FOR US</span><h2>当社への示唆</h2></div>
+  <span class="disclaimer">検討のたたき台です（登壇者の発言ではありません）</span>
+  <div class="imp">
+    <div class="ip"><h3>スタッフ・社員採用</h3><p>スキルや条件だけでなく、当社や花業界への共感をどう見極めるか。面談や応募フローに確認項目を入れられるか。</p></div>
+    <div class="ip"><h3>新規事業の検証</h3><p>構想段階から、想定顧客へのヒアリングでニーズを確かめる手順を組み込めるか。</p></div>
+    <div class="ip"><h3>人が担う領域</h3><p>AIや自動化を進める中でも、スタッフ・派遣先との窓口対応は人の強みとして残し、磨く。</p></div>
+    <div class="ip"><h3>声の共有</h3><p>派遣先やスタッフからの感謝の声を社内で共有し、担当者が認められる場をつくる。</p></div>
+  </div>
+</section>
+
+<footer>
+  <b>補足</b>
+  <ul>
+    <li>自動文字起こしをもとに要約しています。発言は逐語ではありません。</li>
+    <li>登壇者名・会社名はイベント告知画像で確認しました。金額は発言どおりで、一部は聞き取りが不明瞭です。</li>
+  </ul>
+</footer>
+
+</main>
+</body>
+</html>
